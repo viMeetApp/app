@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
@@ -9,7 +11,12 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Splash Page"),
+        child: FractionallySizedBox(
+          widthFactor: 0.6,
+          child: Image(
+            image: AssetImage("assets/img/logo.png"),
+          ),
+        ),
       ),
     );
   }
