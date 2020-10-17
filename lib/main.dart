@@ -1,20 +1,22 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/util/Presets.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
 import 'home/home.dart';
 import 'login/login.dart';
 import 'splash/splash.dart';
 
-
-void main()async {
-   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final AuthenticationRepository _authenticationRepository=new AuthenticationRepository();
-  runApp(App(authenticationRepository: _authenticationRepository,));
+  final AuthenticationRepository _authenticationRepository =
+      new AuthenticationRepository();
+  runApp(App(
+    authenticationRepository: _authenticationRepository,
+  ));
 }
 
 class App extends StatelessWidget {
@@ -31,13 +33,14 @@ class App extends StatelessWidget {
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: BlocProvider(
-        create: (_)=>AuthenticationBloc(authenticationRepository: authenticationRepository)..add(AppStarted()),
+        create: (_) => AuthenticationBloc(
+            authenticationRepository: authenticationRepository)
+          ..add(AppStarted()),
         child: AppView(),
       ),
     );
   }
 }
-
 
 class AppView extends StatefulWidget {
   @override
@@ -52,26 +55,24 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //! ToDo define Theme
+      theme: Presets.getThemeData(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
-            if(state is Authenticated){
+            if (state is Authenticated) {
               print("Authenticated");
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
-            }
-            else if(state is Unauthenticated){
+              _navigator.pushAndRemoveUntil<void>(
+                HomePage.route(),
+                (route) => false,
+              );
+            } else if (state is Unauthenticated) {
               print("Unautheticated");
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-            }
-            else {
+              _navigator.pushAndRemoveUntil<void>(
+                LoginPage.route(),
+                (route) => false,
+              );
+            } else {
               print("Error: Undefined State");
             }
           },
