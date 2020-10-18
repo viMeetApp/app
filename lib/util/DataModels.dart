@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 /// Author: Robin <constorux@gmail.com>
 
@@ -9,6 +10,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class User {
   String name;
   String uid;
+
+  User.fromJson(var data)
+  :name=data['name'], uid=data['uid'];
+
+  User({@required this.name, @required this.uid});
+
+
+  Map<String, dynamic> toJson(){
+    return{
+      'name': name,
+      'uid': uid
+    };
+  }
 }
 
 /// Object that holds information to a group as saved in the database
@@ -72,6 +86,22 @@ class Message {
   int timestamp;
   String type;
   String content;
+
+  Message.fromJson(var data):
+  author=User.fromJson(data['author']), timestamp=data['timestamp'],type=data['type'], content=data['content'];
+
+  Map<String, dynamic> toJson(){
+    return {
+      'author': author.toJson(),
+      'timestamp': timestamp,
+      'type': type,
+      'content': content
+    };
+  }
+  ///Create a new Chat Text Message by [author] with the message [content]
+  ///Automatically sets [timestamp] to now and [type] to Text Message
+  Message.createTextMessage({@required this.author, @required this.content})
+  :timestamp=DateTime.now().millisecondsSinceEpoch, type='text';
 }
 
 /// Post of the type Event
