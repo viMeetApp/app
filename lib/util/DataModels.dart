@@ -20,6 +20,13 @@ class Group {
   List<String> users = [];
 }
 
+/// Class that defines Objects that are created by a user
+///
+///  [author] the author of the Object
+class UserGeneratedContent {
+  User author;
+}
+
 /// Object that holds information about a Post
 ///
 /// [title] title of the post
@@ -29,7 +36,8 @@ class Group {
 /// [type] is the post an 'event' or an 'offer'
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
-class Post {
+/// [groupID] id of the group the post was posted in. (Optional)
+class Post implements UserGeneratedContent {
   String title;
   String geohash;
   List<String> tags;
@@ -37,6 +45,10 @@ class Post {
   String type;
   int createdDate;
   int expireDate;
+  String groupID;
+
+  @override
+  User author;
 }
 
 /// Object that holds information to a Message from a chat of a post
@@ -45,11 +57,13 @@ class Post {
 /// [timestamp] the time at which the post was composed
 /// [type] indicates if the message is a text or a video message
 /// [content] message of the user or reference to the video file
-class Message {
-  User author;
+class Message implements UserGeneratedContent {
   int timestamp;
   String type;
   String content;
+
+  @override
+  User author;
 }
 
 /// Post of the type Event
