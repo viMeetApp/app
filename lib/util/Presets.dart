@@ -10,19 +10,22 @@ class Presets {
     return ThemeData(
       //TODO: set the values to their 'real' values
 
-      // Define the default brightness and colors.
+      // Basic colors
       brightness: Brightness.light,
-      primaryColor: Colors.lightBlue[800],
-      accentColor: Colors.cyan[600],
+      primaryColor: Colors.red[500],
+      primaryColorLight: Colors.red[300],
+      accentColor: Colors.lightGreenAccent,
 
-      // Define the default font family.
-      fontFamily: 'Georgia',
+      // Element Backgrounds
+      scaffoldBackgroundColor: Colors.grey[200],
+      cardColor: Colors.white,
 
-      // Define the default TextTheme. Use this to specify the default
-      // text styling for headlines, titles, bodies of text, and more.
+      // Text Theme
       textTheme: TextTheme(
         headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
         headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+        bodyText1: TextStyle(
+            fontSize: 14.0, fontFamily: "Roboto", color: Colors.grey[900]),
         bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
       ),
     );
