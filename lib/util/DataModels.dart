@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Author: Robin <constorux@gmail.com>
 
 /// Object that holds information to a single user as saved in the database
@@ -7,6 +9,16 @@
 class User {
   String name;
   String uid;
+
+  User.fromJson(var data)
+      : name = data['name'],
+        uid = data['uid'];
+
+  User({@required this.name, @required this.uid});
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'uid': uid};
+  }
 }
 
 /// Object that holds information to a group as saved in the database
@@ -27,6 +39,13 @@ class UserGeneratedContent {
   User author;
 }
 
+/// Database Object that includes an id
+///
+///  [id] the author of the Object in the database
+class DatabaseDocument {
+  String id;
+}
+
 /// Object that holds information about a Post
 ///
 /// [title] title of the post
@@ -37,7 +56,7 @@ class UserGeneratedContent {
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
 /// [groupID] id of the group the post was posted in. (Optional)
-class Post implements UserGeneratedContent {
+class Post implements UserGeneratedContent, DatabaseDocument {
   String title;
   String geohash;
   List<String> tags;
@@ -49,6 +68,33 @@ class Post implements UserGeneratedContent {
 
   @override
   User author;
+
+  @override
+  String id;
+
+  ///Create Post from Firestore Snapahot [data]
+  Post.fromJson(var data, String id)
+      : title = data['title'],
+        geohash = data['geohash'],
+        tags = data['tags'].cast<String>(),
+        about = data['about'],
+        type = data['type'],
+        createdDate = data['createdDate'],
+        expireDate = data['expireDate'],
+        this.id = id;
+
+  ///Create Json Date to Store in Firestore
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'geohash': geohash,
+      'tags': tags,
+      'about': about,
+      'type': type,
+      'createdDate': createdDate,
+      'expireDate': expireDate
+    };
+  }
 }
 
 /// Object that holds information to a Message from a chat of a post
@@ -64,6 +110,27 @@ class Message implements UserGeneratedContent {
 
   @override
   User author;
+
+  Message.fromJson(var data)
+      : author = User.fromJson(data['author']),
+        timestamp = data['timestamp'],
+        type = data['type'],
+        content = data['content'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'author': author.toJson(),
+      'timestamp': timestamp,
+      'type': type,
+      'content': content
+    };
+  }
+
+  ///Create a new Chat Text Message by [author] with the message [content]
+  ///Automatically sets [timestamp] to now and [type] to Text Message
+  Message.createTextMessage({@required this.author, @required this.content})
+      : timestamp = DateTime.now().millisecondsSinceEpoch,
+        type = 'text';
 }
 
 /// Post of the type Event
@@ -76,8 +143,37 @@ class Event extends Post {
   int maxPeople;
   List<String> participants;
   String location;
+
+  ///Create Event from Firestore Snapshot [data]
+  Event.fromJson(var data, String id)
+      : eventDate = data['eventDate'],
+        maxPeople = data['maxPeople'],
+        participants = data['participants'].cast<String>(),
+        location = data['location'],
+        super.fromJson(data, id);
+
+  ///Create Json Object to Store in Firestore
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      'eventDate': eventDate,
+      'maxPeople': maxPeople,
+      'participants': participants,
+      'location': location
+    };
+  }
 }
 
 /// Post of the type events
 /// TODO: talk about needed fields
-class Buddy extends Post {}
+class Buddy extends Post {
+  ///Create Buddy from a Firestore Snapshot [data]
+  Buddy.fromJson(var data, String id) : super.fromJson(data, id);
+
+  ///Create Json Object to Store in Firestore
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+    };
+  }
+}
