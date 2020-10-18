@@ -40,9 +40,9 @@ class Post {
   int createdDate;
   int expireDate;
 
-  ///Create Post from Firestore Snapahot [snap]
-  Post.fromSnapshot(DocumentSnapshot snap):
-  title= snap['title'], geohash= snap['geohash'], tags=snap['tags'].cast<String>(), about= snap['about'], type=snap['type'], createdDate=snap['createdDate'],expireDate=snap['expireDate'];
+  ///Create Post from Firestore Snapahot [data]
+  Post.fromJson(var data):
+  title= data['title'], geohash= data['geohash'], tags=data['tags'].cast<String>(), about= data['about'], type=data['type'], createdDate=data['createdDate'],expireDate=data['expireDate'];
 
   ///Create Json Date to Store in Firestore
   Map<String, dynamic> toJson(){
@@ -83,9 +83,9 @@ class Event extends Post{
   List<String> participants;
   String location;
   
-  ///Create Event from Firestore Snapshot [snap]
-  Event.fromSnapshot(DocumentSnapshot snap):
-  eventDate=snap['eventDate'], maxPeople=snap['maxPeople'], participants=snap['participants'].cast<String>(), location=snap['location'], super.fromSnapshot(snap);
+  ///Create Event from Firestore Snapshot [data]
+  Event.fromJson(var data):
+  eventDate=data['eventDate'], maxPeople=data['maxPeople'], participants=data['participants'].cast<String>(), location=data['location'], super.fromJson(data);
 
   ///Create Json Object to Store in Firestore
   Map<String,dynamic> toJson(){
@@ -104,9 +104,9 @@ class Event extends Post{
 /// Post of the type events
 /// TODO: talk about needed fields
 class Buddy extends Post{
-  ///Create Buddy from a Firestore Snapshot [snap]
-    Buddy.fromSnapshot(DocumentSnapshot snap):
-    super.fromSnapshot(snap);
+  ///Create Buddy from a Firestore Snapshot [data]
+    Buddy.fromJson(var data):
+    super.fromJson(data);
 
   ///Create Json Object to Store in Firestore
   Map<String,dynamic> toJson(){
