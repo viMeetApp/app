@@ -10,13 +10,13 @@ class PostRepository{
 
   ///Return a Single Post (Event or Buddy) by using the unique Id
   Future<Post> getPost(String postId)async{
-    Map snap=(await _firestore.collection('posts').doc(postId).get()).data();
+    DocumentSnapshot doc=(await _firestore.collection('posts').doc(postId).get());
     //Check for What Type Objet
-    if(snap['type']=="event"){
-      return Event.fromJson(snap);
+    if(doc['type']=="event"){
+      return Event.fromJson(doc.data(),doc.id);
     }
-    else if(snap['type']=="buddy"){
-      return Buddy.fromJson(snap);
+    else if(doc['type']=="buddy"){
+      return Buddy.fromJson(doc.data(), doc.id);
     }
   }
 
@@ -30,10 +30,10 @@ class PostRepository{
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream= querySnap.map((list) => list.docs.map((doc) {
       if(doc['type']=="event"){
-      return Event.fromJson(doc.data());
+      return Event.fromJson(doc.data(), doc.id);
     }
     else if(doc['type']=="buddy"){
-      return Buddy.fromJson(doc.data());
+      return Buddy.fromJson(doc.data(),doc.id);
     }
     }).toList());
 

@@ -31,8 +31,10 @@ class Group {
 /// [type] is the post an 'event' or an 'offer'
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
+/// [id] the Id of the Object in the DB -> nur beim reunterladen nicht beom to Json
 class Post {
   String title;
+  String id;
   String geohash;
   List<String> tags;
   String about;
@@ -41,8 +43,8 @@ class Post {
   int expireDate;
 
   ///Create Post from Firestore Snapahot [data]
-  Post.fromJson(var data):
-  title= data['title'], geohash= data['geohash'], tags=data['tags'].cast<String>(), about= data['about'], type=data['type'], createdDate=data['createdDate'],expireDate=data['expireDate'];
+  Post.fromJson(var data, String id):
+  title= data['title'], geohash= data['geohash'], tags=data['tags'].cast<String>(), about= data['about'], type=data['type'], createdDate=data['createdDate'],expireDate=data['expireDate'], this.id=id;
 
   ///Create Json Date to Store in Firestore
   Map<String, dynamic> toJson(){
@@ -84,8 +86,8 @@ class Event extends Post{
   String location;
   
   ///Create Event from Firestore Snapshot [data]
-  Event.fromJson(var data):
-  eventDate=data['eventDate'], maxPeople=data['maxPeople'], participants=data['participants'].cast<String>(), location=data['location'], super.fromJson(data);
+  Event.fromJson(var data, String id):
+  eventDate=data['eventDate'], maxPeople=data['maxPeople'], participants=data['participants'].cast<String>(), location=data['location'], super.fromJson(data, id);
 
   ///Create Json Object to Store in Firestore
   Map<String,dynamic> toJson(){
@@ -105,8 +107,8 @@ class Event extends Post{
 /// TODO: talk about needed fields
 class Buddy extends Post{
   ///Create Buddy from a Firestore Snapshot [data]
-    Buddy.fromJson(var data):
-    super.fromJson(data);
+    Buddy.fromJson(var data, String id):
+    super.fromJson(data, id);
 
   ///Create Json Object to Store in Firestore
   Map<String,dynamic> toJson(){
