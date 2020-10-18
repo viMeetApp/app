@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 /// Author: Robin <constorux@gmail.com>
 
@@ -12,16 +11,13 @@ class User {
   String uid;
 
   User.fromJson(var data)
-  :name=data['name'], uid=data['uid'];
+      : name = data['name'],
+        uid = data['uid'];
 
   User({@required this.name, @required this.uid});
 
-
-  Map<String, dynamic> toJson(){
-    return{
-      'name': name,
-      'uid': uid
-    };
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'uid': uid};
   }
 }
 
@@ -36,6 +32,20 @@ class Group {
   List<String> users = [];
 }
 
+/// Class that defines Objects that are created by a user
+///
+///  [author] the author of the Object
+class UserGeneratedContent {
+  User author;
+}
+
+/// Database Object that includes an id
+///
+///  [id] the author of the Object in the database
+class DatabaseDocument {
+  String id;
+}
+
 /// Object that holds information about a Post
 ///
 /// [title] title of the post
@@ -45,8 +55,8 @@ class Group {
 /// [type] is the post an 'event' or an 'offer'
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
-/// [id] the Id of the Object in the DB -> nur beim reunterladen nicht beom to Json
-class Post {
+/// [groupID] id of the group the post was posted in. (Optional)
+class Post implements UserGeneratedContent, DatabaseDocument {
   String title;
   String id;
   String geohash;
@@ -55,13 +65,27 @@ class Post {
   String type;
   int createdDate;
   int expireDate;
+  String groupID;
+
+  @override
+  User author;
+
+  @override
+  String id;
 
   ///Create Post from Firestore Snapahot [data]
-  Post.fromJson(var data, String id):
-  title= data['title'], geohash= data['geohash'], tags=data['tags'].cast<String>(), about= data['about'], type=data['type'], createdDate=data['createdDate'],expireDate=data['expireDate'], this.id=id;
+  Post.fromJson(var data, String id)
+      : title = data['title'],
+        geohash = data['geohash'],
+        tags = data['tags'].cast<String>(),
+        about = data['about'],
+        type = data['type'],
+        createdDate = data['createdDate'],
+        expireDate = data['expireDate'],
+        this.id = id;
 
   ///Create Json Date to Store in Firestore
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
       'title': title,
       'geohash': geohash,
@@ -81,16 +105,21 @@ class Post {
 /// [timestamp] the time at which the post was composed
 /// [type] indicates if the message is a text or a video message
 /// [content] message of the user or reference to the video file
-class Message {
-  User author;
+class Message implements UserGeneratedContent {
   int timestamp;
   String type;
   String content;
 
-  Message.fromJson(var data):
-  author=User.fromJson(data['author']), timestamp=data['timestamp'],type=data['type'], content=data['content'];
+  @override
+  User author;
 
-  Map<String, dynamic> toJson(){
+  Message.fromJson(var data)
+      : author = User.fromJson(data['author']),
+        timestamp = data['timestamp'],
+        type = data['type'],
+        content = data['content'];
+
+  Map<String, dynamic> toJson() {
     return {
       'author': author.toJson(),
       'timestamp': timestamp,
@@ -98,10 +127,12 @@ class Message {
       'content': content
     };
   }
+
   ///Create a new Chat Text Message by [author] with the message [content]
   ///Automatically sets [timestamp] to now and [type] to Text Message
   Message.createTextMessage({@required this.author, @required this.content})
-  :timestamp=DateTime.now().millisecondsSinceEpoch, type='text';
+      : timestamp = DateTime.now().millisecondsSinceEpoch,
+        type = 'text';
 }
 
 /// Post of the type Event
@@ -114,14 +145,18 @@ class Event extends Post{
   int maxPeople; 
   List<String> participants;
   String location;
-  
+
   ///Create Event from Firestore Snapshot [data]
-  Event.fromJson(var data, String id):
-  eventDate=data['eventDate'], maxPeople=data['maxPeople'], participants=data['participants'].cast<String>(), location=data['location'], super.fromJson(data, id);
+  Event.fromJson(var data, String id)
+      : eventDate = data['eventDate'],
+        maxPeople = data['maxPeople'],
+        participants = data['participants'].cast<String>(),
+        location = data['location'],
+        super.fromJson(data, id);
 
   ///Create Json Object to Store in Firestore
-  Map<String,dynamic> toJson(){
-    return{
+  Map<String, dynamic> toJson() {
+    return {
       ...super.toJson(),
       'eventDate': eventDate,
       'maxPeople': maxPeople,
@@ -129,20 +164,18 @@ class Event extends Post{
       'location': location
     };
   }
-
 }
 
 
 /// Post of the type events
 /// TODO: talk about needed fields
-class Buddy extends Post{
+class Buddy extends Post {
   ///Create Buddy from a Firestore Snapshot [data]
-    Buddy.fromJson(var data, String id):
-    super.fromJson(data, id);
+  Buddy.fromJson(var data, String id) : super.fromJson(data, id);
 
   ///Create Json Object to Store in Firestore
-  Map<String,dynamic> toJson(){
-    return{
+  Map<String, dynamic> toJson() {
+    return {
       ...super.toJson(),
     };
   }
