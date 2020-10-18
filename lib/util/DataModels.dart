@@ -58,7 +58,6 @@ class DatabaseDocument {
 /// [groupID] id of the group the post was posted in. (Optional)
 class Post implements UserGeneratedContent, DatabaseDocument {
   String title;
-  String id;
   String geohash;
   List<String> tags;
   String about;
@@ -97,7 +96,6 @@ class Post implements UserGeneratedContent, DatabaseDocument {
     };
   }
 }
-
 
 /// Object that holds information to a Message from a chat of a post
 ///
@@ -140,9 +138,9 @@ class Message implements UserGeneratedContent {
 /// [maxPeople] maximum number of people that can attend the event (-1 if unlimited)
 /// [participants] current members of the event. List of User-IDs
 /// [location] where the event will start
-class Event extends Post{
+class Event extends Post {
   int eventDate;
-  int maxPeople; 
+  int maxPeople;
   List<String> participants;
   String location;
 
@@ -165,7 +163,6 @@ class Event extends Post{
     };
   }
 }
-
 
 /// Post of the type events
 /// TODO: talk about needed fields

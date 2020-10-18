@@ -59,11 +59,11 @@ class PostDetailedPage extends StatelessWidget {
           ),
           body: SafeArea(
             child: Column(
-                children: [
-                  BlocDescription(),
-                  ChatWidget(postId: post.id, user: user),
-                ],
-              ),
+              children: [
+                BlocDescription(),
+                ChatWidget(postId: post.id, user: user),
+              ],
+            ),
           ),
         ));
     //Need To Wrap in Bloc Provider
@@ -98,11 +98,11 @@ class BlocDescription extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: (state as EventState).isSubscribed == false
-                            ? ElevatedButton(
+                            ? RaisedButton(
                                 onPressed: () {},
                                 child: Text("anmelden"),
                               )
-                            : ElevatedButton(
+                            : RaisedButton(
                                 onPressed: () {},
                                 child: Text("abmelden"),
                               ),
