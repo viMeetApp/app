@@ -4,6 +4,7 @@ import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/Presets.dart';
 
 class PostDetailedPage extends StatelessWidget {
   static Route route(Post post) {
@@ -27,8 +28,8 @@ class PostDetailedPage extends StatelessWidget {
     return BlocProvider(
         create: (context) => PostdetailedCubit(post: post),
         child: Scaffold(
-          backgroundColor: Colors.grey[400],
           appBar: AppBar(
+            backgroundColor: AppThemeData().colorCard,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
@@ -85,41 +86,47 @@ class BlocDescription extends StatelessWidget {
                 (current as EventState).isSubscribed,
         builder: (context, state) {
           return Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(20))),
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Text(state.post.about),
-                  Row(
+            child: Material(
+              elevation: 3,
+              color: AppThemeData().colorCard,
+              shadowColor: Colors.grey[100],
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+              child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: (state as EventState).isSubscribed == false
-                            ? RaisedButton(
-                                onPressed: () {},
-                                child: Text("anmelden"),
-                              )
-                            : RaisedButton(
-                                onPressed: () {},
-                                child: Text("abmelden"),
-                              ),
-                      ),
+                      Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Text(state.post.about)),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: (state as EventState).isSubscribed == false
+                                ? RaisedButton(
+                                    onPressed: () {},
+                                    child: Text("anmelden"),
+                                  )
+                                : RaisedButton(
+                                    onPressed: () {},
+                                    child: Text("abmelden"),
+                                  ),
+                          ),
 
-                      //Text in Row 9/12 Teilnehmer
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                              "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
-                        ),
-                      ),
+                          //Text in Row 9/12 Teilnehmer
+                          Expanded(
+                            flex: 1,
+                            child: Center(
+                              child: Text(
+                                  "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ));
+                  )),
+            ),
+          );
         });
   }
 }

@@ -1,26 +1,32 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/Presets.dart';
 
 class MessageTile extends StatelessWidget {
   final Message message;
-  
+
   MessageTile({@required this.message});
   @override
   Widget build(BuildContext context) {
-    final Size size=MediaQuery.of(context).size;
-    if(message.author.uid==FirebaseAuth.instance.currentUser.uid){
+    final Size size = MediaQuery.of(context).size;
+    if (message.author.uid == FirebaseAuth.instance.currentUser.uid) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-              constraints: BoxConstraints(minWidth: size.width*0.3, maxWidth: size.width*0.7),
+              constraints: BoxConstraints(
+                  minWidth: size.width * 0.3, maxWidth: size.width * 0.7),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: Colors.grey[300]),
-              padding: EdgeInsets.all(8.0),
+                borderRadius: BorderRadius.only(
+                    topLeft: AppThemeData().varChatBubbleRadius,
+                    topRight: AppThemeData().varChatBubbleRadius,
+                    bottomLeft: AppThemeData().varChatBubbleRadius),
+                color: AppThemeData().swatchPrimary[50],
+              ),
+              padding: EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -29,8 +35,8 @@ class MessageTile extends StatelessWidget {
                     child: Text(
                       message.author.name,
                       style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold), //!What Color
+                          color: AppThemeData().colorTextRegular,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
@@ -44,9 +50,7 @@ class MessageTile extends StatelessWidget {
           ],
         ),
       );
-
-    }
-    else{
+    } else {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -55,9 +59,12 @@ class MessageTile extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.7,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: Colors.grey[300]),
-              padding: EdgeInsets.all(8.0),
+                  borderRadius: BorderRadius.only(
+                      topLeft: AppThemeData().varChatBubbleRadius,
+                      topRight: AppThemeData().varChatBubbleRadius,
+                      bottomRight: AppThemeData().varChatBubbleRadius),
+                  color: AppThemeData().colorCard),
+              padding: EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -66,7 +73,7 @@ class MessageTile extends StatelessWidget {
                     child: Text(
                       message.content,
                       style: TextStyle(
-                          color: Colors.red,
+                          color: AppThemeData().colorControls,
                           fontWeight: FontWeight.bold), //!What Color
                     ),
                   ),
@@ -81,7 +88,6 @@ class MessageTile extends StatelessWidget {
           ],
         ),
       );
-
     }
   }
 }

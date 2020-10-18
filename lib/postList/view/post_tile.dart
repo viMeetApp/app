@@ -11,7 +11,7 @@ class PostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 20),
             height: 120,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.transparent),
