@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/DataModels.dart';
 
 class PostTile extends StatelessWidget {
@@ -25,6 +26,9 @@ class PostTile extends StatelessWidget {
         ],)
 
       ),
+      onTap:(){
+        Navigator.push(context, PostDetailedPage.route(post));
+      }
     );
   }
 }
