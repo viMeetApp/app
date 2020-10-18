@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:signup_app/util/DataModels.dart';
@@ -26,7 +25,7 @@ class PostRepository{
   ///Todo Implement a Search Query
   Stream<List<Post>> getPosts(String searchQuery){
     //Todo Filter for Query
-    Stream<QuerySnapshot> querySnap= _firestore.collection('posts').limit(20).snapshots();
+    Stream<QuerySnapshot> querySnap= _firestore.collection('posts').orderBy('createdDate',descending: true).limit(20).snapshots();
 
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream= querySnap.map((list) => list.docs.map((doc) {
