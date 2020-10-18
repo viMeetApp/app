@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/postList/post_list.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -8,8 +9,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Home Page"),
+      body: SafeArea(
+              child: Center(
+          child: PostListView(),
+        ),
       ),
     );
   }
