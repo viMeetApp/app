@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// Author: Robin <constorux@gmail.com>
 
 /// Object that holds information to a single user as saved in the database
@@ -37,7 +39,25 @@ class Post {
   String type;
   int createdDate;
   int expireDate;
+
+  ///Create Post from Firestore Snapahot [snap]
+  Post.fromSnapshot(DocumentSnapshot snap):
+  title= snap['title'], geohash= snap['geohash'], tags=snap['tags'].cast<String>(), about= snap['about'], type=snap['type'], createdDate=snap['createdDate'],expireDate=snap['expireDate'];
+
+  ///Create Json Date to Store in Firestore
+  Map<String, dynamic> toJson(){
+    return {
+      'title': title,
+      'geohash': geohash,
+      'tags': tags,
+      'about': about,
+      'type': type,
+      'createdDate': createdDate,
+      'expireDate': expireDate
+    };
+  }
 }
+
 
 /// Object that holds information to a Message from a chat of a post
 ///
@@ -57,13 +77,41 @@ class Message {
 /// [maxPeople] maximum number of people that can attend the event (-1 if unlimited)
 /// [participants] current members of the event. List of User-IDs
 /// [location] where the event will start
-class Event extends Post {
+class Event extends Post{
   int eventDate;
-  int maxPeople;
+  int maxPeople; 
   List<String> participants;
   String location;
+  
+  ///Create Event from Firestore Snapshot [snap]
+  Event.fromSnapshot(DocumentSnapshot snap):
+  eventDate=snap['eventDate'], maxPeople=snap['maxPeople'], participants=snap['participants'].cast<String>(), location=snap['location'], super.fromSnapshot(snap);
+
+  ///Create Json Object to Store in Firestore
+  Map<String,dynamic> toJson(){
+    return{
+      ...super.toJson(),
+      'eventDate': eventDate,
+      'maxPeople': maxPeople,
+      'participants': participants,
+      'location': location
+    };
+  }
+
 }
+
 
 /// Post of the type events
 /// TODO: talk about needed fields
-class Buddy extends Post {}
+class Buddy extends Post{
+  ///Create Buddy from a Firestore Snapshot [snap]
+    Buddy.fromSnapshot(DocumentSnapshot snap):
+    super.fromSnapshot(snap);
+
+  ///Create Json Object to Store in Firestore
+  Map<String,dynamic> toJson(){
+    return{
+      ...super.toJson(),
+    };
+  }
+}
