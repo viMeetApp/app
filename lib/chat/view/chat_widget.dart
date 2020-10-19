@@ -36,13 +36,13 @@ class ChatWidget extends StatelessWidget {
                               child:
                                   Center(child: CircularProgressIndicator()));
                         else {
-                          debugPrint(snapshot.data.length.toString());
+                          var blocRef =BlocProvider.of<ChatCubit>(context);
                           return Expanded(
                             child: ListView.builder(
                                 reverse: true,
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) =>
-                                CreationAwareWidget(itemCreated: (){if((index+1)%20==0) {BlocProvider.of<ChatCubit>(context).requestPosts();} print("buil Item at $index");},child: MessageTile(message: snapshot.data[index]),)
+                                CreationAwareWidget(itemCreated: (){if((index+1)%blocRef.paginationDistance==0) {blocRef.requestPosts();}},child: MessageTile(message: snapshot.data[index]),)
                                     ),
                           );
                         }

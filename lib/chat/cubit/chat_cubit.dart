@@ -32,12 +32,15 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
   DocumentSnapshot _lastDocument;
   bool _hasMorePosts=true;
   List<List<Message>> _allPagedResults=List<List<Message>>();
+  //How many Items get paginated every time
+  final paginationDistance=20;
+  ///Call if new Post needed (used for first time call and Pagination)
   void requestPosts(){
 
      //If there are no mor posts return
     if(!_hasMorePosts) return;
 
-    Query pagePostQuery = FirebaseFirestore.instance.collection('posts').doc(postId).collection('messages').orderBy('timestamp',descending: true).limit(20);
+    Query pagePostQuery = FirebaseFirestore.instance.collection('posts').doc(postId).collection('messages').orderBy('timestamp',descending: true).limit(paginationDistance);
 
     //If there is a last Document we paginate therefore gettin data after last Document
     if(_lastDocument!=null){
