@@ -10,12 +10,17 @@ class AppThemeData {
   final Brightness brightness = Brightness.light;
 
   // define accent colors
+  // current color scheme: https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
+  final Color colorPrimary = Color(0xFFFF6b6b);
+  final Color colorPrimaryLight = Color(0xffff7777);
+  final Color colorAccent = Color(0xff4ecdca);
+  final Color colorControls = Color(0xff383838);
 
-  final ColorSwatch swatchPrimary = MaterialColor(0xffff7777, {
+  final ColorSwatch swatchPrimary = MaterialColor(Color(0xFFFF6b6b).value, {
     50: Color(0xFFFFdddd),
-    100: Color(0xFFFFbbbb),
+    100: Color(0xFFFFc2c2),
     200: Color(0xFFFF9999),
-    300: Color(0xFFFF7777),
+    300: Color(0xFFFF6b6b),
     400: Color(0xFFFF5555),
     500: Color(0xFFFF3333),
     600: Color(0xFFFF1111),
@@ -23,11 +28,6 @@ class AppThemeData {
     800: Color(0xFFcc0000),
     900: Color(0xFFaa0000),
   });
-
-  final Color colorPrimary = Colors.red;
-  final Color colorPrimaryLight = Color(0xffff7777);
-  final Color colorAccent = Color(0xff77ff77);
-  final Color colorControls = Color(0xff383838);
 
   // define basic colors
   final Color colorBase = Colors.grey[200];
