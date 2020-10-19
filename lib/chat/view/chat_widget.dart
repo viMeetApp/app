@@ -22,65 +22,72 @@ class ChatWidget extends StatelessWidget {
         child: BlocBuilder<ChatCubit, Stream<List<Message>>>(
           builder: (context, state) {
             return Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StreamBuilder(
-                    stream: state,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData)
-                        return Expanded(
-                            child: Center(child: CircularProgressIndicator()));
-                      else {
-                        debugPrint(snapshot.data.length.toString());
-                        return Expanded(
-                          child: ListView.builder(
-                              reverse: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) =>
-                                  MessageTile(message: snapshot.data[index])),
-                        );
-                      }
-                    },
-                  ),
-                  Align(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Flexible(
-                                child: TextFormField(
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,
-                              maxLines: 4,
-                              controller: _chatController,
-                              decoration: InputDecoration(
-                                hintText: "Nahricht...",
-                                fillColor: AppThemeData().colorCard,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  gapPadding: 1,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                      style: BorderStyle.none, width: 0),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StreamBuilder(
+                      stream: state,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return Expanded(
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        else {
+                          debugPrint(snapshot.data.length.toString());
+                          return Expanded(
+                            child: ListView.builder(
+                                reverse: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) =>
+                                    MessageTile(message: snapshot.data[index])),
+                          );
+                        }
+                      },
+                    ),
+                    Align(
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8, top: 8),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                  child: TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 4,
+                                controller: _chatController,
+                                decoration: InputDecoration(
+                                  hintText: "Nahricht...",
+                                  fillColor: AppThemeData().colorCard,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    gapPadding: 1,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                        style: BorderStyle.none, width: 0),
+                                  ),
                                 ),
-                              ),
-                            )),
-                            IconButton(
-                                icon: Icon(Icons.send),
-                                onPressed: () {
-                                  BlocProvider.of<ChatCubit>(context)
-                                      .sendMessage(_chatController.text);
-                                  _chatController.text = "";
-                                }),
-                          ],
+                              )),
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.send,
+                                    color: AppThemeData().colorControls,
+                                  ),
+                                  onPressed: () {
+                                    BlocProvider.of<ChatCubit>(context)
+                                        .sendMessage(_chatController.text);
+                                    _chatController.text = "";
+                                  }),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    alignment: Alignment.bottomCenter,
-                  )
-                ],
+                      alignment: Alignment.bottomCenter,
+                    )
+                  ],
+                ),
               ),
             );
           },

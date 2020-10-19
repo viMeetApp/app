@@ -60,9 +60,10 @@ class PostDetailedPage extends StatelessWidget {
           ),
           body: SafeArea(
             child: Column(
+              verticalDirection: VerticalDirection.up,
               children: [
-                BlocDescription(),
                 ChatWidget(postId: post.id, user: user),
+                BlocDescription(),
               ],
             ),
           ),
