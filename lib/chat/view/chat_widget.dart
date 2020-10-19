@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/chat/view/message_tile.dart';
 import 'package:signup_app/util/DataModels.dart';
 import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/creation_aware_widget.dart';
 
 import '../chat.dart';
 
@@ -35,13 +36,14 @@ class ChatWidget extends StatelessWidget {
                               child:
                                   Center(child: CircularProgressIndicator()));
                         else {
-                          debugPrint(snapshot.data.length.toString());
+                          var blocRef =BlocProvider.of<ChatCubit>(context);
                           return Expanded(
                             child: ListView.builder(
                                 reverse: true,
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) =>
-                                    MessageTile(message: snapshot.data[index])),
+                                CreationAwareWidget(itemCreated: (){if((index+1)%blocRef.paginationDistance==0) {blocRef.requestPosts();}},child: MessageTile(message: snapshot.data[index]),)
+                                    ),
                           );
                         }
                       },

@@ -1,8 +1,7 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/postList/post_list.dart';
-import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +59,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, CreatePostPage.route());
+        },
         child: Icon(
           Icons.add,
           color: AppThemeData().colorCard,
