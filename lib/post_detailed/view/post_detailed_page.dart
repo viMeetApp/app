@@ -86,46 +86,51 @@ class BlocDescription extends StatelessWidget {
                 (current as EventState).isSubscribed,
         builder: (context, state) {
           return Container(
-            child: Material(
-              elevation: 3,
-              color: AppThemeData().colorCard,
-              shadowColor: Colors.grey[100],
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text(state.post.about)),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: (state as EventState).isSubscribed == false
-                                ? RaisedButton(
-                                    onPressed: () {},
-                                    child: Text("anmelden"),
-                                  )
-                                : RaisedButton(
-                                    onPressed: () {},
-                                    child: Text("abmelden"),
-                                  ),
-                          ),
+            decoration: new BoxDecoration(
+                color: AppThemeData().colorCard,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(20)),
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.grey[400],
+                    blurRadius: 20.0,
+                  ),
+                ]),
+            //borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(state.post.about)),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: (state as EventState).isSubscribed == false
+                              ? RaisedButton(
+                                  onPressed: () {},
+                                  child: Text("anmelden"),
+                                )
+                              : RaisedButton(
+                                  onPressed: () {},
+                                  child: Text("abmelden"),
+                                ),
+                        ),
 
-                          //Text in Row 9/12 Teilnehmer
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Text(
-                                  "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
-                            ),
+                        //Text in Row 9/12 Teilnehmer
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                                "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
                           ),
-                        ],
-                      )
-                    ],
-                  )),
-            ),
+                        ),
+                      ],
+                    )
+                  ],
+                )),
           );
         });
   }

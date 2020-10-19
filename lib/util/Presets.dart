@@ -38,6 +38,7 @@ class AppThemeData {
   // define basic variables
   final String varFontFace = "Roboto";
   final Radius varChatBubbleRadius = Radius.circular(12);
+  final Radius varCardRadius = Radius.circular(10);
 
   /// defining a material theme
   ThemeData get materialTheme {
@@ -63,6 +64,7 @@ class AppThemeData {
 
       // Element themes
       buttonTheme: ButtonThemeData(
+        minWidth: 0,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
             side: BorderSide(color: Colors.transparent)),
