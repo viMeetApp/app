@@ -20,6 +20,11 @@ class PostRepository{
     }
   }
 
+  //Todo Was passiert wenn wir hier einen Network Error bekommen
+  Future<void> updatePost(Post post){
+    return _firestore.collection('posts').doc(post.id).update(post.toJson());
+  }
+
   ///Return Stream of all Posts matching the [searchQuery]
   ///Returns 20 Objects
   ///Todo Implement a Search Query

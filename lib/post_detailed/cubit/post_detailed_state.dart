@@ -37,12 +37,15 @@ class EventState extends PostDetailedState{
   bool canSubscribe;
 
   EventState({@required Post post, bool isFavourite}):super(post: post, isFavourite: isFavourite){
+   
     if((post as Event).participants.contains(FirebaseAuth.instance.currentUser.uid)){
       isSubscribed=true;
       canSubscribe=false;
+       print("subscribed");
     }
     else{
       isSubscribed=false;
+      print("not subscribed");
       canSubscribe=(post as Event).participants.length<(post as Event).maxPeople;
     }
   }

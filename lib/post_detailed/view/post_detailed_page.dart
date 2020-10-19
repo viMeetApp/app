@@ -104,19 +104,29 @@ class BlocDescription extends StatelessWidget {
                   children: [
                     Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: Text(state.post.about)),
+                        child: Text(state.post.about,maxLines: 6)),
                     Row(
                       children: [
                         Expanded(
                           flex: 1,
                           child: (state as EventState).isSubscribed == false
                               ? RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    BlocProvider.of<PostdetailedCubit>(context)
+                                        .subscribe();
+                                  },
                                   child: Text("anmelden"),
                                 )
-                              : RaisedButton(
-                                  onPressed: () {},
-                                  child: Text("abmelden"),
+                              : Opacity(
+                                  opacity: 0.7,
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      BlocProvider.of<PostdetailedCubit>(
+                                              context)
+                                          .unsubscribe();
+                                    },
+                                    child: Text("abmelden"),
+                                  ),
                                 ),
                         ),
 
