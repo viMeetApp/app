@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/postList/cubit/post_list_cubit.dart';
 import 'package:signup_app/postList/view/post_tile.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class PostListView extends StatelessWidget {

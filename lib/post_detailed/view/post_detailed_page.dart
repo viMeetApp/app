@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class PostDetailedPage extends StatelessWidget {
