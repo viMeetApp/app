@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class MessageTile extends StatelessWidget {
