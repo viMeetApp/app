@@ -20,7 +20,7 @@ class PostListView extends StatelessWidget {
                 //Top Search Bar
                 Container(
                   decoration: BoxDecoration(
-                      color: AppThemeData().colorCard,
+                      color: AppThemeData.colorCard,
                       border: Border.all(
                         color: Colors.transparent,
                       ),

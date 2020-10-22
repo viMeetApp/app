@@ -71,7 +71,7 @@ class ChatWidget extends StatelessWidget {
                                 controller: _chatController,
                                 decoration: InputDecoration(
                                   hintText: "Nahricht...",
-                                  fillColor: AppThemeData().colorCard,
+                                  fillColor: AppThemeData.colorCard,
                                   filled: true,
                                   border: OutlineInputBorder(
                                     gapPadding: 1,
@@ -84,7 +84,7 @@ class ChatWidget extends StatelessWidget {
                               IconButton(
                                   icon: Icon(
                                     Icons.send,
-                                    color: AppThemeData().colorControls,
+                                    color: AppThemeData.colorControls,
                                   ),
                                   onPressed: () {
                                     BlocProvider.of<ChatCubit>(context)

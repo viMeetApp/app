@@ -64,9 +64,9 @@ class _HomePageState extends State<HomePage> {
         },
         child: Icon(
           Icons.add,
-          color: AppThemeData().colorCard,
+          color: AppThemeData.colorCard,
         ),
-        backgroundColor: AppThemeData().colorPrimary,
+        backgroundColor: AppThemeData.colorPrimary,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BubbleBottomBar(
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
         inkColor: Colors.black12, //optional, uses theme color if not specified
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
-              backgroundColor: AppThemeData().colorPrimary,
+              backgroundColor: AppThemeData.colorPrimary,
               icon: Icon(
                 Icons.dashboard,
                 color: Colors.black,
@@ -92,25 +92,25 @@ class _HomePageState extends State<HomePage> {
               ),
               title: Text("Home")),
           BubbleBottomBarItem(
-              backgroundColor: AppThemeData().colorPrimary,
+              backgroundColor: AppThemeData.colorPrimary,
               icon: Icon(
                 Icons.favorite_border,
                 color: Colors.black,
               ),
               activeIcon: Icon(
                 Icons.access_time,
-                color: AppThemeData().colorPrimary,
+                color: AppThemeData.colorPrimary,
               ),
               title: Text("Favoriten")),
           BubbleBottomBarItem(
-              backgroundColor: AppThemeData().colorPrimary,
+              backgroundColor: AppThemeData.colorPrimary,
               icon: Icon(
                 Icons.menu,
                 color: Colors.black,
               ),
               activeIcon: Icon(
                 Icons.menu,
-                color: AppThemeData().colorPrimary,
+                color: AppThemeData.colorPrimary,
               ),
               title: Text("Menu"))
         ],

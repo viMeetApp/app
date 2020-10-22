@@ -21,10 +21,10 @@ class MessageTile extends StatelessWidget {
                   minWidth: size.width * 0.3, maxWidth: size.width * 0.7),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: AppThemeData().varChatBubbleRadius,
-                    topRight: AppThemeData().varChatBubbleRadius,
-                    bottomLeft: AppThemeData().varChatBubbleRadius),
-                color: AppThemeData().swatchPrimary[50],
+                    topLeft: AppThemeData.varChatBubbleRadius,
+                    topRight: AppThemeData.varChatBubbleRadius,
+                    bottomLeft: AppThemeData.varChatBubbleRadius),
+                color: AppThemeData.swatchPrimary[50],
               ),
               padding: EdgeInsets.all(12.0),
               child: Column(
@@ -35,7 +35,7 @@ class MessageTile extends StatelessWidget {
                     child: Text(
                       message.author.name,
                       style: TextStyle(
-                          color: AppThemeData().colorTextRegular,
+                          color: AppThemeData.colorTextRegular,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -60,10 +60,10 @@ class MessageTile extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: AppThemeData().varChatBubbleRadius,
-                      topRight: AppThemeData().varChatBubbleRadius,
-                      bottomRight: AppThemeData().varChatBubbleRadius),
-                  color: AppThemeData().colorCard),
+                      topLeft: AppThemeData.varChatBubbleRadius,
+                      topRight: AppThemeData.varChatBubbleRadius,
+                      bottomRight: AppThemeData.varChatBubbleRadius),
+                  color: AppThemeData.colorCard),
               padding: EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,8 +73,8 @@ class MessageTile extends StatelessWidget {
                     child: Text(
                       message.content,
                       style: TextStyle(
-                          color: AppThemeData().colorControls,
-                          fontWeight: FontWeight.bold), //!What Color
+                          color: AppThemeData.colorControls,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
