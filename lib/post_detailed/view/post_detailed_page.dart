@@ -29,7 +29,7 @@ class PostDetailedPage extends StatelessWidget {
         create: (context) => PostdetailedCubit(post: post),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: AppThemeData().colorCard,
+            backgroundColor: AppThemeData.colorCard,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
@@ -88,7 +88,7 @@ class BlocDescription extends StatelessWidget {
         builder: (context, state) {
           return Container(
             decoration: new BoxDecoration(
-                color: AppThemeData().colorCard,
+                color: AppThemeData.colorCard,
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(20)),
                 boxShadow: [
