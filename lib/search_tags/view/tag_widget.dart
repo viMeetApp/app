@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/search_tags/cubit/search_tag_cubit.dart';
+import 'package:signup_app/search_tags/view/tag.dart';
 
 class TagWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchTagCubit>(
-      create: (_)=>SearchTagCubit(),
-      child: BlocBuilder<SearchTagCubit, SearchTagState>(
+    return  BlocBuilder<SearchTagCubit, SearchTagState>(
         //buildWhen: (previous, current)=>previous.isExpanded!=current.isExpanded,
         builder: (context,state){
           return Column(
             children: [
-              ElevatedButton(onPressed: (){BlocProvider.of<SearchTagCubit>(context).press();}, child:Text("Press me") ),
+              ElevatedButton(onPressed: (){BlocProvider.of<SearchTagCubit>(context).toggleFold();}, child:Text("Press me") ),
               AnimatedContainer(
                 height: state.height,
                 duration: Duration(seconds: 1),
@@ -20,8 +19,7 @@ class TagWidget extends StatelessWidget {
             ],
           );
         },
-      ),
-    ); 
+    );
   }
 
   List<Widget> buildTags(Map<String, bool> tags){
@@ -32,12 +30,3 @@ class TagWidget extends StatelessWidget {
 
 }
 
-class Tag extends StatelessWidget {
-  final String tagDescription;
-  final bool isActive;
-  Tag({@required this.tagDescription, @required this.isActive});
-  @override
-  Widget build(BuildContext context) {
-    return Chip(label: Text(tagDescription,style:TextStyle(fontSize: 10)),);
-  }
-}

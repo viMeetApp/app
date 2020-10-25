@@ -47,6 +47,7 @@ class PostRepository{
 
 
 //!Etwas gecheatete Lösung -> lädt einfach alle passenden herunter
+//! Eventuell passt es im Moment dann sogar
   Stream<List<Post>> getPostsFitlered(List<String> tags){
     //Todo Filter for Query
     CollectionReference colReference=_firestore.collection('posts');
@@ -54,11 +55,11 @@ class PostRepository{
     
     //var query= _firestore.collection('posts'); 
     if(tags!=null&&tags.length!=0){
-    Query query=colReference.where("tags",arrayContains: tags[0]);
+    Query query=colReference.where("tags.${tags[0]}",isEqualTo: true);
     for(int i=1; i<tags.length;++i){
-      query=query.where("tags",arrayContains: tags[i]);
+      query=query.where("tags.${tags[i]}",isEqualTo: true);
     }
-      snap=query.snapshots();
+      snap=query.snapshots();//orderBy('createdDate',descending: true).snapshots();
     }
     else{
       snap=colReference.snapshots();
@@ -81,6 +82,8 @@ class PostRepository{
     });
     return postList;
     });
+
+
 
     return postStream;
   }

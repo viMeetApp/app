@@ -4,8 +4,16 @@ import 'package:meta/meta.dart';
 part 'search_tag_state.dart';
 
 class SearchTagCubit extends Cubit<SearchTagState> {
-  SearchTagCubit() :super(SearchTagState());
+  SearchTagCubit() : super(SearchTagState.initial());
 
-  void press(){ state.isExpanded = !state.isExpanded;
-  state.height=state.isExpanded?null:40; emit(state);}
+  ///Filter widget fold and unfold
+  void toggleFold() {
+   
+    emit(state.toggleFold());
+  }
+
+  ///Is called from Tag when tag is pressed -> updates the Tag Array
+  void updateFilterTags(String tag){
+    emit(state.toggleTag(tag));
+  }
 }
