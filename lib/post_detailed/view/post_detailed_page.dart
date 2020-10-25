@@ -106,7 +106,7 @@ class BlocDescription extends StatelessWidget {
             (previous as EventState).isSubscribed !=
                 (current as EventState).isSubscribed,
         builder: (context, state) {
-          return AnimatedContainer(
+          return  AnimatedContainer(
             duration: Duration(milliseconds: 100),
             decoration: new BoxDecoration(
                 color: AppThemeData.colorCard,
@@ -137,62 +137,35 @@ class BlocDescription extends StatelessWidget {
                               ? RaisedButton(
                                   onPressed: () {
                                     BlocProvider.of<PostdetailedCubit>(context)
-                                        .unsubscribe();
+                                        .subscribe();
                                   },
-                                  child: Text("abmelden"),
+                                  child: Text("anmelden"),
+                                )
+                              : Opacity(
+                                  opacity: 0.7,
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      BlocProvider.of<PostdetailedCubit>(
+                                              context)
+                                          .unsubscribe();
+                                    },
+                                    child: Text("abmelden"),
+                                  ),
                                 ),
-                              ),
-                      ),
-
-                      //Text in Row 9/12 Teilnehmer
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer",
-                          textAlign: TextAlign.end,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                children: [
-                  LimitedBox(
-                    maxHeight: MediaQuery.of(context).size.height * 0.6,
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: AppThemeData.varNormalPadding * 2),
-                            child: Column(
-                              children: [
-                                SignUpWidgets.postDetailsFieldWidget(
-                                    name: "Datum:",
-                                    value: DateFormat('dd.MM.yyyy').format(
-                                        DateTime.fromMicrosecondsSinceEpoch(
-                                            (state.post as Event).eventDate *
-                                                1000))),
-                                SignUpWidgets.postDetailsFieldWidget(
-                                    name: "Ort:",
-                                    value: (state.post as Event).location),
-                                SignUpWidgets.postDetailsFieldWidget(
-                                    name: "Kosten:",
-                                    value: (state.post as Event).cost ?? "--"),
-                              ],
-                            ),
+
+                        //Text in Row 9/12 Teilnehmer
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                                "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Text(state.post.about)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        ),
+                      ],
+                    )
+                  ],
+                )),
           );
         });
   }
