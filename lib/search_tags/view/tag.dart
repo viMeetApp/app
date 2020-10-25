@@ -11,15 +11,20 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Padding(
-        padding: const EdgeInsets.only(left: 2, right: 2, top: 1, bottom: 1),
+        padding: const EdgeInsets.all(5),
         child: isActive
             ? Chip(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                elevation: 4,
                 backgroundColor: AppThemeData.colorPrimaryLight,
-                label: Text(tagDescription, style: TextStyle(fontSize: 10)),
+                label: Text(tagDescription,
+                    style: TextStyle(
+                        fontSize: 14, color: AppThemeData.colorTextInverted)),
               )
             : Chip(
-                backgroundColor: Colors.grey[400],
-                label: Text(tagDescription, style: TextStyle(fontSize: 10)),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: AppThemeData.colorCard,
+                label: Text(tagDescription, style: TextStyle(fontSize: 14)),
               ),
       ),
       onTap: () {

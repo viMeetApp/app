@@ -11,23 +11,21 @@ class CreatePostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: AppThemeData.colorCard),
-            backgroundColor: AppThemeData.colorPrimaryLight,
-            title: Text(
-              "Neuen Post erstellen",
-              style: TextStyle(color: AppThemeData.colorTextInverted),
-            ),
-          ),
-          body: SafeArea(
-            child: BlocProvider<CreatePostCubit>(
-              create: (_) => CreatePostCubit(),
-              child: CreatePostForm(),
-            ),
-          )),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppThemeData.colorCard),
+        backgroundColor: AppThemeData.colorPrimaryLight,
+        title: Text(
+          "Neuen Post erstellen",
+          style: TextStyle(color: AppThemeData.colorTextInverted),
+        ),
+      ),
+      body: SafeArea(
+        child: BlocProvider<CreatePostCubit>(
+          create: (_) => CreatePostCubit(),
+          child: CreatePostForm(),
+        ),
+      ),
     );
   }
 }
