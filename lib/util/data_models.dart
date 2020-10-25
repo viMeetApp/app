@@ -143,11 +143,13 @@ class Message implements UserGeneratedContent {
 /// [maxPeople] maximum number of people that can attend the event (-1 if unlimited)
 /// [participants] current members of the event. List of User-IDs
 /// [location] where the event will start
+/// [cost] estimated cost of participation
 class Event extends Post {
   int eventDate;
   int maxPeople;
   List<String> participants;
   String location;
+  String cost;
 
   ///Create Event from Firestore Snapshot [data]
   Event.fromJson(var data, String id)

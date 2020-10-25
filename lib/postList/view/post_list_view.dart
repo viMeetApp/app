@@ -60,7 +60,8 @@ class PostListView extends StatelessWidget {
                           builder: (context) => IconButton(
                             icon: Icon(Icons.filter_list),
                             onPressed: () {
-                              BlocProvider.of<SearchTagCubit>(context).toggleFold();
+                              BlocProvider.of<SearchTagCubit>(context)
+                                  .toggleFold();
                             },
                           ),
                         ),
@@ -78,7 +79,7 @@ class PostListView extends StatelessWidget {
                           stream: state.postStream,
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
+                              return Center(child: CircularProgressIndicator());
                             } else {
                               return ListView.builder(
                                 reverse:
