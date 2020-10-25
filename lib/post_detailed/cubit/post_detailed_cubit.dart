@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 
 part 'post_detailed_state.dart';
 
@@ -39,7 +39,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
         _postRepository.updatePost(state.post).catchError((err){print("There was an error unsubscribing");});
       }
     }
-  }
+  
 
   ///Function to call if Favourite Icon in pressed
   ///At the Moment just toggles State

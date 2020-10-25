@@ -37,7 +37,7 @@ class PostListView extends StatelessWidget {
                   //Top Search Bar
                   Container(
                     decoration: BoxDecoration(
-                        color: AppThemeData().colorCard,
+                        color: AppThemeData.colorCard,
                         border: Border.all(
                           color: Colors.transparent,
                         ),
@@ -59,9 +59,8 @@ class PostListView extends StatelessWidget {
                         Builder(
                           builder: (context) => IconButton(
                             icon: Icon(Icons.filter_list),
-                            onPressed: () => {
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text("TODO: Filter")))
+                            onPressed: () {
+                              BlocProvider.of<SearchTagCubit>(context).toggleFold();
                             },
                           ),
                         ),

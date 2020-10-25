@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
 import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 
 part 'post_list_state.dart';
 

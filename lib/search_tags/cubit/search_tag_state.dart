@@ -20,11 +20,10 @@ class SearchTagState {
 
   SearchTagState toggleFold(){
     if(this.isExpanded==false){
-      print("Unfold");
-      return SearchTagState(height: null, isExpanded: true, tagMap: this.tagMap);
+      //ToDo Way to not hardcode height (it is possible with null but then no nice animation)
+      return SearchTagState(height: 100, isExpanded: true, tagMap: this.tagMap);
     }
     else{
-      print("Fold");
       return SearchTagState(height: 0, isExpanded: false, tagMap: this.tagMap);
     }
   }
