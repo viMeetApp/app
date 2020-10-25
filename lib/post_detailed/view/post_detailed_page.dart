@@ -5,7 +5,7 @@ import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/util/signup_widgets.dart';
 
 class PostDetailedPage extends StatelessWidget {
@@ -106,7 +106,7 @@ class BlocDescription extends StatelessWidget {
             (previous as EventState).isSubscribed !=
                 (current as EventState).isSubscribed,
         builder: (context, state) {
-          return  AnimatedContainer(
+          return AnimatedContainer(
             duration: Duration(milliseconds: 100),
             decoration: new BoxDecoration(
                 color: AppThemeData.colorCard,
@@ -125,10 +125,10 @@ class BlocDescription extends StatelessWidget {
                   children: [
                     //Only Show Text when Expanded
                     if (state.isExpanded)
-                       Padding(
+                      Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: Text(state.post.about, maxLines: 6)),
-                   
+
                     Row(
                       children: [
                         Expanded(

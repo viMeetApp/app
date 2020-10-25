@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 
 class PostTile extends StatelessWidget {
   Post post;
