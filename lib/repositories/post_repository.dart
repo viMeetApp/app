@@ -49,8 +49,9 @@ class PostRepository {
   }
 
 
-//!Etwas gecheatete Lösung -> lädt einfach alle passenden herunter
-//! Eventuell passt es im Moment dann sogar
+//!Funktion nicht anfassen ist nicht schöne ich überarbeite Sie wenn wir mehr Post Objekte zum Testen haben
+//twas gecheatete Lösung -> lädt einfach alle passenden herunter
+// Eventuell passt es im Moment dann sogar
   Stream<List<Post>> getPostsFitlered(List<String> tags){
     //Todo Filter for Query
     CollectionReference colReference=_firestore.collection('posts');
