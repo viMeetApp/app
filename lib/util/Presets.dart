@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 class Presets {
   // preset component decoration
   static InputDecoration getTextFieldDecoration(
-      {String hintText = "", String errorText}) {
+      {String hintText = "",
+      String errorText,
+      Color fillColor = AppThemeData.colorCard,
+      Color hintColor = AppThemeData.colorControls}) {
     return InputDecoration(
+      hintStyle: TextStyle(color: hintColor),
       hintText: hintText,
       errorText: errorText,
       filled: true,
@@ -16,7 +20,7 @@ class Presets {
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(10),
       ),
-      fillColor: AppThemeData.colorCard,
+      fillColor: fillColor,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppThemeData.colorPrimary, width: 3.0),
         borderRadius: BorderRadius.circular(10),
@@ -66,7 +70,12 @@ class AppThemeData {
   static const Color colorTextRegular = Color(0xff333333);
   static const Color colorTextInverted = Colors.white;
 
+  // define 'real' colors
+  static const Color colorWhiteTrans = Color(0x14ffffff);
+  static const Color colorBlackTrans = Color(0x14000000);
+
   // define basic variables
+  static const double varNormalPadding = 10;
   static const String varFontFace = "Roboto";
   static const Radius varChatBubbleRadius = Radius.circular(12);
   static const Radius varCardRadius = Radius.circular(10);
