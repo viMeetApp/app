@@ -4,19 +4,50 @@ import 'package:flutter/material.dart';
 ///
 /// Auslagerung in diese Klasse um die Konstanten an einem zentralen
 /// Ort zu halten
-class Presets {}
+class Presets {
+  // preset component decoration
+  static InputDecoration getTextFieldDecoration(
+      {String hintText = "", String errorText}) {
+    return InputDecoration(
+      hintText: hintText,
+      errorText: errorText,
+      filled: true,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      fillColor: AppThemeData.colorCard,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppThemeData.colorPrimary, width: 3.0),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  static AppBarTheme getAppBarTheme(
+      {Color color = Colors.transparent,
+      Color elementsColor = AppThemeData.colorControls}) {
+    return AppBarTheme(
+      centerTitle: true,
+      color: Colors.transparent,
+      elevation: 0,
+      iconTheme: IconThemeData(color: elementsColor),
+    );
+  }
+}
 
 class AppThemeData {
   final Brightness brightness = Brightness.light;
 
   // define accent colors
   // current color scheme: https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
-  final Color colorPrimary = Color(0xFFFF6b6b);
-  final Color colorPrimaryLight = Color(0xffff7777);
-  final Color colorAccent = Color(0xff4ecdca);
-  final Color colorControls = Color(0xff383838);
+  static const Color colorPrimary = Color(0xFFFF6b6b);
+  static const Color colorPrimaryLight = Color(0xffff7777);
+  static const Color colorAccent = Color(0xff4ecdca);
+  static const Color colorControls = Color(0xff383838);
 
-  final ColorSwatch swatchPrimary = MaterialColor(Color(0xFFFF6b6b).value, {
+  static final ColorSwatch swatchPrimary =
+      MaterialColor(Color(0xFFFF6b6b).value, {
     50: Color(0xFFFFdddd),
     100: Color(0xFFFFc2c2),
     200: Color(0xFFFF9999),
@@ -30,15 +61,15 @@ class AppThemeData {
   });
 
   // define basic colors
-  final Color colorBase = Colors.grey[200];
-  final Color colorCard = Colors.white;
-  final Color colorTextRegular = Colors.grey[900];
-  final Color colorTextInverted = Colors.white;
+  static const Color colorBase = Color(0xffeeeeee);
+  static const Color colorCard = Colors.white;
+  static const Color colorTextRegular = Color(0xff333333);
+  static const Color colorTextInverted = Colors.white;
 
   // define basic variables
-  final String varFontFace = "Roboto";
-  final Radius varChatBubbleRadius = Radius.circular(12);
-  final Radius varCardRadius = Radius.circular(10);
+  static const String varFontFace = "Roboto";
+  static const Radius varChatBubbleRadius = Radius.circular(12);
+  static const Radius varCardRadius = Radius.circular(10);
 
   /// defining a material theme
   ThemeData get materialTheme {
@@ -55,12 +86,7 @@ class AppThemeData {
       scaffoldBackgroundColor: colorBase,
       cardColor: colorCard,
 
-      appBarTheme: AppBarTheme(
-        centerTitle: true,
-        color: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: colorControls),
-      ),
+      appBarTheme: Presets.getAppBarTheme(),
 
       // Element themes
       buttonTheme: ButtonThemeData(

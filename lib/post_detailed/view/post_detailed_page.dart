@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class PostDetailedPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class PostDetailedPage extends StatelessWidget {
         create: (context) => PostdetailedCubit(post: post),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: AppThemeData().colorCard,
+            backgroundColor: AppThemeData.colorCard,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
@@ -88,7 +88,7 @@ class BlocDescription extends StatelessWidget {
         builder: (context, state) {
           return Container(
             decoration: new BoxDecoration(
-                color: AppThemeData().colorCard,
+                color: AppThemeData.colorCard,
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(20)),
                 boxShadow: [

@@ -11,12 +11,12 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
   Post post;
   PostRepository _postRepository=PostRepository();
 
-  PostdetailedCubit({@required this.post}) :assert(post!=null), super(Uninitialized()){
-    if(post.type=='event'){
-      
-      emit(EventState(post:post));
-    }
-    else if(post.type=='buddy'){
+  PostdetailedCubit({@required this.post})
+      : assert(post != null),
+        super(Uninitialized()) {
+    if (post.type == 'event') {
+      emit(EventState(post: post));
+    } else if (post.type == 'buddy') {
       emit(BuddyState());
     }
   }
@@ -39,6 +39,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
         _postRepository.updatePost(state.post).catchError((err){print("There was an error unsubscribing");});
       }
     }
+  }
 
   ///Function to call if Favourite Icon in pressed
   ///At the Moment just toggles State

@@ -21,5 +21,4 @@ class PostListCubit extends Cubit<PostListState> {
      postStream=PostRepository().getPostsFitlered(tags);
      emit(state.copyWith(stream: postStream));
   }
-
 }

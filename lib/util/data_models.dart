@@ -182,3 +182,13 @@ class Buddy extends Post {
     };
   }
 }
+
+/// Class that holds information about the current Location
+///
+/// [name] Name of the City
+/// [geohash] location of the city
+class DeviceLocation {
+  DeviceLocation({name, geohash});
+  String name;
+  String geohash;
+}

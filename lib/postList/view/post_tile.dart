@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/post_detailed/view/post_detailed_page.dart';
-import 'package:signup_app/util/DataModels.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
 
 class PostTile extends StatelessWidget {
@@ -17,7 +17,7 @@ class PostTile extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.transparent),
                 color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(AppThemeData().varCardRadius)),
+                borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
             padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +38,7 @@ class PostTile extends StatelessWidget {
                                     ? Icons.group
                                     : Icons.person),
                                 size: 17,
-                                color: AppThemeData().colorControls,
+                                color: AppThemeData.colorControls,
                               ),
                               Container(
                                   child: Text(
@@ -48,7 +48,7 @@ class PostTile extends StatelessWidget {
                                     : this.post.author.name)*/
                                     "TODO: GroupName",
                                     style: TextStyle(
-                                        color: AppThemeData().colorControls),
+                                        color: AppThemeData.colorControls),
                                   ),
                                   padding: EdgeInsets.only(left: 5)),
                             ]),
@@ -86,11 +86,11 @@ class PostTile extends StatelessWidget {
                                   MaterialTapTargetSize.shrinkWrap,
                               //visualDensity: VisualDensity.compact,
                               onPressed: () {},
-                              color: AppThemeData().swatchPrimary[200],
+                              color: AppThemeData.swatchPrimary[200],
                               child: Icon(
                                 Icons.more_horiz,
                                 size: 15.0,
-                                color: AppThemeData().colorCard,
+                                color: AppThemeData.colorCard,
                               ),
                               padding: EdgeInsets.all(6),
                               shape: CircleBorder(side: BorderSide.none),
