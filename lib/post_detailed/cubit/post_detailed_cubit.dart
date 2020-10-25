@@ -2,12 +2,14 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
+import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'post_detailed_state.dart';
 
 class PostdetailedCubit extends Cubit<PostDetailedState> {
   Post post;
+  PostRepository _postRepository=PostRepository();
 
   PostdetailedCubit({@required this.post})
       : assert(post != null),
@@ -18,17 +20,30 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
       emit(BuddyState());
     }
   }
-
-  ///Subscribe to Post
-  void subscribe() {
-    if (state.post is Event) {
-      (state.post as Event).participants.add(FirebaseAuth.instance.currentUser
-          .uid); //? Could Get ID from User Repository maybe better
-      (state as EventState).copyWith(post: state.post);
+    //ToDo Was passiert wenn wir hier einen Erro bekommen. Im Moment wird ja lokal und auf DB geupdated, da das so schneller ist. Sollen wir den emit state vielleciht erst.then()Methode bauen
+   ///Subscribe to Post
+    void subscribe(){
+      if(state.post is Event){
+        (state.post as Event).participants.add(FirebaseAuth.instance.currentUser.uid); //? Could Get ID from User Repository maybe better
+        emit((state as EventState).copyWith(post: state.post));
+        _postRepository.updatePost(state.post).catchError((err){print("There was an error unsubscribing");});
+      }
     }
-  }
 
-  void favourite() {
-    emit(state.copyWith(isFavourite: !state.isFavourite));
-  }
+     //ToDo Was passiert wenn wir hier einen Erro bekommen. Im Moment wird ja lokal und auf DB geupdated, da das so schneller ist. Sollen wir den emit state vielleciht erst.then()Methode bauen
+      ///Subscribe to Post
+    void unsubscribe(){
+      if(state.post is Event){
+        (state.post as Event).participants.remove(FirebaseAuth.instance.currentUser.uid); //? Could Get ID from User Repository maybe better
+        emit((state as EventState).copyWith(post: state.post));
+        _postRepository.updatePost(state.post).catchError((err){print("There was an error unsubscribing");});
+      }
+    }
+  
+
+  ///Function to call if Favourite Icon in pressed
+  ///At the Moment just toggles State
+    void favourite(){
+      emit(state.copyWith(isFavourite: !state.isFavourite));
+    }
 }
