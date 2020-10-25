@@ -100,37 +100,37 @@ class BlocDescription extends StatelessWidget {
                   ),
                 ]),
             //borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-            child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Text(state.post.about,maxLines: 6)),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: (state as EventState).isSubscribed == false
-                              ? RaisedButton(
+            child: Theme(
+              data: AppThemeData().materialTheme.copyWith(
+                  dividerColor: Colors.transparent,
+                  accentColor: AppThemeData.colorControls),
+              child: ExpansionTile(
+                initiallyExpanded: false,
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: (state as EventState).isSubscribed == false
+                            ? RaisedButton(
+                                onPressed: () {
+                                  BlocProvider.of<PostdetailedCubit>(context)
+                                      .subscribe();
+                                },
+                                child: Text("anmelden"),
+                              )
+                            : Opacity(
+                                opacity: 0.7,
+                                child: RaisedButton(
                                   onPressed: () {
                                     BlocProvider.of<PostdetailedCubit>(context)
-                                        .subscribe();
+                                        .unsubscribe();
                                   },
-                                  child: Text("anmelden"),
-                                )
-                              : Opacity(
-                                  opacity: 0.7,
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      BlocProvider.of<PostdetailedCubit>(
-                                              context)
-                                          .unsubscribe();
-                                    },
-                                    child: Text("abmelden"),
-                                  ),
+                                  child: Text("abmelden"),
                                 ),
-                        ),
+                              ),
+                      ),
 
                       //Text in Row 9/12 Teilnehmer
                       Expanded(
