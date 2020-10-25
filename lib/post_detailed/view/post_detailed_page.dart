@@ -27,6 +27,7 @@ class PostDetailedPage extends StatelessWidget {
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
     User user = User(name: help.name, uid: help.userid);
+
     return BlocProvider(
         create: (context) => PostdetailedCubit(post: post),
         child: Scaffold(
@@ -45,6 +46,7 @@ class PostDetailedPage extends StatelessWidget {
                   return Text(state.post.title);
                 }),
             actions: [
+              //Favourite Icon Button
               BlocBuilder<PostdetailedCubit, PostDetailedState>(
                   buildWhen: (previous, current) =>
                       previous.isFavourite != current.isFavourite,
@@ -55,6 +57,22 @@ class PostDetailedPage extends StatelessWidget {
                           : Icons.favorite_border),
                       onPressed: () {
                         BlocProvider.of<PostdetailedCubit>(context).favourite();
+                      },
+                    );
+                  }),
+
+              //Expand Icon Button
+              BlocBuilder<PostdetailedCubit, PostDetailedState>(
+                  buildWhen: (previous, current) =>
+                      previous.isExpanded != current.isExpanded,
+                  builder: (context, state) {
+                    return IconButton(
+                      icon: Icon(state.isExpanded
+                          ? Icons.expand_more
+                          : Icons.expand_less),
+                      onPressed: () {
+                        BlocProvider.of<PostdetailedCubit>(context)
+                            .toggleExpanded();
                       },
                     );
                   })
@@ -88,7 +106,8 @@ class BlocDescription extends StatelessWidget {
             (previous as EventState).isSubscribed !=
                 (current as EventState).isSubscribed,
         builder: (context, state) {
-          return Container(
+          return AnimatedContainer(
+            duration: Duration(milliseconds: 100),
             decoration: new BoxDecoration(
                 color: AppThemeData.colorCard,
                 borderRadius:
@@ -100,29 +119,22 @@ class BlocDescription extends StatelessWidget {
                   ),
                 ]),
             //borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-            child: Theme(
-              data: AppThemeData().materialTheme.copyWith(
-                  dividerColor: Colors.transparent,
-                  accentColor: AppThemeData.colorControls),
-              child: ExpansionTile(
-                initiallyExpanded: false,
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: (state as EventState).isSubscribed == false
-                            ? RaisedButton(
-                                onPressed: () {
-                                  BlocProvider.of<PostdetailedCubit>(context)
-                                      .subscribe();
-                                },
-                                child: Text("anmelden"),
-                              )
-                            : Opacity(
-                                opacity: 0.7,
-                                child: RaisedButton(
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    //Only Show Text when Expanded
+                    if (state.isExpanded)
+                       Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Text(state.post.about, maxLines: 6)),
+                   
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: (state as EventState).isSubscribed == false
+                              ? RaisedButton(
                                   onPressed: () {
                                     BlocProvider.of<PostdetailedCubit>(context)
                                         .unsubscribe();
