@@ -75,6 +75,7 @@ class AppThemeData {
   static const Color colorBlackTrans = Color(0x14000000);
 
   // define basic variables
+  static const double varNormalPadding = 10;
   static const String varFontFace = "Roboto";
   static const Radius varChatBubbleRadius = Radius.circular(12);
   static const Radius varCardRadius = Radius.circular(10);

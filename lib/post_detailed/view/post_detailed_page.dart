@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/signup_widgets.dart';
 
 class PostDetailedPage extends StatelessWidget {
   static Route route(Post post) {
@@ -98,40 +100,78 @@ class BlocDescription extends StatelessWidget {
                   ),
                 ]),
             //borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-            child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Text(state.post.about)),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: (state as EventState).isSubscribed == false
-                              ? RaisedButton(
-                                  onPressed: () {},
-                                  child: Text("anmelden"),
-                                )
-                              : RaisedButton(
-                                  onPressed: () {},
-                                  child: Text("abmelden"),
-                                ),
-                        ),
+            child: Theme(
+              data: AppThemeData().materialTheme.copyWith(
+                  dividerColor: Colors.transparent,
+                  accentColor: AppThemeData.colorControls),
+              child: ExpansionTile(
+                initiallyExpanded: false,
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: (state as EventState).isSubscribed == false
+                            ? RaisedButton(
+                                onPressed: () {},
+                                child: Text("anmelden"),
+                              )
+                            : RaisedButton(
+                                onPressed: () {},
+                                child: Text("abmelden"),
+                              ),
+                      ),
 
-                        //Text in Row 9/12 Teilnehmer
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                                "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
-                          ),
+                      //Text in Row 9/12 Teilnehmer
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer",
+                          textAlign: TextAlign.end,
                         ),
-                      ],
-                    )
-                  ],
-                )),
+                      ),
+                    ],
+                  ),
+                ),
+                children: [
+                  LimitedBox(
+                    maxHeight: MediaQuery.of(context).size.height * 0.6,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: AppThemeData.varNormalPadding * 2),
+                            child: Column(
+                              children: [
+                                SignUpWidgets.postDetailsFieldWidget(
+                                    name: "Datum:",
+                                    value: DateFormat('dd.MM.yyyy').format(
+                                        DateTime.fromMicrosecondsSinceEpoch(
+                                            (state.post as Event).eventDate *
+                                                1000))),
+                                SignUpWidgets.postDetailsFieldWidget(
+                                    name: "Ort:",
+                                    value: (state.post as Event).location),
+                                SignUpWidgets.postDetailsFieldWidget(
+                                    name: "Kosten:",
+                                    value: (state.post as Event).cost ?? "--"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Text(state.post.about)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         });
   }
