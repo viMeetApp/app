@@ -35,6 +35,11 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
       emit(state.copyWith(isExpanded: !state.isExpanded));
     }
 
+    ///Fold in the Top Card
+    void foldIn(){
+      if(state.isExpanded) emit(state.copyWith(isExpanded: false));
+    }
+
      //ToDo Was passiert wenn wir hier einen Erro bekommen. Im Moment wird ja lokal und auf DB geupdated, da das so schneller ist. Sollen wir den emit state vielleciht erst.then()Methode bauen
       ///Subscribe to Post
     void unsubscribe(){
