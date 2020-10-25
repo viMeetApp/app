@@ -58,7 +58,7 @@ class PostListView extends StatelessWidget {
                     stream: state,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
+                        return Center(child: CircularProgressIndicator());
                       } else {
                         return ListView.builder(
                           reverse:
