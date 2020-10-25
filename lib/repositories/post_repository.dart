@@ -46,34 +46,45 @@ class PostRepository{
   }
 
 
-//!Problem Order by kann nicht mit query für Felder verbunden werden
+//!Etwas gecheatete Lösung -> lädt einfach alle passenden herunter
   Stream<List<Post>> getPostsFitlered(List<String> tags){
     //Todo Filter for Query
     CollectionReference colReference=_firestore.collection('posts');
     Stream<QuerySnapshot> snap;
     
     //var query= _firestore.collection('posts'); 
-    if(tags!=null){
+    if(tags!=null&&tags.length!=0){
     Query query=colReference.where("tags",arrayContains: tags[0]);
     for(int i=1; i<tags.length;++i){
       query=query.where("tags",arrayContains: tags[i]);
     }
-      snap=query.limit(20).snapshots();
+      snap=query.snapshots();
     }
-    //snap=_firestore.collection('posts').where("tags",arrayContains: "Wandern").snapshots();
-
+    else{
+      snap=colReference.snapshots();
+    }
+   
     //Map Stream of Query Snapshots to Stream of Post Objects
-    Stream<List<Post>> postStream= snap.map((list) => list.docs.map((doc) {
+    Stream<List<Post>> postStream= snap.map((list) {
+    
+    List<Post> postList=list.docs.map((doc) {
       if(doc['type']=="event"){
       return Event.fromJson(doc.data(), doc.id);
     }
     else if(doc['type']=="buddy"){
       return Buddy.fromJson(doc.data(),doc.id);
     }
-    }).toList());
+    }).toList();
+    postList.sort((a,b){
+      if(a.createdDate<=b.createdDate) return 1;
+      else return -1;
+    });
+    return postList;
+    });
 
     return postStream;
   }
+  
 
   //ToDo Pagination Function
 

@@ -11,7 +11,7 @@ class PostListCubit extends Cubit<Stream<List<Post>>> {
   Stream<List<Post>> postStream;
   
   PostListCubit() : super(Stream.empty()){
-    postStream=PostRepository().getPostsFitlered(["Wandern"]);
+    postStream=PostRepository().getPostsFitlered(null);
     emit(postStream);
   }
 
