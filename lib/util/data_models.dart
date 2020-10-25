@@ -59,7 +59,7 @@ class DatabaseDocument {
 class Post implements UserGeneratedContent, DatabaseDocument {
   String title;
   String geohash;
-  List<String> tags;
+  List<String> tags=[];
   String about;
   String type;
   int createdDate;
@@ -76,19 +76,24 @@ class Post implements UserGeneratedContent, DatabaseDocument {
   Post.fromJson(var data, String id)
       : title = data['title'],
         geohash = data['geohash'],
-        tags = data['tags'].cast<String>(),
         about = data['about'],
         type = data['type'],
         createdDate = data['createdDate'],
         expireDate = data['expireDate'],
-        this.id = id;
+        this.id = id{
+          data['tags'].forEach((key,value){
+            if(value==true) tags.add(key);
+          });
+        }
 
   ///Create Json Date to Store in Firestore
   Map<String, dynamic> toJson() {
+    Map<String,bool> tagMap=new Map();
+    tags.forEach((element) {tagMap.addEntries([MapEntry(element, true)]);});
     return {
       'title': title,
       'geohash': geohash,
-      'tags': tags,
+      'tags': tagMap,
       'about': about,
       'type': type,
       'createdDate': createdDate,

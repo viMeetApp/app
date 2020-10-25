@@ -19,6 +19,11 @@ class PostRepository {
     }
   }
 
+  //Todo Was passiert wenn wir hier einen Network Error bekommen
+  Future<void> updatePost(Post post){
+    return _firestore.collection('posts').doc(post.id).update(post.toJson());
+  }
+
   ///Return Stream of all Posts matching the [searchQuery]
   ///Returns 20 Objects
   ///Todo Implement a Search Query
@@ -42,6 +47,50 @@ class PostRepository {
 
     return postStream;
   }
+
+
+//!Etwas gecheatete Lösung -> lädt einfach alle passenden herunter
+//! Eventuell passt es im Moment dann sogar
+  Stream<List<Post>> getPostsFitlered(List<String> tags){
+    //Todo Filter for Query
+    CollectionReference colReference=_firestore.collection('posts');
+    Stream<QuerySnapshot> snap;
+    
+    //var query= _firestore.collection('posts'); 
+    if(tags!=null&&tags.length!=0){
+    Query query=colReference.where("tags.${tags[0]}",isEqualTo: true);
+    for(int i=1; i<tags.length;++i){
+      query=query.where("tags.${tags[i]}",isEqualTo: true);
+    }
+      snap=query.snapshots();//orderBy('createdDate',descending: true).snapshots();
+    }
+    else{
+      snap=colReference.snapshots();
+    }
+   
+    //Map Stream of Query Snapshots to Stream of Post Objects
+    Stream<List<Post>> postStream= snap.map((list) {
+    
+    List<Post> postList=list.docs.map((doc) {
+      if(doc['type']=="event"){
+      return Event.fromJson(doc.data(), doc.id);
+    }
+    else if(doc['type']=="buddy"){
+      return Buddy.fromJson(doc.data(),doc.id);
+    }
+    }).toList();
+    postList.sort((a,b){
+      if(a.createdDate<=b.createdDate) return 1;
+      else return -1;
+    });
+    return postList;
+    });
+
+
+
+    return postStream;
+  }
+  
 
   //ToDo Pagination Function
 
