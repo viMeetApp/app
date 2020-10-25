@@ -10,12 +10,14 @@ class TagWidget extends StatelessWidget {
       //buildWhen: (previous, current)=>previous.isExpanded!=current.isExpanded,
       builder: (context, state) {
         return AnimatedContainer(
-            height: state.height,
-            duration: Duration(milliseconds: 80),
-            child: Wrap(
-              children: buildTags(state.tagMap),
-              alignment: WrapAlignment.center,
-            ));
+          duration: Duration(milliseconds: 80),
+          child: state.isExpanded
+              ? Wrap(
+                  children: buildTags(state.tagMap),
+                  alignment: WrapAlignment.center,
+                )
+              : null,
+        );
       },
     );
   }
