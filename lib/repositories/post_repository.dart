@@ -45,6 +45,36 @@ class PostRepository{
     return postStream;
   }
 
+
+//!Problem Order by kann nicht mit query für Felder verbunden werden
+  Stream<List<Post>> getPostsFitlered(List<String> tags){
+    //Todo Filter for Query
+    CollectionReference colReference=_firestore.collection('posts');
+    Stream<QuerySnapshot> snap;
+    
+    //var query= _firestore.collection('posts'); 
+    if(tags!=null){
+    Query query=colReference.where("tags",arrayContains: tags[0]);
+    for(int i=1; i<tags.length;++i){
+      query=query.where("tags",arrayContains: tags[i]);
+    }
+      snap=query.limit(20).snapshots();
+    }
+    //snap=_firestore.collection('posts').where("tags",arrayContains: "Wandern").snapshots();
+
+    //Map Stream of Query Snapshots to Stream of Post Objects
+    Stream<List<Post>> postStream= snap.map((list) => list.docs.map((doc) {
+      if(doc['type']=="event"){
+      return Event.fromJson(doc.data(), doc.id);
+    }
+    else if(doc['type']=="buddy"){
+      return Buddy.fromJson(doc.data(),doc.id);
+    }
+    }).toList());
+
+    return postStream;
+  }
+
   //ToDo Pagination Function
 
 }
