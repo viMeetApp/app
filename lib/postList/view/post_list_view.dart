@@ -4,7 +4,7 @@ import 'package:signup_app/postList/cubit/post_list_cubit.dart';
 import 'package:signup_app/postList/view/post_tile.dart';
 import 'package:signup_app/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/search_tags/view/tag_widget.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 
 class PostListView extends StatelessWidget {
   @override

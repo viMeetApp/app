@@ -5,7 +5,7 @@ import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/postList/post_list.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
