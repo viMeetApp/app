@@ -71,7 +71,7 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message.content,
+                      message.author.name,
                       style: TextStyle(
                           color: AppThemeData.colorControls,
                           fontWeight: FontWeight.bold),
