@@ -4,7 +4,6 @@ part of 'search_tag_cubit.dart';
 class SearchTagState {
   Map<String, bool> tagMap;
   bool isExpanded;
-  double height;
 
   SearchTagState({this.tagMap, this.isExpanded});
 
