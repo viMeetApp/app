@@ -68,8 +68,8 @@ class PostDetailedPage extends StatelessWidget {
                   builder: (context, state) {
                     return IconButton(
                       icon: Icon(state.isExpanded
-                          ? Icons.expand_more
-                          : Icons.expand_less),
+                          ? Icons.expand_less
+                          : Icons.expand_more),
                       onPressed: () {
                         BlocProvider.of<PostdetailedCubit>(context)
                             .toggleExpanded();

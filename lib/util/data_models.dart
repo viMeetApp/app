@@ -21,17 +21,6 @@ class User {
   }
 }
 
-/// Object that holds information to a group as saved in the database
-///
-/// [name] Name of the group
-/// [about] Text that informs about the group
-/// [users] a list of the userIDs of the users that are in the group
-class Group {
-  String name;
-  String about;
-  List<String> users = [];
-}
-
 /// Class that defines Objects that are created by a user
 ///
 ///  [author] the author of the Object
@@ -44,6 +33,27 @@ class UserGeneratedContent {
 ///  [id] the author of the Object in the database
 class DatabaseDocument {
   String id;
+}
+
+/// Object that holds information to a group as saved in the database
+///
+/// [name] Name of the group
+/// [about] Text that informs about the group
+/// [users] a list of the userIDs of the users that are in the group
+class Group implements DatabaseDocument {
+  String name;
+  String about;
+  List<String> users = [];
+
+  @override
+  String id;
+
+  ///Create Group from Firestore Snapahot [data]
+  Group.fromJson(var data, String id)
+      : name = data['name'],
+        about = data['about'],
+        users = data['users'].cast<String>(),
+        id = id;
 }
 
 /// Object that holds information about a Post
@@ -59,7 +69,7 @@ class DatabaseDocument {
 class Post implements UserGeneratedContent, DatabaseDocument {
   String title;
   String geohash;
-  List<String> tags=[];
+  List<String> tags = [];
   String about;
   String type;
   int createdDate;
@@ -80,16 +90,18 @@ class Post implements UserGeneratedContent, DatabaseDocument {
         type = data['type'],
         createdDate = data['createdDate'],
         expireDate = data['expireDate'],
-        this.id = id{
-          data['tags'].forEach((key,value){
-            if(value==true) tags.add(key);
-          });
-        }
+        this.id = id {
+    data['tags'].forEach((key, value) {
+      if (value == true) tags.add(key);
+    });
+  }
 
   ///Create Json Date to Store in Firestore
   Map<String, dynamic> toJson() {
-    Map<String,bool> tagMap=new Map();
-    tags.forEach((element) {tagMap.addEntries([MapEntry(element, true)]);});
+    Map<String, bool> tagMap = new Map();
+    tags.forEach((element) {
+      tagMap.addEntries([MapEntry(element, true)]);
+    });
     return {
       'title': title,
       'geohash': geohash,
