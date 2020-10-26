@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/cubit/create_post_cubit.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
   TextEditingController _nameController = TextEditingController();

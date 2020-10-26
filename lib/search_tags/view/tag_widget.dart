@@ -9,15 +9,20 @@ class TagWidget extends StatelessWidget {
     return BlocBuilder<SearchTagCubit, SearchTagState>(
       //buildWhen: (previous, current)=>previous.isExpanded!=current.isExpanded,
       builder: (context, state) {
-        return AnimatedContainer(
-          duration: Duration(milliseconds: 80),
-          child: state.isExpanded
-              ? Wrap(
+        return AnimatedSize(
+            alignment: Alignment.bottomLeft,
+            vsync: Scaffold.of(context),
+            duration: Duration(milliseconds: 250),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: LimitedBox(
+                maxHeight: state.isExpanded ? double.infinity : 0,
+                child: Wrap(
                   children: buildTags(state.tagMap),
                   alignment: WrapAlignment.center,
-                )
-              : null,
-        );
+                ),
+              ),
+            ));
       },
     );
   }

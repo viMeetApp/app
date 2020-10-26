@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/Presets.dart';
+import 'package:signup_app/util/presets.dart';
 
 class MessageTile extends StatelessWidget {
   final Message message;
@@ -71,7 +71,7 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message.content,
+                      message.author.name,
                       style: TextStyle(
                           color: AppThemeData.colorControls,
                           fontWeight: FontWeight.bold),
