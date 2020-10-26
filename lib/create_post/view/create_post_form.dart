@@ -137,7 +137,7 @@ class CreatePostForm extends StatelessWidget {
               floatingActionButton: FloatingActionButton(
                 onPressed: () => {},
                 child: Icon(
-                  Icons.check,
+                  Icons.send,
                   color: AppThemeData.colorCard,
                 ),
               ),

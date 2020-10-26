@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:signup_app/util/presets.dart';
 
 class SplashPage extends StatelessWidget {
   static Route route() {
@@ -10,11 +11,12 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppThemeData.colorPrimary,
       body: Center(
         child: FractionallySizedBox(
-          widthFactor: 0.6,
+          widthFactor: 0.4,
           child: Image(
-            image: AssetImage("assets/img/logo.png"),
+            image: AssetImage("assets/img/logo_light_text_trans.png"),
           ),
         ),
       ),

@@ -45,7 +45,7 @@ class AppThemeData {
 
   // define accent colors
   // current color scheme: https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
-  static const Color colorPrimary = Color(0xFFFF6b6b);
+  static const Color colorPrimary = Color(0xFFFF5555);
   static const Color colorPrimaryLight = Color(0xffff7777);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
