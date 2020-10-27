@@ -13,10 +13,6 @@ class GroupPage extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppThemeData.colorControls),
         backgroundColor: Colors.transparent,
-        title: Text(
-          "TODO: GruppenName",
-          style: TextStyle(color: AppThemeData.colorControls),
-        ),
         actions: [
           IconButton(
               icon: Icon(
@@ -29,29 +25,50 @@ class GroupPage extends StatelessWidget {
       body: SafeArea(
         child: Column(children: [
           Padding(
-            padding: EdgeInsets.all(10),
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: AppThemeData.colorPlaceholder,
-                backgroundImage:
-                    AssetImage("assets/img/logo_light_text_trans.png"),
-                maxRadius: 50,
-                minRadius: 50,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Container(
-              color: AppThemeData.colorCard,
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                      "Ex sint rerum sed consequatur qui ut qui. Eius velit sunt aspernatur reprehenderit dolores. Eligendi eos exercitationem nobis a natus magni ab.")
-                ],
-              ),
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Center(
+                    child: CircleAvatar(
+                      backgroundColor: AppThemeData.colorPlaceholder,
+                      backgroundImage:
+                          AssetImage("assets/img/logo_light_text_trans.png"),
+                      maxRadius: 50,
+                      minRadius: 50,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(AppThemeData.varPaddingEdges),
+                  child: Presets.getSignUpCard(
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceEvenly,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runSpacing: 10,
+                      children: [
+                        Text(
+                          "GruppenName",
+                          style: AppThemeData.textHeading2,
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                            "Ex sint rerum sed consequatur qui ut qui. Eius velit sunt aspernatur reprehenderit dolores. Eligendi eos exercitationem nobis a natus magni ab."),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            RaisedButton(
+                              onPressed: () => {},
+                              child: Text("beitreten"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(

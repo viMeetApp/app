@@ -38,6 +38,19 @@ class Presets {
       iconTheme: IconThemeData(color: elementsColor),
     );
   }
+
+  static Widget getSignUpCard({@required Widget child}) {
+    return Container(
+      padding: EdgeInsets.all(AppThemeData.varPaddingCard),
+      decoration: BoxDecoration(
+          color: AppThemeData.colorCard,
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
+      child: child,
+    );
+  }
 }
 
 class AppThemeData {
@@ -75,8 +88,22 @@ class AppThemeData {
   static const Color colorWhiteTrans = Color(0x14ffffff);
   static const Color colorBlackTrans = Color(0x14000000);
 
+  // define font sizes
+  static const TextStyle textNormal =
+      TextStyle(color: colorControls, fontSize: 14);
+  static const TextStyle textHeading1 = TextStyle(
+      color: colorControls, fontSize: 22, fontWeight: FontWeight.bold);
+  static const TextStyle textHeading2 = TextStyle(
+      color: colorControls, fontSize: 20, fontWeight: FontWeight.bold);
+  static const TextStyle textHeading3 = TextStyle(
+      color: colorControls, fontSize: 18, fontWeight: FontWeight.bold);
+  static const TextStyle textHeading4 = TextStyle(
+      color: colorControls, fontSize: 15, fontWeight: FontWeight.bold);
+
   // define basic variables
-  static const double varNormalPadding = 10;
+  static const double varPaddingNormal = 10;
+  static const double varPaddingEdges = 8;
+  static const double varPaddingCard = 15;
   static const String varFontFace = "Roboto";
   static const Radius varChatBubbleRadius = Radius.circular(12);
   static const Radius varCardRadius = Radius.circular(10);

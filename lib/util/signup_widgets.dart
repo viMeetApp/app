@@ -4,7 +4,7 @@ import 'package:signup_app/util/presets.dart';
 class SignUpWidgets {
   static Widget postDetailsFieldWidget({String name = "", String value = ""}) {
     return Padding(
-      padding: EdgeInsets.only(bottom: AppThemeData.varNormalPadding),
+      padding: EdgeInsets.only(bottom: AppThemeData.varPaddingNormal),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
