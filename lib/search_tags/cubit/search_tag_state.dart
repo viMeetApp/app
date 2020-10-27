@@ -10,15 +10,15 @@ class SearchTagState {
 //Das wäre die Stelle um die letzte Konfiguration zu laden
   factory SearchTagState.initial() {
     return SearchTagState(isExpanded: false, tagMap: {
-      'kultur': true,
+      'kultur': false,
       'sport': false,
       'gebaerden': false,
       'outdoor': false,
-      'indoor': true,
+      'indoor': false,
       'Frauen': false,
-      'Männer': true,
+      'Männer': false,
       'Queer': false,
-      'essen': true,
+      'essen': false,
       'buddy': false
     });
   }

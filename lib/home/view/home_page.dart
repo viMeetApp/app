@@ -2,6 +2,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/creat_post.dart';
+import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/postList/post_list.dart';
@@ -11,7 +12,8 @@ class HomePage extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
   }
-   final groupDropdownWidget=GroupDropownWidget();
+
+  final groupDropdownWidget = GroupDropownWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,11 @@ class HomePage extends StatelessWidget {
                     fabLocation: BubbleBottomBarFabLocation.end, //new
                     hasNotch: true, //new
                     hasInk: true, //new, gives a cute ink effect
+                    onTap: (number) {
+                      if (number == 2) {
+                        Navigator.push(context, GroupPage.route());
+                      }
+                    },
                     inkColor: Colors
                         .black12, //optional, uses theme color if not specified
                     items: <BubbleBottomBarItem>[
@@ -113,7 +120,7 @@ class HomePage extends StatelessWidget {
                 AnimatedContainer(
                   // color: Colors.white,
                   duration: Duration(milliseconds: 100),
-                  child: state.showGroups ? groupDropdownWidget: null,
+                  child: state.showGroups ? groupDropdownWidget : null,
                 ),
               ],
             );

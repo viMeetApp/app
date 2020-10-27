@@ -49,6 +49,7 @@ class AppThemeData {
   static const Color colorPrimaryLight = Color(0xffff7777);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
+  static const Color colorPlaceholder = Color(0xff606060);
 
   static final ColorSwatch swatchPrimary =
       MaterialColor(Color(0xFFFF6b6b).value, {

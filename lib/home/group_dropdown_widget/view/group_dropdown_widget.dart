@@ -8,8 +8,8 @@ class GroupDropownWidget extends StatelessWidget {
   final GroupDropdownCubit groupDropdownCubit = GroupDropdownCubit();
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
+    return Scaffold(
+      body: Container(
         constraints:
             BoxConstraints(maxHeight: 0.6 * MediaQuery.of(context).size.height),
         decoration: new BoxDecoration(
@@ -56,10 +56,12 @@ class GroupDropownWidget extends StatelessWidget {
                         stream: state,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData)
-                            return Container(height: 0,);
+                            return Container(
+                              height: 0,
+                            );
                           else {
                             return ListView.builder(
-                              //Only Scrollable when more than 5 Elements -> Das ist nicht schön vielleicht gibt es einen weg erst wenn nicht mehr alles gebaut werden kann Scrollbar zu machen
+                                //Only Scrollable when more than 5 Elements -> Das ist nicht schön vielleicht gibt es einen weg erst wenn nicht mehr alles gebaut werden kann Scrollbar zu machen
                                 physics: snapshot.data.length < 10
                                     ? NeverScrollableScrollPhysics()
                                     : null,

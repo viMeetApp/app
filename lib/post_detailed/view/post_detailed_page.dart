@@ -141,16 +141,13 @@ class BlocDescription extends StatelessWidget {
                                   },
                                   child: Text("anmelden"),
                                 )
-                              : Opacity(
-                                  opacity: 0.7,
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      BlocProvider.of<PostdetailedCubit>(
-                                              context)
-                                          .unsubscribe();
-                                    },
-                                    child: Text("abmelden"),
-                                  ),
+                              : RaisedButton(
+                                  color: AppThemeData.colorPlaceholder,
+                                  onPressed: () {
+                                    BlocProvider.of<PostdetailedCubit>(context)
+                                        .unsubscribe();
+                                  },
+                                  child: Text("abmelden"),
                                 ),
                         ),
 
