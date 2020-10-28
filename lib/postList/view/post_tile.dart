@@ -34,7 +34,7 @@ class PostTile extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: 5),
                             child: Row(children: [
                               Icon(
-                                (post.groupID != null
+                                (post.group != null
                                     ? Icons.group
                                     : Icons.person),
                                 size: 17,

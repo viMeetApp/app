@@ -74,7 +74,8 @@ class Post implements UserGeneratedContent, DatabaseDocument {
   String type;
   int createdDate;
   int expireDate;
-  String groupID;
+  GroupInfo group;
+  List<PostDetail> details;
 
   @override
   User author;
@@ -99,6 +100,7 @@ class Post implements UserGeneratedContent, DatabaseDocument {
   ///Create Json Date to Store in Firestore
   Map<String, dynamic> toJson() {
     Map<String, bool> tagMap = new Map();
+
     tags.forEach((element) {
       tagMap.addEntries([MapEntry(element, true)]);
     });
@@ -111,6 +113,28 @@ class Post implements UserGeneratedContent, DatabaseDocument {
       'createdDate': createdDate,
       'expireDate': expireDate
     };
+  }
+}
+
+class PostDetail {
+  String id;
+  String value;
+
+  PostDetail({@required this.id, @required this.value});
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'value': value};
+  }
+}
+
+class GroupInfo {
+  String id;
+  String name;
+
+  GroupInfo({@required this.id, @required this.name});
+
+  Map<String, dynamic> value() {
+    return {'id': id, 'name': name};
   }
 }
 
@@ -160,15 +184,12 @@ class Event extends Post {
   int eventDate;
   int maxPeople;
   List<String> participants;
-  String location;
-  String cost;
 
   ///Create Event from Firestore Snapshot [data]
   Event.fromJson(var data, String id)
       : eventDate = data['eventDate'],
         maxPeople = data['maxPeople'],
         participants = data['participants'].cast<String>(),
-        location = data['location'],
         super.fromJson(data, id);
 
   ///Create Json Object to Store in Firestore
@@ -178,7 +199,6 @@ class Event extends Post {
       'eventDate': eventDate,
       'maxPeople': maxPeople,
       'participants': participants,
-      'location': location
     };
   }
 }
