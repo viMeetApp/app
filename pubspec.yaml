@@ -31,6 +31,7 @@ dependencies:
   bubble_bottom_bar: ^1.2.0
   intl: ^0.16.1
   flutter_launcher_icons: ^0.8.1
+  json_annotation: ^2.4.0
 
   authentication_repository:
     path: packages/authentication_repository
@@ -41,6 +42,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.0.0
+  json_serializable: ^3.0.0
 
 flutter_icons:
   android: true

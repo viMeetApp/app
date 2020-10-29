@@ -1,24 +1,30 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
 
-/// Author: Robin <constorux@gmail.com>
+import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'data_models.g.dart';
+
+//! IMPORTANT
+//! Wenn wir was an der Klasse ändern müssen wir:
+//!
+//!     flutter pub run build_runner watch
+//!
+//! aufrufen um die serialisierungs-Methoden zu erneuern
 
 /// Object that holds information to a single user as saved in the database
 ///
 /// [uid] links a network user to a Firebase-Authentication user
 /// [name] name of the user that the user can set himself
+
+@JsonSerializable(explicitToJson: true)
 class User {
   String name;
   String uid;
-
-  User.fromJson(var data)
-      : name = data['name'],
-        uid = data['uid'];
-
   User({@required this.name, @required this.uid});
 
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'uid': uid};
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 /// Class that defines Objects that are created by a user
@@ -33,6 +39,11 @@ class UserGeneratedContent {
 ///  [id] the author of the Object in the database
 class DatabaseDocument {
   String id;
+
+  DatabaseDocument setID(String id) {
+    this.id = id;
+    return this;
+  }
 }
 
 /// Object that holds information to a group as saved in the database
@@ -40,20 +51,15 @@ class DatabaseDocument {
 /// [name] Name of the group
 /// [about] Text that informs about the group
 /// [users] a list of the userIDs of the users that are in the group
-class Group implements DatabaseDocument {
+@JsonSerializable(explicitToJson: true)
+class Group extends DatabaseDocument {
+  Group();
   String name;
   String about;
   List<String> users = [];
 
-  @override
-  String id;
-
-  ///Create Group from Firestore Snapahot [data]
-  Group.fromJson(var data, String id)
-      : name = data['name'],
-        about = data['about'],
-        users = data['users'].cast<String>(),
-        id = id;
+  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+  Map<String, dynamic> toJson() => _$GroupToJson(this);
 }
 
 /// Object that holds information about a Post
@@ -66,10 +72,12 @@ class Group implements DatabaseDocument {
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
 /// [groupID] id of the group the post was posted in. (Optional)
-class Post implements UserGeneratedContent, DatabaseDocument {
+@JsonSerializable(explicitToJson: true)
+class Post extends DatabaseDocument implements UserGeneratedContent {
+  Post();
   String title;
   String geohash;
-  List<String> tags = [];
+  List<String> tags;
   String about;
   String type;
   int createdDate;
@@ -80,62 +88,32 @@ class Post implements UserGeneratedContent, DatabaseDocument {
   @override
   User author;
 
-  @override
-  String id;
-
-  ///Create Post from Firestore Snapahot [data]
-  Post.fromJson(var data, String id)
-      : title = data['title'],
-        geohash = data['geohash'],
-        about = data['about'],
-        type = data['type'],
-        createdDate = data['createdDate'],
-        expireDate = data['expireDate'],
-        this.id = id {
-    data['tags'].forEach((key, value) {
-      if (value == true) tags.add(key);
-    });
-  }
-
-  ///Create Json Date to Store in Firestore
-  Map<String, dynamic> toJson() {
-    Map<String, bool> tagMap = new Map();
-
-    tags.forEach((element) {
-      tagMap.addEntries([MapEntry(element, true)]);
-    });
-    return {
-      'title': title,
-      'geohash': geohash,
-      'tags': tagMap,
-      'about': about,
-      'type': type,
-      'createdDate': createdDate,
-      'expireDate': expireDate
-    };
-  }
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class PostDetail {
   String id;
   String value;
 
   PostDetail({@required this.id, @required this.value});
 
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'value': value};
-  }
+  factory PostDetail.fromJson(Map<String, dynamic> json) =>
+      _$PostDetailFromJson(json);
+  Map<String, dynamic> toJson() => _$PostDetailToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class GroupInfo {
   String id;
   String name;
 
   GroupInfo({@required this.id, @required this.name});
 
-  Map<String, dynamic> value() {
-    return {'id': id, 'name': name};
-  }
+  factory GroupInfo.fromJson(Map<String, dynamic> json) =>
+      _$GroupInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$GroupInfoToJson(this);
 }
 
 /// Object that holds information to a Message from a chat of a post
@@ -144,7 +122,9 @@ class GroupInfo {
 /// [timestamp] the time at which the post was composed
 /// [type] indicates if the message is a text or a video message
 /// [content] message of the user or reference to the video file
+@JsonSerializable(explicitToJson: true, nullable: true)
 class Message implements UserGeneratedContent {
+  Message();
   int timestamp;
   String type;
   String content;
@@ -152,26 +132,15 @@ class Message implements UserGeneratedContent {
   @override
   User author;
 
-  Message.fromJson(var data)
-      : author = User.fromJson(data['author']),
-        timestamp = data['timestamp'],
-        type = data['type'],
-        content = data['content'];
-
-  Map<String, dynamic> toJson() {
-    return {
-      'author': author.toJson(),
-      'timestamp': timestamp,
-      'type': type,
-      'content': content
-    };
-  }
-
   ///Create a new Chat Text Message by [author] with the message [content]
   ///Automatically sets [timestamp] to now and [type] to Text Message
   Message.createTextMessage({@required this.author, @required this.content})
       : timestamp = DateTime.now().millisecondsSinceEpoch,
         type = 'text';
+
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      _$MessageFromJson(json);
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
 }
 
 /// Post of the type Event
@@ -180,41 +149,26 @@ class Message implements UserGeneratedContent {
 /// [participants] current members of the event. List of User-IDs
 /// [location] where the event will start
 /// [cost] estimated cost of participation
+@JsonSerializable(explicitToJson: true, nullable: true)
 class Event extends Post {
+  Event();
   int eventDate;
   int maxPeople;
   List<String> participants;
 
-  ///Create Event from Firestore Snapshot [data]
-  Event.fromJson(var data, String id)
-      : eventDate = data['eventDate'],
-        maxPeople = data['maxPeople'],
-        participants = data['participants'].cast<String>(),
-        super.fromJson(data, id);
-
-  ///Create Json Object to Store in Firestore
-  Map<String, dynamic> toJson() {
-    return {
-      ...super.toJson(),
-      'eventDate': eventDate,
-      'maxPeople': maxPeople,
-      'participants': participants,
-    };
-  }
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+  Map<String, dynamic> toJson() => _$EventToJson(this);
 }
 
 /// Post of the type events
 /// TODO: talk about needed fields
-class Buddy extends Post {
-  ///Create Buddy from a Firestore Snapshot [data]
-  Buddy.fromJson(var data, String id) : super.fromJson(data, id);
 
-  ///Create Json Object to Store in Firestore
-  Map<String, dynamic> toJson() {
-    return {
-      ...super.toJson(),
-    };
-  }
+@JsonSerializable(explicitToJson: true)
+class Buddy extends Post {
+  Buddy();
+
+  factory Buddy.fromJson(Map<String, dynamic> json) => _$BuddyFromJson(json);
+  Map<String, dynamic> toJson() => _$BuddyToJson(this);
 }
 
 /// Class that holds information about the current Location
