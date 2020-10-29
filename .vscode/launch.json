@@ -13,6 +13,7 @@
         {
             "name": "signup_app",
             "request": "launch",
+            "preLaunchTask": "updateJsonParsing",
             "type": "dart"
         },
         {

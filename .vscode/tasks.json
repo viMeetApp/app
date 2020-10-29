@@ -1,0 +1,8 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "label": "updateJsonParsing",
+        "command": "flutter pub run build_runner build",
+        "type": "shell"
+    }]
+}

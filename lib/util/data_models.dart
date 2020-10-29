@@ -10,7 +10,8 @@ part 'data_models.g.dart';
 //!
 //!     flutter pub run build_runner watch
 //!
-//! aufrufen um die serialisierungs-Methoden zu erneuern
+//! aufrufen ODER die signup_app launch configuration ausführen
+//! um die serialisierungs-Methoden zu erneuern
 
 /// Object that holds information to a single user as saved in the database
 ///
