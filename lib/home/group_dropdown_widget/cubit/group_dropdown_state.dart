@@ -1,6 +1,6 @@
 part of 'group_dropdown_cubit.dart';
-//!Verutlich gar nicht notwendig ich lasse jetzt aber mal da
-@immutable
+//!Vermutlich gar nicht notwendig ich lasse jetzt aber mal da
+
 class GroupDropdownState {
   final bool scrollable;
   Stream<List<Group>> groupStream;

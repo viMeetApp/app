@@ -76,8 +76,6 @@ class PostRepository {
       snap = colReference.snapshots();
     }
 
-    print("get Documents");
-
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream = snap.map((list) {
       List<Post> postList = list.docs.map((doc) {
