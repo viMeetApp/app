@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:signup_app/search_tags/view/tag.dart';
 
 part 'data_models.g.dart';
 
@@ -73,6 +74,9 @@ class Group extends DatabaseDocument {
 /// [createdDate] the date and time at which the post was created
 /// [expireDate] the date and time when the post will expire
 /// [groupID] id of the group the post was posted in. (Optional)
+
+//! Achtung kann Sein, dass man Tags in JSON Serializable immer nach neu mit Funktion tags from Json updaten muss
+
 @JsonSerializable(explicitToJson: true)
 class Post extends DatabaseDocument implements UserGeneratedContent {
   Post();
@@ -89,10 +93,24 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
   @override
   User author;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);   
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }
-
+///Helper Function to generate Tags List From json
+List<String> getTagsFromJson(var json){
+  List<String> tags=[];
+  json.forEach((key, value) {
+      if (value == true) tags.add(key);
+    });
+    return tags;
+}
+///Helper Function to generate TagMap for Database from tag List
+///Not tested yet
+Map<String, bool> createTagMapForJson(List<String> tags){
+  Map<String,bool> tagMap=Map();
+  tags.forEach((tag) { tagMap.addEntries([MapEntry(tag, true)]);});
+  return tagMap;
+}
 @JsonSerializable(explicitToJson: true)
 class PostDetail {
   String id;

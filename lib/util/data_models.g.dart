@@ -116,7 +116,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     ..id = json['id'] as String
     ..title = json['title'] as String
     ..geohash = json['geohash'] as String
-    ..tags = (json['tags'] as List)?.map((e) => e as String)?.toList()
+    ..tags = getTagsFromJson(json['tags'])
     ..about = json['about'] as String
     ..type = json['type'] as String
     ..createdDate = json['createdDate'] as int
@@ -141,7 +141,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'geohash': instance.geohash,
-      'tags': instance.tags,
+      'tags': createTagMapForJson(instance.tags),
       'about': instance.about,
       'type': instance.type,
       'createdDate': instance.createdDate,
@@ -159,7 +159,7 @@ Buddy _$BuddyFromJson(Map<String, dynamic> json) {
     ..id = json['id'] as String
     ..title = json['title'] as String
     ..geohash = json['geohash'] as String
-    ..tags = (json['tags'] as List)?.map((e) => e as String)?.toList()
+    ..tags = getTagsFromJson(json['tags'])
     ..about = json['about'] as String
     ..type = json['type'] as String
     ..createdDate = json['createdDate'] as int
@@ -180,7 +180,7 @@ Map<String, dynamic> _$BuddyToJson(Buddy instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'geohash': instance.geohash,
-      'tags': instance.tags,
+      'tags': createTagMapForJson(instance.tags),
       'about': instance.about,
       'type': instance.type,
       'createdDate': instance.createdDate,
