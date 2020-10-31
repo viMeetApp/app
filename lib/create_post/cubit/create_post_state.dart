@@ -21,7 +21,7 @@ class CreatePostState {
     return CreatePostState(
         isError: false, isSubmitted: false, isSubmitting: false);
   }
-  factory CreatePostState.loading() {
+  factory CreatePostState.submitting() {
     return CreatePostState(
         isError: false, isSubmitted: false, isSubmitting: true);
   }

@@ -9,18 +9,10 @@ class SearchTagState {
 
 //Das wäre die Stelle um die letzte Konfiguration zu laden
   factory SearchTagState.initial() {
-    return SearchTagState(isExpanded: false, tagMap: {
-      'kultur': false,
-      'sport': false,
-      'gebaerden': false,
-      'outdoor': false,
-      'indoor': false,
-      'Frauen': false,
-      'Männer': false,
-      'Queer': false,
-      'essen': false,
-      'buddy': false
-    });
+    return SearchTagState(
+        isExpanded: false,
+        tagMap: Map<String, bool>.fromIterable(GlobalVariables.seaarchTags,
+            key: (item) => item, value: (item) => false));
   }
 
   SearchTagState toggleTag(String tag) {

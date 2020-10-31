@@ -11,30 +11,11 @@ part 'create_post_state.dart';
 class CreatePostCubit extends Cubit<CreatePostState> {
   CreatePostCubit() : super(CreatePostState.empty());
 
-  /// Document gets submitted
-  /// !TODO Checks if all fields are filled out
-  void submitted() async {
-    emit(CreatePostState.loading());
-
-    // !TODO implement the submitting of posts
-  }
-
-  void sendMessage(String content) {
-    //Check If String is Valid For Example don't send Empty String
-    /*if (content.length != 0 ?? content != null) {
-      Post message =
-          Message.createTextMessage(author: user, content: content);
-      FirebaseFirestore.instance
-          .collection('posts')
-          .doc(postId)
-          .collection('messages')
-          .add(message.toJson());
-    }*/
-  }
-
   void submit(
       {Map<String, dynamic> mandatoryFields,
-      Map<String, dynamic> optionalFields}) async {
+      Map<String, dynamic> optionalFields,
+      Map<String, dynamic> eventOnlyFields}) async {
+    emit(CreatePostState.submitting());
     bool abort = false;
     //First Check if all mandatory Field aren't empty
     mandatoryFields.forEach((key, value) {
@@ -50,19 +31,6 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     }
     //bring optional Fields in Array Structure
     List<PostDetail> postDetails = [];
-    //First Add Time if existent
-    //Add Time to optional Fields
-    if (state.eventDate != null) {
-      postDetails.add(PostDetail(
-          id: 'eventDate',
-          value: state.eventDate.millisecondsSinceEpoch.toString()));
-    }
-    if (state.eventTime != null) {
-      postDetails.add(PostDetail(
-          id: 'eventTime',
-          value: '${state.eventTime.hour}/${state.eventTime.minute}'));
-    }
-    //Then add other Fields
     optionalFields.forEach((key, value) {
       if (value != null) {
         postDetails.add(PostDetail(id: key, value: value));
@@ -80,10 +48,19 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       ..createdDate = DateTime.now().millisecondsSinceEpoch
       ..expireDate = DateTime.now().millisecondsSinceEpoch
       ..details = postDetails
-      ..eventDate = DateTime.now().millisecondsSinceEpoch
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
-      ..maxPeople = 10
+      ..maxPeople = eventOnlyFields['maxPeople'] as int
       ..author = await UserRepository().getUser();
+
+    //If Time or Date is ste add it
+    //First Add Time if existent
+    //Add Time to optional Fields
+    if (state.eventDate != null) {
+      event.eventDate = state.eventDate.millisecondsSinceEpoch;
+    }
+    if (state.eventTime != null) {
+      //!ToDo what to do with Event Time
+    }
     //Write to Firetore
     await FirebaseFirestore.instance.collection('posts').add(event.toJson());
     emit(CreatePostState.success());

@@ -15,51 +15,51 @@ class CreatePostForm extends StatelessWidget {
   Map<String, dynamic> optionalFields = {
     'treffpunkt': null,
     'kosten': null,
-    'anzahl': null
   };
 
   Map<String, dynamic> eventOnlyFields = {
-    'maxPeople': null,
+    'maxPeople': -1,
   };
 
   Map<String, dynamic> buddyOnlyFields = {};
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreatePostCubit, CreatePostState>(
-      listener: (context, state) {
-        //When Logged In -> Call Authetication Bloc with Logged in
-        if (state.isSubmitted) {
-          // !TODO navigate to the next screen
-        }
-        //In Error Case or name invalid Show Error Snackbar
-        else if (state.isError) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text('Bitte alle Felder ausfüllen'),
-            ));
-        }
-        //Show is Loading Snackbar
-        else if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text('wird veröffentlicht'),
-            ));
-        }
-      },
-      child: BlocBuilder<CreatePostCubit, CreatePostState>(
-          builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: AppThemeData.colorCard),
-            backgroundColor: AppThemeData.colorPrimaryLight,
-            title: Text(
-              "Neuen Post erstellen",
-              style: TextStyle(color: AppThemeData.colorTextInverted),
-            ),
-          ),
-          body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppThemeData.colorCard),
+        backgroundColor: AppThemeData.colorPrimaryLight,
+        title: Text(
+          "Neuen Post erstellen",
+          style: TextStyle(color: AppThemeData.colorTextInverted),
+        ),
+      ),
+      body: BlocListener<CreatePostCubit, CreatePostState>(
+        listener: (context, state) {
+          //When Logged In -> Call Authetication Bloc with Logged in
+          if (state.isSubmitted) {
+            // !TODO navigate to the next screen
+            Navigator.of(context).pop();
+          }
+          //In Error Case or name invalid Show Error Snackbar
+          else if (state.isError) {
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(const SnackBar(
+                content: Text('Bitte alle Felder ausfüllen'),
+              ));
+          }
+          //Show is Loading Snackbar
+          else if (state.isSubmitting) {
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(const SnackBar(
+                content: Text('wird veröffentlicht'),
+              ));
+          }
+        },
+        child: BlocBuilder<CreatePostCubit, CreatePostState>(
+            builder: (context, state) {
+          return SafeArea(
             child: Column(
               children: [
                 Container(
@@ -159,7 +159,7 @@ class CreatePostForm extends StatelessWidget {
                               onChanged: (text) {
                                 eventOnlyFields['maxPeople'] =
                                     (text != null && text.length > 0)
-                                        ? text
+                                        ? int.parse(text)
                                         : -1;
                               },
                               keyboardType: TextInputType.number,
@@ -208,21 +208,22 @@ class CreatePostForm extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print("submit pressed");
-              BlocProvider.of<CreatePostCubit>(context).submit(
-                  mandatoryFields: mandatoryFields,
-                  optionalFields: optionalFields);
-            },
-            child: Icon(
-              Icons.send,
-              color: AppThemeData.colorCard,
-            ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("submit pressed");
+          BlocProvider.of<CreatePostCubit>(context).submit(
+              mandatoryFields: mandatoryFields,
+              optionalFields: optionalFields,
+              eventOnlyFields: eventOnlyFields);
+        },
+        child: Icon(
+          Icons.send,
+          color: AppThemeData.colorCard,
+        ),
+      ),
     );
   }
 }
