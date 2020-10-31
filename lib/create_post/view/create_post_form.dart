@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/cubit/create_post_cubit.dart';
+import 'package:signup_app/create_post/tags/cubit/tag_cubit.dart';
+import 'package:signup_app/create_post/tags/view/tag-widget.dart';
 import 'package:signup_app/util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
@@ -9,7 +11,7 @@ class CreatePostForm extends StatelessWidget {
   Map<String, dynamic> mandatoryFields = {
     'title': null,
     'about': null,
-    'tags': ['outdoor']
+    'tags': []
   };
 
   Map<String, dynamic> optionalFields = {
@@ -33,30 +35,43 @@ class CreatePostForm extends StatelessWidget {
           style: TextStyle(color: AppThemeData.colorTextInverted),
         ),
       ),
-      body: BlocListener<CreatePostCubit, CreatePostState>(
-        listener: (context, state) {
-          //When Logged In -> Call Authetication Bloc with Logged in
-          if (state.isSubmitted) {
-            // !TODO navigate to the next screen
-            Navigator.of(context).pop();
-          }
-          //In Error Case or name invalid Show Error Snackbar
-          else if (state.isError) {
-            Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(const SnackBar(
-                content: Text('Bitte alle Felder ausfüllen'),
-              ));
-          }
-          //Show is Loading Snackbar
-          else if (state.isSubmitting) {
-            Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(const SnackBar(
-                content: Text('wird veröffentlicht'),
-              ));
-          }
-        },
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CreatePostCubit, CreatePostState>(
+            listener: (context, state) {
+              //When Logged In -> Call Authetication Bloc with Logged in
+              if (state.isSubmitted) {
+                // !TODO navigate to the next screen
+                Navigator.of(context).pop();
+              }
+              //In Error Case or name invalid Show Error Snackbar
+              else if (state.isError) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(const SnackBar(
+                    content: Text('Bitte alle Felder ausfüllen'),
+                  ));
+              }
+              //Show is Loading Snackbar
+              else if (state.isSubmitting) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(const SnackBar(
+                    content: Text('wird veröffentlicht'),
+                  ));
+              }
+            },
+          ),
+          BlocListener<TagCubit, TagState>(listener: (context, state) {
+            List<String> tagList = [];
+            state.tagMap.forEach(
+              (key, value) {
+                if (value == true) tagList.add(key);
+              },
+            );
+            mandatoryFields['tags'] = tagList;
+          })
+        ],
         child: BlocBuilder<CreatePostCubit, CreatePostState>(
             builder: (context, state) {
           return SafeArea(
@@ -77,14 +92,15 @@ class CreatePostForm extends StatelessWidget {
                             hintText: "Titel"),
                       ),
                       // TODO change this to a 'chip'-style input
-                      new TextFormField(
+                      /* new TextFormField(
                         maxLines: null,
                         style: TextStyle(color: Colors.white),
                         decoration: Presets.getTextFieldDecorationHintStyle(
                             hintText: "Tags / Kategorien",
                             fillColor: AppThemeData.colorBlackTrans,
                             hintColor: AppThemeData.colorCard),
-                      ),
+                      ),*/
+                      TagWidget(),
                     ],
                   ),
                 ),
