@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/util/signup_widgets.dart';
 
 class PostDetailedPage extends StatelessWidget {
   static Route route(Post post) {
@@ -23,10 +21,9 @@ class PostDetailedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //!Problem das User in Repository und in Klasse doppelt defniert
     //ToDo vermutlich dieses User Repository auflösen hat für uns im Moment auch keinen wirklichen Zweck
-    var help =
+    User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
-    User user = User(name: help.name, uid: help.userid);
 
     return BlocProvider(
         create: (context) => PostdetailedCubit(post: post),

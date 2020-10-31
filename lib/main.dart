@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/presets.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
@@ -12,32 +13,20 @@ import 'splash/splash.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final AuthenticationRepository _authenticationRepository =
-      new AuthenticationRepository();
-  runApp(App(
-    authenticationRepository: _authenticationRepository,
-  ));
+  runApp(App());
 }
 
 class App extends StatelessWidget {
   const App({
     Key key,
-    @required this.authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        super(key: key);
-
-  final AuthenticationRepository authenticationRepository;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-            authenticationRepository: authenticationRepository)
-          ..add(AppStarted()),
-        child: AppView(),
-      ),
+    return BlocProvider(
+      create: (_) => AuthenticationBloc(userRepository: UserRepository())
+        ..add(AppStarted()),
+      child: AppView(),
     );
   }
 }

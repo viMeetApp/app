@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'create_post_state.dart';
@@ -82,10 +83,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       ..eventDate = DateTime.now().millisecondsSinceEpoch
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
       ..maxPeople = 10
-      ..author = User(
-          name: "Das war ich zum Testen",
-          uid: fire.FirebaseAuth.instance.currentUser.uid);
-    print(event);
+      ..author = await UserRepository().getUser();
     //Write to Firetore
     await FirebaseFirestore.instance.collection('posts').add(event.toJson());
     emit(CreatePostState.success());

@@ -32,10 +32,11 @@ class ChatWidget extends StatelessWidget {
                     StreamBuilder(
                       stream: state,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData)
+                        if (snapshot.hasError)
                           return Expanded(
-                              child:
-                                  Center(child: CircularProgressIndicator()));
+                              child: Center(child: Text("unknown Error")));
+                        else if (!snapshot.hasData)
+                          return Expanded(child: Container());
                         else {
                           var blocRef = BlocProvider.of<ChatCubit>(context);
                           return Expanded(
