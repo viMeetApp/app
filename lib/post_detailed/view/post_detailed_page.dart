@@ -149,13 +149,14 @@ class BlocDescription extends StatelessWidget {
                         ),
 
                         //Text in Row 9/12 Teilnehmer
-                        Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text(
-                                "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
+                        if ((state.post as Event).maxPeople != -1)
+                          Expanded(
+                            flex: 1,
+                            child: Center(
+                              child: Text(
+                                  "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
+                            ),
                           ),
-                        ),
                       ],
                     )
                   ],
