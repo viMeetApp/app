@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 /// Ort zu halten
 class Presets {
   // preset component decoration
-  static InputDecoration getTextFieldDecoration(
+  static InputDecoration getTextFieldDecorationHintStyle(
       {String hintText = "",
       String errorText,
       Color fillColor = AppThemeData.colorCard,
       Color hintColor = AppThemeData.colorControls}) {
     return InputDecoration(
-      hintStyle: TextStyle(color: hintColor),
       hintText: hintText,
+      labelStyle: TextStyle(color: hintColor),
       errorText: errorText,
       filled: true,
       border: OutlineInputBorder(
@@ -28,6 +28,29 @@ class Presets {
     );
   }
 
+    static InputDecoration getTextFieldDecorationLabelStyle(
+      {String labelText = "",
+      String errorText,
+      Color fillColor = AppThemeData.colorCard,
+      Color hintColor = AppThemeData.colorControls}) {
+    return InputDecoration(
+      labelText: labelText,
+      labelStyle: TextStyle(color: hintColor),
+      errorText: errorText,
+      filled: true,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      fillColor: fillColor,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppThemeData.colorPrimary, width: 3.0),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  
   static AppBarTheme getAppBarTheme(
       {Color color = Colors.transparent,
       Color elementsColor = AppThemeData.colorControls}) {
