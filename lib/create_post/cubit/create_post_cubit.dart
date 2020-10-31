@@ -73,13 +73,14 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     Event event = Event()
       ..title = mandatoryFields['title']
       ..geohash = "ToDoHash"
-      ..tags = mandatoryFields['tags']
+      ..tags = [...mandatoryFields['tags'], 'event']
       ..about = mandatoryFields['about']
       ..type = "event"
       ..createdDate = DateTime.now().millisecondsSinceEpoch
       ..expireDate = DateTime.now().millisecondsSinceEpoch
       ..details = postDetails
       ..eventDate = DateTime.now().millisecondsSinceEpoch
+      ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
       ..maxPeople = 10
       ..author = User(
           name: "Das war ich zum Testen",

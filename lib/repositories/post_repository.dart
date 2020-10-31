@@ -80,7 +80,8 @@ class PostRepository {
     Stream<List<Post>> postStream = snap.map((list) {
       List<Post> postList = list.docs.map((doc) {
         Map<String, dynamic> document = doc.data();
-        document.putIfAbsent("id", () => doc.id);
+        document['id'] = doc.id;
+        // document.putIfAbsent("id", () => doc.id);
         if (doc['type'] == "event") {
           return Event.fromJson(document);
         } else if (doc['type'] == "buddy") {
