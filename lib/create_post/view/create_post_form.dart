@@ -4,9 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/cubit/create_post_cubit.dart';
 import 'package:signup_app/create_post/tags/cubit/tag_cubit.dart';
 import 'package:signup_app/create_post/tags/view/tag-widget.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
+  Group group;
+  CreatePostForm({Group group}) {
+    if (group != null) {
+      mandatoryFields['group'] = GroupInfo(id: group.id, name: group.name);
+    }
+  }
   //Ich glaube das ist eine schöne Lösung um um alle Text Ediding Controller rumzukommen
   Map<String, dynamic> mandatoryFields = {
     'title': null,
