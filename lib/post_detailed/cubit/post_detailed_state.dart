@@ -16,12 +16,12 @@ class PostDetailedState {
       : post = null,
         isFavourite = false,
         showPostVerlaengern = null,
-        isExpanded=true;
+        isExpanded = true;
 
   PostDetailedState({@required this.post, this.isFavourite, this.isExpanded}) {
     //Diese Werte kann man nacher dynamisch bei erzeugung berechnen
-    this.isFavourite=this.isFavourite!=null?this.isFavourite:false;
-    this.isExpanded=this.isExpanded!=null?this.isExpanded:true;
+    this.isFavourite = this.isFavourite != null ? this.isFavourite : false;
+    this.isExpanded = this.isExpanded != null ? this.isExpanded : true;
 
     if (post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000)
       showPostVerlaengern = true;
@@ -35,7 +35,7 @@ class PostDetailedState {
     return PostDetailedState(
       post: post ?? this.post,
       isFavourite: isFavourite ?? this.isFavourite,
-      isExpanded: isExpanded??this.isExpanded,
+      isExpanded: isExpanded ?? this.isExpanded,
     );
   }
 }
@@ -50,31 +50,26 @@ class EventState extends PostDetailedState {
   bool canSubscribe;
 
   EventState({@required Post post, bool isFavourite, bool isExpanded})
-      : super(post: post, isFavourite: isFavourite,isExpanded: isExpanded) {
+      : super(post: post, isFavourite: isFavourite, isExpanded: isExpanded) {
     if ((post as Event)
         .participants
         .contains(FirebaseAuth.instance.currentUser.uid)) {
       isSubscribed = true;
       canSubscribe = false;
-      print("subscribed");
     } else {
       isSubscribed = false;
-      print("not subscribed");
-      canSubscribe =
+      canSubscribe = (post as Event).maxPeople == -1 ||
           (post as Event).participants.length < (post as Event).maxPeople;
     }
   }
 
-  EventState copyWith({
-    Post post,
-    bool isFavourite,
-    bool isExpanded
-  }) {
+  EventState copyWith({Post post, bool isFavourite, bool isExpanded}) {
     return EventState(
-        post: post ?? this.post, isFavourite: isFavourite ?? this.isFavourite, isExpanded:isExpanded??this.isExpanded);
+        post: post ?? this.post,
+        isFavourite: isFavourite ?? this.isFavourite,
+        isExpanded: isExpanded ?? this.isExpanded);
   }
 }
-
 
 ///State in which Screen is if Post is a Buddy Post
 class BuddyState extends PostDetailedState {}

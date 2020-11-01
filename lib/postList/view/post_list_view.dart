@@ -4,9 +4,12 @@ import 'package:signup_app/postList/cubit/post_list_cubit.dart';
 import 'package:signup_app/postList/view/post_tile.dart';
 import 'package:signup_app/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/search_tags/view/tag_widget.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class PostListView extends StatelessWidget {
+  Group group;
+  PostListView({this.group});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,7 +17,7 @@ class PostListView extends StatelessWidget {
       child: MultiBlocProvider(
           providers: [
             BlocProvider<PostListCubit>(
-              create: (context) => PostListCubit(),
+              create: (context) => PostListCubit(group: group),
             ),
             BlocProvider<SearchTagCubit>(
               create: (context) => SearchTagCubit(),

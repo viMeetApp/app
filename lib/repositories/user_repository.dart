@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'user.dart' as myUser;
+import 'package:signup_app/util/data_models.dart' as util;
 
-///Repository has mainly two Functions
-///1. Get Authenticated State and SignUp a User.
-///2. Return User Information
-class AuthenticationRepository {
+class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
 
-  AuthenticationRepository(
-      {FirebaseAuth firebaseAuth, FirebaseFirestore firestore})
+  UserRepository({FirebaseAuth firebaseAuth, FirebaseFirestore firestore})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
@@ -27,7 +23,7 @@ class AuthenticationRepository {
       await _firestore
           .collection('users')
           .doc(userCredential.user.uid)
-          .set({'name': name, 'userid': userCredential.user.uid});
+          .set({'name': name, 'uid': userCredential.user.uid});
     } catch (err) {
       print("Error Sign Up Anonymously");
       print(err.toString());
@@ -35,13 +31,13 @@ class AuthenticationRepository {
   }
 
   ///Return the User who is currently authenticated
-  Future<myUser.User> getUser() async {
+  Future<util.User> getUser() async {
     try {
       var snap = await _firestore
           .collection('users')
           .doc(_firebaseAuth.currentUser.uid)
           .get();
-      return myUser.User.fronSnapshot(snap);
+      return util.User.fromJson(snap.data());
     } catch (err) {
       print("Error in get User");
       print(err.toString());
