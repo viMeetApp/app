@@ -6,9 +6,9 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class GroupPage extends StatelessWidget {
-  Group group;
+  final Group group;
   GroupPage({@required this.group});
-  @override
+
   static Route route({@required Group group}) {
     return MaterialPageRoute<void>(
         builder: (_) => GroupPage(
@@ -16,6 +16,7 @@ class GroupPage extends StatelessWidget {
             ));
   }
 
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<GroupCubit>(
         create: (_) => GroupCubit(group: group),

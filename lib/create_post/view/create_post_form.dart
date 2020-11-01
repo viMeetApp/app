@@ -8,29 +8,29 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
-  Group group;
-  CreatePostForm({Group group}) {
+  final Group group;
+  CreatePostForm({this.group}) {
     if (group != null) {
       mandatoryFields['group'] = GroupInfo(id: group.id, name: group.name);
     }
   }
   //Ich glaube das ist eine schöne Lösung um um alle Text Ediding Controller rumzukommen
-  Map<String, dynamic> mandatoryFields = {
+  final Map<String, dynamic> mandatoryFields = {
     'title': null,
     'about': null,
     'tags': []
   };
 
-  Map<String, dynamic> optionalFields = {
+  final Map<String, dynamic> optionalFields = {
     'treffpunkt': null,
     'kosten': null,
   };
 
-  Map<String, dynamic> eventOnlyFields = {
+  final Map<String, dynamic> eventOnlyFields = {
     'maxPeople': -1,
   };
 
-  Map<String, dynamic> buddyOnlyFields = {};
+  final Map<String, dynamic> buddyOnlyFields = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(

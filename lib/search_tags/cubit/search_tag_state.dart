@@ -2,8 +2,8 @@ part of 'search_tag_cubit.dart';
 
 @immutable
 class SearchTagState {
-  Map<String, bool> tagMap;
-  bool isExpanded;
+  final Map<String, bool> tagMap;
+  final bool isExpanded;
 
   SearchTagState({this.tagMap, this.isExpanded});
 

@@ -4,7 +4,7 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class PostTile extends StatelessWidget {
-  Post post;
+  final Post post;
 
   PostTile({@required this.post});
 

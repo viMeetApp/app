@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:signup_app/search_tags/view/tag.dart';
 
 part 'data_models.g.dart';
 
@@ -93,24 +90,29 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
   @override
   User author;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);   
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }
+
 ///Helper Function to generate Tags List From json
-List<String> getTagsFromJson(var json){
-  List<String> tags=[];
+List<String> getTagsFromJson(var json) {
+  List<String> tags = [];
   json.forEach((key, value) {
-      if (value == true) tags.add(key);
-    });
-    return tags;
+    if (value == true) tags.add(key);
+  });
+  return tags;
 }
+
 ///Helper Function to generate TagMap for Database from tag List
 ///Not tested yet
-Map<String, bool> createTagMapForJson(List<String> tags){
-  Map<String,bool> tagMap=Map();
-  tags.forEach((tag) { tagMap.addEntries([MapEntry(tag, true)]);});
+Map<String, bool> createTagMapForJson(List<String> tags) {
+  Map<String, bool> tagMap = Map();
+  tags.forEach((tag) {
+    tagMap.addEntries([MapEntry(tag, true)]);
+  });
   return tagMap;
 }
+
 @JsonSerializable(explicitToJson: true)
 class PostDetail {
   String id;

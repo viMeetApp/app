@@ -9,13 +9,14 @@ import 'package:signup_app/util/creation_aware_widget.dart';
 import '../chat.dart';
 
 class ChatWidget extends StatelessWidget {
-  String postId;
-  User user;
+  final String postId;
+  final User user;
 
   TextEditingController _chatController = new TextEditingController();
   ChatWidget({@required this.postId, @required this.user})
       : assert(postId != null),
         assert(user != null);
+
   @override
   Widget build(BuildContext context) {
     return Container(

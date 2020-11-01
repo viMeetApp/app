@@ -8,8 +8,8 @@ class CreatePostState {
   final bool isSubmitting;
 
   //Variables to Store
-  DateTime eventDate;
-  TimeOfDay eventTime;
+  final DateTime eventDate;
+  final TimeOfDay eventTime;
   CreatePostState(
       {@required this.isError,
       @required this.isSubmitted,

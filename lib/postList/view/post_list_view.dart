@@ -8,7 +8,7 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class PostListView extends StatelessWidget {
-  Group group;
+  final Group group;
   PostListView({this.group});
   @override
   Widget build(BuildContext context) {
