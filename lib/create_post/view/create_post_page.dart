@@ -25,7 +25,9 @@ class CreatePostPage extends StatelessWidget {
         ),
         BlocProvider<TagCubit>(create: (_) => TagCubit()),
       ],
-      child: CreatePostForm(),
+      child: CreatePostForm(
+        group: group,
+      ),
     );
   }
 }

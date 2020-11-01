@@ -42,11 +42,9 @@ class PostTile extends StatelessWidget {
                               ),
                               Container(
                                   child: Text(
-                                    /*
-                                (this.post.group != null
-                                    ? this.post.group.name
-                                    : this.post.author.name)*/
-                                    "TODO: GroupName",
+                                    (this.post.group != null
+                                        ? this.post.group.name
+                                        : this.post.author.name),
                                     style: TextStyle(
                                         color: AppThemeData.colorControls),
                                   ),

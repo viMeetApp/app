@@ -50,7 +50,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       ..details = postDetails
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
       ..maxPeople = eventOnlyFields['maxPeople'] as int
-      ..author = await UserRepository().getUser();
+      ..author = await UserRepository().getUser()
+      ..group = mandatoryFields['group'];
 
     //If Time or Date is ste add it
     //First Add Time if existent
