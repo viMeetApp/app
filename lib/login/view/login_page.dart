@@ -4,12 +4,13 @@ import 'package:signup_app/login/cubit/login_cubit.dart';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:signup_app/login/view/login_form.dart';
+import 'package:signup_app/repositories/user_repository.dart';
 
 class LoginPage extends StatelessWidget {
-
-  static Route route(){
-    return MaterialPageRoute(builder: (_)=>  LoginPage());
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => LoginPage());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +19,7 @@ class LoginPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: BlocProvider<LoginCubit>(
-            create: (_) =>
-                LoginCubit(context.repository<AuthenticationRepository>()),
+            create: (_) => LoginCubit(UserRepository()),
             child: LoginForm(),
           ),
         ));
