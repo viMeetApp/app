@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/chat/chat.dart';
 import 'package:signup_app/post_detailed/cubit/post_detailed_cubit.dart';
+import 'package:signup_app/post_detailed/cubit/subscription_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -19,63 +20,92 @@ class PostDetailedPage extends StatelessWidget {
   PostDetailedPage({@required this.post});
   @override
   Widget build(BuildContext context) {
-    //!Problem das User in Repository und in Klasse doppelt defniert
-    //ToDo vermutlich dieses User Repository auflösen hat für uns im Moment auch keinen wirklichen Zweck
+    //Das ist eine schöne Version an User zu kommen ohne Netzwerkcall zu machen
     User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
 
-    return BlocProvider(
-        create: (context) => PostdetailedCubit(post: post),
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppThemeData.colorCard,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            title: BlocBuilder<PostdetailedCubit, PostDetailedState>(
-                buildWhen: (previous, current) =>
-                    previous.post.title != current.post.title,
-                builder: (context, state) {
-                  return Text(state.post.title);
-                }),
-            actions: [
-              //Favourite Icon Button
-              BlocBuilder<PostdetailedCubit, PostDetailedState>(
-                  buildWhen: (previous, current) =>
-                      previous.isFavourite != current.isFavourite,
-                  builder: (context, state) {
-                    return IconButton(
-                      icon: Icon(state.isFavourite
-                          ? Icons.favorite
-                          : Icons.favorite_border),
-                      onPressed: () {
-                        BlocProvider.of<PostdetailedCubit>(context).favourite();
-                      },
-                    );
-                  }),
-
-              //Expand Icon Button
-              BlocBuilder<PostdetailedCubit, PostDetailedState>(
-                  buildWhen: (previous, current) =>
-                      previous.isExpanded != current.isExpanded,
-                  builder: (context, state) {
-                    return IconButton(
-                      icon: Icon(state.isExpanded
-                          ? Icons.expand_less
-                          : Icons.expand_more),
-                      onPressed: () {
-                        BlocProvider.of<PostdetailedCubit>(context)
-                            .toggleExpanded();
-                      },
-                    );
-                  })
-            ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PostdetailedCubit>(
+          create: (context) => PostdetailedCubit(post: post),
+        ),
+        BlocProvider<SubscriptionCubit>(
+          create: (context) => SubscriptionCubit(),
+        )
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppThemeData.colorCard,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-          body: SafeArea(
+          title: BlocBuilder<PostdetailedCubit, PostDetailedState>(
+              buildWhen: (previous, current) =>
+                  previous.post.title != current.post.title,
+              builder: (context, state) {
+                return Text(state.post.title);
+              }),
+          actions: [
+            //Favourite Icon Button
+            BlocBuilder<PostdetailedCubit, PostDetailedState>(
+                buildWhen: (previous, current) =>
+                    previous.isFavourite != current.isFavourite,
+                builder: (context, state) {
+                  return IconButton(
+                    icon: Icon(state.isFavourite
+                        ? Icons.favorite
+                        : Icons.favorite_border),
+                    onPressed: () {
+                      BlocProvider.of<PostdetailedCubit>(context).favourite();
+                    },
+                  );
+                }),
+
+            //Expand Icon Button
+            BlocBuilder<PostdetailedCubit, PostDetailedState>(
+                buildWhen: (previous, current) =>
+                    previous.isExpanded != current.isExpanded,
+                builder: (context, state) {
+                  return IconButton(
+                    icon: Icon(state.isExpanded
+                        ? Icons.expand_less
+                        : Icons.expand_more),
+                    onPressed: () {
+                      BlocProvider.of<PostdetailedCubit>(context)
+                          .toggleExpanded();
+                    },
+                  );
+                })
+          ],
+        ),
+        body: BlocListener<SubscriptionCubit, SubscriptionState>(
+          listener: (context, state) {
+            if (state.error) {
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(
+                  content: Text(
+                      'Fehler beim anmelden vermutlich wegen schlechtem Internt'),
+                ));
+            } else if (state.subscribing) {
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(
+                  content: Text('Anmdelden'),
+                ));
+            } else if (state.unsubscribing) {
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(const SnackBar(
+                  content: Text('Abmelden'),
+                ));
+            }
+          },
+          child: SafeArea(
             child: Column(
               verticalDirection: VerticalDirection.up,
               children: [
@@ -84,8 +114,9 @@ class PostDetailedPage extends StatelessWidget {
               ],
             ),
           ),
-        ));
-    //Need To Wrap in Bloc Provider
+        ),
+      ),
+    );
   }
 }
 
@@ -133,16 +164,16 @@ class BlocDescription extends StatelessWidget {
                           child: (state as EventState).isSubscribed == false
                               ? RaisedButton(
                                   onPressed: () {
-                                    BlocProvider.of<PostdetailedCubit>(context)
-                                        .subscribe();
+                                    BlocProvider.of<SubscriptionCubit>(context)
+                                        .subscribe(postId: state.post.id);
                                   },
                                   child: Text("anmelden"),
                                 )
                               : RaisedButton(
                                   color: AppThemeData.colorPlaceholder,
                                   onPressed: () {
-                                    BlocProvider.of<PostdetailedCubit>(context)
-                                        .unsubscribe();
+                                    BlocProvider.of<SubscriptionCubit>(context)
+                                        .unsubscribe(postId: state.post.id);
                                   },
                                   child: Text("abmelden"),
                                 ),
