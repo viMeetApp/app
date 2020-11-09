@@ -28,7 +28,7 @@ class Presets {
     );
   }
 
-    static InputDecoration getTextFieldDecorationLabelStyle(
+  static InputDecoration getTextFieldDecorationLabelStyle(
       {String labelText = "",
       String errorText,
       Color fillColor = AppThemeData.colorCard,
@@ -50,7 +50,6 @@ class Presets {
     );
   }
 
-  
   static AppBarTheme getAppBarTheme(
       {Color color = Colors.transparent,
       Color elementsColor = AppThemeData.colorControls}) {
@@ -83,6 +82,7 @@ class AppThemeData {
   // current color scheme: https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
   static const Color colorPrimary = Color(0xFFFF5555);
   static const Color colorPrimaryLight = Color(0xffff7777);
+  static const Color colorPrimaryLighter = Color(0xffff9999);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
   static const Color colorPlaceholder = Color(0xff606060);

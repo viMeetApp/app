@@ -85,18 +85,21 @@ class CreatePostForm extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(bottom: 10),
                   color: AppThemeData.colorPrimaryLight,
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      TextField(
-                        onChanged: (text) {
-                          mandatoryFields['title'] =
-                              (text != null && text.length > 0) ? text : null;
-                        },
-                        decoration: Presets.getTextFieldDecorationHintStyle(
-                            hintText: "Titel"),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: TextField(
+                          onChanged: (text) {
+                            mandatoryFields['title'] =
+                                (text != null && text.length > 0) ? text : null;
+                          },
+                          decoration: Presets.getTextFieldDecorationHintStyle(
+                              hintText: "Titel"),
+                        ),
                       ),
                       // TODO change this to a 'chip'-style input
                       /* new TextFormField(
