@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:signup_app/create_post/cubit/create_post_cubit.dart';
 import 'package:signup_app/create_post/tags/cubit/tag_cubit.dart';
 import 'package:signup_app/create_post/tags/view/tag-widget.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+
+import '../../util/presets.dart';
+import '../../util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
   final Group group;
@@ -136,52 +140,106 @@ class CreatePostForm extends StatelessWidget {
                                       hintText: "Beschreibung:"),
                             ),
                             SizedBox(
-                              height: 120,
+                              height: 80,
                             ),
-                            Text("Angaben da es sich um einen Post handelt"),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.calendar_today),
-                                  tooltip: 'Tap to open date picker',
-                                  onPressed: () {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2025),
-                                    ).then((value) {
-                                      BlocProvider.of<CreatePostCubit>(context)
-                                          .updateDate(value);
-                                    });
-                                  },
-                                ),
-                                Text(state.eventDate != null
-                                    ? state.eventDate.toString()
-                                    : "Datum des Events")
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.access_time),
-                                  tooltip: 'Tap to open date picker',
-                                  onPressed: () {
-                                    showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now())
-                                        .then((value) {
-                                      BlocProvider.of<CreatePostCubit>(context)
-                                          .updateTime(value);
-                                    });
-                                  },
-                                ),
-                                Text(state.eventTime != null
-                                    ? state.eventTime.toString()
-                                    : "Startzeit des Events")
-                              ],
-                            ),
+                            /*Text("Weitere Freiwillige Angaben"),*/
                             new TextFormField(
+                              onChanged: (text) {
+                                optionalFields['treffpunkt'] =
+                                    (text != null && text.length > 0)
+                                        ? text
+                                        : null;
+                              },
+                              decoration:
+                                  Presets.getTextFieldDecorationLabelStyle(
+                                      labelText: "Treffpunkt"),
+                            ),
+                            /*Text("Angaben da es sich um einen Post handelt"),*/
+                            Wrap(
+                                runSpacing: 10,
+                                alignment: WrapAlignment.spaceBetween,
+                                children: [
+                                  FractionallySizedBox(
+                                    widthFactor: 0.5,
+                                    child: FlatButton.icon(
+                                      textColor: AppThemeData.colorControls,
+                                      onPressed: () {
+                                        showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2025),
+                                        ).then((value) {
+                                          BlocProvider.of<CreatePostCubit>(
+                                                  context)
+                                              .updateDate(value);
+                                        });
+                                      },
+                                      icon: Icon(Icons.calendar_today),
+                                      label: Expanded(
+                                        child: Text(state.eventDate != null
+                                            ? DateFormat('dd.MM.yyyy')
+                                                .format(state.eventDate)
+                                            : "Datum"),
+                                      ),
+                                    ),
+                                  ),
+                                  FractionallySizedBox(
+                                    widthFactor: 0.5,
+                                    child: FlatButton.icon(
+                                      textColor: AppThemeData.colorControls,
+                                      onPressed: () {
+                                        showTimePicker(
+                                                context: context,
+                                                initialTime: TimeOfDay.now())
+                                            .then((value) {
+                                          BlocProvider.of<CreatePostCubit>(
+                                                  context)
+                                              .updateTime(value);
+                                        });
+                                      },
+                                      icon: Icon(Icons.access_time),
+                                      label: Expanded(
+                                        child: Text(state.eventDate != null
+                                            ? state.eventTime.format(context)
+                                            : "Startzeit"),
+                                      ),
+                                    ),
+                                  ),
+                                  FractionallySizedBox(
+                                    widthFactor: 0.5,
+                                    child: FlatButton.icon(
+                                      textColor: AppThemeData.colorControls,
+                                      onPressed: () {},
+                                      icon: Icon(Icons.group),
+                                      label: Expanded(
+                                        child: Text(
+                                          eventOnlyFields["maxPeople"] < 0
+                                              ? "Teilnehmerzahl"
+                                              : eventOnlyFields["maxPeople"]
+                                                  .toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  FractionallySizedBox(
+                                    widthFactor: 0.5,
+                                    child: FlatButton.icon(
+                                      textColor: AppThemeData.colorControls,
+                                      onPressed: () {},
+                                      icon: Icon(Icons.euro_symbol),
+                                      label: Expanded(
+                                        child: Text(
+                                          optionalFields["kosten"] == null
+                                              ? "keine Kosten"
+                                              : optionalFields["kosten"]
+                                                  .toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                            /*new TextFormField(
                               onChanged: (text) {
                                 eventOnlyFields['maxPeople'] =
                                     (text != null && text.length > 0)
@@ -195,23 +253,9 @@ class CreatePostForm extends StatelessWidget {
                               decoration: Presets.getTextFieldDecorationLabelStyle(
                                   labelText:
                                       "max. Anzahl (leer lassen für unbegrenzt)"),
-                            ),
-                            SizedBox(
-                              height: 90,
-                            ),
-                            Text("Weitere Freiwillige Angaben"),
-                            new TextFormField(
-                              onChanged: (text) {
-                                optionalFields['treffpunkt'] =
-                                    (text != null && text.length > 0)
-                                        ? text
-                                        : null;
-                              },
-                              decoration:
-                                  Presets.getTextFieldDecorationLabelStyle(
-                                      labelText: "Treffpunkt"),
-                            ),
-                            new TextFormField(
+                            ),*/
+
+                            /*new TextFormField(
                               onChanged: (text) {
                                 optionalFields['kosten'] =
                                     (text != null && text.length > 0)
@@ -225,7 +269,7 @@ class CreatePostForm extends StatelessWidget {
                               decoration:
                                   Presets.getTextFieldDecorationLabelStyle(
                                       labelText: "Kosten"),
-                            ),
+                            ),*/
                           ],
                         ),
                       ),
