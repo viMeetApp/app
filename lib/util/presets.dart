@@ -85,6 +85,7 @@ class AppThemeData {
   static const Color colorPrimaryLighter = Color(0xffffa4a4);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
+  static const Color colorFormField = Color(0xff505050);
   static const Color colorPlaceholder = Color(0xff606060);
 
   static final ColorSwatch swatchPrimary =
@@ -112,6 +113,8 @@ class AppThemeData {
   static const Color colorBlackTrans = Color(0x14000000);
 
   // define font sizes
+  static const TextStyle textFormField =
+      TextStyle(color: colorFormField, fontSize: 16);
   static const TextStyle textNormal =
       TextStyle(color: colorControls, fontSize: 14);
   static const TextStyle textHeading1 = TextStyle(

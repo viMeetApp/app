@@ -10,6 +10,7 @@ import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
 import '../../util/presets.dart';
+import '../../util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
   final Group group;
@@ -162,7 +163,7 @@ class CreatePostForm extends StatelessWidget {
                                   FractionallySizedBox(
                                     widthFactor: 0.5,
                                     child: FlatButton.icon(
-                                      textColor: AppThemeData.colorControls,
+                                      textColor: AppThemeData.colorFormField,
                                       onPressed: () {
                                         showDatePicker(
                                           context: context,
@@ -177,17 +178,19 @@ class CreatePostForm extends StatelessWidget {
                                       },
                                       icon: Icon(Icons.calendar_today),
                                       label: Expanded(
-                                        child: Text(state.eventDate != null
-                                            ? DateFormat('dd.MM.yyyy')
-                                                .format(state.eventDate)
-                                            : "Datum"),
+                                        child: Text(
+                                            state.eventDate != null
+                                                ? DateFormat('dd.MM.yyyy')
+                                                    .format(state.eventDate)
+                                                : "Datum",
+                                            style: AppThemeData.textFormField),
                                       ),
                                     ),
                                   ),
                                   FractionallySizedBox(
                                     widthFactor: 0.5,
                                     child: FlatButton.icon(
-                                      textColor: AppThemeData.colorControls,
+                                      textColor: AppThemeData.colorFormField,
                                       onPressed: () {
                                         showTimePicker(
                                                 context: context,
@@ -200,41 +203,44 @@ class CreatePostForm extends StatelessWidget {
                                       },
                                       icon: Icon(Icons.access_time),
                                       label: Expanded(
-                                        child: Text(state.eventDate != null
-                                            ? state.eventTime.format(context)
-                                            : "Startzeit"),
+                                        child: Text(
+                                          state.eventDate != null
+                                              ? state.eventTime.format(context)
+                                              : "Startzeit",
+                                          style: AppThemeData.textFormField,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   FractionallySizedBox(
                                     widthFactor: 0.5,
                                     child: FlatButton.icon(
-                                      textColor: AppThemeData.colorControls,
+                                      textColor: AppThemeData.colorFormField,
                                       onPressed: () {},
                                       icon: Icon(Icons.group),
                                       label: Expanded(
                                         child: Text(
-                                          eventOnlyFields["maxPeople"] < 0
-                                              ? "Teilnehmerzahl"
-                                              : eventOnlyFields["maxPeople"]
-                                                  .toString(),
-                                        ),
+                                            eventOnlyFields["maxPeople"] < 0
+                                                ? "Teilnehmerzahl"
+                                                : eventOnlyFields["maxPeople"]
+                                                    .toString(),
+                                            style: AppThemeData.textFormField),
                                       ),
                                     ),
                                   ),
                                   FractionallySizedBox(
                                     widthFactor: 0.5,
                                     child: FlatButton.icon(
-                                      textColor: AppThemeData.colorControls,
+                                      textColor: AppThemeData.colorFormField,
                                       onPressed: () {},
                                       icon: Icon(Icons.euro_symbol),
                                       label: Expanded(
                                         child: Text(
-                                          optionalFields["kosten"] == null
-                                              ? "keine Kosten"
-                                              : optionalFields["kosten"]
-                                                  .toString(),
-                                        ),
+                                            optionalFields["kosten"] == null
+                                                ? "keine Kosten"
+                                                : optionalFields["kosten"]
+                                                    .toString(),
+                                            style: AppThemeData.textFormField),
                                       ),
                                     ),
                                   ),

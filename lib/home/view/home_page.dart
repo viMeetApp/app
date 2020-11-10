@@ -29,7 +29,13 @@ class HomePage extends StatelessWidget {
                       builder: (context) => IconButton(
                         icon: Icon(Icons.group),
                         onPressed: () {
-                          BlocProvider.of<HomePageCubit>(context).openGroups();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                GroupDropownWidget(),
+                          );
+                          //BlocProvider.of<HomePageCubit>(context)
+                          //    .openGroups(context);
                         },
                       ),
                     ),
