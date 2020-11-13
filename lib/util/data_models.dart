@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -56,6 +58,8 @@ class Group extends DatabaseDocument {
   String name;
   String about;
   List<String> users = [];
+  List<String> admins = [];
+  List<String> requestedToJoin = [];
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
   Map<String, dynamic> toJson() => _$GroupToJson(this);
