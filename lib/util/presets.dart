@@ -85,6 +85,7 @@ class AppThemeData {
   static const Color colorPrimaryLighter = Color(0xffffa4a4);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
+  static const Color colorControlsDisabled = Color(0xff9f9f9f);
   static const Color colorFormField = Color(0xff505050);
   static const Color colorPlaceholder = Color(0xff606060);
 
@@ -113,18 +114,18 @@ class AppThemeData {
   static const Color colorBlackTrans = Color(0x14000000);
 
   // define font sizes
-  static const TextStyle textFormField =
-      TextStyle(color: colorFormField, fontSize: 16);
-  static const TextStyle textNormal =
-      TextStyle(color: colorControls, fontSize: 14);
-  static const TextStyle textHeading1 = TextStyle(
-      color: colorControls, fontSize: 22, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading2 = TextStyle(
-      color: colorControls, fontSize: 20, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading3 = TextStyle(
-      color: colorControls, fontSize: 18, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading4 = TextStyle(
-      color: colorControls, fontSize: 15, fontWeight: FontWeight.bold);
+  static TextStyle textFormField({Color color = colorFormField}) =>
+      TextStyle(color: color, fontSize: 16);
+  static TextStyle textNormal({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 14);
+  static TextStyle textHeading1({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold);
+  static TextStyle textHeading2({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.bold);
+  static TextStyle textHeading3({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.bold);
+  static TextStyle textHeading4({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold);
 
   // define basic variables
   static const double varPaddingNormal = 10;

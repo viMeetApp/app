@@ -9,8 +9,6 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
-import '../../util/presets.dart';
-import '../../util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
   final Group group;
@@ -36,6 +34,83 @@ class CreatePostForm extends StatelessWidget {
   };
 
   final Map<String, dynamic> buddyOnlyFields = {};
+
+  Future _showDialog(
+      {@required context,
+      @required Widget child,
+      @required String title,
+      @required Function onOkay}) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              elevation: 0.0,
+              backgroundColor: AppThemeData.colorBase,
+              child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Wrap(
+                    children: [
+                      Text(
+                        title,
+                        style: AppThemeData.textHeading3(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10, top: 10),
+                        child: child,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          FlatButton(
+                              onPressed: () => {Navigator.pop(context, null)},
+                              child: Text("Abbrechen")),
+                          FlatButton(onPressed: onOkay, child: Text("Ok"))
+                        ],
+                      )
+                    ],
+                  )));
+        });
+  }
+
+  Future _showTextInputDialog(
+      {@required context,
+      String currentValue = "",
+      List<TextInputFormatter> formatters}) {
+    Function onOkay = () {
+      print(currentValue);
+      Navigator.pop(context, currentValue);
+    };
+
+    return _showDialog(
+        context: context,
+        title: "Maximale Teilmehmerzahl",
+        child: Wrap(
+          children: [
+            TextFormField(
+              initialValue: currentValue,
+              onChanged: (text) {
+                currentValue = text;
+              },
+              keyboardType: TextInputType.number,
+              inputFormatters: formatters,
+              decoration: Presets.getTextFieldDecorationHintStyle(),
+            ),
+          ],
+        ),
+        onOkay: onOkay);
+  }
+
+  Future _showCostDialog({@required context, @required int currentValue}) {
+    return _showDialog(
+        context: context,
+        child: Text("Hallo"),
+        title: "Kosten pro Person",
+        onOkay: () => {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,6 +202,56 @@ class CreatePostForm extends StatelessWidget {
                         child: Wrap(
                           runSpacing: 10,
                           children: [
+                            FractionallySizedBox(
+                              widthFactor: 0.5,
+                              child: FlatButton.icon(
+                                textColor: AppThemeData.colorFormField,
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025),
+                                  ).then((value) {
+                                    BlocProvider.of<CreatePostCubit>(context)
+                                        .updateDate(value);
+                                  });
+                                },
+                                icon: Icon(Icons.calendar_today),
+                                label: Expanded(
+                                  child: Text(
+                                      state.eventDate != null
+                                          ? DateFormat('dd.MM.yyyy')
+                                              .format(state.eventDate)
+                                          : "Datum",
+                                      style: AppThemeData.textFormField()),
+                                ),
+                              ),
+                            ),
+                            FractionallySizedBox(
+                              widthFactor: 0.5,
+                              child: FlatButton.icon(
+                                textColor: AppThemeData.colorFormField,
+                                onPressed: () {
+                                  showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now())
+                                      .then((value) {
+                                    BlocProvider.of<CreatePostCubit>(context)
+                                        .updateTime(value);
+                                  });
+                                },
+                                icon: Icon(Icons.access_time),
+                                label: Expanded(
+                                  child: Text(
+                                    state.eventTime != null
+                                        ? state.eventTime.format(context)
+                                        : "Startzeit",
+                                    style: AppThemeData.textFormField(),
+                                  ),
+                                ),
+                              ),
+                            ),
                             new TextFormField(
                               onChanged: (text) {
                                 mandatoryFields['about'] =
@@ -155,96 +280,57 @@ class CreatePostForm extends StatelessWidget {
                                   Presets.getTextFieldDecorationLabelStyle(
                                       labelText: "Treffpunkt"),
                             ),
-                            /*Text("Angaben da es sich um einen Post handelt"),*/
-                            Wrap(
-                                runSpacing: 10,
-                                alignment: WrapAlignment.spaceBetween,
-                                children: [
-                                  FractionallySizedBox(
-                                    widthFactor: 0.5,
-                                    child: FlatButton.icon(
-                                      textColor: AppThemeData.colorFormField,
-                                      onPressed: () {
-                                        showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(2025),
-                                        ).then((value) {
-                                          BlocProvider.of<CreatePostCubit>(
-                                                  context)
-                                              .updateDate(value);
-                                        });
-                                      },
-                                      icon: Icon(Icons.calendar_today),
-                                      label: Expanded(
-                                        child: Text(
-                                            state.eventDate != null
-                                                ? DateFormat('dd.MM.yyyy')
-                                                    .format(state.eventDate)
-                                                : "Datum",
-                                            style: AppThemeData.textFormField),
-                                      ),
-                                    ),
+                            FractionallySizedBox(
+                              widthFactor: 0.5,
+                              child: FlatButton.icon(
+                                textColor: eventOnlyFields['maxPeople'] >= 0
+                                    ? AppThemeData.colorControls
+                                    : AppThemeData.colorControlsDisabled,
+                                onPressed: () {
+                                  _showTextInputDialog(
+                                      context: context,
+                                      formatters: [
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly
+                                      ]).then((value) {
+                                    print(value + "value");
+                                    eventOnlyFields['maxPeople'] =
+                                        (value != null && value.length > 0)
+                                            ? int.parse(value)
+                                            : -1;
+                                  });
+                                },
+                                icon: Icon(Icons.group),
+                                label: Expanded(
+                                  child: Text(
+                                    eventOnlyFields["maxPeople"] < 0
+                                        ? "unbegrenzt"
+                                        : eventOnlyFields["maxPeople"]
+                                            .toString(),
+                                    style:
+                                        AppThemeData.textFormField(color: null),
                                   ),
-                                  FractionallySizedBox(
-                                    widthFactor: 0.5,
-                                    child: FlatButton.icon(
-                                      textColor: AppThemeData.colorFormField,
-                                      onPressed: () {
-                                        showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now())
-                                            .then((value) {
-                                          BlocProvider.of<CreatePostCubit>(
-                                                  context)
-                                              .updateTime(value);
-                                        });
-                                      },
-                                      icon: Icon(Icons.access_time),
-                                      label: Expanded(
-                                        child: Text(
-                                          state.eventDate != null
-                                              ? state.eventTime.format(context)
-                                              : "Startzeit",
-                                          style: AppThemeData.textFormField,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  FractionallySizedBox(
-                                    widthFactor: 0.5,
-                                    child: FlatButton.icon(
-                                      textColor: AppThemeData.colorFormField,
-                                      onPressed: () {},
-                                      icon: Icon(Icons.group),
-                                      label: Expanded(
-                                        child: Text(
-                                            eventOnlyFields["maxPeople"] < 0
-                                                ? "Teilnehmerzahl"
-                                                : eventOnlyFields["maxPeople"]
-                                                    .toString(),
-                                            style: AppThemeData.textFormField),
-                                      ),
-                                    ),
-                                  ),
-                                  FractionallySizedBox(
-                                    widthFactor: 0.5,
-                                    child: FlatButton.icon(
-                                      textColor: AppThemeData.colorFormField,
-                                      onPressed: () {},
-                                      icon: Icon(Icons.euro_symbol),
-                                      label: Expanded(
-                                        child: Text(
-                                            optionalFields["kosten"] == null
-                                                ? "keine Kosten"
-                                                : optionalFields["kosten"]
-                                                    .toString(),
-                                            style: AppThemeData.textFormField),
-                                      ),
-                                    ),
-                                  ),
-                                ]),
+                                ),
+                              ),
+                            ),
+                            FractionallySizedBox(
+                              widthFactor: 0.5,
+                              child: FlatButton.icon(
+                                textColor: AppThemeData.colorFormField,
+                                onPressed: () {
+                                  _showCostDialog(
+                                      context: context, currentValue: -1);
+                                },
+                                icon: Icon(Icons.euro_symbol),
+                                label: Expanded(
+                                  child: Text(
+                                      optionalFields["kosten"] == null
+                                          ? "keine Kosten"
+                                          : optionalFields["kosten"].toString(),
+                                      style: AppThemeData.textFormField()),
+                                ),
+                              ),
+                            ),
                             /*new TextFormField(
                               onChanged: (text) {
                                 eventOnlyFields['maxPeople'] =
