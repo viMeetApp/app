@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/create_post/view/create_post_page.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
+import 'package:signup_app/group/groupSettings/view/group_settings_page.dart';
 import 'package:signup_app/postList/view/post_list_view.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -19,7 +20,10 @@ class GroupMemberPage extends StatelessWidget {
                 Icons.settings,
                 color: AppThemeData.colorControls,
               ),
-              onPressed: null)
+              onPressed: () {
+                Navigator.push(
+                    context, GroupSettingsPage.route(group: state.group));
+              })
         ],
       ),
       body: SafeArea(
