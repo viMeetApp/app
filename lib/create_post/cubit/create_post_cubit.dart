@@ -74,4 +74,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   void updateTime(TimeOfDay eventTime) {
     emit(state.copyWith(eventTime: eventTime, eventDate: state.eventDate));
   }
+
+  void update() {
+    emit(state);
+  }
 }

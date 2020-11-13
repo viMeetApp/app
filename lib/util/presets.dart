@@ -149,6 +149,7 @@ class AppThemeData {
       // Element Backgrounds
       scaffoldBackgroundColor: colorBase,
       cardColor: colorCard,
+      dividerColor: Colors.transparent,
 
       appBarTheme: Presets.getAppBarTheme(),
 

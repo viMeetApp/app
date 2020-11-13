@@ -58,7 +58,7 @@ class CreatePostForm extends StatelessWidget {
                         style: AppThemeData.textHeading3(),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 10, top: 10),
+                        padding: EdgeInsets.only(bottom: 10, top: 20),
                         child: child,
                       ),
                       Row(
@@ -77,8 +77,10 @@ class CreatePostForm extends StatelessWidget {
 
   Future _showTextInputDialog(
       {@required context,
+      String title = "",
       String currentValue = "",
-      List<TextInputFormatter> formatters}) {
+      List<TextInputFormatter> formatters,
+      TextInputType keyboardType = TextInputType.text}) {
     Function onOkay = () {
       print(currentValue);
       Navigator.pop(context, currentValue);
@@ -86,15 +88,16 @@ class CreatePostForm extends StatelessWidget {
 
     return _showDialog(
         context: context,
-        title: "Maximale Teilmehmerzahl",
+        title: title,
         child: Wrap(
           children: [
             TextFormField(
+              autofocus: true,
               initialValue: currentValue,
               onChanged: (text) {
                 currentValue = text;
               },
-              keyboardType: TextInputType.number,
+              keyboardType: keyboardType,
               inputFormatters: formatters,
               decoration: Presets.getTextFieldDecorationHintStyle(),
             ),
@@ -103,12 +106,26 @@ class CreatePostForm extends StatelessWidget {
         onOkay: onOkay);
   }
 
-  Future _showCostDialog({@required context, @required int currentValue}) {
-    return _showDialog(
-        context: context,
-        child: Text("Hallo"),
-        title: "Kosten pro Person",
-        onOkay: () => {});
+  Widget _optionalField({
+    @required context,
+    Function onPressed,
+    String text,
+    IconData icon,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6, bottom: 6),
+      child: FlatButton.icon(
+        textColor: AppThemeData.colorFormField,
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Expanded(
+          child: Text(
+            text,
+            style: AppThemeData.textFormField(color: null),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -280,54 +297,72 @@ class CreatePostForm extends StatelessWidget {
                                   Presets.getTextFieldDecorationLabelStyle(
                                       labelText: "Treffpunkt"),
                             ),
-                            FractionallySizedBox(
-                              widthFactor: 0.5,
-                              child: FlatButton.icon(
-                                textColor: eventOnlyFields['maxPeople'] >= 0
-                                    ? AppThemeData.colorControls
-                                    : AppThemeData.colorControlsDisabled,
-                                onPressed: () {
-                                  _showTextInputDialog(
-                                      context: context,
-                                      formatters: [
-                                        WhitelistingTextInputFormatter
-                                            .digitsOnly
-                                      ]).then((value) {
-                                    print(value + "value");
-                                    eventOnlyFields['maxPeople'] =
-                                        (value != null && value.length > 0)
-                                            ? int.parse(value)
-                                            : -1;
-                                  });
-                                },
-                                icon: Icon(Icons.group),
-                                label: Expanded(
-                                  child: Text(
-                                    eventOnlyFields["maxPeople"] < 0
-                                        ? "unbegrenzt"
-                                        : eventOnlyFields["maxPeople"]
-                                            .toString(),
-                                    style:
-                                        AppThemeData.textFormField(color: null),
+                            Container(
+                              child: Theme(
+                                data: ThemeData(
+                                    dividerColor: Colors.transparent,
+                                    accentColor: AppThemeData.colorPrimary),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                      AppThemeData.varCardRadius),
+                                  child: ExpansionTile(
+                                    backgroundColor: Colors.white,
+                                    title: Text("optionale Angaben"),
+                                    children: [
+                                      _optionalField(
+                                        context: context,
+                                        icon: Icons.group,
+                                        text: eventOnlyFields["maxPeople"] < 0
+                                            ? "Teilnehmer unbegrenzt"
+                                            : "maximal " +
+                                                eventOnlyFields["maxPeople"]
+                                                    .toString() +
+                                                " Teilnehmer",
+                                        onPressed: () => {
+                                          _showTextInputDialog(
+                                              title: "Maximale Zeilnehmerzahl",
+                                              context: context,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              formatters: [
+                                                WhitelistingTextInputFormatter
+                                                    .digitsOnly
+                                              ]).then((value) {
+                                            eventOnlyFields['maxPeople'] =
+                                                (value != null &&
+                                                        value.length > 0)
+                                                    ? int.parse(value)
+                                                    : -1;
+                                          })
+                                        },
+                                      ),
+                                      _optionalField(
+                                        context: context,
+                                        icon: Icons.euro_symbol,
+                                        text:
+                                            optionalFields["kosten"] == null ||
+                                                    optionalFields["kosten"]
+                                                            .length <
+                                                        1
+                                                ? "keine Kosten festgelegt"
+                                                : optionalFields["kosten"]
+                                                    .toString(),
+                                        onPressed: () {
+                                          _showTextInputDialog(
+                                              title: "Kosten pro Person",
+                                              context: context,
+                                              formatters: []).then((value) {
+                                            print(value);
+                                            eventOnlyFields['kosten'] =
+                                                (value != null &&
+                                                        value.length > 0)
+                                                    ? value
+                                                    : null;
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ),
-                            FractionallySizedBox(
-                              widthFactor: 0.5,
-                              child: FlatButton.icon(
-                                textColor: AppThemeData.colorFormField,
-                                onPressed: () {
-                                  _showCostDialog(
-                                      context: context, currentValue: -1);
-                                },
-                                icon: Icon(Icons.euro_symbol),
-                                label: Expanded(
-                                  child: Text(
-                                      optionalFields["kosten"] == null
-                                          ? "keine Kosten"
-                                          : optionalFields["kosten"].toString(),
-                                      style: AppThemeData.textFormField()),
                                 ),
                               ),
                             ),
