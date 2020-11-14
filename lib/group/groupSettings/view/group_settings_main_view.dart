@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
@@ -7,7 +5,7 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class GroupSettingsMainView extends StatelessWidget {
-  final GroupSeetingsState state;
+  final GroupSettingsState state;
   GroupSettingsMainView({@required this.state});
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,9 @@ class GroupSettingsMainView extends StatelessWidget {
 
 class UpdateSettingsWidget extends StatelessWidget {
   final Group group;
-  UpdateSettingsWidget({@required this.group});
+  final descriptionController;
+  UpdateSettingsWidget({@required this.group})
+      : descriptionController = new TextEditingController(text: group.about);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +80,7 @@ class UpdateSettingsWidget extends StatelessWidget {
           child: TextFormField(
             minLines: 3,
             maxLines: 5,
-            controller: TextEditingController(text: group.about),
+            controller: descriptionController,
             decoration: Presets.getTextFieldDecorationLabelStyle(
                 labelText: "Gruppenbeschreibung"),
           ),
@@ -89,7 +89,20 @@ class UpdateSettingsWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("Updating Group")));
+                BlocProvider.of<GroupSeetingsCubit>(context)
+                    .updateGroupSettings(about: descriptionController.text)
+                    .then((val) {
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text("Update Erfolgreich")));
+                }).catchError((err) {
+                  Scaffold.of(context).hideCurrentSnackBar();
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("Netzwerkfehler")));
+                });
+              },
               child: Text("Update"),
               color: Colors.green,
             )

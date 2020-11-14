@@ -9,13 +9,26 @@ import 'package:signup_app/util/data_models.dart';
 
 part 'group_seetings_state.dart';
 
-class GroupSeetingsCubit extends Cubit<GroupSeetingsState> {
+class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
   final userId = fire.FirebaseAuth.instance.currentUser.uid;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   GroupSeetingsCubit({@required Group group})
       : super(GroupSettingsUninitialized()) {
     _checkAndEmitAdminState(group: group);
+  }
+
+  Future<void> updateGroupSettings({String about}) async {
+    if (about != null) state.group.about = about;
+    try {
+      await _firestore
+          .collection('groups')
+          .doc(state.group.id)
+          .update(state.group.toJson());
+      //_checkAndEmitAdminState(group: state.group); //!Das kann man eigenlich weglassem da alle änderungen ja schon sichtbar
+    } catch (err) {
+      return Future.error("Error update Group Settings");
+    }
   }
 
   void accepRequest({@required User user}) {

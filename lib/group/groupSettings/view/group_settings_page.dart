@@ -20,11 +20,8 @@ class GroupSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<GroupSeetingsCubit>(
       create: (_) => GroupSeetingsCubit(group: group),
-      child: BlocBuilder<GroupSeetingsCubit, GroupSeetingsState>(
+      child: BlocBuilder<GroupSeetingsCubit, GroupSettingsState>(
         builder: (context, state) {
-          log("builder");
-          TextEditingController textEditingController =
-              new TextEditingController();
           if (state is AdminSettings) {
             return GroupSettingsMainView(
               state: state,
