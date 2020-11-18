@@ -12,7 +12,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   CreatePostCubit() : super(CreatePostState.empty());
 
   void submit() async {
-    emit(state.createESubmitting());
+    emit(state.createSubmitting());
     bool abort = false;
     //First Check if all mandatory Field aren't empty
     state.mandatoryFields.forEach((key, value) {
@@ -85,5 +85,9 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   void setEventOnlyField(String field, value) {
     state.eventOnlyFields[field] = value;
     emit(state.copyWith());
+  }
+
+  void resetError() {
+    emit(state.copyWith(isError: false));
   }
 }

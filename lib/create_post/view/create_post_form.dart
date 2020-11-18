@@ -138,6 +138,7 @@ class CreatePostForm extends StatelessWidget {
                   ..showSnackBar(const SnackBar(
                     content: Text('Bitte alle Felder ausfüllen'),
                   ));
+                BlocProvider.of<CreatePostCubit>(context).resetError();
               }
               //Show is Loading Snackbar
               else if (state.isSubmitting) {

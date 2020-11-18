@@ -49,7 +49,7 @@ class CreatePostState {
         isError: false, isSubmitted: false, isSubmitting: false);
   }
 
-  CreatePostState createESubmitting() {
+  CreatePostState createSubmitting() {
     return copyWith(isError: false, isSubmitted: false, isSubmitting: true);
   }
 
@@ -67,7 +67,6 @@ class CreatePostState {
       isSubmitted,
       DateTime eventDate,
       TimeOfDay eventTime}) {
-    print("creating new state");
     return CreatePostState(
       isError: isError ?? this.isError,
       isSubmitted: isSubmitted ?? this.isSubmitted,
