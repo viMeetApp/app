@@ -5,48 +5,41 @@ import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/cubit/group_dropdown_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 
+import '../../../util/presets.dart';
+
 class GroupDropownWidget extends StatelessWidget {
   final GroupDropdownCubit groupDropdownCubit = GroupDropdownCubit();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        constraints:
-            BoxConstraints(maxHeight: 0.6 * MediaQuery.of(context).size.height),
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-            boxShadow: [
-              new BoxShadow(
-                color: Colors.grey[400],
-                blurRadius: 20.0,
-              ),
-            ]),
-
-        // margin: const EdgeInsets.all(8),
-        //constraints: BoxConstraints.lerp(a, b, t),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+        ),
+        margin: EdgeInsets.all(0),
         child: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //Musste Stack verwenden weil ich sonst nicht links un mitte als Positionierung hinbekomme habe
-              //!Fix Alingment inside Stack
-              Stack(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          BlocProvider.of<HomePageCubit>(context).closeGroups();
-                        }),
-                  ),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text("Meine Gruppen",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold))),
+                  IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        //BlocProvider.of<HomePageCubit>(context)
+                        //    .closeGroups(context);
+                      }),
+                  Text("Meine Gruppen",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  //Nicht wirklich elegant, ersetzt aber einen Stack => besseres Alignment
+                  IconButton(icon: Icon(null), onPressed: null),
                 ],
               ),
 
@@ -79,18 +72,20 @@ class GroupDropownWidget extends StatelessWidget {
               //Solange Anzahl unter mindestAnzahl nicht scrollable danach scrollable machen
 
               SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                child: GestureDetector(
-                    onTap: () {
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 12.0, right: 12.0, bottom: 12),
+                  child: FlatButton.icon(
+                    color: AppThemeData.colorControls,
+                    onPressed: () {
                       print("Gruppe hinzufügen tapped");
                     },
-                    child: Text(
-                      "+  Gruppe hinzufügen",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-              )
+                    icon: Icon(Icons.add),
+                    label: Text("Gruppe hinzufügen"),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

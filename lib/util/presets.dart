@@ -28,7 +28,7 @@ class Presets {
     );
   }
 
-    static InputDecoration getTextFieldDecorationLabelStyle(
+  static InputDecoration getTextFieldDecorationLabelStyle(
       {String labelText = "",
       String errorText,
       Color fillColor = AppThemeData.colorCard,
@@ -50,7 +50,6 @@ class Presets {
     );
   }
 
-  
   static AppBarTheme getAppBarTheme(
       {Color color = Colors.transparent,
       Color elementsColor = AppThemeData.colorControls}) {
@@ -83,8 +82,11 @@ class AppThemeData {
   // current color scheme: https://coolors.co/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d
   static const Color colorPrimary = Color(0xFFFF5555);
   static const Color colorPrimaryLight = Color(0xffff7777);
+  static const Color colorPrimaryLighter = Color(0xffffa4a4);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
+  static const Color colorControlsDisabled = Color(0xff9f9f9f);
+  static const Color colorFormField = Color(0xff505050);
   static const Color colorPlaceholder = Color(0xff606060);
 
   static final ColorSwatch swatchPrimary =
@@ -112,16 +114,18 @@ class AppThemeData {
   static const Color colorBlackTrans = Color(0x14000000);
 
   // define font sizes
-  static const TextStyle textNormal =
-      TextStyle(color: colorControls, fontSize: 14);
-  static const TextStyle textHeading1 = TextStyle(
-      color: colorControls, fontSize: 22, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading2 = TextStyle(
-      color: colorControls, fontSize: 20, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading3 = TextStyle(
-      color: colorControls, fontSize: 18, fontWeight: FontWeight.bold);
-  static const TextStyle textHeading4 = TextStyle(
-      color: colorControls, fontSize: 15, fontWeight: FontWeight.bold);
+  static TextStyle textFormField({Color color = colorFormField}) =>
+      TextStyle(color: color, fontSize: 16);
+  static TextStyle textNormal({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 14);
+  static TextStyle textHeading1({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold);
+  static TextStyle textHeading2({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.bold);
+  static TextStyle textHeading3({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.bold);
+  static TextStyle textHeading4({Color color = colorControls}) =>
+      TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.bold);
 
   // define basic variables
   static const double varPaddingNormal = 10;
@@ -145,6 +149,7 @@ class AppThemeData {
       // Element Backgrounds
       scaffoldBackgroundColor: colorBase,
       cardColor: colorCard,
+      dividerColor: Colors.transparent,
 
       appBarTheme: Presets.getAppBarTheme(),
 

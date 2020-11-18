@@ -27,50 +27,51 @@ class PostTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Row(children: [
-                              Icon(
-                                (post.group != null
-                                    ? Icons.group
-                                    : Icons.person),
-                                size: 17,
-                                color: AppThemeData.colorControls,
-                              ),
-                              Container(
-                                  child: Text(
-                                    (this.post.group != null
-                                        ? this.post.group.name
-                                        : this.post.author.name),
-                                    style: TextStyle(
-                                        color: AppThemeData.colorControls),
-                                  ),
-                                  padding: EdgeInsets.only(left: 5)),
-                            ]),
-                          ),
-                          Row(
-                            children: [
-                              Text(
+                    Expanded(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Row(children: [
+                                Icon(
+                                  (post.group != null
+                                      ? Icons.group
+                                      : Icons.person),
+                                  size: 17,
+                                  color: AppThemeData.colorControls,
+                                ),
+                                Container(
+                                    child: Text(
+                                      (this.post.group != null
+                                          ? this.post.group.name
+                                          : this.post.author.name),
+                                      style: TextStyle(
+                                          color: AppThemeData.colorControls),
+                                    ),
+                                    padding: EdgeInsets.only(left: 5)),
+                              ]),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
                                 post.title,
-                                //softWrap: true,
+                                softWrap: false,
                                 overflow: TextOverflow.fade,
-                                maxLines: 4,
+                                maxLines: 1,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 22),
                               ),
-                            ],
-                          ),
-                        ]),
+                            ),
+                          ]),
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (post.tags.length > 0)
                           Chip(
-                            backgroundColor: Colors.red[300],
+                            backgroundColor: Colors.grey[350],
                             label: Text(
                               '#' + post.tags[0],
                               style: TextStyle(color: Colors.white),
@@ -84,7 +85,7 @@ class PostTile extends StatelessWidget {
                                   MaterialTapTargetSize.shrinkWrap,
                               //visualDensity: VisualDensity.compact,
                               onPressed: () {},
-                              color: AppThemeData.swatchPrimary[200],
+                              color: Colors.grey[300],
                               child: Icon(
                                 Icons.more_horiz,
                                 size: 15.0,
