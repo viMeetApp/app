@@ -11,18 +11,15 @@ part 'create_post_state.dart';
 class CreatePostCubit extends Cubit<CreatePostState> {
   CreatePostCubit() : super(CreatePostState.empty());
 
-  void submit(
-      {Map<String, dynamic> mandatoryFields,
-      Map<String, dynamic> optionalFields,
-      Map<String, dynamic> eventOnlyFields}) async {
-    emit(CreatePostState.submitting());
+  void submit() async {
+    emit(state.createESubmitting());
     bool abort = false;
     //First Check if all mandatory Field aren't empty
-    mandatoryFields.forEach((key, value) {
+    state.mandatoryFields.forEach((key, value) {
       if (value == null) {
-        print("mandatory Field empty");
+        print("mandatory Field '" + key + "' empty");
         abort = true;
-        emit(CreatePostState.error());
+        emit(state.createError());
       }
     });
     if (abort) {
@@ -31,7 +28,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     }
     //bring optional Fields in Array Structure
     List<PostDetail> postDetails = [];
-    optionalFields.forEach((key, value) {
+    state.optionalFields.forEach((key, value) {
       if (value != null) {
         postDetails.add(PostDetail(id: key, value: value));
       }
@@ -40,18 +37,18 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     //Create Post
     //!Todo Schauen ob Event oder Buddy und schauen ob mit Gruppe oder nicht
     Event event = Event()
-      ..title = mandatoryFields['title']
+      ..title = state.mandatoryFields['title']
       ..geohash = "ToDoHash"
-      ..tags = [...mandatoryFields['tags'], 'event']
-      ..about = mandatoryFields['about']
+      ..tags = [...state.mandatoryFields['tags'], 'event']
+      ..about = state.mandatoryFields['about']
       ..type = "event"
       ..createdDate = DateTime.now().millisecondsSinceEpoch
       ..expireDate = DateTime.now().millisecondsSinceEpoch
       ..details = postDetails
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
-      ..maxPeople = eventOnlyFields['maxPeople'] as int
+      ..maxPeople = state.eventOnlyFields['maxPeople'] as int
       ..author = await UserRepository().getUser()
-      ..group = mandatoryFields['group'];
+      ..group = state.mandatoryFields['group'];
 
     //If Time or Date is ste add it
     //First Add Time if existent
@@ -64,7 +61,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     }
     //Write to Firetore
     await FirebaseFirestore.instance.collection('posts').add(event.toJson());
-    emit(CreatePostState.success());
+    emit(state.createSuccess());
   }
 
   void updateDate(DateTime eventDate) {
@@ -75,7 +72,18 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     emit(state.copyWith(eventTime: eventTime, eventDate: state.eventDate));
   }
 
-  void update() {
-    emit(state);
+  void setOptionalField(String field, value) {
+    state.optionalFields[field] = value;
+    emit(state.copyWith());
+  }
+
+  void setMandatoryField(String field, value) {
+    state.mandatoryFields[field] = value;
+    emit(state.copyWith());
+  }
+
+  void setEventOnlyField(String field, value) {
+    state.eventOnlyFields[field] = value;
+    emit(state.copyWith());
   }
 }

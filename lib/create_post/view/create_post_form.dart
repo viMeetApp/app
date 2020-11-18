@@ -14,26 +14,9 @@ class CreatePostForm extends StatelessWidget {
   final Group group;
   CreatePostForm({this.group}) {
     if (group != null) {
-      mandatoryFields['group'] = GroupInfo(id: group.id, name: group.name);
+      //mandatoryFields['group'] = GroupInfo(id: group.id, name: group.name);
     }
   }
-  //Ich glaube das ist eine schöne Lösung um um alle Text Ediding Controller rumzukommen
-  final Map<String, dynamic> mandatoryFields = {
-    'title': null,
-    'about': null,
-    'tags': []
-  };
-
-  final Map<String, dynamic> optionalFields = {
-    'treffpunkt': null,
-    'kosten': null,
-  };
-
-  final Map<String, dynamic> eventOnlyFields = {
-    'maxPeople': -1,
-  };
-
-  final Map<String, dynamic> buddyOnlyFields = {};
 
   Future _showDialog(
       {@required context,
@@ -173,7 +156,8 @@ class CreatePostForm extends StatelessWidget {
                 if (value == true) tagList.add(key);
               },
             );
-            mandatoryFields['tags'] = tagList;
+            BlocProvider.of<CreatePostCubit>(context)
+                .setMandatoryField('tags', tagList);
           })
         ],
         child: BlocBuilder<CreatePostCubit, CreatePostState>(
@@ -191,8 +175,12 @@ class CreatePostForm extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
                           onChanged: (text) {
-                            mandatoryFields['title'] =
-                                (text != null && text.length > 0) ? text : null;
+                            BlocProvider.of<CreatePostCubit>(context)
+                                .setMandatoryField(
+                                    'title',
+                                    (text != null && text.length > 0)
+                                        ? text
+                                        : null);
                           },
                           decoration: Presets.getTextFieldDecorationHintStyle(
                               hintText: "Titel"),
@@ -271,10 +259,12 @@ class CreatePostForm extends StatelessWidget {
                             ),
                             new TextFormField(
                               onChanged: (text) {
-                                mandatoryFields['about'] =
-                                    (text != null && text.length > 0)
-                                        ? text
-                                        : null;
+                                BlocProvider.of<CreatePostCubit>(context)
+                                    .setMandatoryField(
+                                        'about',
+                                        (text != null && text.length > 0)
+                                            ? text
+                                            : null);
                               },
                               minLines: 3,
                               maxLines: null,
@@ -288,10 +278,12 @@ class CreatePostForm extends StatelessWidget {
                             /*Text("Weitere Freiwillige Angaben"),*/
                             new TextFormField(
                               onChanged: (text) {
-                                optionalFields['treffpunkt'] =
-                                    (text != null && text.length > 0)
-                                        ? text
-                                        : null;
+                                BlocProvider.of<CreatePostCubit>(context)
+                                    .setOptionalField(
+                                        'treffpunkt',
+                                        (text != null && text.length > 0)
+                                            ? text
+                                            : null);
                               },
                               decoration:
                                   Presets.getTextFieldDecorationLabelStyle(
@@ -312,12 +304,15 @@ class CreatePostForm extends StatelessWidget {
                                       _optionalField(
                                         context: context,
                                         icon: Icons.group,
-                                        text: eventOnlyFields["maxPeople"] < 0
-                                            ? "Teilnehmer unbegrenzt"
-                                            : "maximal " +
-                                                eventOnlyFields["maxPeople"]
-                                                    .toString() +
-                                                " Teilnehmer",
+                                        text:
+                                            state.eventOnlyFields["maxPeople"] <
+                                                    0
+                                                ? "Teilnehmer unbegrenzt"
+                                                : "maximal " +
+                                                    state.eventOnlyFields[
+                                                            "maxPeople"]
+                                                        .toString() +
+                                                    " Teilnehmer",
                                         onPressed: () => {
                                           _showTextInputDialog(
                                               title: "Maximale Zeilnehmerzahl",
@@ -328,36 +323,42 @@ class CreatePostForm extends StatelessWidget {
                                                 WhitelistingTextInputFormatter
                                                     .digitsOnly
                                               ]).then((value) {
-                                            eventOnlyFields['maxPeople'] =
-                                                (value != null &&
-                                                        value.length > 0)
-                                                    ? int.parse(value)
-                                                    : -1;
+                                            BlocProvider.of<CreatePostCubit>(
+                                                    context)
+                                                .setEventOnlyField(
+                                                    'maxPeople',
+                                                    (value != null &&
+                                                            value.length > 0)
+                                                        ? int.parse(value)
+                                                        : -1);
                                           })
                                         },
                                       ),
                                       _optionalField(
                                         context: context,
                                         icon: Icons.euro_symbol,
-                                        text:
-                                            optionalFields["kosten"] == null ||
-                                                    optionalFields["kosten"]
-                                                            .length <
-                                                        1
-                                                ? "keine Kosten festgelegt"
-                                                : optionalFields["kosten"]
-                                                    .toString(),
+                                        text: state.optionalFields["kosten"] ==
+                                                    null ||
+                                                state.optionalFields["kosten"]
+                                                        .length <
+                                                    1
+                                            ? "keine Kosten festgelegt"
+                                            : state.optionalFields["kosten"]
+                                                .toString(),
                                         onPressed: () {
                                           _showTextInputDialog(
                                               title: "Kosten pro Person",
                                               context: context,
                                               formatters: []).then((value) {
                                             print(value);
-                                            eventOnlyFields['kosten'] =
-                                                (value != null &&
-                                                        value.length > 0)
-                                                    ? value
-                                                    : null;
+                                            BlocProvider.of<CreatePostCubit>(
+                                                    context)
+                                                .setOptionalField(
+                                                    'kosten',
+                                                    (value != null &&
+                                                            value.length > 0)
+                                                        ? value
+                                                        : null);
                                           });
                                         },
                                       ),
@@ -411,10 +412,7 @@ class CreatePostForm extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("submit pressed");
-          BlocProvider.of<CreatePostCubit>(context).submit(
-              mandatoryFields: mandatoryFields,
-              optionalFields: optionalFields,
-              eventOnlyFields: eventOnlyFields);
+          BlocProvider.of<CreatePostCubit>(context).submit();
         },
         child: Icon(
           Icons.send,
