@@ -5,6 +5,7 @@ import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
+import 'package:signup_app/login/view/login_page.dart';
 import 'package:signup_app/postList/post_list.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -121,6 +122,11 @@ class HomePage extends StatelessWidget {
                   // color: Colors.white,
                   duration: Duration(milliseconds: 100),
                   child: state.showGroups ? groupDropdownWidget : null,
+                ),
+                AnimatedContainer(
+                  // color: Colors.white,
+                  duration: Duration(milliseconds: 100),
+                  child: !state.loggedIn ? LoginPage() : null,
                 ),
               ],
             );

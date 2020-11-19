@@ -8,12 +8,14 @@ class Presets {
   // preset component decoration
   static InputDecoration getTextFieldDecorationHintStyle(
       {String hintText = "",
+      IconButton suffixIcon,
       String errorText,
       Color fillColor = AppThemeData.colorCard,
-      Color hintColor = AppThemeData.colorControls}) {
+      TextStyle hintStyle}) {
     return InputDecoration(
+      suffixIcon: suffixIcon,
       hintText: hintText,
-      labelStyle: TextStyle(color: hintColor),
+      hintStyle: hintStyle ?? TextStyle(color: AppThemeData.colorControls),
       errorText: errorText,
       filled: true,
       border: OutlineInputBorder(
