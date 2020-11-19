@@ -10,16 +10,23 @@ import 'package:signup_app/postList/post_list.dart';
 import 'package:signup_app/util/presets.dart';
 
 class HomePage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
+  final bool initLoggedIn;
+  static Route route({bool loggedIn}) {
+    print(loggedIn ? "Authenticated" : "Unauthenticated");
+    return MaterialPageRoute<void>(
+        builder: (_) => HomePage(
+              initLoggedIn: loggedIn,
+            ));
   }
 
   final groupDropdownWidget = GroupDropownWidget();
 
+  HomePage({this.initLoggedIn = false});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomePageCubit>(
-        create: (context) => HomePageCubit(),
+        create: (context) => HomePageCubit(initLoggedIn),
         child: BlocBuilder<HomePageCubit, HomePageState>(
           builder: (context, state) {
             return Stack(

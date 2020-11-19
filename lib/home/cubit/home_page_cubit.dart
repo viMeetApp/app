@@ -6,7 +6,8 @@ import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget
 part 'home_page_state.dart';
 
 class HomePageCubit extends Cubit<HomePageState> {
-  HomePageCubit() : super(HomePageState.initial());
+  HomePageCubit(bool initLoggedIn)
+      : super(HomePageState.initial(loggedIn: initLoggedIn));
 
   void login() {
     emit(state.copyWith(loggedIn: false));

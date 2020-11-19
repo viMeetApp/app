@@ -12,8 +12,8 @@ class HomePageState {
     this.showGroups = (!showGroups ? false : showGroups);
   }
 
-  factory HomePageState.initial() =>
-      HomePageState(currentPage: 0, showGroups: false, loggedIn: false);
+  factory HomePageState.initial({bool loggedIn = false}) =>
+      HomePageState(currentPage: 0, showGroups: false, loggedIn: loggedIn);
 
   HomePageState copyWith({int currentPage, bool showGroups, bool loggedIn}) {
     return HomePageState(
