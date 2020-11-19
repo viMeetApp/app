@@ -1,5 +1,6 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/group/view/group_page.dart';
@@ -29,6 +30,11 @@ class HomePage extends StatelessWidget {
         create: (context) => HomePageCubit(initLoggedIn),
         child: BlocBuilder<HomePageCubit, HomePageState>(
           builder: (context, state) {
+            // theming the bottom bar
+            /*SystemChrome.setSystemUIOverlayStyle(state.loggedIn
+                ? AppThemeData.uiOverlayStyle
+                : AppThemeData.uiOverlayStyleThemed);*/
+
             return Stack(
               children: [
                 Scaffold(

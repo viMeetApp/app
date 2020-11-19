@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/presets.dart';
@@ -11,6 +12,7 @@ import 'login/login.dart';
 import 'splash/splash.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(App());
@@ -51,6 +53,7 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
+            // directing to the home screen and passing the current authentication state
             _navigator.pushAndRemoveUntil<void>(
               HomePage.route(loggedIn: (state is Authenticated) ? true : false),
               (route) => false,

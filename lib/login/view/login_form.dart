@@ -39,6 +39,7 @@ class LoginForm extends StatelessWidget {
               autocorrect: false,
               enableSuggestions: false,
               style: TextStyle(
+                  fontSize: 18,
                   color: AppThemeData.colorTextInverted,
                   fontWeight: FontWeight.bold),
               controller: _nameController,

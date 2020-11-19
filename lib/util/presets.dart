@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Hält Daten zu verschiedenen Konstanten innerhalb der App.
 ///
@@ -136,6 +137,13 @@ class AppThemeData {
   static const String varFontFace = "Roboto";
   static const Radius varChatBubbleRadius = Radius.circular(12);
   static const Radius varCardRadius = Radius.circular(10);
+
+  static final uiOverlayStyleThemed = SystemUiOverlayStyle.light
+      .copyWith(systemNavigationBarColor: AppThemeData.colorPrimary);
+
+  static final uiOverlayStyle = SystemUiOverlayStyle.dark.copyWith(
+      systemNavigationBarColor: colorCard,
+      systemNavigationBarIconBrightness: Brightness.dark);
 
   /// defining a material theme
   ThemeData get materialTheme {
