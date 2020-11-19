@@ -71,7 +71,7 @@ class PostTile extends StatelessWidget {
                       children: [
                         if (post.tags.length > 0)
                           Chip(
-                            backgroundColor: Colors.red[300],
+                            backgroundColor: Colors.grey[350],
                             label: Text(
                               '#' + post.tags[0],
                               style: TextStyle(color: Colors.white),
@@ -85,7 +85,7 @@ class PostTile extends StatelessWidget {
                                   MaterialTapTargetSize.shrinkWrap,
                               //visualDensity: VisualDensity.compact,
                               onPressed: () {},
-                              color: AppThemeData.swatchPrimary[200],
+                              color: Colors.grey[300],
                               child: Icon(
                                 Icons.more_horiz,
                                 size: 15.0,

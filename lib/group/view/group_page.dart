@@ -64,7 +64,7 @@ class GroupPage extends StatelessWidget {
                           children: [
                             Text(
                               state.group.name,
-                              style: AppThemeData.textHeading2,
+                              style: AppThemeData.textHeading2(),
                               textAlign: TextAlign.center,
                             ),
                             Text(state.group.about),

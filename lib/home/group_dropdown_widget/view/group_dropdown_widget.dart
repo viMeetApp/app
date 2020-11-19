@@ -11,22 +11,15 @@ class GroupDropownWidget extends StatelessWidget {
   final GroupDropdownCubit groupDropdownCubit = GroupDropdownCubit();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        constraints:
-            BoxConstraints(maxHeight: 0.6 * MediaQuery.of(context).size.height),
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-            boxShadow: [
-              new BoxShadow(
-                color: Colors.grey[400],
-                blurRadius: 20.0,
-              ),
-            ]),
-
-        // margin: const EdgeInsets.all(8),
-        //constraints: BoxConstraints.lerp(a, b, t),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+        ),
+        margin: EdgeInsets.all(0),
         child: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -38,7 +31,9 @@ class GroupDropownWidget extends StatelessWidget {
                   IconButton(
                       icon: Icon(Icons.arrow_back),
                       onPressed: () {
-                        BlocProvider.of<HomePageCubit>(context).closeGroups();
+                        Navigator.pop(context);
+                        //BlocProvider.of<HomePageCubit>(context)
+                        //    .closeGroups(context);
                       }),
                   Text("Meine Gruppen",
                       style:
