@@ -13,7 +13,7 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
 
   GroupSeetingsCubit({@required Group group})
       : super(GroupSettingsUninitialized()) {
-    _checkAndEmitAdminState(group: group);
+    _checkAndEmitMatchingState(group: group);
   }
 
   Future<void> updateGroupSettings({String about}) async {
@@ -23,7 +23,6 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
           .collection('groups')
           .doc(state.group.id)
           .update(state.group.toJson());
-      //_checkAndEmitAdminState(rgoup: state.group); //!Das kann man eigenlich weglassem da alle änderungen ja schon sichtbar
     } catch (err) {
       return Future.error("Error update Group Settings");
     }
@@ -35,7 +34,7 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
     var ref = _firestore.collection('groups').doc(state.group.id);
     ref.update(state.group.toJson()).then((value) {
       log("Accepted Sucessfully");
-      _checkAndEmitAdminState(group: state.group);
+      _checkAndEmitMatchingState(group: state.group);
     }).catchError((err) => log("Error"));
   }
 
@@ -44,21 +43,14 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
     var ref = _firestore.collection('groups').doc(state.group.id);
     ref.update(state.group.toJson()).then((value) {
       log("Declined Sucessfully");
-      _checkAndEmitAdminState(group: state.group);
+      _checkAndEmitMatchingState(group: state.group);
     }).catchError((err) => log("Error"));
   }
 
-  void _checkAndEmitAdminState({Group group}) {
+  void _checkAndEmitMatchingState({Group group}) {
     //Create User and State Map
     if (group.admins.contains(userId)) {
-      List<User> requestedToJoin = [];
-      group.requestedToJoin.forEach((uid) {
-        requestedToJoin
-            .add(User(name: "Den Namen bekommen wir nicht her", uid: uid));
-      });
-      emit(AdminSettings()
-        ..group = group
-        ..requestedToJoin = requestedToJoin);
+      emit(AdminSettings()..group = group);
     } else if (group.users.contains(userId)) {
       emit(MemberSettings()..group = group);
     }

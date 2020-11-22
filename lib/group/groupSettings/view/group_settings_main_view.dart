@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/group/groupSettings/widget/requestedToJoinWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/userListWidget.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
@@ -48,8 +49,8 @@ class GroupSettingsMainView extends StatelessWidget {
             if (state is AdminSettings &&
                 (state as AdminSettings).requestedToJoin.length != 0)
               RequestedToJoinWidget(
-                  usersRequestingToJoin:
-                      (state as AdminSettings).requestedToJoin),
+                group: state.group,
+              ),
             UserListWidget(group: state.group)
           ],
         ),
@@ -107,60 +108,6 @@ class UpdateSettingsWidget extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(
-          height: 20,
-        )
-      ],
-    );
-  }
-}
-
-class RequestedToJoinWidget extends StatelessWidget {
-  List<User> usersRequestingToJoin;
-  RequestedToJoinWidget({@required this.usersRequestingToJoin});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Mitglieder:",
-          style: AppThemeData.textHeading4,
-        ),
-        SizedBox(height: 6),
-        ...usersRequestingToJoin.map((user) {
-          Widget temp = Container(
-            padding: EdgeInsets.all(4),
-            margin: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: Text(user.uid)),
-                IconButton(
-                  onPressed: () {
-                    BlocProvider.of<GroupSeetingsCubit>(context)
-                        .accepRequest(user: user);
-                  },
-                  icon: Icon(Icons.done),
-                  color: Colors.green,
-                ),
-                IconButton(
-                    onPressed: () {
-                      BlocProvider.of<GroupSeetingsCubit>(context)
-                          .declineRequest(user: user);
-                    },
-                    icon: Icon(Icons.clear),
-                    color: Colors.red)
-              ],
-            ),
-          );
-          return temp;
-        }),
         SizedBox(
           height: 20,
         )

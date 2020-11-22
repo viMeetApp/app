@@ -11,5 +11,4 @@ class MemberSettings extends GroupSettingsState {}
 
 class AdminSettings extends MemberSettings {
   AdminSettings();
-  List<User> requestedToJoin = []; //List of all users who requested to Join
 }
