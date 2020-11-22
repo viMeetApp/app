@@ -187,15 +187,6 @@ class CreatePostForm extends StatelessWidget {
                               hintText: "Titel"),
                         ),
                       ),
-                      // TODO change this to a 'chip'-style input
-                      /* new TextFormField(
-                        maxLines: null,
-                        style: TextStyle(color: Colors.white),
-                        decoration: Presets.getTextFieldDecorationHintStyle(
-                            hintText: "Tags / Kategorien",
-                            fillColor: AppThemeData.colorBlackTrans,
-                            hintColor: AppThemeData.colorCard),
-                      ),*/
                       TagWidget(),
                     ],
                   ),

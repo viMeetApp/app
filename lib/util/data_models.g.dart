@@ -23,7 +23,10 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
     ..id = json['id'] as String
     ..name = json['name'] as String
     ..about = json['about'] as String
-    ..users = (json['users'] as List)?.map((e) => e as String)?.toList();
+    ..users = (json['users'] as List)?.map((e) => e as String)?.toList()
+    ..admins = (json['admins'] as List)?.map((e) => e as String)?.toList()
+    ..requestedToJoin =
+        (json['requestedToJoin'] as List)?.map((e) => e as String)?.toList();
 }
 
 Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
@@ -31,6 +34,8 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'name': instance.name,
       'about': instance.about,
       'users': instance.users,
+      'admins': instance.admins,
+      'requestedToJoin': instance.requestedToJoin
     };
 
 Post _$PostFromJson(Map<String, dynamic> json) {

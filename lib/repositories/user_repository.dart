@@ -30,6 +30,15 @@ class UserRepository {
     }
   }
 
+  Stream<List<util.User>> getUsersWithMatchingId(List<String> userIds) {
+    Stream<List<util.User>> userStream = _firestore
+        .collection('users')
+        .where('uid', whereIn: userIds)
+        .snapshots()
+        .map((list) => list.docs.map((doc) => util.User.fromJson(doc.data())));
+    return userStream;
+  }
+
   ///Return the User who is currently authenticated
   Future<util.User> getUser() async {
     try {
