@@ -19,7 +19,11 @@ class TagWidget extends StatelessWidget {
 }
 
 List<Widget> buildTags(Map<String, bool> tags) {
-  List<Widget> tagWidgets = [];
+  List<Widget> tagWidgets = [
+    SizedBox(
+      width: 10,
+    )
+  ];
   tags.forEach((key, value) {
     tagWidgets.add(Tag(
       isActive: value,

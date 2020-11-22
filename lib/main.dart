@@ -10,6 +10,7 @@ import 'login/login.dart';
 import 'splash/splash.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(App());
@@ -50,21 +51,27 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
-            if (state is Authenticated) {
-              print("Authenticated");
+            // directing to the home screen and passing the current authentication state
+            _navigator.pushAndRemoveUntil<void>(
+              HomePage.route(loggedIn: (state is Authenticated) ? true : false),
+              (route) => false,
+            );
+
+            /*if (state is Authenticated) {
+              
               _navigator.pushAndRemoveUntil<void>(
-                HomePage.route(),
+                HomePage.route(loggedIn: true),
                 (route) => false,
               );
             } else if (state is Unauthenticated) {
               print("Unautheticated");
               _navigator.pushAndRemoveUntil<void>(
-                LoginPage.route(),
+                HomePage.route(loggedIn: false),
                 (route) => false,
               );
             } else {
               print("Error: Undefined State");
-            }
+            }*/
           },
           child: child,
         );

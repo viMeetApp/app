@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/login/cubit/login_cubit.dart';
+import 'package:signup_app/util/presets.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -34,23 +35,36 @@ class LoginForm extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.isNameValid != current.isNameValid,
           builder: (context, state) {
-            return Column(
-              children: [
-                TextField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                      labelText: 'username',
-                      errorText: !state.isNameValid
-                          ? 'Bitte gibt einen Benutzername ein'
-                          : null),
+            return TextField(
+              autocorrect: false,
+              enableSuggestions: false,
+              style: TextStyle(
+                  fontSize: 18,
+                  color: AppThemeData.colorTextInverted,
+                  fontWeight: FontWeight.bold),
+              controller: _nameController,
+              decoration: Presets.getTextFieldDecorationHintStyle(
+                hintText: "Name",
+                errorText: (!state.isNameValid
+                    ? 'Bitte gibt einen Benutzername ein'
+                    : null),
+                fillColor: AppThemeData.colorPrimaryLight,
+                hintStyle: TextStyle(
+                    color: AppThemeData.colorTextInverted,
+                    fontWeight: FontWeight.normal),
+                suffixIcon: IconButton(
+                  padding: EdgeInsets.only(right: 9),
+                  icon: Icon(
+                    Icons.check,
+                    color: AppThemeData.colorTextInverted,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    BlocProvider.of<LoginCubit>(context)
+                        .submitted(_nameController.text);
+                  },
                 ),
-                RaisedButton(
-                    onPressed: () {
-                      BlocProvider.of<LoginCubit>(context)
-                          .submitted(_nameController.text);
-                    },
-                    child: Text("Log In"))
-              ],
+              ),
             );
           }),
     );
