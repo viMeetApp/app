@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/presets.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
 import 'home/home.dart';
-import 'login/login.dart';
 import 'splash/splash.dart';
 
 void main() async {

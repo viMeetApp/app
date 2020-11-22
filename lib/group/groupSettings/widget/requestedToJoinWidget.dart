@@ -23,7 +23,7 @@ class RequestedToJoinWidget extends StatelessWidget {
       children: [
         Text(
           "Mitglieder:",
-          style: AppThemeData.textHeading4,
+          style: AppThemeData.textHeading4(),
         ),
         SizedBox(height: 6),
         StreamBuilder(

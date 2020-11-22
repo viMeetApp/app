@@ -47,7 +47,7 @@ class GroupSettingsMainView extends StatelessWidget {
                 group: state.group,
               ),
             if (state is AdminSettings &&
-                (state as AdminSettings).requestedToJoin.length != 0)
+                state.group.requestedToJoin.length != 0)
               RequestedToJoinWidget(
                 group: state.group,
               ),
@@ -72,7 +72,7 @@ class UpdateSettingsWidget extends StatelessWidget {
       children: [
         Text(
           "Gruppeneinstellungen: ",
-          style: AppThemeData.textHeading4,
+          style: AppThemeData.textHeading4(),
         ),
         SizedBox(height: 6),
         Padding(
