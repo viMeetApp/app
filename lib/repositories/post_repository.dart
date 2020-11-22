@@ -32,8 +32,6 @@ class PostRepository {
   ///Returns 20 Objects
   ///Todo Implement a Search Query
   Stream<List<Post>> getPosts(String searchQuery) {
-    print("Hallo");
-
     //Todo Filter for Query
     Stream<QuerySnapshot> querySnap = _firestore
         .collection('posts')

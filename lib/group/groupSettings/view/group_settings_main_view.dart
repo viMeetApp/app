@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/group/groupSettings/widget/userListWidget.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -49,9 +50,7 @@ class GroupSettingsMainView extends StatelessWidget {
               RequestedToJoinWidget(
                   usersRequestingToJoin:
                       (state as AdminSettings).requestedToJoin),
-            GroupMemberWidget(
-              users: state.usersAndState,
-            ),
+            UserListWidget(group: state.group)
           ],
         ),
       ),
@@ -113,50 +112,6 @@ class UpdateSettingsWidget extends StatelessWidget {
         )
       ],
     );
-  }
-}
-
-class GroupMemberWidget extends StatelessWidget {
-  final Map<User, bool> users;
-  GroupMemberWidget({@required this.users});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Mitglieder:",
-          style: AppThemeData.textHeading4,
-        ),
-        SizedBox(height: 6),
-        ..._createList(),
-        SizedBox(
-          height: 20,
-        )
-      ],
-    );
-  }
-
-  List<Widget> _createList() {
-    List<Widget> list = [];
-    users.forEach((key, value) {
-      Widget temp = Container(
-        padding: EdgeInsets.all(4),
-        margin: EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.all(AppThemeData.varCardRadius),
-        ),
-        width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(key.uid), if (value) Text("Admin")],
-        ),
-      );
-      list.add(temp);
-    });
-    return list;
   }
 }
 

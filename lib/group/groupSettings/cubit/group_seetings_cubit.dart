@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:meta/meta.dart';
-import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'group_seetings_state.dart';
@@ -25,7 +23,7 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
           .collection('groups')
           .doc(state.group.id)
           .update(state.group.toJson());
-      //_checkAndEmitAdminState(group: state.group); //!Das kann man eigenlich weglassem da alle änderungen ja schon sichtbar
+      //_checkAndEmitAdminState(rgoup: state.group); //!Das kann man eigenlich weglassem da alle änderungen ja schon sichtbar
     } catch (err) {
       return Future.error("Error update Group Settings");
     }
@@ -52,14 +50,6 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
 
   void _checkAndEmitAdminState({Group group}) {
     //Create User and State Map
-    Map<User, bool> usersAndState = new Map();
-    group.users.forEach((uid) {
-      usersAndState.addEntries([
-        MapEntry<User, bool>(
-            User(name: "Den Namen bekommen wir nicht her", uid: uid),
-            group.admins.contains(uid))
-      ]);
-    });
     if (group.admins.contains(userId)) {
       List<User> requestedToJoin = [];
       group.requestedToJoin.forEach((uid) {
@@ -67,13 +57,10 @@ class GroupSeetingsCubit extends Cubit<GroupSettingsState> {
             .add(User(name: "Den Namen bekommen wir nicht her", uid: uid));
       });
       emit(AdminSettings()
-        ..usersAndState = usersAndState
         ..group = group
         ..requestedToJoin = requestedToJoin);
     } else if (group.users.contains(userId)) {
-      emit(MemberSettings()
-        ..group = group
-        ..usersAndState = usersAndState);
+      emit(MemberSettings()..group = group);
     }
   }
 }
