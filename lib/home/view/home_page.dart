@@ -13,7 +13,6 @@ import 'package:signup_app/util/presets.dart';
 class HomePage extends StatelessWidget {
   final bool initLoggedIn;
   static Route route({bool loggedIn}) {
-    print(loggedIn ? "Authenticated" : "Unauthenticated");
     return MaterialPageRoute<void>(
         builder: (_) => HomePage(
               initLoggedIn: loggedIn,

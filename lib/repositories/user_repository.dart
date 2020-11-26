@@ -16,7 +16,6 @@ class UserRepository {
     if (_firebaseAuth.currentUser != null) {
       return;
     }
-    print("creating firebase user");
     UserCredential userCredential = await _firebaseAuth.signInAnonymously();
     //Create matching user model in DB
     await _firestore
@@ -32,8 +31,6 @@ class UserRepository {
       if (name == null || name.length == 0)
         throw ("Can't Create User, Name Invalid");
       //Create User in Firebase
-      print("updating firebase user");
-
       _firebaseAuth.currentUser.updateProfile(displayName: name);
       await _firestore
           .collection('users')
@@ -77,7 +74,6 @@ class UserRepository {
     // ich nutze hier den 'displayName', da für eine Abfrage der Datenbank ein
     // größerer Zeitaufwand & asynchrone Methoden nötig wären
     if (_firebaseAuth.currentUser.displayName != null) {
-      print("repository: signedIn=true");
       return true;
     }
     return false;
