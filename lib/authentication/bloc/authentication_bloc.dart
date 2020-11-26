@@ -29,6 +29,7 @@ class AuthenticationBloc
           final user = await _userRepository.getUser();
           yield Authenticated(user: user);
         } else {
+          _userRepository.createUserIfNotExisitent();
           yield Unauthenticated();
         }
       } catch (err) {

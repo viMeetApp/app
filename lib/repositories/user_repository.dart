@@ -11,6 +11,20 @@ class UserRepository {
         _firestore = firestore ?? FirebaseFirestore.instance;
 
   ///Create a new User with dynamic userId and [name]
+
+  Future<void> createUserIfNotExisitent() async {
+    if (_firebaseAuth.currentUser != null) {
+      return;
+    }
+    print("creating firebase user");
+    UserCredential userCredential = await _firebaseAuth.signInAnonymously();
+    //Create matching user model in DB
+    await _firestore
+        .collection('users')
+        .doc(userCredential.user.uid)
+        .set({'name': null, 'uid': userCredential.user.uid});
+  }
+
   Future<void> signUpAnonymously(String name) async {
     //! ToDO Was passiert, wenn user zwar erzeugt wird in Firebase, aber schreiben in Model schiefläuft
     try {
@@ -18,12 +32,13 @@ class UserRepository {
       if (name == null || name.length == 0)
         throw ("Can't Create User, Name Invalid");
       //Create User in Firebase
-      UserCredential userCredential = await _firebaseAuth.signInAnonymously();
-      //Create matching user model in DB
+      print("updating firebase user");
+
+      _firebaseAuth.currentUser.updateProfile(displayName: name);
       await _firestore
           .collection('users')
-          .doc(userCredential.user.uid)
-          .set({'name': name, 'uid': userCredential.user.uid});
+          .doc(_firebaseAuth.currentUser.uid)
+          .set({'name': name});
     } catch (err) {
       print("Error Sign Up Anonymously");
       print(err.toString());
@@ -55,6 +70,16 @@ class UserRepository {
 
   ///Is the Device already Signed In
   bool isSignedIn() {
-    return _firebaseAuth.currentUser != null;
+    if (_firebaseAuth.currentUser == null ||
+        _firebaseAuth.currentUser.uid == null) {
+      return false;
+    }
+    // ich nutze hier den 'displayName', da für eine Abfrage der Datenbank ein
+    // größerer Zeitaufwand & asynchrone Methoden nötig wären
+    if (_firebaseAuth.currentUser.displayName != null) {
+      print("repository: signedIn=true");
+      return true;
+    }
+    return false;
   }
 }
