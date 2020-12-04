@@ -73,6 +73,11 @@ class SettingsPage extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
+                        onTap: () => Navigator.push(
+                            context,
+                            AboutPage.route(
+                                title: "Datenschutz",
+                                legalFileName: "datenschutz")),
                         title: Text("Datenschutz"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
@@ -127,7 +132,10 @@ class AboutPage extends StatelessWidget {
         body: new FutureBuilder(
             future: getData(),
             builder: (context, snapshot) {
-              return new Markdown(data: snapshot.data);
+              return new Markdown(
+                data: snapshot.data ?? "",
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+              );
             }));
   }
 }
