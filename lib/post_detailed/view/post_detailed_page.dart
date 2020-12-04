@@ -89,7 +89,7 @@ class PostDetailedPage extends StatelessWidget {
                 ..hideCurrentSnackBar()
                 ..showSnackBar(const SnackBar(
                   content: Text(
-                      'Fehler beim anmelden vermutlich wegen schlechtem Internt'),
+                      'Fehler beim Anmelden vermutlich wegen schlechtem Internt'),
                 ));
             } else if (state.subscribing) {
               Scaffold.of(context)

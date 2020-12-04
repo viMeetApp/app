@@ -25,17 +25,6 @@ class HomePage extends StatelessWidget {
 
   HomePage({this.initLoggedIn = false});
 
-  Widget _getCurrentPage(int index) {
-    switch (index) {
-      case 0:
-        return HomeFeed();
-      case 1:
-        return Center(child: Text("TODO: Fav"));
-      case 2:
-        return SettingsPage();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomePageCubit>(
@@ -49,73 +38,59 @@ class HomePage extends StatelessWidget {
 
             return Stack(
               children: [
-                Scaffold(
-                  body: _getCurrentPage(state.currentPage),
-                  floatingActionButton: (state.currentPage != 0)
-                      ? null
-                      : FloatingActionButton(
-                          onPressed: () {
-                            Navigator.push(context, CreatePostPage.route());
-                          },
-                          child: Icon(
-                            Icons.add,
-                            color: AppThemeData.colorCard,
+                DefaultTabController(
+                  length: 4,
+                  child: Scaffold(
+                    body: TabBarView(
+                      children: [
+                        HomeFeed(),
+                        Center(child: Text("TODO: Gruppen")),
+                        Center(child: Text("TODO: Nachrrichten")),
+                        SettingsPage()
+                      ],
+                    ),
+                    /*floatingActionButton: (state.currentPage != 0)
+                        ? null
+                        : FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(context, CreatePostPage.route());
+                            },
+                            child: Icon(
+                              Icons.add,
+                              color: AppThemeData.colorCard,
+                            ),
+                            backgroundColor: AppThemeData.colorPrimary,
                           ),
-                          backgroundColor: AppThemeData.colorPrimary,
-                        ),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.endDocked,
-                  bottomNavigationBar: BubbleBottomBar(
-                    opacity: .2,
-                    currentIndex: state.currentPage,
-                    //onTap
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                    elevation: 8,
-                    fabLocation: BubbleBottomBarFabLocation.end, //new
-                    hasNotch: true, //new
-                    hasInk: true, //new, gives a cute ink effect
-                    onTap: (number) {
-                      BlocProvider.of<HomePageCubit>(context)
-                          .setCurrentPage(number);
-                    },
-                    inkColor: Colors
-                        .black12, //optional, uses theme color if not specified
-                    items: <BubbleBottomBarItem>[
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.dashboard,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.dashboard,
-                            color: Colors.red,
-                          ),
-                          title: Text("Home")),
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.favorite_border,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.access_time,
-                            color: AppThemeData.colorPrimary,
-                          ),
-                          title: Text("Favoriten")),
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.menu,
-                            color: AppThemeData.colorPrimary,
-                          ),
-                          title: Text("Menu"))
-                    ],
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.endDocked,*/
+                    bottomNavigationBar: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[300],
+                              offset: Offset(0, 1),
+                              blurRadius: 2.0,
+                              spreadRadius: 2.0)
+                        ],
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10)),
+                      ),
+                      child: TabBar(
+                        labelPadding: EdgeInsets.all(8),
+                        indicatorColor: Colors.transparent,
+                        labelColor: AppThemeData.colorPrimary,
+                        unselectedLabelColor: AppThemeData.colorControls,
+                        tabs: [
+                          Tab(
+                              icon: ImageIcon(
+                                  AssetImage('assets/img/logo_icon.png'))),
+                          Tab(icon: Icon(Icons.group)),
+                          Tab(icon: Icon(Icons.chat_bubble)),
+                          Tab(icon: Icon(Icons.menu)),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 AnimatedContainer(

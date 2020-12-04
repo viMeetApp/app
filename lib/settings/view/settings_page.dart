@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
@@ -75,6 +77,11 @@ class SettingsPage extends StatelessWidget {
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       ListTile(
+                        onTap: () => Navigator.push(
+                            context,
+                            AboutPage.route(
+                                title: "Impressum",
+                                legalFileName: "impressum")),
                         title: Text("Impressum"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       )
@@ -83,5 +90,44 @@ class SettingsPage extends StatelessWidget {
                 ),
               ],
             )));
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  String title = "About";
+  String legalFileName;
+
+  static Route route({String title, @required String legalFileName}) {
+    return MaterialPageRoute<void>(
+        builder: (_) => AboutPage(title: title, legalFileName: legalFileName));
+  }
+
+  AboutPage({this.title, @required this.legalFileName});
+
+  Future<String> getData() async {
+    try {
+      return await rootBundle
+          .loadString('assets/legal/' + legalFileName + '.md');
+    } on FlutterError catch (e) {
+      return "ERROR: Seite kann nicht geladen werden";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: AppThemeData.colorControls),
+          backgroundColor: Colors.transparent,
+          title: Text(
+            title,
+            style: TextStyle(color: AppThemeData.colorTextRegular),
+          ),
+        ),
+        body: new FutureBuilder(
+            future: getData(),
+            builder: (context, snapshot) {
+              return new Markdown(data: snapshot.data);
+            }));
   }
 }

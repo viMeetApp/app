@@ -13,7 +13,7 @@ class PostListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(AppThemeData.varPaddingEdges),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       child: MultiBlocProvider(
           providers: [
             BlocProvider<PostListCubit>(
