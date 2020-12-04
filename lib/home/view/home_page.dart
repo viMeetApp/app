@@ -6,6 +6,7 @@ import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
+import 'package:signup_app/homefeed/homefeed_page.dart';
 import 'package:signup_app/login/view/login_page.dart';
 import 'package:signup_app/postList/post_list.dart';
 import 'package:signup_app/settings/view/settings_page.dart';
@@ -24,6 +25,17 @@ class HomePage extends StatelessWidget {
 
   HomePage({this.initLoggedIn = false});
 
+  Widget _getCurrentPage(int index) {
+    switch (index) {
+      case 0:
+        return HomeFeed();
+      case 1:
+        return Center(child: Text("TODO: Fav"));
+      case 2:
+        return SettingsPage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomePageCubit>(
@@ -38,49 +50,19 @@ class HomePage extends StatelessWidget {
             return Stack(
               children: [
                 Scaffold(
-                  appBar: AppBar(
-                    leading: Builder(
-                      builder: (context) => IconButton(
-                        icon: Icon(Icons.group),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                GroupDropownWidget(),
-                          );
-                          //BlocProvider.of<HomePageCubit>(context)
-                          //    .openGroups(context);
-                        },
-                      ),
-                    ),
-                    title: Text("TODO: Location"),
-                    actions: [
-                      Builder(
-                        builder: (context) => IconButton(
-                          icon: Icon(Icons.chat_bubble),
-                          onPressed: () => {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text("TODO: Gespeicherte Posts")))
+                  body: _getCurrentPage(state.currentPage),
+                  floatingActionButton: (state.currentPage != 0)
+                      ? null
+                      : FloatingActionButton(
+                          onPressed: () {
+                            Navigator.push(context, CreatePostPage.route());
                           },
+                          child: Icon(
+                            Icons.add,
+                            color: AppThemeData.colorCard,
+                          ),
+                          backgroundColor: AppThemeData.colorPrimary,
                         ),
-                      ),
-                    ],
-                  ),
-                  body: SafeArea(
-                    child: Center(
-                      child: PostListView(),
-                    ),
-                  ),
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(context, CreatePostPage.route());
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: AppThemeData.colorCard,
-                    ),
-                    backgroundColor: AppThemeData.colorPrimary,
-                  ),
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.endDocked,
                   bottomNavigationBar: BubbleBottomBar(
@@ -94,9 +76,8 @@ class HomePage extends StatelessWidget {
                     hasNotch: true, //new
                     hasInk: true, //new, gives a cute ink effect
                     onTap: (number) {
-                      if (number == 2) {
-                        Navigator.push(context, SettingsPage.route());
-                      }
+                      BlocProvider.of<HomePageCubit>(context)
+                          .setCurrentPage(number);
                     },
                     inkColor: Colors
                         .black12, //optional, uses theme color if not specified

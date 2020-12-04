@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
@@ -17,20 +16,20 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           iconTheme: IconThemeData(color: AppThemeData.colorControls),
           backgroundColor: Colors.transparent,
           title: Text(
             "Einstellungen",
             style: TextStyle(color: AppThemeData.colorTextRegular),
           ),
-        ),
+        ),*/
         body: Padding(
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
             child: ListView(
               children: [
                 Card(
-                    margin: EdgeInsets.only(top: 20, bottom: 10),
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
                     shape: _cardShape,
                     color: AppThemeData.colorPrimary,
                     child: ListTile(
