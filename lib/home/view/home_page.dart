@@ -8,6 +8,7 @@ import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/login/view/login_page.dart';
 import 'package:signup_app/postList/post_list.dart';
+import 'package:signup_app/settings/view/settings_page.dart';
 import 'package:signup_app/util/presets.dart';
 
 class HomePage extends StatelessWidget {
@@ -94,7 +95,7 @@ class HomePage extends StatelessWidget {
                     hasInk: true, //new, gives a cute ink effect
                     onTap: (number) {
                       if (number == 2) {
-                        Navigator.push(context, GroupPage.route());
+                        Navigator.push(context, SettingsPage.route());
                       }
                     },
                     inkColor: Colors
