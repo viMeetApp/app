@@ -51,12 +51,10 @@ class SettingsPage extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () => {},
                         title: Text("Account"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       ListTile(
-                        onTap: () => {},
                         title: Text("Spache"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
