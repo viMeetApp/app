@@ -7,6 +7,7 @@ import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/homefeed/homefeed_page.dart';
+import 'package:signup_app/homefeed/location_dialog/location_dialog.dart';
 import 'package:signup_app/login/view/login_page.dart';
 import 'package:signup_app/postList/post_list.dart';
 import 'package:signup_app/settings/view/settings_page.dart';
@@ -93,13 +94,13 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                AnimatedContainer(
-                  // color: Colors.white,
+                /*AnimatedContainer(
+                  //color: Colors.white,
                   duration: Duration(milliseconds: 100),
                   child: state.showGroups ? groupDropdownWidget : null,
-                ),
+                ),*/
                 AnimatedContainer(
-                  // color: Colors.white,
+                  //color: Colors.white,
                   duration: Duration(milliseconds: 100),
                   child: !state.loggedIn ? LoginPage() : null,
                 ),

@@ -61,7 +61,7 @@ class SettingsPage extends StatelessWidget {
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       ListTile(
-                        title: Text("Impressum"),
+                        title: Text("Textgröße"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       )
                     ],

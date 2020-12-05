@@ -87,7 +87,7 @@ class PostTile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Text(
-                    post.title + " hallo wie schaut's aus?",
+                    post.title,
                     softWrap: true,
                     overflow: TextOverflow.fade,
                     maxLines: 2,
