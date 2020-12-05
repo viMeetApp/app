@@ -110,6 +110,7 @@ class AppThemeData {
   static const Color colorBase = Color(0xffeeeeee);
   static const Color colorCard = Colors.white;
   static const Color colorTextRegular = Color(0xff333333);
+  static const Color colorTextRegularLight = Color(0xff777777);
   static const Color colorTextInverted = Colors.white;
 
   // define 'real' colors

@@ -12,58 +12,40 @@ class PostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Container(
-            height: 130,
-            margin: const EdgeInsets.only(bottom: 20),
+            //height: 130,
+            margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.transparent),
                 color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
             padding: const EdgeInsets.all(10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Row(children: [
-                                Icon(
-                                  (post.group != null
-                                      ? Icons.group
-                                      : Icons.person),
-                                  size: 17,
-                                  color: AppThemeData.colorControls,
-                                ),
-                                Container(
-                                    child: Text(
-                                      (this.post.group != null
-                                          ? this.post.group.name
-                                          : this.post.author.name),
-                                      style: TextStyle(
-                                          color: AppThemeData.colorControls),
-                                    ),
-                                    padding: EdgeInsets.only(left: 5)),
-                              ]),
+                      child: Row(children: [
+                        Icon(
+                          (post.group != null ? Icons.group : Icons.person),
+                          size: 20,
+                          color: AppThemeData.colorTextRegularLight,
+                        ),
+                        Container(
+                            child: Text(
+                              (this.post.group != null
+                                  ? this.post.group.name
+                                  : this.post.author.name),
+                              style: TextStyle(
+                                  color: AppThemeData.colorTextRegularLight,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Text(
-                                post.title,
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 22),
-                              ),
-                            ),
-                          ]),
+                            padding: EdgeInsets.only(left: 5)),
+                      ]),
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,6 +53,9 @@ class PostTile extends StatelessWidget {
                       children: [
                         if (post.tags.length > 0)
                           Chip(
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
                             backgroundColor: Colors.grey[350],
                             label: Text(
                               '#' + post.tags[0],
@@ -83,7 +68,7 @@ class PostTile extends StatelessWidget {
                             child: FlatButton(
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
-                              //visualDensity: VisualDensity.compact,
+                              visualDensity: VisualDensity.compact,
                               onPressed: () {},
                               color: Colors.grey[300],
                               child: Icon(
@@ -91,7 +76,7 @@ class PostTile extends StatelessWidget {
                                 size: 15.0,
                                 color: AppThemeData.colorCard,
                               ),
-                              padding: EdgeInsets.all(6),
+                              padding: EdgeInsets.all(12),
                               shape: CircleBorder(side: BorderSide.none),
                             ),
                           )
@@ -99,13 +84,26 @@ class PostTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    if (post is Event)
-                      (Text("TODO: Event"))
-                    else
-                      (Text("TODO: Buddy"))
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text(
+                    post.title,
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    children: [
+                      if (post is Event)
+                        (Text("TODO: Event"))
+                      else
+                        (Text("TODO: Buddy"))
+                    ],
+                  ),
                 )
               ],
             )),

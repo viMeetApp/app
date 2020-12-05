@@ -6,8 +6,11 @@ import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
+import 'package:signup_app/homefeed/homefeed_page.dart';
+import 'package:signup_app/homefeed/location_dialog/location_dialog.dart';
 import 'package:signup_app/login/view/login_page.dart';
 import 'package:signup_app/postList/post_list.dart';
+import 'package:signup_app/settings/view/settings_page.dart';
 import 'package:signup_app/util/presets.dart';
 
 class HomePage extends StatelessWidget {
@@ -36,113 +39,68 @@ class HomePage extends StatelessWidget {
 
             return Stack(
               children: [
-                Scaffold(
-                  appBar: AppBar(
-                    leading: Builder(
-                      builder: (context) => IconButton(
-                        icon: Icon(Icons.group),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                GroupDropownWidget(),
-                          );
-                          //BlocProvider.of<HomePageCubit>(context)
-                          //    .openGroups(context);
-                        },
+                DefaultTabController(
+                  length: 4,
+                  child: Scaffold(
+                    body: TabBarView(
+                      children: [
+                        HomeFeed(),
+                        Center(child: Text("TODO: Gruppen")),
+                        Center(child: Text("TODO: Nachrrichten")),
+                        SettingsPage()
+                      ],
+                    ),
+                    /*floatingActionButton: (state.currentPage != 0)
+                        ? null
+                        : FloatingActionButton(
+                            onPressed: () {
+                              Navigator.push(context, CreatePostPage.route());
+                            },
+                            child: Icon(
+                              Icons.add,
+                              color: AppThemeData.colorCard,
+                            ),
+                            backgroundColor: AppThemeData.colorPrimary,
+                          ),
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.endDocked,*/
+                    bottomNavigationBar: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey[300],
+                              offset: Offset(0, 1),
+                              blurRadius: 2.0,
+                              spreadRadius: 2.0)
+                        ],
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10)),
+                      ),
+                      child: TabBar(
+                        labelPadding: EdgeInsets.all(8),
+                        indicatorColor: Colors.transparent,
+                        labelColor: AppThemeData.colorPrimary,
+                        unselectedLabelColor: AppThemeData.colorControls,
+                        tabs: [
+                          Tab(
+                              icon: ImageIcon(
+                                  AssetImage('assets/img/logo_icon.png'))),
+                          Tab(icon: Icon(Icons.group)),
+                          Tab(icon: Icon(Icons.chat_bubble)),
+                          Tab(icon: Icon(Icons.menu)),
+                        ],
                       ),
                     ),
-                    title: Text("TODO: Location"),
-                    actions: [
-                      Builder(
-                        builder: (context) => IconButton(
-                          icon: Icon(Icons.chat_bubble),
-                          onPressed: () => {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text("TODO: Gespeicherte Posts")))
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  body: SafeArea(
-                    child: Center(
-                      child: PostListView(),
-                    ),
-                  ),
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(context, CreatePostPage.route());
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: AppThemeData.colorCard,
-                    ),
-                    backgroundColor: AppThemeData.colorPrimary,
-                  ),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.endDocked,
-                  bottomNavigationBar: BubbleBottomBar(
-                    opacity: .2,
-                    currentIndex: state.currentPage,
-                    //onTap
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                    elevation: 8,
-                    fabLocation: BubbleBottomBarFabLocation.end, //new
-                    hasNotch: true, //new
-                    hasInk: true, //new, gives a cute ink effect
-                    onTap: (number) {
-                      if (number == 2) {
-                        Navigator.push(context, GroupPage.route());
-                      }
-                    },
-                    inkColor: Colors
-                        .black12, //optional, uses theme color if not specified
-                    items: <BubbleBottomBarItem>[
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.dashboard,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.dashboard,
-                            color: Colors.red,
-                          ),
-                          title: Text("Home")),
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.favorite_border,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.access_time,
-                            color: AppThemeData.colorPrimary,
-                          ),
-                          title: Text("Favoriten")),
-                      BubbleBottomBarItem(
-                          backgroundColor: AppThemeData.colorPrimary,
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.black,
-                          ),
-                          activeIcon: Icon(
-                            Icons.menu,
-                            color: AppThemeData.colorPrimary,
-                          ),
-                          title: Text("Menu"))
-                    ],
                   ),
                 ),
-                AnimatedContainer(
-                  // color: Colors.white,
+                /*AnimatedContainer(
+                  //color: Colors.white,
                   duration: Duration(milliseconds: 100),
                   child: state.showGroups ? groupDropdownWidget : null,
-                ),
+                ),*/
                 AnimatedContainer(
-                  // color: Colors.white,
+                  //color: Colors.white,
                   duration: Duration(milliseconds: 100),
                   child: !state.loggedIn ? LoginPage() : null,
                 ),

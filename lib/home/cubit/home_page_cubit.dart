@@ -24,4 +24,8 @@ class HomePageCubit extends Cubit<HomePageState> {
   void closeGroups() {
     emit(state.copyWith(showGroups: false));
   }
+
+  void setCurrentPage(int pageIndex) {
+    emit(state.copyWith(currentPage: pageIndex));
+  }
 }
