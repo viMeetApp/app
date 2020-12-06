@@ -19,22 +19,5 @@ class GroupListCubit extends Cubit<Stream<List<Group>>> {
             .toList());
 
     emit(groupStream);
-    //Fetch all Groups from Firestore if the user is authenticated
-    BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: (context, state) {
-      if (state is Authenticated) {
-        Stream<List<Group>> groupStream = FirebaseFirestore.instance
-            .collection('groups')
-            .where('users',
-                arrayContains: FirebaseAuth.instance.currentUser.uid)
-            .snapshots()
-            .map((list) => list.docs
-                .map((doc) =>
-                    (Group.fromJson(doc.data()).setID(doc.id) as Group))
-                .toList());
-
-        emit(groupStream);
-      }
-    });
   }
 }
