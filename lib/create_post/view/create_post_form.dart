@@ -6,51 +6,58 @@ import 'package:signup_app/create_post/cubit/create_post_cubit.dart';
 import 'package:signup_app/create_post/tags/cubit/tag_cubit.dart';
 import 'package:signup_app/create_post/tags/view/tag-widget.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/dialog_helper.dart';
 import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
 
+///Form from which posts are created. There are a few madatory Fields  title, about and tags, optional fields treffpunkt and kosten
+///event only Fields max People
+///buddy only Fields Event Date and Event Time are also optional
 class CreatePostForm extends StatelessWidget {
   CreatePostForm();
-
+/*
   Future _showDialog(
       {@required context,
       @required Widget child,
       @required String title,
       @required Function onOkay}) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              elevation: 0.0,
-              backgroundColor: AppThemeData.colorBase,
-              child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Wrap(
-                    children: [
-                      Text(
-                        title,
-                        style: AppThemeData.textHeading3(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 10, top: 20),
-                        child: child,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FlatButton(
-                              onPressed: () => {Navigator.pop(context, null)},
-                              child: Text("Abbrechen")),
-                          FlatButton(onPressed: onOkay, child: Text("Ok"))
-                        ],
-                      )
-                    ],
-                  )));
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          elevation: 0.0,
+          backgroundColor: AppThemeData.colorBase,
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Wrap(
+              children: [
+                Text(
+                  title,
+                  style: AppThemeData.textHeading3(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10, top: 20),
+                  child: child,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FlatButton(
+                        onPressed: () => {Navigator.pop(context, null)},
+                        child: Text("Abbrechen")),
+                    FlatButton(onPressed: onOkay, child: Text("Ok"))
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Future _showTextInputDialog(
@@ -83,7 +90,7 @@ class CreatePostForm extends StatelessWidget {
         ),
         onOkay: onOkay);
   }
-
+*/
   Widget _optionalField({
     @required context,
     Function onPressed,
@@ -301,7 +308,7 @@ class CreatePostForm extends StatelessWidget {
                                                         .toString() +
                                                     " Teilnehmer",
                                         onPressed: () => {
-                                          _showTextInputDialog(
+                                          DialogHelper.showTextInputDialog(
                                               title: "Maximale Zeilnehmerzahl",
                                               context: context,
                                               keyboardType:
@@ -333,7 +340,7 @@ class CreatePostForm extends StatelessWidget {
                                             : state.optionalFields["kosten"]
                                                 .toString(),
                                         onPressed: () {
-                                          _showTextInputDialog(
+                                          DialogHelper.showTextInputDialog(
                                               title: "Kosten pro Person",
                                               context: context,
                                               formatters: []).then((value) {
@@ -353,38 +360,7 @@ class CreatePostForm extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ),
-                            /*new TextFormField(
-                              onChanged: (text) {
-                                eventOnlyFields['maxPeople'] =
-                                    (text != null && text.length > 0)
-                                        ? int.parse(text)
-                                        : -1;
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: Presets.getTextFieldDecorationLabelStyle(
-                                  labelText:
-                                      "max. Anzahl (leer lassen für unbegrenzt)"),
-                            ),*/
-
-                            /*new TextFormField(
-                              onChanged: (text) {
-                                optionalFields['kosten'] =
-                                    (text != null && text.length > 0)
-                                        ? text
-                                        : null;
-                              },
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration:
-                                  Presets.getTextFieldDecorationLabelStyle(
-                                      labelText: "Kosten"),
-                            ),*/
+                            )
                           ],
                         ),
                       ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
@@ -22,19 +20,9 @@ class GroupSettingsPage extends StatelessWidget {
       create: (_) => GroupSeetingsCubit(group: group),
       child: BlocBuilder<GroupSeetingsCubit, GroupSettingsState>(
         builder: (context, state) {
-          if (state is AdminSettings) {
-            return GroupSettingsMainView(
-              state: state,
-            );
-          } else if (state is MemberSettings) {
-            return GroupSettingsMainView(
-              state: state,
-            );
-          } else
-            //Make this a bit nice
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+          return GroupSettingsMainView(
+            state: state,
+          );
         },
       ),
     );

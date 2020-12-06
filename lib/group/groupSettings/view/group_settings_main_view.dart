@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
 import 'package:signup_app/group/groupSettings/widget/requestedToJoinWidget.dart';
+import 'package:signup_app/group/groupSettings/widget/updateSettingsWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/userListWidget.dart';
-import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class GroupSettingsMainView extends StatelessWidget {
-  final GroupSettingsState state;
+  final GroupMemberSettings state;
   GroupSettingsMainView({@required this.state});
   @override
   Widget build(BuildContext context) {
@@ -15,15 +14,13 @@ class GroupSettingsMainView extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppThemeData.colorControls),
         title: Text(
-          state.group.name,
-          style: TextStyle(color: AppThemeData.colorTextRegular),
+          "Einstellungen",
+          style: AppThemeData.textHeading2(),
         ),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
@@ -55,63 +52,6 @@ class GroupSettingsMainView extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class UpdateSettingsWidget extends StatelessWidget {
-  final Group group;
-  final descriptionController;
-  UpdateSettingsWidget({@required this.group})
-      : descriptionController = new TextEditingController(text: group.about);
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Gruppeneinstellungen: ",
-          style: AppThemeData.textHeading4(),
-        ),
-        SizedBox(height: 6),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-            minLines: 3,
-            maxLines: 5,
-            controller: descriptionController,
-            decoration: Presets.getTextFieldDecorationLabelStyle(
-                labelText: "Gruppenbeschreibung"),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RaisedButton(
-              onPressed: () {
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text("Updating Group")));
-                BlocProvider.of<GroupSeetingsCubit>(context)
-                    .updateGroupSettings(about: descriptionController.text)
-                    .then((val) {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("Update Erfolgreich")));
-                }).catchError((err) {
-                  Scaffold.of(context).hideCurrentSnackBar();
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("Netzwerkfehler")));
-                });
-              },
-              child: Text("Update"),
-              color: Colors.green,
-            )
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        )
-      ],
     );
   }
 }

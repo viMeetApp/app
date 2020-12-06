@@ -1,14 +1,12 @@
 part of 'group_seetings_cubit.dart';
 
-@immutable
-abstract class GroupSettingsState {
-  Group group;
+abstract class GroupSettingsState {}
+
+class GroupMemberSettings extends GroupSettingsState {
+  final Group group;
+  GroupMemberSettings({@required this.group});
 }
 
-class GroupSettingsUninitialized extends GroupSettingsState {}
-
-class MemberSettings extends GroupSettingsState {}
-
-class AdminSettings extends MemberSettings {
-  AdminSettings();
+class AdminSettings extends GroupMemberSettings {
+  AdminSettings({@required group}) : super(group: group);
 }
