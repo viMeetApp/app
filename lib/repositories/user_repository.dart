@@ -58,7 +58,7 @@ class UserRepository {
           .collection('users')
           .doc(_firebaseAuth.currentUser.uid)
           .get();
-      return util.User.fromJson(snap.data());
+      return util.User.fromDatabaseSnapshot(snap);
     } catch (err) {
       print("Error in get User");
       print(err.toString());

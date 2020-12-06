@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
@@ -9,7 +11,8 @@ import 'package:signup_app/util/data_models.dart';
 part 'create_post_state.dart';
 
 class CreatePostCubit extends Cubit<CreatePostState> {
-  CreatePostCubit() : super(CreatePostState.empty());
+  //At start create first initial State, onyl Group Information are stored when Group is given (Post from within group)
+  CreatePostCubit({Group group}) : super(CreatePostState.initial(group: group));
 
   void submit() async {
     emit(state.createSubmitting());
@@ -35,7 +38,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     });
 
     //Create Post
-    //!Todo Schauen ob Event oder Buddy und schauen ob mit Gruppe oder nicht
+    //!Todo Schauen ob Event oder Buddy
     Event event = Event()
       ..title = state.mandatoryFields['title']
       ..geohash = "ToDoHash"
@@ -48,7 +51,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
       ..maxPeople = state.eventOnlyFields['maxPeople'] as int
       ..author = await UserRepository().getUser()
-      ..group = state.mandatoryFields['group'];
+      ..group = state.group;
 
     //If Time or Date is ste add it
     //First Add Time if existent
@@ -59,9 +62,17 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     if (state.eventTime != null) {
       //!ToDo what to do with Event Time
     }
+
     //Write to Firetore
-    await FirebaseFirestore.instance.collection('posts').add(event.toJson());
-    emit(state.createSuccess());
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(event.toJson())
+        .then((_) {
+      emit(state.createSuccess());
+    }).catchError((err) {
+      log("Error Create Post with Firebase");
+      log(err.toString());
+    });
   }
 
   void updateDate(DateTime eventDate) {

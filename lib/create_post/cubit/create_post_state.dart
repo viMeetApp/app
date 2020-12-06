@@ -7,13 +7,15 @@ class CreatePostState {
   final bool isSubmitted;
   final bool isSubmitting;
 
-  //optional fields
+  //Group Info is set when post is within group happends with constructor
+  final GroupInfo group;
+  //All Madatroy Fields
   Map<String, dynamic> mandatoryFields = {
     'title': null,
     'about': null,
     'tags': []
   };
-
+  //optional fields
   Map<String, dynamic> optionalFields = {
     'treffpunkt': null,
     'kosten': null,
@@ -25,13 +27,16 @@ class CreatePostState {
 
   Map<String, dynamic> buddyOnlyFields = {};
 
-  //Variables to Store
+  //Must be saved extra otherwise won't work
+  //These are also optional
   DateTime eventDate;
   TimeOfDay eventTime;
+  //Constructor
   CreatePostState(
       {@required this.isError,
       @required this.isSubmitted,
       @required this.isSubmitting,
+      this.group,
       this.eventDate,
       this.eventTime,
       Map<String, dynamic> mandatoryFields,
@@ -43,10 +48,17 @@ class CreatePostState {
     this.eventOnlyFields = eventOnlyFields ?? this.eventOnlyFields;
     this.optionalFields = optionalFields ?? this.optionalFields;
   }
-
-  factory CreatePostState.empty() {
+//Create first initial Staten when post loaded
+//Resets validation and sets Group Info if there is a group
+//After this only work with Copy with
+  factory CreatePostState.initial({Group group}) {
+    GroupInfo groupInfo;
+    if (group != null) groupInfo = GroupInfo(id: group.id, name: group.name);
     return CreatePostState(
-        isError: false, isSubmitted: false, isSubmitting: false);
+        isError: false,
+        isSubmitted: false,
+        isSubmitting: false,
+        group: groupInfo);
   }
 
   CreatePostState createSubmitting() {
@@ -73,6 +85,8 @@ class CreatePostState {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       eventDate: eventDate ?? this.eventDate,
       eventTime: eventTime ?? this.eventTime,
+      group: this
+          .group, //Group can not be change later therefore alwasy this.group
       //maps
       mandatoryFields: this.mandatoryFields,
       optionalFields: this.optionalFields,
@@ -81,5 +95,3 @@ class CreatePostState {
     );
   }
 }
-
-class LoginInitial extends CreatePostState {}

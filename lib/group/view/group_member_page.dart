@@ -5,6 +5,8 @@ import 'package:signup_app/group/groupSettings/view/group_settings_page.dart';
 import 'package:signup_app/postList/view/post_list_view.dart';
 import 'package:signup_app/util/presets.dart';
 
+///This is the view for actual Members of the Group
+///Only Member can post and see posts
 class GroupMemberPage extends StatelessWidget {
   final GroupMember state;
   GroupMemberPage({@required this.state});
@@ -46,18 +48,27 @@ class GroupMemberPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(AppThemeData.varPaddingEdges),
-                  child: Presets.getSignUpCard(
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      runSpacing: 10,
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.only(top: 4, left: 8, right: 8, bottom: 4),
+                    decoration: BoxDecoration(
+                        color: AppThemeData.colorCard,
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                        borderRadius:
+                            BorderRadius.all(AppThemeData.varCardRadius)),
+                    child: Column(
                       children: [
                         Text(
                           state.group.name,
-                          style: AppThemeData.textHeading2(),
+                          style: AppThemeData.textHeading1(),
                           textAlign: TextAlign.center,
                         ),
-                        Text(state.group.about),
+                        SizedBox(height: 5),
+                        Text(state.group.about,
+                            style: AppThemeData.textNormal()),
                       ],
                     ),
                   ),

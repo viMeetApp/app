@@ -5,15 +5,19 @@ import 'package:signup_app/group/view/group_member_page.dart';
 import 'package:signup_app/group/view/notMember_page.dart';
 import 'package:signup_app/util/data_models.dart';
 
+///Start Page For Group from here on decission if Member or not
 class GroupPage extends StatelessWidget {
   final Group group;
+  //Group is starter with an group because we already know the Group at this Position
+  //Because of that we loose one fetch from Backend
   GroupPage({@required this.group});
 
   static Route route({@required Group group}) {
     return MaterialPageRoute<void>(
-        builder: (_) => GroupPage(
-              group: group,
-            ));
+      builder: (_) => GroupPage(
+        group: group,
+      ),
+    );
   }
 
   @override
