@@ -16,35 +16,35 @@ class UserListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Mitglieder:",
-          style: AppThemeData.textHeading4(),
-        ),
-        SizedBox(height: 6),
-        StreamBuilder(
-          stream: userStream,
-          builder: (context, AsyncSnapshot<List<User>> userSnap) {
-            if (userSnap.hasError || !userSnap.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return Column(
-              children: userSnap.data.map(
-                (user) {
-                  return ListWidget(
-                      user: user, isAdmin: group.admins.contains(user.uid));
-                },
-              ).toList(),
-            );
-          },
-        ),
-        SizedBox(
-          height: 20,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Mitglieder:",
+            style: AppThemeData.textHeading4(),
+          ),
+          SizedBox(height: 6),
+          StreamBuilder(
+            stream: userStream,
+            builder: (context, AsyncSnapshot<List<User>> userSnap) {
+              if (userSnap.hasError || !userSnap.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return Column(
+                children: userSnap.data.map(
+                  (user) {
+                    return ListWidget(
+                        user: user, isAdmin: group.admins.contains(user.uid));
+                  },
+                ).toList(),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

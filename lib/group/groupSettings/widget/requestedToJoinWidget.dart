@@ -17,36 +17,36 @@ class RequestedToJoinWidget extends StatelessWidget {
                 list.docs.map((doc) => User.fromJson(doc.data())).toList());
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Mitglieder:",
-          style: AppThemeData.textHeading4(),
-        ),
-        SizedBox(height: 6),
-        StreamBuilder(
-          stream: requestedToJoinStream,
-          builder: (context, AsyncSnapshot<List<User>> userSnap) {
-            if (userSnap.hasError || !userSnap.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
-            return Column(
-              children: userSnap.data.map(
-                (user) {
-                  return RequestWidget(
-                    user: user,
-                  );
-                },
-              ).toList(),
-            );
-          },
-        ),
-        SizedBox(
-          height: 20,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Mitglieder Anfragen:",
+            style: AppThemeData.textHeading4(),
+          ),
+          SizedBox(height: 6),
+          StreamBuilder(
+            stream: requestedToJoinStream,
+            builder: (context, AsyncSnapshot<List<User>> userSnap) {
+              if (userSnap.hasError || !userSnap.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return Column(
+                children: userSnap.data.map(
+                  (user) {
+                    return RequestWidget(
+                      user: user,
+                    );
+                  },
+                ).toList(),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

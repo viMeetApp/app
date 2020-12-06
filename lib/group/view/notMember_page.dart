@@ -7,6 +7,7 @@ import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/postList/view/post_list_view.dart';
 import 'package:signup_app/util/presets.dart';
 
+///People who are't Member can not see Everything abot a group
 class NotGroupMemberPage extends StatelessWidget {
   final NotGroupMember state;
   NotGroupMemberPage({@required this.state});

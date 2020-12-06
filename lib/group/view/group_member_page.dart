@@ -5,6 +5,8 @@ import 'package:signup_app/group/groupSettings/view/group_settings_page.dart';
 import 'package:signup_app/postList/view/post_list_view.dart';
 import 'package:signup_app/util/presets.dart';
 
+///This is the view for actual Members of the Group
+///Only Member can post and see posts
 class GroupMemberPage extends StatelessWidget {
   final GroupMember state;
   GroupMemberPage({@required this.state});
