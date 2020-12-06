@@ -50,8 +50,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       ..details = postDetails
       ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
       ..maxPeople = state.eventOnlyFields['maxPeople'] as int
-      ..author = await UserRepository().getUser();
-    //..group = state.group;
+      ..author = await UserRepository().getUser()
+      ..group = state.group;
 
     //If Time or Date is ste add it
     //First Add Time if existent
@@ -62,6 +62,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     if (state.eventTime != null) {
       //!ToDo what to do with Event Time
     }
+
+    print(event.toDoc());
 
     //Write to Firetore
     FirebaseFirestore.instance.collection('posts').add(event.toDoc()).then((_) {

@@ -35,14 +35,15 @@ Map<String, dynamic> _postToDoc(Post instance,
 
   serialized.putIfAbsent('title', () => instance.title);
   serialized.putIfAbsent('geohash', () => instance.geohash);
-  serialized.putIfAbsent('tags', () => instance.tags);
+  serialized.putIfAbsent('tags', () => createTagMapForJson(instance.tags));
   serialized.putIfAbsent('about', () => instance.about);
   serialized.putIfAbsent('type', () => instance.type);
   serialized.putIfAbsent('createdDate', () => instance.createdDate);
-  serialized.putIfAbsent('details', () => instance);
+  serialized.putIfAbsent('expireDate', () => instance.expireDate);
   serialized.putIfAbsent(
-      'group', () => instance.details?.map((e) => e?.toMap())?.toList());
-  serialized.putIfAbsent('author', () => instance.author?.toDoc());
+      'details', () => instance.details?.map((e) => e?.toMap())?.toList());
+  serialized.putIfAbsent('group', () => instance.group?.toMap());
+  serialized.putIfAbsent('author', () => instance.author?.toMap());
 
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
@@ -87,6 +88,7 @@ DatabaseDocument _databaseDocumentFromDoc(
 
 User _userFromDoc(User instance, DocumentSnapshot document) {
   instance.name = document.data()['name'] as String;
+  print(instance.name);
   return _databaseDocumentFromDoc(instance, document) as User;
 }
 
@@ -147,4 +149,28 @@ Event _eventFromDoc(Event instance, DocumentSnapshot document) {
 
 Event _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document);
+}
+
+// HELPER FUNCTIONS
+
+///Helper Function to generate Tags List From json
+List<String> getTagsFromJson(Map<String, dynamic> json) {
+  List<String> tags = [];
+  if (json == null) {
+    return tags;
+  }
+  json.forEach((key, value) {
+    if (value == true) tags.add(key);
+  });
+  return tags;
+}
+
+///Helper Function to generate TagMap for Database from tag List
+///Not tested yet
+Map<String, bool> createTagMapForJson(List<String> tags) {
+  Map<String, bool> tagMap = Map();
+  tags.forEach((tag) {
+    tagMap.addEntries([MapEntry(tag, true)]);
+  });
+  return tagMap;
 }

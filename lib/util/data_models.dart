@@ -46,7 +46,7 @@ class User extends DatabaseDocument implements MapSerializable {
 
   @override
   static User fromDoc(DocumentSnapshot document) =>
-      _databaseDocumentFromDoc(new User(), document);
+      _userFromDoc(new User(), document);
 
   @override
   Map<String, dynamic> toMap() => _userToMap(this);
@@ -223,25 +223,4 @@ class DeviceLocation {
   DeviceLocation({name, geohash});
   String name;
   String geohash;
-}
-
-// HELPER FUNCTIONS
-
-///Helper Function to generate Tags List From json
-List<String> getTagsFromJson(var json) {
-  List<String> tags = [];
-  json.forEach((key, value) {
-    if (value == true) tags.add(key);
-  });
-  return tags;
-}
-
-///Helper Function to generate TagMap for Database from tag List
-///Not tested yet
-Map<String, bool> createTagMapForJson(List<String> tags) {
-  Map<String, bool> tagMap = Map();
-  tags.forEach((tag) {
-    tagMap.addEntries([MapEntry(tag, true)]);
-  });
-  return tagMap;
 }

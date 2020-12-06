@@ -12,6 +12,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
   StreamController<List<Message>> _messageStreamController =
       new StreamController<List<Message>>();
   Stream<List<Message>> messageStream;
+
   ChatCubit({@required this.postId, @required this.user})
       : assert(postId != null),
         assert(user != null),
@@ -26,7 +27,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
     if (content.length != 0 ?? content != null) {
       Message message =
           Message.createTextMessage(author: user, content: content);
-      print(message.toDoc());
+      print(user.name);
       FirebaseFirestore.instance
           .collection('posts')
           .doc(postId)
