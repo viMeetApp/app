@@ -11,6 +11,7 @@ import 'package:signup_app/util/data_models.dart';
 part 'create_post_state.dart';
 
 class CreatePostCubit extends Cubit<CreatePostState> {
+  //At start create first initial State, onyl Group Information are stored when Group is given (Post from within group)
   CreatePostCubit({Group group}) : super(CreatePostState.initial(group: group));
 
   void submit() async {

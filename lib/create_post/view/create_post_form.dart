@@ -10,6 +10,9 @@ import 'package:signup_app/util/presets.dart';
 
 import '../../util/presets.dart';
 
+///Form from which posts are created. There are a few madatory Fields  title, about and tags, optional fields treffpunkt and kosten
+///event only Fields max People
+///buddy only Fields Event Date and Event Time are also optional
 class CreatePostForm extends StatelessWidget {
   CreatePostForm();
 
