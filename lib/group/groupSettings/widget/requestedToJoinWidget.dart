@@ -8,6 +8,7 @@ import 'package:signup_app/util/presets.dart';
 class RequestedToJoinWidget extends StatelessWidget {
   final Group group;
   final Stream<List<User>> requestedToJoinStream;
+  //Returns Stream of all user who are currently requesting to Join
   RequestedToJoinWidget({@required this.group})
       : requestedToJoinStream = FirebaseFirestore.instance
             .collection('users')
@@ -17,24 +18,25 @@ class RequestedToJoinWidget extends StatelessWidget {
                 list.docs.map((doc) => User.fromJson(doc.data())).toList());
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Mitglieder Anfragen:",
-            style: AppThemeData.textHeading4(),
-          ),
-          SizedBox(height: 6),
-          StreamBuilder(
-            stream: requestedToJoinStream,
-            builder: (context, AsyncSnapshot<List<User>> userSnap) {
-              if (userSnap.hasError || !userSnap.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return Column(
+    return StreamBuilder(
+      stream: requestedToJoinStream,
+      builder: (context, AsyncSnapshot<List<User>> userSnap) {
+        //As Long as Stream is Empty don't render anything on Screen
+        if (userSnap.hasError || !userSnap.hasData) {
+          return Container();
+        }
+        //If Stream not Empty REnder List of akk willing to Join
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Mitglieder Anfragen:",
+                style: AppThemeData.textHeading4(),
+              ),
+              Column(
                 children: userSnap.data.map(
                   (user) {
                     return RequestWidget(
@@ -42,11 +44,11 @@ class RequestedToJoinWidget extends StatelessWidget {
                     );
                   },
                 ).toList(),
-              );
-            },
+              )
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -57,34 +59,36 @@ class RequestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(4),
-      margin: EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(child: Text(user.uid)),
-          IconButton(
-            onPressed: () {
-              BlocProvider.of<GroupSeetingsCubit>(context)
-                  .accepRequest(user: user);
-            },
-            icon: Icon(Icons.done),
-            color: Colors.green,
+    return Padding(
+        padding: EdgeInsets.all(4),
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: Text(user.name)),
+                IconButton(
+                  onPressed: () {
+                    BlocProvider.of<GroupSeetingsCubit>(context)
+                        .accepRequest(user: user);
+                  },
+                  icon: Icon(Icons.done),
+                  color: Colors.green,
+                ),
+                IconButton(
+                    onPressed: () {
+                      BlocProvider.of<GroupSeetingsCubit>(context)
+                          .declineRequest(user: user);
+                    },
+                    icon: Icon(Icons.clear),
+                    color: Colors.red)
+              ],
+            ),
           ),
-          IconButton(
-              onPressed: () {
-                BlocProvider.of<GroupSeetingsCubit>(context)
-                    .declineRequest(user: user);
-              },
-              icon: Icon(Icons.clear),
-              color: Colors.red)
-        ],
-      ),
-    );
+        ));
   }
 }
