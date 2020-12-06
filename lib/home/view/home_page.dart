@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/creat_post.dart';
 import 'package:signup_app/group/view/group_page.dart';
+import 'package:signup_app/groupfeed/groupfeed_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/homefeed/homefeed_page.dart';
@@ -45,7 +46,7 @@ class HomePage extends StatelessWidget {
                     body: TabBarView(
                       children: [
                         HomeFeed(),
-                        Center(child: Text("TODO: Gruppen")),
+                        GroupFeed(),
                         Center(child: Text("TODO: Nachrrichten")),
                         SettingsPage()
                       ],

@@ -6,10 +6,10 @@ import 'package:meta/meta.dart';
 import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
 import 'package:signup_app/util/data_models.dart';
 
-part 'group_dropdown_state.dart';
+part 'group_list_state.dart';
 
-class GroupDropdownCubit extends Cubit<Stream<List<Group>>> {
-  GroupDropdownCubit() : super(Stream.empty()) {
+class GroupListCubit extends Cubit<Stream<List<Group>>> {
+  GroupListCubit() : super(Stream.empty()) {
     Stream<List<Group>> groupStream = FirebaseFirestore.instance
         .collection('groups')
         .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)

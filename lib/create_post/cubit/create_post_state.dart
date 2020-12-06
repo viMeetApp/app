@@ -7,13 +7,13 @@ class CreatePostState {
   final bool isSubmitted;
   final bool isSubmitting;
 
-  //optional fields
+  final GroupInfo group;
   Map<String, dynamic> mandatoryFields = {
     'title': null,
     'about': null,
     'tags': []
   };
-
+  //optional fields
   Map<String, dynamic> optionalFields = {
     'treffpunkt': null,
     'kosten': null,
@@ -32,6 +32,7 @@ class CreatePostState {
       {@required this.isError,
       @required this.isSubmitted,
       @required this.isSubmitting,
+      this.group,
       this.eventDate,
       this.eventTime,
       Map<String, dynamic> mandatoryFields,
@@ -44,9 +45,14 @@ class CreatePostState {
     this.optionalFields = optionalFields ?? this.optionalFields;
   }
 
-  factory CreatePostState.empty() {
+  factory CreatePostState.initial({Group group}) {
+    GroupInfo groupInfo = null;
+    if (group != null) groupInfo = GroupInfo(id: group.id, name: group.name);
     return CreatePostState(
-        isError: false, isSubmitted: false, isSubmitting: false);
+        isError: false,
+        isSubmitted: false,
+        isSubmitting: false,
+        group: groupInfo);
   }
 
   CreatePostState createSubmitting() {
@@ -73,6 +79,7 @@ class CreatePostState {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       eventDate: eventDate ?? this.eventDate,
       eventTime: eventTime ?? this.eventTime,
+      group: this.group,
       //maps
       mandatoryFields: this.mandatoryFields,
       optionalFields: this.optionalFields,

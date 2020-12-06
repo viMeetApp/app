@@ -11,12 +11,7 @@ import 'package:signup_app/util/presets.dart';
 import '../../util/presets.dart';
 
 class CreatePostForm extends StatelessWidget {
-  final Group group;
-  CreatePostForm({this.group}) {
-    if (group != null) {
-      //mandatoryFields['group'] = GroupInfo(id: group.id, name: group.name);
-    }
-  }
+  CreatePostForm();
 
   Future _showDialog(
       {@required context,

@@ -14,20 +14,16 @@ class CreatePostPage extends StatelessWidget {
 
   Group group;
 
-//Ich glaube das ist eine schöne Lösung um um alle Text Ediding Controller rumzukommen
-//Eventuell ist es best Practise dieses Speichern im BLOC zu machen
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CreatePostCubit>(
-          create: (_) => CreatePostCubit(),
+          create: (_) => CreatePostCubit(group: group),
         ),
         BlocProvider<TagCubit>(create: (_) => TagCubit()),
       ],
-      child: CreatePostForm(
-        group: group,
-      ),
+      child: CreatePostForm(),
     );
   }
 }
