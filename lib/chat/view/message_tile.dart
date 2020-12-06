@@ -33,14 +33,14 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message.author.name,
+                      message.author.name ?? "[UNBEKANNT]",
                       style: TextStyle(
                           color: AppThemeData.colorTextRegular,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    message.content,
+                    message.content ?? "[FEHLER IN NACHRICHT]",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1000, //Change Later
                   ),

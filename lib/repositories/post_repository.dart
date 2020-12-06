@@ -56,6 +56,7 @@ class PostRepository {
     CollectionReference colReference = _firestore.collection('posts');
     Stream<QuerySnapshot> snap;
     Query query;
+
     //First Check for Group (if it's feed in Group only show Post from Group)
     if (group != null) {
       query = colReference.where("group.id", isEqualTo: group.id);
@@ -71,6 +72,7 @@ class PostRepository {
       snap = query
           .snapshots(); //orderBy('createdDate',descending: true).snapshots();
     }
+    print("getPosts");
 
     //Get snapshorts filtered correctly
     snap = query != null ? query.snapshots() : colReference.snapshots();
@@ -79,6 +81,7 @@ class PostRepository {
     Stream<List<Post>> postStream = snap.map((list) {
       List<Post> postList = list.docs.map((doc) {
         if (doc['type'] == "event") {
+          Event.fromDoc(doc);
           return Event.fromDoc(doc);
         } else if (doc['type'] == "buddy") {
           return Buddy.fromDoc(doc);

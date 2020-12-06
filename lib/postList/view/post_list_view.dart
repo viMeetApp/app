@@ -81,6 +81,7 @@ class PostListView extends StatelessWidget {
                         child: StreamBuilder(
                           stream: state.postStream,
                           builder: (context, snapshot) {
+                            print("HasError: " + snapshot.error.toString());
                             if (!snapshot.hasData) {
                               return Center(child: CircularProgressIndicator());
                             } else {

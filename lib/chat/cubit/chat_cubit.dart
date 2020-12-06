@@ -26,6 +26,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
     if (content.length != 0 ?? content != null) {
       Message message =
           Message.createTextMessage(author: user, content: content);
+      print(message.toDoc());
       FirebaseFirestore.instance
           .collection('posts')
           .doc(postId)
