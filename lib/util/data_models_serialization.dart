@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'data_models.dart';
+// part of 'data_models.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) {
+/*
+User _userFromJSON(Map<String, dynamic> json) {
   return User(
     name: json['name'] as String,
     uid: json['uid'] as String,
   );
 }
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _userToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'uid': instance.uid,
     };
@@ -194,3 +195,4 @@ Map<String, dynamic> _$BuddyToJson(Buddy instance) => <String, dynamic>{
       'details': instance.details?.map((e) => e?.toJson())?.toList(),
       'author': instance.author?.toJson(),
     };
+*/
