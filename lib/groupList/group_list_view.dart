@@ -62,8 +62,10 @@ class ListElement extends StatelessWidget {
             SizedBox(
               width: 30,
             ),
-            Text(group.name,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+            Flexible(
+              child: Text(group.name,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            )
           ],
         ),
       ),

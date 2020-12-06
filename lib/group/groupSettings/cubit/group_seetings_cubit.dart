@@ -49,11 +49,16 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   ///Accept Request for New Group Memeber, onyly Admmins allowed
   void accepRequest({@required User user}) {
     if (state is AdminSettings) {
+      //Local Changes
       state.group.requestedToJoin.remove(user.uid);
       state.group.users.add(user.uid);
+      //Changes in DB
       var ref = _firestore.collection('groups').doc(state.group.id);
-      ref.update(state.group.toJson()).then((value) {
-        AdminSettings(group: state.group);
+      ref.update({
+        'requestedToJoin': FieldValue.arrayRemove([user.uid]),
+        'users': FieldValue.arrayUnion([user.uid])
+      }).then((value) {
+        emit(AdminSettings(group: state.group));
       }).catchError((err) => log("Error"));
     }
   }
@@ -61,10 +66,12 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   ///Decline Request for New Group Memeber, onyly Admmins allowed
   void declineRequest({@required User user}) {
     if (state is AdminSettings) {
+      //Local Changes
       state.group.requestedToJoin.remove(user.uid);
+      //Changes in DB
       var ref = _firestore.collection('groups').doc(state.group.id);
-      ref.update(state.group.toJson()).then((value) {
-        AdminSettings(group: state.group);
+      ref.update({
+        'requestedToJoin': FieldValue.arrayRemove([user.uid])
       }).catchError((err) => log("Error"));
     }
   }
