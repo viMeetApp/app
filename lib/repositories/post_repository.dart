@@ -13,19 +13,16 @@ class PostRepository {
         (await _firestore.collection('posts').doc(postId).get());
     //Check for What Type Objet
 
-    Map<String, dynamic> document = doc.data();
-    document.putIfAbsent("id", () => doc.id);
-
     if (doc['type'] == "event") {
-      return Event.fromJson(document);
+      return Event.fromDoc(doc);
     } else if (doc['type'] == "buddy") {
-      return Buddy.fromJson(document);
+      return Buddy.fromDoc(doc);
     }
   }
 
   //Todo Was passiert wenn wir hier einen Network Error bekommen
   Future<void> updatePost(Post post) {
-    return _firestore.collection('posts').doc(post.id).update(post.toJson());
+    return _firestore.collection('posts').doc(post.id).update(post.toDoc());
   }
 
   ///Return Stream of all Posts matching the [searchQuery]
@@ -42,12 +39,10 @@ class PostRepository {
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream =
         querySnap.map((list) => list.docs.map((doc) {
-              Map<String, dynamic> document = doc.data();
-              document.putIfAbsent("id", () => doc.id);
               if (doc['type'] == "event") {
-                return Event.fromJson(document);
+                return Event.fromDoc(doc);
               } else if (doc['type'] == "buddy") {
-                return Buddy.fromJson(document);
+                return Buddy.fromDoc(doc);
               }
             }).toList());
 
@@ -83,13 +78,10 @@ class PostRepository {
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream = snap.map((list) {
       List<Post> postList = list.docs.map((doc) {
-        Map<String, dynamic> document = doc.data();
-        document['id'] = doc.id;
-        // document.putIfAbsent("id", () => doc.id);
         if (doc['type'] == "event") {
-          return Event.fromJson(document);
+          return Event.fromDoc(doc);
         } else if (doc['type'] == "buddy") {
-          return Buddy.fromJson(document);
+          return Buddy.fromDoc(doc);
         }
       }).toList();
       postList.sort((a, b) {

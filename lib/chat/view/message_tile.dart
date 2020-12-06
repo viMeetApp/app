@@ -10,7 +10,7 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    if (message.author.uid == FirebaseAuth.instance.currentUser.uid) {
+    if (message.author.id == FirebaseAuth.instance.currentUser.uid) {
       return Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Row(

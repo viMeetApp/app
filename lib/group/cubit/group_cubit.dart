@@ -23,8 +23,7 @@ class GroupCubit extends Cubit<GroupState> {
       if (documentSnapshot.exists) {
         //Check if User is part of Group
 
-        Group group = Group.fromJson(documentSnapshot.data())
-          ..setID(documentSnapshot.id);
+        Group group = Group.fromDoc(documentSnapshot);
         _checkAndEmitGroupState(group);
       }
     });

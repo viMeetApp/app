@@ -19,8 +19,7 @@ class UserListWidget extends StatelessWidget {
         .collection('users')
         .where('uid', whereIn: group.users)
         .snapshots()
-        .map((list) =>
-            list.docs.map((doc) => User.fromDatabaseSnapshot(doc)).toList()));
+        .map((list) => list.docs.map((doc) => User.fromDoc(doc)).toList()));
   }
 
   @override
@@ -33,9 +32,7 @@ class UserListWidget extends StatelessWidget {
             .collection('users')
             .where('uid', whereIn: group.users)
             .snapshots()
-            .map((list) => list.docs
-                .map((doc) => User.fromDatabaseSnapshot(doc))
-                .toList()));
+            .map((list) => list.docs.map((doc) => User.fromDoc(doc)).toList()));
       },
       child: StreamBuilder(
         stream: streamController.stream,

@@ -28,7 +28,7 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
       _firestore
           .collection('groups')
           .doc(state.group.id)
-          .update(group.toJson())
+          .update(group.toDoc())
           .then((_) {
         Scaffold.of(ctx)
             .showSnackBar(SnackBar(content: Text("Update Erfolgreich")));
@@ -50,13 +50,13 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   void accepRequest({@required User user}) {
     if (state is AdminSettings) {
       //Local Changes
-      state.group.requestedToJoin.remove(user.uid);
-      state.group.users.add(user.uid);
+      state.group.requestedToJoin.remove(user.id);
+      state.group.users.add(user.id);
       //Changes in DB
       var ref = _firestore.collection('groups').doc(state.group.id);
       ref.update({
-        'requestedToJoin': FieldValue.arrayRemove([user.uid]),
-        'users': FieldValue.arrayUnion([user.uid])
+        'requestedToJoin': FieldValue.arrayRemove([user.id]),
+        'users': FieldValue.arrayUnion([user.id])
       }).then((value) {
         emit(AdminSettings(group: state.group));
       }).catchError((err) => log("Error"));
@@ -67,11 +67,11 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   void declineRequest({@required User user}) {
     if (state is AdminSettings) {
       //Local Changes
-      state.group.requestedToJoin.remove(user.uid);
+      state.group.requestedToJoin.remove(user.id);
       //Changes in DB
       var ref = _firestore.collection('groups').doc(state.group.id);
       ref.update({
-        'requestedToJoin': FieldValue.arrayRemove([user.uid])
+        'requestedToJoin': FieldValue.arrayRemove([user.id])
       }).catchError((err) => log("Error"));
     }
   }

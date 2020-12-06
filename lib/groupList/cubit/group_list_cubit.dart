@@ -14,9 +14,7 @@ class GroupListCubit extends Cubit<Stream<List<Group>>> {
         .collection('groups')
         .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)
         .snapshots()
-        .map((list) => list.docs
-            .map((doc) => (Group.fromJson(doc.data()).setID(doc.id) as Group))
-            .toList());
+        .map((list) => list.docs.map((doc) => (Group.fromDoc(doc))).toList());
 
     emit(groupStream);
     //Fetch all Groups from Firestore if the user is authenticated
@@ -28,10 +26,8 @@ class GroupListCubit extends Cubit<Stream<List<Group>>> {
             .where('users',
                 arrayContains: FirebaseAuth.instance.currentUser.uid)
             .snapshots()
-            .map((list) => list.docs
-                .map((doc) =>
-                    (Group.fromJson(doc.data()).setID(doc.id) as Group))
-                .toList());
+            .map((list) =>
+                list.docs.map((doc) => (Group.fromDoc(doc))).toList());
 
         emit(groupStream);
       }

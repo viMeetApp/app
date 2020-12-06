@@ -30,7 +30,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
           .collection('posts')
           .doc(postId)
           .collection('messages')
-          .add(message.toJson());
+          .add(message.toDoc());
     }
   }
 
@@ -64,7 +64,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
     pagePostQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.docs.isNotEmpty) {
         List<Message> posts = postsSnapshot.docs
-            .map((snapshot) => Message.fromJson(snapshot.data()))
+            .map((snapshot) => Message.fromDoc(snapshot))
             .toList();
 
         //Check if page exists or is new page (hier könnte es etwas verwirrend sein, da man ja currenRequestIndex oben setzt)

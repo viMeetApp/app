@@ -81,7 +81,7 @@ Map<String, dynamic> _messageToDoc(Message instance,
 
 DatabaseDocument _databaseDocumentFromDoc(
     DatabaseDocument instance, DocumentSnapshot document) {
-  instance.id = document.data()['id'] as String;
+  instance.id = document.id;
   return instance;
 }
 
