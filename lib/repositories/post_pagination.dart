@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:signup_app/util/data_models.dart';
 
 //ToDo Das Problem im Moment ist es, dass ich alte Suchen nicht gecancelt bekomme, sie laufen die ganze Zeit im Hintergrund. Es wird zwar durch einen Counter sichergestellt, dass sie keinen Einfluss haben, schöner wäre es aber wenn ich sie Stoppen könnte
 ///Class onyl used for Pagination of Posts and Filtering
 ///Stores all iformation must be iinitialized once in a document
 class PostPagination {
+  PostPagination({@required this.paginationDistance});
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //ToDo find nicer method
   //Counter Variable to only update current Streams
@@ -19,7 +21,7 @@ class PostPagination {
   bool _hasMorePosts = true;
   List<List<Post>> _allPagedResults = List<List<Post>>();
   //How many Items get paginated every time
-  final paginationDistance = 20;
+  final paginationDistance;
 
   //Variables Necessary for Filtering
   List<String> tags;
@@ -64,7 +66,7 @@ class PostPagination {
 
   void requestPosts() {
     int localCounter = counter;
-    log("Request Post");
+
     //If there are no mor posts return
     if (!_hasMorePosts) return;
     //If there is a last Document we paginate therefore gettin data after last Document
@@ -73,6 +75,7 @@ class PostPagination {
     }
     //Index how often we already fetched new data -> Number of Lists in big List
     int currentRequestIndex = _allPagedResults.length;
+    print(currentRequestIndex);
 
     //Callbackfunction is called every Time a Document updates itself
     postQuery.snapshots().listen((QuerySnapshot postsSnapshot) {
@@ -124,7 +127,7 @@ class PostPagination {
           }
 
           //Dertermine if there are more posts to request
-          _hasMorePosts = posts.length == 20;
+          _hasMorePosts = posts.length == paginationDistance;
         }
       }
     });

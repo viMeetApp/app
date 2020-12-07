@@ -4,6 +4,7 @@ import 'package:signup_app/postList/cubit/post_list_cubit.dart';
 import 'package:signup_app/postList/view/post_tile.dart';
 import 'package:signup_app/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/search_tags/view/tag_widget.dart';
+import 'package:signup_app/util/creation_aware_widget.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -25,7 +26,6 @@ class PostListView extends StatelessWidget {
           ],
           child: BlocListener<SearchTagCubit, SearchTagState>(
               listener: (context, state) {
-                print("listen");
                 List<String> tagList = [];
                 state.tagMap.forEach(
                   (key, value) {
@@ -84,13 +84,24 @@ class PostListView extends StatelessWidget {
                             if (!snapshot.hasData) {
                               return Center(child: CircularProgressIndicator());
                             } else {
+                              var blocRef =
+                                  BlocProvider.of<PostListCubit>(context);
                               return ListView.builder(
-                                reverse:
-                                    false, //Muss so rum stehen sons Liste von unten aus gefüllt -> Das heißt wir müssen selber alle Einträge umdrehen (noch zu machen)
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) =>
-                                    PostTile(post: snapshot.data[index]),
-                              );
+                                  reverse:
+                                      false, //Muss so rum stehen sons Liste von unten aus gefüllt -> Das heißt wir müssen selber alle Einträge umdrehen (noch zu machen)
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) =>
+                                      CreationAwareWidget(
+                                          itemCreated: () {
+                                            if ((index + 1) %
+                                                    blocRef
+                                                        .paginationDistance ==
+                                                0) {
+                                              blocRef.requestMore();
+                                            }
+                                          },
+                                          child: PostTile(
+                                              post: snapshot.data[index])));
                             }
                           },
                         ),
