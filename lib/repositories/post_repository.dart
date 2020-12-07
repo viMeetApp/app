@@ -13,19 +13,16 @@ class PostRepository {
         (await _firestore.collection('posts').doc(postId).get());
     //Check for What Type Objet
 
-    Map<String, dynamic> document = doc.data();
-    document.putIfAbsent("id", () => doc.id);
-
     if (doc['type'] == "event") {
-      return Event.fromJson(document);
+      return Event.fromDoc(doc);
     } else if (doc['type'] == "buddy") {
-      return Buddy.fromJson(document);
+      return Buddy.fromDoc(doc);
     }
   }
 
   //Todo Was passiert wenn wir hier einen Network Error bekommen
   Future<void> updatePost(Post post) {
-    return _firestore.collection('posts').doc(post.id).update(post.toJson());
+    return _firestore.collection('posts').doc(post.id).update(post.toDoc());
   }
 
   ///Return Stream of all Posts matching the [searchQuery]
@@ -42,12 +39,10 @@ class PostRepository {
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream =
         querySnap.map((list) => list.docs.map((doc) {
-              Map<String, dynamic> document = doc.data();
-              document.putIfAbsent("id", () => doc.id);
               if (doc['type'] == "event") {
-                return Event.fromJson(document);
+                return Event.fromDoc(doc);
               } else if (doc['type'] == "buddy") {
-                return Buddy.fromJson(document);
+                return Buddy.fromDoc(doc);
               }
             }).toList());
 
@@ -60,6 +55,7 @@ class PostRepository {
     CollectionReference colReference = _firestore.collection('posts');
     Stream<QuerySnapshot> snap;
     Query query;
+
     //First Check for Group (if it's feed in Group only show Post from Group)
     if (group != null) {
       query = colReference.where("group.id", isEqualTo: group.id);
@@ -75,6 +71,7 @@ class PostRepository {
       snap = query
           .snapshots(); //orderBy('createdDate',descending: true).snapshots();
     }
+    print("getPosts");
 
     //Get snapshorts filtered correctly
     snap = query != null ? query.snapshots() : colReference.snapshots();
@@ -82,13 +79,11 @@ class PostRepository {
     //Map Stream of Query Snapshots to Stream of Post Objects
     Stream<List<Post>> postStream = snap.map((list) {
       List<Post> postList = list.docs.map((doc) {
-        Map<String, dynamic> document = doc.data();
-        document['id'] = doc.id;
-        // document.putIfAbsent("id", () => doc.id);
         if (doc['type'] == "event") {
-          return Event.fromJson(document);
+          Event.fromDoc(doc);
+          return Event.fromDoc(doc);
         } else if (doc['type'] == "buddy") {
-          return Buddy.fromJson(document);
+          return Buddy.fromDoc(doc);
         }
       }).toList();
       postList.sort((a, b) {

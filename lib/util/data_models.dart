@@ -1,37 +1,66 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'data_models.g.dart';
+part 'data_models.doc_serialize.dart';
+part 'data_models.map_serialize.dart';
 
-//! IMPORTANT
-//! Wenn wir was an der Klasse ändern müssen wir:
-//!
-//!     flutter pub run build_runner watch
-//!
-//! aufrufen ODER die signup_app launch configuration ausführen
-//! um die serialisierungs-Methoden zu erneuern
+abstract class DocumentSerializable {
+  Map<String, dynamic> toDoc();
+  static fromDoc(DocumentSnapshot document) {
+    return null;
+  }
+}
+
+abstract class MapSerializable {
+  Map<String, dynamic> toMap();
+  static fromMap(Map<String, dynamic> map) {
+    return null;
+  }
+}
+
+/// Database Object that includes an id
+///
+///  [id] the author of the Object in the database
+class DatabaseDocument implements DocumentSerializable {
+  String id;
+
+  @override
+  Map<String, dynamic> toDoc() => _databaseDocumentToDoc(this);
+
+  @override
+  static DatabaseDocument fromDoc(DocumentSnapshot document) =>
+      _databaseDocumentFromDoc(new DatabaseDocument(), document);
+}
 
 /// Object that holds information to a single user as saved in the database
 ///
 /// [uid] links a network user to a Firebase-Authentication user
 /// [name] name of the user that the user can set himself
-
-@JsonSerializable(explicitToJson: true)
-class User {
+class User extends DatabaseDocument implements MapSerializable {
   String name;
-  String uid;
-  User({@required this.name, @required this.uid});
+  String id;
+  User({this.name, this.id});
+
+  @override
+  Map<String, dynamic> toDoc() => _userToDoc(this);
+
+  @override
+  static User fromDoc(DocumentSnapshot document) =>
+      _userFromDoc(new User(), document);
+
+  @override
+  Map<String, dynamic> toMap() => _userToMap(this);
+
+  @override
+  static User fromMap(Map<String, dynamic> map) => _userFromMap(map);
 
   //!Habe hier schin eine so neue Funktion geschrieben die mit Document Snapshot arbeitet anstatt JSON
-  factory User.fromDatabaseSnapshot(DocumentSnapshot snap) {
+  /*factory User.fromDatabaseSnapshot(DocumentSnapshot snap) {
     return User(name: snap.data()['name'], uid: snap.id);
   }
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);*/
 }
 
 /// Class that defines Objects that are created by a user
@@ -41,24 +70,11 @@ class UserGeneratedContent {
   User author;
 }
 
-/// Database Object that includes an id
-///
-///  [id] the author of the Object in the database
-class DatabaseDocument {
-  String id;
-
-  DatabaseDocument setID(String id) {
-    this.id = id;
-    return this;
-  }
-}
-
 /// Object that holds information to a group as saved in the database
 ///
 /// [name] Name of the group
 /// [about] Text that informs about the group
 /// [users] a list of the userIDs of the users that are in the group
-@JsonSerializable(explicitToJson: true)
 class Group extends DatabaseDocument {
   Group();
   String name;
@@ -67,8 +83,12 @@ class Group extends DatabaseDocument {
   List<String> admins = [];
   List<String> requestedToJoin = [];
 
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
-  Map<String, dynamic> toJson() => _$GroupToJson(this);
+  @override
+  Map<String, dynamic> toDoc() => _groupToDoc(this);
+
+  @override
+  static Group fromDoc(DocumentSnapshot document) =>
+      _groupFromDoc(new Group(), document);
 }
 
 /// Object that holds information about a Post
@@ -84,7 +104,6 @@ class Group extends DatabaseDocument {
 
 //! Achtung kann Sein, dass man Tags in JSON Serializable immer nach neu mit Funktion tags from Json updaten muss
 
-@JsonSerializable(explicitToJson: true)
 class Post extends DatabaseDocument implements UserGeneratedContent {
   Post();
   String title;
@@ -100,51 +119,39 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
   @override
   User author;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
-  Map<String, dynamic> toJson() => _$PostToJson(this);
+  @override
+  Map<String, dynamic> toDoc() => _postToDoc(this);
+
+  @override
+  static Post fromDoc(DocumentSnapshot document) =>
+      _postFromDoc(new Post(), document);
 }
 
-///Helper Function to generate Tags List From json
-List<String> getTagsFromJson(var json) {
-  List<String> tags = [];
-  json.forEach((key, value) {
-    if (value == true) tags.add(key);
-  });
-  return tags;
-}
-
-///Helper Function to generate TagMap for Database from tag List
-///Not tested yet
-Map<String, bool> createTagMapForJson(List<String> tags) {
-  Map<String, bool> tagMap = Map();
-  tags.forEach((tag) {
-    tagMap.addEntries([MapEntry(tag, true)]);
-  });
-  return tagMap;
-}
-
-@JsonSerializable(explicitToJson: true)
-class PostDetail {
+class PostDetail implements MapSerializable {
   String id;
   String value;
 
   PostDetail({@required this.id, @required this.value});
 
-  factory PostDetail.fromJson(Map<String, dynamic> json) =>
-      _$PostDetailFromJson(json);
-  Map<String, dynamic> toJson() => _$PostDetailToJson(this);
+  @override
+  Map<String, dynamic> toMap() => _postDetailToMap(this);
+
+  @override
+  static PostDetail fromMap(Map<String, dynamic> map) =>
+      _postDetailFromMap(map);
 }
 
-@JsonSerializable(explicitToJson: true)
-class GroupInfo {
+class GroupInfo implements MapSerializable {
   String id;
   String name;
 
   GroupInfo({@required this.id, @required this.name});
 
-  factory GroupInfo.fromJson(Map<String, dynamic> json) =>
-      _$GroupInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$GroupInfoToJson(this);
+  @override
+  Map<String, dynamic> toMap() => _groupInfoToMap(this);
+
+  @override
+  static GroupInfo fromMap(Map<String, dynamic> map) => _groupInfoFromMap(map);
 }
 
 /// Object that holds information to a Message from a chat of a post
@@ -153,8 +160,7 @@ class GroupInfo {
 /// [timestamp] the time at which the post was composed
 /// [type] indicates if the message is a text or a video message
 /// [content] message of the user or reference to the video file
-@JsonSerializable(explicitToJson: true, nullable: true)
-class Message implements UserGeneratedContent {
+class Message extends DatabaseDocument implements UserGeneratedContent {
   Message();
   int timestamp;
   String type;
@@ -169,9 +175,12 @@ class Message implements UserGeneratedContent {
       : timestamp = DateTime.now().millisecondsSinceEpoch,
         type = 'text';
 
-  factory Message.fromJson(Map<String, dynamic> json) =>
-      _$MessageFromJson(json);
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+  @override
+  Map<String, dynamic> toDoc() => _messageToDoc(this);
+
+  @override
+  static Message fromDoc(DocumentSnapshot document) =>
+      _messageFromDoc(new Message(), document);
 }
 
 /// Post of the type Event
@@ -180,26 +189,30 @@ class Message implements UserGeneratedContent {
 /// [participants] current members of the event. List of User-IDs
 /// [location] where the event will start
 /// [cost] estimated cost of participation
-@JsonSerializable(explicitToJson: true, nullable: true)
 class Event extends Post {
   Event();
   int eventDate;
   int maxPeople;
   List<String> participants;
 
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
-  Map<String, dynamic> toJson() => _$EventToJson(this);
+  @override
+  Map<String, dynamic> toDoc() => _eventToDoc(this);
+
+  @override
+  static Event fromDoc(DocumentSnapshot document) =>
+      _eventFromDoc(new Event(), document);
 }
 
 /// Post of the type events
-/// TODO: talk about needed fields
-
-@JsonSerializable(explicitToJson: true)
 class Buddy extends Post {
   Buddy();
 
-  factory Buddy.fromJson(Map<String, dynamic> json) => _$BuddyFromJson(json);
-  Map<String, dynamic> toJson() => _$BuddyToJson(this);
+  @override
+  Map<String, dynamic> toDoc() => _buddyToDoc(this);
+
+  @override
+  static Event fromDoc(DocumentSnapshot document) =>
+      _buddyFromDoc(new Buddy(), document);
 }
 
 /// Class that holds information about the current Location

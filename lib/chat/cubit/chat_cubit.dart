@@ -12,6 +12,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
   StreamController<List<Message>> _messageStreamController =
       new StreamController<List<Message>>();
   Stream<List<Message>> messageStream;
+
   ChatCubit({@required this.postId, @required this.user})
       : assert(postId != null),
         assert(user != null),
@@ -26,11 +27,12 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
     if (content.length != 0 ?? content != null) {
       Message message =
           Message.createTextMessage(author: user, content: content);
+      print(user.name);
       FirebaseFirestore.instance
           .collection('posts')
           .doc(postId)
           .collection('messages')
-          .add(message.toJson());
+          .add(message.toDoc());
     }
   }
 
@@ -64,7 +66,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
     pagePostQuery.snapshots().listen((postsSnapshot) {
       if (postsSnapshot.docs.isNotEmpty) {
         List<Message> posts = postsSnapshot.docs
-            .map((snapshot) => Message.fromJson(snapshot.data()))
+            .map((snapshot) => Message.fromDoc(snapshot))
             .toList();
 
         //Check if page exists or is new page (hier könnte es etwas verwirrend sein, da man ja currenRequestIndex oben setzt)

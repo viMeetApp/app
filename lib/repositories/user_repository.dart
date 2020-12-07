@@ -47,7 +47,7 @@ class UserRepository {
         .collection('users')
         .where('uid', whereIn: userIds)
         .snapshots()
-        .map((list) => list.docs.map((doc) => util.User.fromJson(doc.data())));
+        .map((list) => list.docs.map((doc) => util.User.fromDoc(doc)));
     return userStream;
   }
 
@@ -58,7 +58,8 @@ class UserRepository {
           .collection('users')
           .doc(_firebaseAuth.currentUser.uid)
           .get();
-      return util.User.fromDatabaseSnapshot(snap);
+      print(util.User.fromDoc(snap).toMap());
+      return util.User.fromDoc(snap);
     } catch (err) {
       print("Error in get User");
       print(err.toString());

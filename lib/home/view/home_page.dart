@@ -1,16 +1,9 @@
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/create_post/creat_post.dart';
-import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/groupfeed/groupfeed_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
-import 'package:signup_app/home/group_dropdown_widget/view/group_dropdown_widget.dart';
 import 'package:signup_app/homefeed/homefeed_page.dart';
-import 'package:signup_app/homefeed/location_dialog/location_dialog.dart';
 import 'package:signup_app/login/view/login_page.dart';
-import 'package:signup_app/postList/post_list.dart';
 import 'package:signup_app/settings/view/settings_page.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -22,8 +15,6 @@ class HomePage extends StatelessWidget {
               initLoggedIn: loggedIn,
             ));
   }
-
-  final groupDropdownWidget = GroupDropownWidget();
 
   HomePage({this.initLoggedIn = false});
 
@@ -69,7 +60,7 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.grey[300],
+                              color: Color.fromRGBO(50, 50, 50, 0.06),
                               offset: Offset(0, 1),
                               blurRadius: 2.0,
                               spreadRadius: 2.0)

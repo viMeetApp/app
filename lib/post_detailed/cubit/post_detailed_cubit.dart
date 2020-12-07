@@ -29,9 +29,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
       if (documentSnapshot.exists) {
         print("Firestore");
         if (documentSnapshot['type'] == 'event') {
-          emit(EventState(
-              post: Event.fromJson(documentSnapshot.data())
-                  .setID(documentSnapshot.id)));
+          emit(EventState(post: Event.fromDoc(documentSnapshot)));
         } else if (documentSnapshot['type'] == 'buddy') {
           emit(BuddyState());
         }

@@ -63,11 +63,10 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       //!ToDo what to do with Event Time
     }
 
+    print(event.toDoc());
+
     //Write to Firetore
-    FirebaseFirestore.instance
-        .collection('posts')
-        .add(event.toJson())
-        .then((_) {
+    FirebaseFirestore.instance.collection('posts').add(event.toDoc()).then((_) {
       emit(state.createSuccess());
     }).catchError((err) {
       log("Error Create Post with Firebase");
