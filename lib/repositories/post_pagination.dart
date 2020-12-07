@@ -83,13 +83,11 @@ class PostPagination {
         if (postsSnapshot.docs.isNotEmpty) {
           List<Post> posts =
               postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
-            Map<String, dynamic> document = snapshot.data();
-            document['id'] = snapshot.id;
             // document.putIfAbsent("id", () => doc.id);
-            if (document['type'] == "event") {
-              return Event.fromJson(document);
-            } else if (document['type'] == "buddy") {
-              return Buddy.fromJson(document);
+            if (snapshot.data()['type'] == "event") {
+              return Event.fromDoc(snapshot);
+            } else if (snapshot.data()['type'] == "buddy") {
+              return Buddy.fromDoc(snapshot);
             }
           }).toList();
           posts.sort((a, b) {
