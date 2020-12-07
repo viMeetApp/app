@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:signup_app/util/data_models.dart';
 
+//ToDo Das Problem im Moment ist es, dass ich alte Suchen nicht gecancelt bekomme, sie laufen die ganze Zeit im Hintergrund. Es wird zwar durch einen Counter sichergestellt, dass sie keinen Einfluss haben, schöner wäre es aber wenn ich sie Stoppen könnte
 ///Class onyl used for Pagination of Posts and Filtering
 ///Stores all iformation must be iinitialized once in a document
 class PostPagination {

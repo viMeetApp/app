@@ -16,7 +16,7 @@ class RequestedToJoinWidget extends StatelessWidget {
   RequestedToJoinWidget({@required this.group}) {
     streamController.addStream(FirebaseFirestore.instance
         .collection('users')
-        .where('uid', whereIn: group.requestedToJoin)
+        .where('__name__', whereIn: group.requestedToJoin)
         .snapshots()
         .map((list) =>
             list.docs.map((doc) => User.fromDatabaseSnapshot(doc)).toList()));
