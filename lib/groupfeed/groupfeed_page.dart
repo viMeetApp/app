@@ -15,7 +15,7 @@ class GroupFeed extends StatelessWidget {
         onPressed: () {
           //Navigator.push(context, CreatePostPage.route());
           Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text("TODO: Neue Gruppen finden")));
+              SnackBar(content: Text("TODO: Gruppe Finden erstellen")));
         },
         icon: Icon(
           Icons.add,

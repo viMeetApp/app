@@ -17,7 +17,7 @@ class UserListWidget extends StatelessWidget {
   {
     streamController.addStream(FirebaseFirestore.instance
         .collection('users')
-        .where('uid', whereIn: group.users)
+        .where('__name__', whereIn: group.users)
         .snapshots()
         .map((list) => list.docs.map((doc) => User.fromDoc(doc)).toList()));
   }

@@ -50,8 +50,7 @@ class PostRepository {
   }
 
 //!Funktion nicht anfassen ist nicht schöne ich überarbeite Sie wenn wir mehr Post Objekte zum Testen haben
-
-  Stream<List<Post>> getPostsFitlered({List<String> tags, Group group}) {
+  Stream<List<Post>> getPostsFiltered({List<String> tags, Group group}) {
     //Todo Filter for Query
     CollectionReference colReference = _firestore.collection('posts');
     Stream<QuerySnapshot> snap;

@@ -37,6 +37,7 @@ class ChatWidget extends StatelessWidget {
                           return Expanded(
                               child: Center(child: Text("unknown Error")));
                         else if (!snapshot.hasData)
+                          //Return Nothing
                           return Expanded(child: Container());
                         else {
                           var blocRef = BlocProvider.of<ChatCubit>(context);
