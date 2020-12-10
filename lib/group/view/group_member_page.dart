@@ -93,7 +93,7 @@ class GroupMemberPage extends StatelessWidget {
         ),
         backgroundColor: AppThemeData.colorPrimary,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
