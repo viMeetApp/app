@@ -211,7 +211,7 @@ class Buddy extends Post {
   Map<String, dynamic> toDoc() => _buddyToDoc(this);
 
   @override
-  static Event fromDoc(DocumentSnapshot document) =>
+  static Buddy fromDoc(DocumentSnapshot document) =>
       _buddyFromDoc(new Buddy(), document);
 }
 

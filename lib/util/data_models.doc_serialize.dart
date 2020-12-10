@@ -147,7 +147,7 @@ Event _eventFromDoc(Event instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document);
 }
 
-Event _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
+Buddy _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document);
 }
 
