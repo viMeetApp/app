@@ -16,7 +16,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
     if (post.type == 'event') {
       emit(EventState(post: post));
     } else if (post.type == 'buddy') {
-      emit(BuddyState());
+      emit(BuddyState(post: post));
     }
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
@@ -31,7 +31,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
         if (documentSnapshot['type'] == 'event') {
           emit(EventState(post: Event.fromDoc(documentSnapshot)));
         } else if (documentSnapshot['type'] == 'buddy') {
-          emit(BuddyState());
+          emit(BuddyState(post: Post.fromDoc(documentSnapshot)));
         }
       }
     });

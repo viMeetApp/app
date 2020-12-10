@@ -58,7 +58,6 @@ class UserRepository {
           .collection('users')
           .doc(_firebaseAuth.currentUser.uid)
           .get();
-      print(util.User.fromDoc(snap).toMap());
       return util.User.fromDoc(snap);
     } catch (err) {
       print("Error in get User");

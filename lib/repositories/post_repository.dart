@@ -83,7 +83,6 @@ class PostRepository {
           Event.fromDoc(doc);
           return Event.fromDoc(doc);
         } else if (doc['type'] == "buddy") {
-          print("BUDDY: " + doc.data().toString());
           return Buddy.fromDoc(doc);
         }
       }).toList();
@@ -95,7 +94,6 @@ class PostRepository {
       });
       return postList;
     });
-
     return postStream;
   }
 
