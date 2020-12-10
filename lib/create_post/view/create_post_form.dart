@@ -344,7 +344,6 @@ class CreatePostForm extends StatelessWidget {
                                               title: "Kosten pro Person",
                                               context: context,
                                               formatters: []).then((value) {
-                                            print(value);
                                             BlocProvider.of<CreatePostCubit>(
                                                     context)
                                                 .setOptionalField(

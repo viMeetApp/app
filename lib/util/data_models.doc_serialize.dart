@@ -88,7 +88,6 @@ DatabaseDocument _databaseDocumentFromDoc(
 
 User _userFromDoc(User instance, DocumentSnapshot document) {
   instance.name = document.data()['name'] as String;
-  print(instance.name);
   return _databaseDocumentFromDoc(instance, document) as User;
 }
 

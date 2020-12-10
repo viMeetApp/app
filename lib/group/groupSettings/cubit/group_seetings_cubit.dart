@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/debug_tools.dart';
 
 part 'group_seetings_state.dart';
 
@@ -22,6 +23,7 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   ///Update Settings of Group only valid if admin
   Future<void> updateGroup(
       {@required Group group, @required BuildContext ctx}) async {
+    viLog(this, "updateGroup");
     Group oldGroup = state.group;
     if (state is AdminSettings) {
       emit(AdminSettings(group: group));
