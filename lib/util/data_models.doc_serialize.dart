@@ -112,6 +112,7 @@ Group _groupFromDoc(Group instance, DocumentSnapshot document) {
   instance.requestedToJoin = (document.data()['requestedToJoin'] as List)
       ?.map((e) => e as String)
       ?.toList();
+  instance.requestedToJoin.removeWhere((element) => element == "");
   return _databaseDocumentFromDoc(instance, document) as Group;
 }
 

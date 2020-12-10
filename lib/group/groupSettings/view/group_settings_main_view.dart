@@ -43,11 +43,11 @@ class GroupSettingsMainView extends StatelessWidget {
               UpdateSettingsWidget(
                 group: state.group,
               ),
-            /*if (state is AdminSettings &&
+            if (state is AdminSettings &&
                 state.group.requestedToJoin.length != 0)
               RequestedToJoinWidget(
                 group: state.group,
-              ),*/
+              ),
             UserListWidget(group: state.group)
           ],
         ),
