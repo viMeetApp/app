@@ -37,9 +37,11 @@ class UpdateSettingsWidget extends StatelessWidget {
                     context: context,
                     keyboardType: TextInputType.number,
                   ).then((value) {
-                    group.name = value;
-                    BlocProvider.of<GroupSeetingsCubit>(context)
-                        .updateGroup(group: group, ctx: context);
+                    if (value != null) {
+                      group.name = value;
+                      BlocProvider.of<GroupSeetingsCubit>(context)
+                          .updateGroup(group: group, ctx: context);
+                    }
                   });
                   ;
                 },
@@ -68,9 +70,11 @@ class UpdateSettingsWidget extends StatelessWidget {
                     context: context,
                     keyboardType: TextInputType.number,
                   ).then((value) {
-                    group.about = value;
-                    BlocProvider.of<GroupSeetingsCubit>(context)
-                        .updateGroup(group: group, ctx: context);
+                    if (value != null) {
+                      group.about = value;
+                      BlocProvider.of<GroupSeetingsCubit>(context)
+                          .updateGroup(group: group, ctx: context);
+                    }
                   });
                 },
                 child: Container(
