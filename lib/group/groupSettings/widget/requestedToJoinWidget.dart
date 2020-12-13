@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/debug_tools.dart';
 import 'package:signup_app/util/presets.dart';
 
 class RequestedToJoinWidget extends StatelessWidget {
@@ -14,6 +15,12 @@ class RequestedToJoinWidget extends StatelessWidget {
       StreamController<List<User>>();
   //Returns Stream of all user who are currently requesting to Join
   RequestedToJoinWidget({@required this.group}) {
+    if (group.requestedToJoin.length == 0 ||
+        group.requestedToJoin.contains("")) {
+      throw new Exception("requestedToJoin list is malformed. List length: " +
+          group.requestedToJoin.length.toString());
+    }
+    viLog(this, group.requestedToJoin);
     streamController.addStream(FirebaseFirestore.instance
         .collection('users')
         .where('__name__', whereIn: group.requestedToJoin)
@@ -29,7 +36,7 @@ class RequestedToJoinWidget extends StatelessWidget {
         group.users = (state as GroupMemberSettings).group.users;
         streamController.addStream(FirebaseFirestore.instance
             .collection('users')
-            .where('uid', whereIn: group.requestedToJoin)
+            .where('id', whereIn: group.requestedToJoin)
             .snapshots()
             .map((list) => list.docs.map((doc) => User.fromDoc(doc)).toList()));
       },

@@ -88,7 +88,6 @@ DatabaseDocument _databaseDocumentFromDoc(
 
 User _userFromDoc(User instance, DocumentSnapshot document) {
   instance.name = document.data()['name'] as String;
-  print(instance.name);
   return _databaseDocumentFromDoc(instance, document) as User;
 }
 
@@ -113,6 +112,7 @@ Group _groupFromDoc(Group instance, DocumentSnapshot document) {
   instance.requestedToJoin = (document.data()['requestedToJoin'] as List)
       ?.map((e) => e as String)
       ?.toList();
+  instance.requestedToJoin.removeWhere((element) => element == "");
   return _databaseDocumentFromDoc(instance, document) as Group;
 }
 
@@ -147,7 +147,7 @@ Event _eventFromDoc(Event instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document);
 }
 
-Event _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
+Buddy _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document);
 }
 

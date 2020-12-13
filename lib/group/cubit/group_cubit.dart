@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/debug_tools.dart';
 
 part 'group_state.dart';
 
@@ -15,6 +18,7 @@ class GroupCubit extends Cubit<GroupState> {
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
     //um ab da dynamische Gruppe zu haben.
+    DebugTools.log(this, "group_id:" + group.id);
     _firestore
         .collection('groups')
         .doc(group.id)

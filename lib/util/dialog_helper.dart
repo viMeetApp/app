@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:signup_app/util/debug_tools.dart';
 import 'package:signup_app/util/presets.dart';
 
 //ToDo Bin mir nicht sicher ob das so gut ist mit Klasse oder Static besser wäre
@@ -56,7 +57,7 @@ class DialogHelper {
       List<TextInputFormatter> formatters,
       TextInputType keyboardType = TextInputType.text}) {
     Function onOkay = () {
-      print(currentValue);
+      viLog(context, currentValue);
       Navigator.pop(context, currentValue);
     };
 
@@ -89,7 +90,7 @@ class DialogHelper {
       List<TextInputFormatter> formatters,
       TextInputType keyboardType = TextInputType.text}) {
     Function onOkay = () {
-      print(currentValue);
+      viLog(context, currentValue);
       Navigator.pop(context, currentValue);
     };
 

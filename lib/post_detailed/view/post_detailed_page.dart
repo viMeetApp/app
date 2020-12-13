@@ -9,10 +9,16 @@ import 'package:signup_app/util/presets.dart';
 
 class PostDetailedPage extends StatelessWidget {
   static Route route(Post post) {
-    return MaterialPageRoute<void>(
-        builder: (_) => PostDetailedPage(
-              post: post,
-            ));
+    return MaterialPageRoute<void>(builder: (_) {
+      //TODO Fix buddy parsing. Ignoring buddies:
+      if (post is Buddy) {
+        return Scaffold(body: Center(child: Text("TODO: Buddy parsing")));
+      }
+
+      return PostDetailedPage(
+        post: post,
+      );
+    });
   }
 
   Post post;
@@ -24,7 +30,7 @@ class PostDetailedPage extends StatelessWidget {
     User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
-
+    print("post: " + post.toDoc().toString());
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostdetailedCubit>(
