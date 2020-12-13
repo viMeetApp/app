@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
 import 'package:signup_app/group/groupSettings/widget/requestedToJoinWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/updateSettingsWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/userListWidget.dart';
+import 'package:signup_app/login/login.dart';
+import 'package:signup_app/post_detailed/cubit/subscription_cubit.dart';
 import 'package:signup_app/util/presets.dart';
 
 class GroupSettingsMainView extends StatelessWidget {
@@ -48,7 +54,39 @@ class GroupSettingsMainView extends StatelessWidget {
               RequestedToJoinWidget(
                 group: state.group,
               ),
-            UserListWidget(group: state.group)
+            UserListWidget(group: state.group),
+            FlatButton(
+              child: Text('Gruppe verlassen'),
+              onPressed: () {
+                var oldContext = context;
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('Gruppe verlassen'),
+                          actions: [
+                            FlatButton(
+                              child: Text('abbrechen'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Gruppe verlassen'),
+                              onPressed: () {
+                                BlocProvider.of<GroupSeetingsCubit>(oldContext)
+                                    .unsubscribeFromGroup()
+                                    .then((_) {
+                                  int count = 0;
+                                  Navigator.popUntil(context, (route) {
+                                    return count++ == 3;
+                                  });
+                                });
+                              },
+                            )
+                          ],
+                        ));
+              },
+            )
           ],
         ),
       ),
