@@ -50,7 +50,7 @@ class PostPagination {
     }
     //Then Check for User (if User provided only show Posts from User)
     if (user != null) {
-      query = colReference.where("participants", arrayContains: [user.id]);
+      query = colReference.where("participants", arrayContains: user.id);
     }
     //After that Filter for Tags
     if (tags != null && tags.length != 0) {
