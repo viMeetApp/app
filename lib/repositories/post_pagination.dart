@@ -79,7 +79,6 @@ class PostPagination {
     }
     //Index how often we already fetched new data -> Number of Lists in big List
     int currentRequestIndex = _allPagedResults.length;
-    viLog(this, currentRequestIndex);
 
     //Callbackfunction is called every Time a Document updates itself
     postQuery.snapshots().listen((QuerySnapshot postsSnapshot) {
@@ -116,8 +115,11 @@ class PostPagination {
 
           //Concaternate the full list to be shown
           //Was hier passiert ist, dass die ganzen Sublisten jetzt in eine Zusammengepackt werden
-          List<Post> allPosts = _allPagedResults.fold<List<Post>>(List<Post>(),
-              (initialValue, pageItems) => initialValue..addAll(pageItems));
+          List<Post> allPosts = _allPagedResults.fold<List<Post>>(
+                  List<Post>(),
+                  (initialValue, pageItems) =>
+                      initialValue..addAll(pageItems)) ??
+              [];
 
           //Broadcast all posts
           postStreamController.add(allPosts);
@@ -130,6 +132,8 @@ class PostPagination {
 
           //Dertermine if there are more posts to request
           _hasMorePosts = posts.length == paginationDistance;
+        } else {
+          postStreamController.add([]);
         }
       }
     });
