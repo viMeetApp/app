@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/view/create_post_page.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
-import 'package:signup_app/postList/view/post_list_view.dart';
+import 'package:signup_app/postList/baseClass/post_list_widget.dart';
+import 'package:signup_app/postList/implementations/filterablePostList.dart';
 import 'package:signup_app/util/presets.dart';
 
 ///People who are't Member can not see Everything abot a group
@@ -77,7 +78,7 @@ class NotGroupMemberPage extends StatelessWidget {
           Expanded(
             child: BackdropFilter(
               filter: ImageFilter.blur(),
-              child: PostListView(
+              child: FilterablePostList(
                 group: state.group,
               ),
             ),

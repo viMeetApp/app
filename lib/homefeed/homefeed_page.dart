@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/create_post/view/create_post_page.dart';
 import 'package:signup_app/homefeed/location_dialog/location_dialog.dart';
-import 'package:signup_app/postList/view/post_list_view.dart';
+import 'package:signup_app/postList/implementations/filterablePostList.dart';
 import 'package:signup_app/util/presets.dart';
 
 class HomeFeed extends StatelessWidget {
@@ -82,7 +82,7 @@ class HomeFeed extends StatelessWidget {
         ),
         body: SafeArea(
           child: Center(
-            child: PostListView(),
+            child: FilterablePostList(),
           ),
         ),
       ),
