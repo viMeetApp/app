@@ -79,17 +79,57 @@ void main() {
       final serialized = {
         "title": "Titel des Posts",
         "geohash": "ABC12",
-        "tags": ["Sport", "Kultur"],
+        "tags": {"Sport": true, "Kultur": true},
         "about": "Dies ist ein Post",
         "type": "post",
         "createdDate": 1234567,
         "expireDate": 7654321,
-        "GroupInfo": {"id": "GIID", "name": "Test Gruppe"},
+        "group": {"id": "GIID", "name": "Test Gruppe"},
         "author": {"id": "UerID", "name": "Max"},
         "details": [
           {"id": "treffpunkt", "value": "Bahnhof"},
           {"id": "kosten", "value": "10€"}
         ]
+      };
+      expect(Post.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
+    });
+    //! Der Buddy Test ist momentan noch etwas unsinnig, da es der exakt gleiche wie bei 'Post' ist
+    test("Buddy", () {
+      final serialized = {
+        "title": "Titel des Posts",
+        "geohash": "ABC12",
+        "tags": {"Sport": true, "Kultur": true},
+        "about": "Dies ist ein Post",
+        "type": "post",
+        "createdDate": 1234567,
+        "expireDate": 7654321,
+        "group": {"id": "GIID", "name": "Test Gruppe"},
+        "author": {"id": "UerID", "name": "Max"},
+        "details": [
+          {"id": "treffpunkt", "value": "Bahnhof"},
+          {"id": "kosten", "value": "10€"}
+        ]
+      };
+      expect(Buddy.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
+    });
+    test("Event", () {
+      final serialized = {
+        "title": "Titel des Posts",
+        "geohash": "ABC12",
+        "tags": {"Sport": true, "Kultur": true},
+        "about": "Dies ist ein Post",
+        "type": "post",
+        "createdDate": 1234567,
+        "expireDate": 7654321,
+        "group": {"id": "GIID", "name": "Test Gruppe"},
+        "author": {"id": "UerID", "name": "Max"},
+        "details": [
+          {"id": "treffpunkt", "value": "Bahnhof"},
+          {"id": "kosten", "value": "10€"}
+        ],
+        "eventDate": 2345678,
+        "maxPeople": 7,
+        "participants": ["Max", "Paul"]
       };
       expect(Post.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
     });
