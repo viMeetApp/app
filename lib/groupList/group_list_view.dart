@@ -1,39 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/view/group_page.dart';
-import 'package:signup_app/home/group_dropdown_widget/cubit/group_dropdown_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 
 class GroupListView extends StatelessWidget {
-  final GroupDropdownCubit groupDropdownCubit = GroupDropdownCubit();
+  final Stream<List<Group>> groupStream;
+  GroupListView({@required this.groupStream});
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupDropdownCubit, Stream<List<Group>>>(
-        cubit: groupDropdownCubit,
-        builder: (context, state) {
-          return StreamBuilder(
-              stream: state,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Container(
-                    height: 0,
+    return StreamBuilder(
+        stream: groupStream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Container(
+              height: 0,
+            );
+          else {
+            return ListView.builder(
+                //ToDO Maybe only make scrollable if needed
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return ListElement(
+                    group: snapshot.data[index],
                   );
-                else {
-                  return ListView.builder(
-                      //ToDO Maybe only make scrollable if needed
-                      //Only Scrollable when more than 5 Elements -> Das ist nicht schön vielleicht gibt es einen weg erst wenn nicht mehr alles gebaut werden kann Scrollbar zu machen
-                      /*physics: snapshot.data.length < 10
-                          ? NeverScrollableScrollPhysics()
-                          : null,*/
-                      //shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return ListElement(
-                          group: snapshot.data[index],
-                        );
-                      });
-                }
-              });
+                });
+          }
         });
   }
 }
