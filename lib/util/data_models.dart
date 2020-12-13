@@ -38,8 +38,9 @@ class DatabaseDocument implements DocumentSerializable {
 /// [name] name of the user that the user can set himself
 class User extends DatabaseDocument implements MapSerializable {
   String name;
-  String id;
-  User({this.name, this.id});
+  User({this.name, String id}) {
+    super.id = id;
+  }
 
   @override
   Map<String, dynamic> toDoc() => _userToDoc(this);
