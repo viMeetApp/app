@@ -72,4 +72,6 @@ class EventState extends PostDetailedState {
 }
 
 ///State in which Screen is if Post is a Buddy Post
-class BuddyState extends PostDetailedState {}
+class BuddyState extends PostDetailedState {
+  BuddyState({@required Post post}) : super(post: post);
+}
