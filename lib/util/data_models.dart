@@ -53,14 +53,6 @@ class User extends DatabaseDocument implements MapSerializable {
 
   @override
   static User fromMap(Map<String, dynamic> map) => _userFromMap(map);
-
-  //!Habe hier schin eine so neue Funktion geschrieben die mit Document Snapshot arbeitet anstatt JSON
-  /*factory User.fromDatabaseSnapshot(DocumentSnapshot snap) {
-    return User(name: snap.data()['name'], uid: snap.id);
-  }
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);*/
 }
 
 /// Class that defines Objects that are created by a user

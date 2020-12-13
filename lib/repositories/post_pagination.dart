@@ -9,7 +9,7 @@ import 'package:signup_app/util/data_models.dart';
 ///Class onyl used for Pagination of Posts and Filtering
 ///Stores all iformation must be iinitialized once in a document
 class PostPagination {
-  PostPagination({@required this.paginationDistance});
+  PostPagination({@required this.paginationDistance, this.user, this.group});
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //ToDo find nicer method
   //Counter Variable to only update current Streams
@@ -25,28 +25,32 @@ class PostPagination {
 
   //Variables Necessary for Filtering
   List<String> tags;
-  Group group;
+  final Group group;
+  final User user;
 
   //Query
   Query postQuery;
 
   ///Fuction to Call when New Query Stars
   ///For examlpe at beginning or after Filter Changes
-  void newQuery({List<String> tags, Group group}) async {
+  void newQuery({List<String> tags}) async {
     counter++;
     //Reset all Variables
     _hasMorePosts = true;
     _lastDocument = null;
     _allPagedResults = List<List<Post>>();
     tags = tags;
-    group = group;
     postQuery = null;
     //Create Matching Query to all Filters
     CollectionReference colReference = _firestore.collection('posts');
     Query query;
-    //First Check for Group (if it's feed in Group only show Post from Group)
+    //First Check for Group (if Group Provided only Show Posts from Group)
     if (group != null) {
       query = colReference.where("group.id", isEqualTo: group.id);
+    }
+    //Then Check for User (if User provided only show Posts from User)
+    if (user != null) {
+      query = colReference.where("participants", arrayContains: [user.id]);
     }
     //After that Filter for Tags
     if (tags != null && tags.length != 0) {
