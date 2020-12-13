@@ -61,6 +61,10 @@ void main() {
 
   group("Doc serialization", () {
     final id = "ABC12345";
+    test("DatabaseDocument", () {
+      final serialized = {"unused": true};
+      expect(DatabaseDocument.fromDoc(_DocSnap(id, serialized)).toDoc(), null);
+    });
     test("User", () {
       final serialized = {"name": "Max"};
       expect(User.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
@@ -131,7 +135,16 @@ void main() {
         "maxPeople": 7,
         "participants": ["Max", "Paul"]
       };
-      expect(Post.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
+      expect(Event.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
+    });
+    test("Message", () {
+      final serialized = {
+        "timestamp": 1234567,
+        "type": "text",
+        "content": "This is a message",
+        "author": {"id": "UerID", "name": "Max"}
+      };
+      expect(Message.fromDoc(_DocSnap(id, serialized)).toDoc(), serialized);
     });
   });
 
