@@ -10,10 +10,11 @@ class PostListCubit extends Cubit<PostListState> {
   StreamController<List<Post>> streamController = StreamController();
   final int paginationDistance = 20;
   Group group;
+  User user;
   PostPagination postPagination;
-  PostListCubit({this.group}) : super(PostListState.initial()) {
-    postPagination =
-        PostPagination(paginationDistance: paginationDistance, group: group);
+  PostListCubit({this.group, this.user}) : super(PostListState.initial()) {
+    postPagination = PostPagination(
+        paginationDistance: paginationDistance, group: group, user: user);
     //postStream = PostRepository().getPostsFiltered(tags: null, group: group);
     postPagination.newQuery(tags: null);
     streamController.addStream(postPagination.postStreamController.stream);

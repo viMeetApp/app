@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/groupfeed/groupfeed_page.dart';
+import 'package:signup_app/messageFeed/messagefeed_page.dart';
 import 'package:signup_app/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/homefeed/homefeed_page.dart';
 import 'package:signup_app/login/view/login_page.dart';
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
                       children: [
                         HomeFeed(),
                         GroupFeed(),
-                        Center(child: Text("TODO: Nachrrichten")),
+                        MessageFeed(),
                         SettingsPage()
                       ],
                     ),

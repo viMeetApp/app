@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/view/group_page.dart';
-import 'package:signup_app/home/group_dropdown_widget/cubit/group_dropdown_cubit.dart';
+import 'package:signup_app/junk/group_dropdown_widget/cubit/group_dropdown_cubit.dart';
+
 import 'package:signup_app/util/data_models.dart';
 
 import '../../../util/presets.dart';

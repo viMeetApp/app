@@ -34,7 +34,7 @@ class DatabaseDocument implements DocumentSerializable {
 
 /// Object that holds information to a single user as saved in the database
 ///
-/// [uid] links a network user to a Firebase-Authentication user
+/// [id] links a network user to a Firebase-Authentication user
 /// [name] name of the user that the user can set himself
 class User extends DatabaseDocument implements MapSerializable {
   String name;
