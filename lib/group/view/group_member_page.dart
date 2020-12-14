@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/create_post/view/create_post_page.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/group/groupSettings/view/group_settings_page.dart';
-import 'package:signup_app/postList/baseClass/post_list_widget.dart';
 import 'package:signup_app/postList/implementations/filterablePostList.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -15,7 +14,6 @@ class GroupMemberPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppThemeData.colorControls),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
@@ -51,8 +49,7 @@ class GroupMemberPage extends StatelessWidget {
                   padding: const EdgeInsets.all(AppThemeData.varPaddingEdges),
                   child: Container(
                     width: double.infinity,
-                    padding:
-                        EdgeInsets.only(top: 4, left: 8, right: 8, bottom: 4),
+                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
                         color: AppThemeData.colorCard,
                         border: Border.all(
@@ -62,10 +59,13 @@ class GroupMemberPage extends StatelessWidget {
                             BorderRadius.all(AppThemeData.varCardRadius)),
                     child: Column(
                       children: [
-                        Text(
-                          state.group.name,
-                          style: AppThemeData.textHeading1(),
-                          textAlign: TextAlign.center,
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            state.group.name,
+                            style: AppThemeData.textHeading1(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                         SizedBox(height: 5),
                         Text(state.group.about,
