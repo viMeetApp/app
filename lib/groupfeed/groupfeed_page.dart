@@ -18,10 +18,10 @@ class GroupFeed extends StatelessWidget {
           Navigator.push(context, FindNewGroup.route());
         },
         icon: Icon(
-          Icons.add,
+          Icons.search,
           color: AppThemeData.colorCard,
         ),
-        backgroundColor: AppThemeData.colorPrimary,
+        backgroundColor: AppThemeData.colorPrimaryLight,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
