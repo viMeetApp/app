@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/postList/implementations/plainPostList.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fire;
 
 class MessageFeed extends StatelessWidget {
   @override
