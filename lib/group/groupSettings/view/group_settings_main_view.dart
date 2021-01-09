@@ -42,8 +42,12 @@ class GroupSettingsMainView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppThemeData.colorControls),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
-          "Details",
+          "Gruppen Einstellungen",
           style: AppThemeData.textHeading2(),
         ),
         backgroundColor: Colors.transparent,

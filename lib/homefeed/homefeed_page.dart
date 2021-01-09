@@ -35,7 +35,7 @@ class HomeFeed extends StatelessWidget {
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.date_range),
+              icon: Icon(Icons.calendar_today),
               onPressed: () => {
                 Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text("TODO: Kalender-View")))
