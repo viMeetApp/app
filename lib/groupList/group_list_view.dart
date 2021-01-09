@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/group/view/group_page.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/presets.dart';
 
 class GroupListView extends StatelessWidget {
   final Stream<List<Group>> groupStream;
@@ -40,22 +41,21 @@ class ListElement extends StatelessWidget {
       },
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 8.0, bottom: 8, left: 12, right: 12),
+            const EdgeInsets.only(top: 8.0, bottom: 8, left: 20, right: 20),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.green),
-              height: 30,
-              width: 30,
+            CircleAvatar(
+              backgroundColor: AppThemeData.colorPlaceholder,
+              backgroundImage: AssetImage("assets/img/exampleImage2.jpg"),
+              radius: 30,
             ),
             SizedBox(
               width: 30,
             ),
             Flexible(
               child: Text(group.name,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             )
           ],
         ),

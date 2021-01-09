@@ -1,12 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart' as fire;
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:signup_app/find_new_group/find_new_group.dart';
-import 'package:signup_app/groupList/group_list_view.dart';
 import 'package:signup_app/postList/implementations/plainPostList.dart';
-import 'package:signup_app/repositories/group_pagination.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class MessageFeed extends StatelessWidget {
@@ -15,6 +8,15 @@ class MessageFeed extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Meine Nachrichten", style: AppThemeData.textHeading2()),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.more_vert,
+              //color: AppThemeData.colorTextInverted,
+            ),
+            onPressed: () => {},
+          )
+        ],
       ),
       body: SafeArea(
         child: Center(

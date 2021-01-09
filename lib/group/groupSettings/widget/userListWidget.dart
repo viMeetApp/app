@@ -41,20 +41,7 @@ class UserListWidget extends StatelessWidget {
           if (userSnap.hasError || !userSnap.hasData) {
             return Container();
           }
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Mitglieder:",
-                  style: AppThemeData.textHeading4(),
-                ),
-                ExpandableList(members: userSnap.data)
-              ],
-            ),
-          );
+          return ExpandableList(members: userSnap.data);
         },
       ),
     );
@@ -79,31 +66,24 @@ class _ExpandableListState extends State<ExpandableList> {
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
     //Create List to Shown with Dividers
-    if (!isExpanded) {
-      for (int i = 0; i < widget.shortendList.length; ++i) {
-        widgets.add(ListTileWidget(
-          user: widget.members[i],
-        ));
-        widgets.add(Divider(color: Colors.black));
-      }
-    } else {
-      for (int i = 0; i < widget.members.length; ++i) {
-        widgets.add(ListTileWidget(
-          user: widget.members[i],
-        ));
+    int listLength =
+        isExpanded ? widget.shortendList.length : widget.members.length;
+    for (int i = 0; i < listLength; ++i) {
+      widgets.add(Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text(widget.members[i].name),
+          )));
+      if (i < (widget.shortendList.length - 1)) {
         widgets.add(Divider(
-          color: Colors.black,
+          color: Colors.grey[350],
+          height: 1,
         ));
       }
     }
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.transparent,
-          ),
-          borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
-      margin: const EdgeInsets.all(8),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -129,13 +109,13 @@ class _ExpandableListState extends State<ExpandableList> {
   }
 }
 
-class ListTileWidget extends StatelessWidget {
+/*class ListTileWidget extends StatelessWidget {
   final User user;
   ListTileWidget({@required this.user});
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(20),
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,4 +125,4 @@ class ListTileWidget extends StatelessWidget {
       ),
     );
   }
-}
+}*/
