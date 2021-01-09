@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/group/groupSettings/cubit/group_seetings_cubit.dart';
 import 'package:signup_app/group/groupSettings/widget/requestedToJoinWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/updateSettingsWidget.dart';
 import 'package:signup_app/group/groupSettings/widget/userListWidget.dart';
+import 'package:signup_app/login/login.dart';
+import 'package:signup_app/post_detailed/cubit/subscription_cubit.dart';
 import 'package:signup_app/util/presets.dart';
 
 class GroupSettingsMainView extends StatelessWidget {

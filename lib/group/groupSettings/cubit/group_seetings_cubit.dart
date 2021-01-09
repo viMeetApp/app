@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -86,5 +87,20 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
     } else if (group.users.contains(userId)) {
       emit(GroupMemberSettings(group: group));
     }
+  }
+
+  ///Unsunscribe User from Group
+  Future unsubscribeFromGroup() {
+    log('unsubscribing');
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      'unsubscribeFromGroup',
+    );
+    return callable
+        .call(<String, dynamic>{'groupId': state.group.id})
+        .then((value) => print("Unsubscribed Sucessfully"))
+        .catchError((err) => {
+              // emit(SubscriptionState.onError()),
+              print("There was an error unsubscribing" + err.toString())
+            });
   }
 }

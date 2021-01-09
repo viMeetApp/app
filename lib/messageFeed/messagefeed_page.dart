@@ -20,10 +20,12 @@ class MessageFeed extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-            child: PlainPostList(
-                //ToDo fix this with User but therefore usere constructor must work
-                //user: User(name: 'egal', id: 'hds'),
-                )),
+          child: PlainPostList(
+            //ToDo fix this with User but therefore usere constructor must work
+            user: User(
+                name: 'egal', id: fire.FirebaseAuth.instance.currentUser.uid),
+          ),
+        ),
       ),
     );
   }

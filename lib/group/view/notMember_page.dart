@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/create_post/view/create_post_page.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
-import 'package:signup_app/postList/baseClass/post_list_widget.dart';
 import 'package:signup_app/postList/implementations/filterablePostList.dart';
+import 'package:signup_app/util/debug_tools.dart';
 import 'package:signup_app/util/presets.dart';
 
 ///People who are't Member can not see Everything abot a group
@@ -62,10 +62,16 @@ class NotGroupMemberPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            RaisedButton(
-                              onPressed: () => {},
-                              child: Text("beitreten"),
-                            ),
+                            if (!state.requestedToJoin)
+                              RaisedButton(
+                                onPressed: () {
+                                  BlocProvider.of<GroupCubit>(context)
+                                      .requestToJoinGroup();
+                                  /*.then((value) => 
+                                      .catchError((_) => viLog(this, 'Error'));*/
+                                },
+                                child: Text("beitreten"),
+                              ),
                           ],
                         ),
                       ],
