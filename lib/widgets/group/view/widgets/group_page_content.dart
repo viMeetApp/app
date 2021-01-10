@@ -82,14 +82,17 @@ class GroupPageContent extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           transform: Matrix4.translationValues(0.0, -23.0, 0.0),
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundColor: AppThemeData.colorCard,
+                          child: Hero(
+                            tag: "group_icon" + state.group.id,
                             child: CircleAvatar(
-                              backgroundColor: AppThemeData.colorPlaceholder,
-                              backgroundImage:
-                                  AssetImage("assets/img/exampleImage2.jpg"),
-                              radius: 45,
+                              radius: 50,
+                              backgroundColor: AppThemeData.colorCard,
+                              child: CircleAvatar(
+                                backgroundColor: AppThemeData.colorPlaceholder,
+                                backgroundImage:
+                                    AssetImage("assets/img/exampleImage2.jpg"),
+                                radius: 45,
+                              ),
                             ),
                           ),
                         ),

@@ -10,10 +10,13 @@ class Presets {
   static InputDecoration getTextFieldDecorationHintStyle(
       {String hintText = "",
       IconButton suffixIcon,
+      IconButton prefixIcon,
       String errorText,
       Color fillColor = AppThemeData.colorCard,
-      TextStyle hintStyle}) {
+      TextStyle hintStyle,
+      bool hideFocusBorder = false}) {
     return InputDecoration(
+      prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       hintText: hintText,
       hintStyle: hintStyle ?? TextStyle(color: AppThemeData.colorControls),
@@ -24,10 +27,12 @@ class Presets {
         borderRadius: BorderRadius.circular(10),
       ),
       fillColor: fillColor,
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppThemeData.colorPrimary, width: 3.0),
-        borderRadius: BorderRadius.circular(10),
-      ),
+      focusedBorder: hideFocusBorder
+          ? InputBorder.none
+          : OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: AppThemeData.colorPrimary, width: 3.0),
+              borderRadius: BorderRadius.circular(10)),
     );
   }
 

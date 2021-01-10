@@ -45,10 +45,13 @@ class ListElement extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              backgroundColor: AppThemeData.colorPlaceholder,
-              backgroundImage: AssetImage("assets/img/exampleImage2.jpg"),
-              radius: 30,
+            Hero(
+              tag: "group_icon" + group.id,
+              child: CircleAvatar(
+                backgroundColor: AppThemeData.colorPlaceholder,
+                backgroundImage: AssetImage("assets/img/exampleImage2.jpg"),
+                radius: 30,
+              ),
             ),
             SizedBox(
               width: 30,

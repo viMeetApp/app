@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/post_list/cubit/post_list_cubit.dart';
 import 'package:signup_app/widgets/post_list/baseClass/post_tile.dart';
 import 'package:signup_app/util/creation_aware_widget.dart';
-import 'package:signup_app/util/data_models.dart';
 
 ///Shows List of all Posts matching criteria (filter)
 ///This is a more generic Class should not be used by Itsel one should Only used the derived Classes
