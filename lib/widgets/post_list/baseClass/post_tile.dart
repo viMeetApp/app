@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/post_list/baseClass/tags_dialog.dart';
 
 class PostTile extends StatelessWidget {
   final Post post;
@@ -69,7 +70,13 @@ class PostTile extends StatelessWidget {
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
                               visualDensity: VisualDensity.compact,
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      TagsDialog(post.id, post.tags),
+                                );
+                              },
                               color: Colors.grey[300],
                               child: Icon(
                                 Icons.more_horiz,
@@ -79,7 +86,7 @@ class PostTile extends StatelessWidget {
                               padding: EdgeInsets.all(12),
                               shape: CircleBorder(side: BorderSide.none),
                             ),
-                          )
+                          ),
                       ],
                     ),
                   ],
