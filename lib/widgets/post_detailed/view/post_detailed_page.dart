@@ -6,6 +6,7 @@ import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/chat/view/chat_widget.dart';
 import 'package:signup_app/widgets/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/widgets/post_detailed/cubit/subscription_cubit.dart';
+import 'package:signup_app/widgets/post_detailed/view/widgets/post_details_infosection.dart';
 
 class PostDetailedPage extends StatelessWidget {
   static Route route(Post post) {
@@ -49,12 +50,13 @@ class PostDetailedPage extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: BlocBuilder<PostdetailedCubit, PostDetailedState>(
+          title: Text("Post"),
+          /*BlocBuilder<PostdetailedCubit, PostDetailedState>(
               buildWhen: (previous, current) =>
                   previous.post.title != current.post.title,
               builder: (context, state) {
                 return Text(state.post.title);
-              }),
+              })*/
           actions: [
             //Favourite Icon Button
             BlocBuilder<PostdetailedCubit, PostDetailedState>(
@@ -94,8 +96,7 @@ class PostDetailedPage extends StatelessWidget {
               Scaffold.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(const SnackBar(
-                  content: Text(
-                      'Fehler beim Anmelden vermutlich wegen schlechtem Internt'),
+                  content: Text('Fehler beim Anmelden. Prüfe deine Verbindung'),
                 ));
             } else if (state.subscribing) {
               Scaffold.of(context)
@@ -154,14 +155,24 @@ class BlocDescription extends StatelessWidget {
                 ]),
             //borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
             child: Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(
+                    bottom: 20, top: 10, left: 20, right: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Text(
+                        state.post.title,
+                        style: AppThemeData.textHeading2(),
+                      ),
+                    ),
                     //Only Show Text when Expanded
                     if (state.isExpanded)
                       Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Text(state.post.about, maxLines: 6)),
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: InfoSection(state.post),
+                      ),
 
                     Row(
                       children: [
