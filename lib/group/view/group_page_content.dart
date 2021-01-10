@@ -135,10 +135,24 @@ class GroupPageContent extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: FilterablePostList(
-              group: state.group,
-            ),
-          ),
+            child: (state is GroupMember)
+                ? FilterablePostList(
+                    group: state.group,
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.lock,
+                          size: 30,
+                        ),
+                      ),
+                      Text("Posts sind nur für Mitglieder sichtbar")
+                    ],
+                  ),
+          )
         ]),
       ),
       floatingActionButton: (state is GroupMember)

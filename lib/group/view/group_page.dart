@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/group/cubit/group_cubit.dart';
 import 'package:signup_app/group/view/group_page_content.dart';
-import 'package:signup_app/group/view/notMember_page.dart';
+import 'package:signup_app/junk/notMember_page.dart';
 import 'package:signup_app/util/data_models.dart';
 
 ///Start Page For Group from here on decission if Member or not
