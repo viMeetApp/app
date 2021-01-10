@@ -6,8 +6,8 @@ import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/presets.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
-import 'home/home.dart';
-import 'splash/splash.dart';
+import 'widgets/home/home.dart';
+import 'widgets/splash/splash.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
