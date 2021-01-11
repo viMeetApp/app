@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 
 class InfoSection extends StatelessWidget {
-  Post post;
+  final Post post;
 
   InfoSection(this.post);
 
@@ -20,9 +21,15 @@ class InfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LimitedBox(
-      maxHeight: 250,
-      child: ListView(children: [
+      maxHeight: 300,
+      child: ListView(shrinkWrap: true, children: [
+        PostDetailedPage.getUserInfo(post),
+        Padding(
+          padding: EdgeInsets.only(bottom: 13, top: 7),
+          child: Text(post.about),
+        ),
         Container(
+          padding: EdgeInsets.only(bottom: 10),
           height: 40,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -31,15 +38,12 @@ class InfoSection extends StatelessWidget {
                 (index) => Padding(
                       padding: EdgeInsets.only(right: 8.0),
                       child: Chip(
-                        label: Text(post.tags[index]),
+                        backgroundColor: AppThemeData.swatchPrimary[50],
+                        label: Text("#" + post.tags[index]),
                       ),
                     )),
           ),
         ),
-        Padding(
-            padding: EdgeInsets.only(bottom: 20, top: 7),
-            child: Text(post.about +
-                " On some terminals, these characters are not available at all, and the complexity of the escape sequences discouraged their use, so often only ASCII characters that approximate box-drawing characters are used, such as")),
         Column(
             children: new List.generate(
                 post.details.length,
