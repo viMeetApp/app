@@ -52,18 +52,23 @@ class LocationDialog extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                    itemCount: DEMO_RESULTS.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 50,
-                        //color: Colors.amber[colorCodes[index]],
-                        child: ListTile(
-                          title: Text(DEMO_RESULTS[index]),
-                          onTap: () => {},
-                        ),
-                      );
-                    }),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  child: ListView.builder(
+                      itemCount: DEMO_RESULTS.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          height: 50,
+                          //color: Colors.amber[colorCodes[index]],
+                          child: ListTile(
+                            title: Text(DEMO_RESULTS[index]),
+                            onTap: () => {},
+                          ),
+                        );
+                      }),
+                ),
               )
             ],
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/widgets/create_post/view/create_post_page.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
-import 'package:signup_app/widgets/post_list/implementations/filterablePostList.dart';
+import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
 import 'package:signup_app/util/presets.dart';
 
 ///This is the view for actual Members of the Group
@@ -139,7 +139,8 @@ class GroupPageContent extends StatelessWidget {
           ),
           Expanded(
             child: (state is GroupMember)
-                ? FilterablePostList(
+                ? PostList(
+                    filterable: true,
                     group: state.group,
                   )
                 : Column(
