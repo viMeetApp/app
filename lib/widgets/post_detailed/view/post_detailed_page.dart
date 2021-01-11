@@ -50,7 +50,7 @@ class PostDetailedPage extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          title: Text("Post"),
+          title: Text(" "),
           /*BlocBuilder<PostdetailedCubit, PostDetailedState>(
               buildWhen: (previous, current) =>
                   previous.post.title != current.post.title,
