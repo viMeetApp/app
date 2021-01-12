@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
@@ -23,7 +23,7 @@ class UserListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupSeetingsCubit, GroupSettingsState>(
+    return BlocListener<GroupSettingsCubit, GroupSettingsState>(
       listener: (context, state) async {
         await streamController.close();
         group.users = (state as GroupMemberSettings).group.users;

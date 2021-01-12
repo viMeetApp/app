@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/view/widgets/requestedToJoinWidget.dart';
 import 'package:signup_app/widgets/group/group_settings/view/widgets/updateSettingsWidget.dart';

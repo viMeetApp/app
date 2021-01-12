@@ -1,4 +1,4 @@
-part of 'group_seetings_cubit.dart';
+part of 'group_settings_cubit.dart';
 
 abstract class GroupSettingsState {}
 

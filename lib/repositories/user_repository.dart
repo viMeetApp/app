@@ -62,6 +62,7 @@ class UserRepository {
     } catch (err) {
       print("Error in get User");
       print(err.toString());
+      throw err;
     }
   }
 

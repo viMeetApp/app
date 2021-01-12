@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/dialog_helper.dart';
-import 'package:signup_app/util/presets.dart';
 
 class UpdateSettingsWidget extends StatelessWidget {
   static ShapeBorder _cardShape =
@@ -29,7 +28,7 @@ class UpdateSettingsWidget extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 group.name = value;
-                BlocProvider.of<GroupSeetingsCubit>(context)
+                BlocProvider.of<GroupSettingsCubit>(context)
                     .updateGroup(group: group, ctx: context);
               }
             });
@@ -48,7 +47,7 @@ class UpdateSettingsWidget extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 group.about = value;
-                BlocProvider.of<GroupSeetingsCubit>(context)
+                BlocProvider.of<GroupSettingsCubit>(context)
                     .updateGroup(group: group, ctx: context);
               }
             });

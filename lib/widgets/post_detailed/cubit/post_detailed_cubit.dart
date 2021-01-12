@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
+import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'post_detailed_state.dart';
 
 class PostdetailedCubit extends Cubit<PostDetailedState> {
   Post post;
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  PostRepository _postRepository = new PostRepository();
 
   PostdetailedCubit({@required this.post})
       : assert(post != null),
@@ -21,18 +21,11 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
     //um ab da dynamische Gruppe zu haben.
-    _firestore
-        .collection('posts')
-        .doc(post.id)
-        .snapshots()
-        .listen((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print("Firestore");
-        if (documentSnapshot['type'] == 'event') {
-          emit(EventState(post: Event.fromDoc(documentSnapshot)));
-        } else if (documentSnapshot['type'] == 'buddy') {
-          emit(BuddyState(post: Post.fromDoc(documentSnapshot)));
-        }
+    _postRepository.getPostStreamById(post.id).listen((Post post) {
+      if (post is Event) {
+        emit(EventState(post: post));
+      } else {
+        emit(BuddyState(post: post));
       }
     });
   }

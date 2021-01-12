@@ -1,6 +1,5 @@
 part of 'create_post_cubit.dart';
 
-@immutable
 class CreatePostState {
   //Variables for Validation
   final bool isError;

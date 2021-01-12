@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_seetings_cubit.dart';
+import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/debug_tools.dart';
 import 'package:signup_app/util/presets.dart';
@@ -29,7 +29,7 @@ class RequestedToJoinWidget extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GroupSeetingsCubit, GroupSettingsState>(
+    return BlocListener<GroupSettingsCubit, GroupSettingsState>(
       listener: (context, state) async {
         log("Listener");
         await streamController.close();
@@ -96,7 +96,7 @@ class RequestWidget extends StatelessWidget {
                 Expanded(child: Text(user.name)),
                 IconButton(
                   onPressed: () {
-                    BlocProvider.of<GroupSeetingsCubit>(context)
+                    BlocProvider.of<GroupSettingsCubit>(context)
                         .accepRequest(user: user);
                   },
                   icon: Icon(Icons.done),
@@ -104,7 +104,7 @@ class RequestWidget extends StatelessWidget {
                 ),
                 IconButton(
                     onPressed: () {
-                      BlocProvider.of<GroupSeetingsCubit>(context)
+                      BlocProvider.of<GroupSettingsCubit>(context)
                           .declineRequest(user: user);
                     },
                     icon: Icon(Icons.clear),
