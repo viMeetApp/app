@@ -51,6 +51,10 @@ class UserRepository {
     return userStream;
   }
 
+  static String getUID() {
+    return FirebaseAuth.instance.currentUser.uid;
+  }
+
   ///Return the User who is currently authenticated
   Future<util.User> getUser() async {
     try {
