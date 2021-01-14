@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
+import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
@@ -11,7 +12,6 @@ part 'group_state.dart';
 
 class GroupCubit extends Cubit<GroupState> {
   final userId = FirebaseAuth.instance.currentUser.uid;
-  final GroupRepository _groupRepository = new GroupRepository();
   GroupCubit({@required Group group}) : super(GroupUninitialized()) {
     _checkAndEmitGroupState(group);
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
