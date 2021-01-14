@@ -67,4 +67,32 @@ class GroupRepository {
         .snapshots()
         .map((DocumentSnapshot doc) => Group.fromDoc(doc));
   }
+
+  ///Returns a stream of all users which are currently requesting to subscribe to a [group]
+  Stream<List<User>> getStreamOfUsersRequestingToJoinAGroup(Group group) {
+    if (group.requestedToJoin.length == 0) {
+      throw new Exception("requestedToJoin list is malformed. List is empty");
+    } else {
+      return _firestore
+          .collection('users')
+          .where('__name__', whereIn: group.requestedToJoin)
+          .snapshots()
+          .map((QuerySnapshot querySnapshot) =>
+              querySnapshot.docs.map((doc) => User.fromDoc(doc)).toList());
+    }
+  }
+
+  ///Returns a stream of alll users which are currently member of a [group]
+  Stream<List<User>> getStreamOfUsersWhichAreCurrentMemberOfGroup(Group group) {
+    if (group.users.length == 0) {
+      throw new Exception("user list is malformed. List is empty");
+    } else {
+      return _firestore
+          .collection('users')
+          .where('__name__', whereIn: group.users)
+          .snapshots()
+          .map((QuerySnapshot querySnapshot) =>
+              querySnapshot.docs.map((doc) => User.fromDoc(doc)).toList());
+    }
+  }
 }

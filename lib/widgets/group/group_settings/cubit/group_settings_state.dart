@@ -1,10 +1,12 @@
 part of 'group_settings_cubit.dart';
 
-abstract class GroupSettingsState {}
+abstract class GroupSettingsState {
+  final Group group;
+  GroupSettingsState({@required this.group});
+}
 
 class GroupMemberSettings extends GroupSettingsState {
-  final Group group;
-  GroupMemberSettings({@required this.group});
+  GroupMemberSettings({@required group}) : super(group: group);
 }
 
 class AdminSettings extends GroupMemberSettings {
