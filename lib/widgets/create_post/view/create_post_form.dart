@@ -16,6 +16,22 @@ import '../../../util/presets.dart';
 class CreatePostForm extends StatelessWidget {
   CreatePostForm();
 
+  Widget groupInfoField(CreatePostState state) {
+    return Container(
+        padding: EdgeInsets.only(left: 13, right: 10, top: 5),
+        child: Row(children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.group,
+              color: Colors.white,
+            ),
+          ),
+          Text(state.group.name,
+              style: AppThemeData.textHeading4(color: Colors.white))
+        ]));
+  }
+
   Widget _optionalField({
     @required context,
     Function onPressed,
@@ -114,6 +130,7 @@ class CreatePostForm extends StatelessWidget {
                               hintText: "Titel"),
                         ),
                       ),
+                      if (state.group != null) groupInfoField(state),
                       TagWidget(),
                     ],
                   ),

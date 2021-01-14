@@ -53,6 +53,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
           style: AppThemeData.textHeading2(),
         ),
         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.only(
@@ -105,7 +106,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
                 buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
                 builder: (context, state) {
                   return _settingsGroup(
-                      title: "Mitglieder",
+                      title: group.users.length.toString() + " Mitglieder",
                       child: MembersOfGroupWidget(group: group),
                       padded: false);
                 }),
