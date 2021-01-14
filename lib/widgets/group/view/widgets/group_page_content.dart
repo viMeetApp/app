@@ -9,6 +9,41 @@ import 'package:signup_app/util/presets.dart';
 ///This is the view for actual Members of the Group
 ///Only Member can post and see posts
 class GroupPageContent extends StatelessWidget {
+  Widget progressIndicator(BuildContext context) {
+    return Theme(
+      data: Theme.of(context)
+          .copyWith(accentColor: AppThemeData.colorPrimaryLight),
+      child: Container(
+          padding: EdgeInsets.all(10),
+          height: 48.0,
+          width: 60.0,
+          child: Center(
+              child: AspectRatio(
+                  aspectRatio: 1,
+                  child: CircularProgressIndicator(strokeWidth: 3)))),
+    );
+  }
+
+  Widget cancelRequestDialog(BuildContext context) {
+    return AlertDialog(
+      actionsPadding: EdgeInsets.all(10),
+      title: Text("Anfrage zurückziehen?"),
+      content:
+          Text("Möchtest du deine Beitritts-Anfrage wirklich zurückziehen?"),
+      actions: [
+        FlatButton(
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            child: Text("nein")),
+        RaisedButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+              BlocProvider.of<GroupCubit>(context).withdrawJoinRequest();
+            },
+            child: Text("ja"))
+      ],
+    );
+  }
+
   final GroupState state;
   GroupPageContent({@required this.state});
   @override
@@ -117,16 +152,27 @@ class GroupPageContent extends StatelessWidget {
                                       ? (state as NotGroupMember)
                                               .requestedToJoin
                                           ? OutlineButton(
-                                              onPressed: null,
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          cancelRequestDialog(
+                                                              context),
+                                                );
+                                              },
                                               child: Text("angefragt"),
-                                            )
-                                          : RaisedButton(
-                                              onPressed: () =>
-                                                  BlocProvider.of<GroupCubit>(
-                                                          context)
+                                              borderSide: BorderSide(
+                                                  color: AppThemeData
+                                                      .colorPrimaryLight))
+                                          : (state as NotGroupMember).requesting
+                                              ? progressIndicator(context)
+                                              : RaisedButton(
+                                                  onPressed: () => BlocProvider
+                                                          .of<GroupCubit>(
+                                                              context)
                                                       .requestToJoinGroup(),
-                                              child: Text("beitreten"),
-                                            )
+                                                  child: Text("beitreten"))
                                       : OutlineButton(
                                           color: AppThemeData.colorControls,
                                           textColor: AppThemeData.colorControls,
