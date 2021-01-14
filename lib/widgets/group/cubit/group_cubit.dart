@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +11,7 @@ part 'group_state.dart';
 
 class GroupCubit extends Cubit<GroupState> {
   final userId = FirebaseAuth.instance.currentUser.uid;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GroupRepository _groupRepository = new GroupRepository();
   GroupCubit({@required Group group}) : super(GroupUninitialized()) {
     _checkAndEmitGroupState(group);
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,

@@ -22,7 +22,7 @@ class PostDetailedPage extends StatelessWidget {
     });
   }
 
-  Post post;
+  final Post post;
 
   PostDetailedPage({@required this.post});
 
@@ -100,13 +100,7 @@ class PostDetailedPage extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          //title: getUserInfo(post),
-          /*BlocBuilder<PostdetailedCubit, PostDetailedState>(
-              buildWhen: (previous, current) =>
-                  previous.post.title != current.post.title,
-              builder: (context, state) {
-                return Text(state.post.title);
-              })*/
+          title: Text("Post"),
           actions: [
             //Favourite Icon Button
             BlocBuilder<PostdetailedCubit, PostDetailedState>(
@@ -166,7 +160,7 @@ class PostDetailedPage extends StatelessWidget {
             child: Column(
               verticalDirection: VerticalDirection.up,
               children: [
-                ChatWidget(postId: post.id, user: user),
+                ChatWidget(post: post, user: user),
                 BlocDescription(),
               ],
             ),

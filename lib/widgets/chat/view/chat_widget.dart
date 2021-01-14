@@ -9,19 +9,19 @@ import 'package:signup_app/util/creation_aware_widget.dart';
 import '../chat.dart';
 
 class ChatWidget extends StatelessWidget {
-  final String postId;
+  final Post post;
   final User user;
 
-  TextEditingController _chatController = new TextEditingController();
-  ChatWidget({@required this.postId, @required this.user})
-      : assert(postId != null),
+  final TextEditingController _chatController = new TextEditingController();
+  ChatWidget({@required this.post, @required this.user})
+      : assert(post != null),
         assert(user != null);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
-        create: (context) => ChatCubit(postId: postId, user: user),
+        create: (context) => ChatCubit(post: post, user: user),
         child: BlocBuilder<ChatCubit, Stream<List<Message>>>(
           builder: (context, state) {
             return Expanded(
@@ -49,9 +49,11 @@ class ChatWidget extends StatelessWidget {
                                     CreationAwareWidget(
                                       itemCreated: () {
                                         if ((index + 1) %
-                                                blocRef.paginationDistance ==
+                                                blocRef.chatMessagePagination
+                                                    .paginationDistance ==
                                             0) {
-                                          blocRef.requestPosts();
+                                          blocRef.chatMessagePagination
+                                              .requestMessages();
                                         }
                                       },
                                       child: MessageTile(

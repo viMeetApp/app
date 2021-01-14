@@ -9,10 +9,13 @@ class CreatePostPage extends StatelessWidget {
   ///Set Group argument when post is Created out of Group
   static Route route({Group group}) {
     return MaterialPageRoute<void>(
-        builder: (_) => CreatePostPage()..group = group);
+        builder: (_) => CreatePostPage(
+              group: group,
+            ));
   }
 
-  Group group;
+  final Group group;
+  CreatePostPage({@required this.group});
 
   @override
   Widget build(BuildContext context) {

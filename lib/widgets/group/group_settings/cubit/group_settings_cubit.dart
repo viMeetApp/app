@@ -5,42 +5,40 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
+import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/debug_tools.dart';
 
-part 'group_seetings_state.dart';
+part 'group_settings_state.dart';
 
-class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
+class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
   final userId = fire.FirebaseAuth.instance.currentUser.uid;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GroupRepository _groupRepository = new GroupRepository();
 
-  GroupSeetingsCubit({@required Group group})
+  GroupSettingsCubit({@required Group group})
       : super(GroupMemberSettings(group: group)) {
-    //Defaults to member Settings but can change quick
     _checkAndEmitMatchingState(group: group);
+
+    //ensures real time updates of the group
+    _groupRepository
+        .getGroupStreamById(group.id)
+        .listen((Group group) => _checkAndEmitMatchingState(group: group));
   }
 
   ///Update Settings of Group only valid if admin
   Future<void> updateGroup(
       {@required Group group, @required BuildContext ctx}) async {
-    viLog(this, "updateGroup");
+    //Save before state to make reset possible when Network Fails
     Group oldGroup = state.group;
     if (state is AdminSettings) {
       emit(AdminSettings(group: group));
-      _firestore
-          .collection('groups')
-          .doc(state.group.id)
-          .update(group.toDoc())
-          .then((_) {
+      _groupRepository.updateGroup(group).then((_) {
         Scaffold.of(ctx)
             .showSnackBar(SnackBar(content: Text("Update Erfolgreich")));
       }).catchError((err) {
         Scaffold.of(ctx).hideCurrentSnackBar();
         Scaffold.of(ctx)
             .showSnackBar(SnackBar(content: Text("Netzwerkfehler")));
-        log("Error updating Group");
-        log(err);
+
         //If update Fails reset the fields
         emit(AdminSettings(group: oldGroup));
       });
@@ -52,30 +50,23 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
   ///Accept Request for New Group Memeber, onyly Admmins allowed
   void accepRequest({@required User user}) {
     if (state is AdminSettings) {
-      //Local Changes
-      state.group.requestedToJoin.remove(user.id);
-      state.group.users.add(user.id);
-      //Changes in DB
-      var ref = _firestore.collection('groups').doc(state.group.id);
-      ref.update({
+      _groupRepository.updateGroupViaQuery(state.group, {
         'requestedToJoin': FieldValue.arrayRemove([user.id]),
         'users': FieldValue.arrayUnion([user.id])
-      }).then((value) {
-        emit(AdminSettings(group: state.group));
-      }).catchError((err) => log("Error"));
+      }).then((Group group) {
+        emit(AdminSettings(group: group));
+      }); //ToDo Error Handling
     }
   }
 
   ///Decline Request for New Group Memeber, onyly Admmins allowed
   void declineRequest({@required User user}) {
     if (state is AdminSettings) {
-      //Local Changes
-      state.group.requestedToJoin.remove(user.id);
-      //Changes in DB
-      var ref = _firestore.collection('groups').doc(state.group.id);
-      ref.update({
+      _groupRepository.updateGroupViaQuery(state.group, {
         'requestedToJoin': FieldValue.arrayRemove([user.id])
-      }).catchError((err) => log("Error"));
+      }).then((Group group) {
+        emit(AdminSettings(group: group));
+      }); //ToDo Error Handling
     }
   }
 
@@ -89,7 +80,8 @@ class GroupSeetingsCubit extends Cubit<GroupMemberSettings> {
     }
   }
 
-  ///Unsunscribe User from Group
+//ToDo Extract Cloud Function logic
+  ///Unsunscribe User from Group via own Cloud Function
   Future unsubscribeFromGroup() {
     log('unsubscribing');
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(

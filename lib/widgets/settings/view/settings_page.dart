@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
   static ShapeBorder _cardShape =
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
 
-  SettingsPage() {}
+  SettingsPage();
 
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => SettingsPage());
@@ -111,7 +111,7 @@ class AboutPage extends StatelessWidget {
     try {
       return await rootBundle
           .loadString('assets/legal/' + legalFileName + '.md');
-    } on FlutterError catch (e) {
+    } on FlutterError catch (_) {
       return "ERROR: Seite kann nicht geladen werden";
     }
   }
