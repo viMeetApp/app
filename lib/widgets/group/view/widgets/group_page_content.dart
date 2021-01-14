@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/create_post/view/create_post_page.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
-import 'package:signup_app/widgets/post_list/implementations/filterablePostList.dart';
+import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
 import 'package:signup_app/util/presets.dart';
 
 ///This is the view for actual Members of the Group
@@ -113,10 +114,19 @@ class GroupPageContent extends StatelessWidget {
                                   //width: double.infinity,
                                   margin: EdgeInsets.only(top: 10),
                                   child: (state is NotGroupMember)
-                                      ? RaisedButton(
-                                          onPressed: () => {},
-                                          child: Text("beitreten"),
-                                        )
+                                      ? (state as NotGroupMember)
+                                              .requestedToJoin
+                                          ? OutlineButton(
+                                              onPressed: null,
+                                              child: Text("angefragt"),
+                                            )
+                                          : RaisedButton(
+                                              onPressed: () =>
+                                                  BlocProvider.of<GroupCubit>(
+                                                          context)
+                                                      .requestToJoinGroup(),
+                                              child: Text("beitreten"),
+                                            )
                                       : OutlineButton(
                                           color: AppThemeData.colorControls,
                                           textColor: AppThemeData.colorControls,
@@ -139,7 +149,8 @@ class GroupPageContent extends StatelessWidget {
           ),
           Expanded(
             child: (state is GroupMember)
-                ? FilterablePostList(
+                ? PostList(
+                    filterable: true,
                     group: state.group,
                   )
                 : Column(

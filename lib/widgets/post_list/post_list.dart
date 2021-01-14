@@ -1,3 +1,3 @@
 export 'cubit/post_list_cubit.dart';
-export 'baseClass/post_list_widget.dart';
-export 'baseClass/post_tile.dart';
+export 'view/widgets/post_list_part.dart';
+export 'view/widgets/post_tile.dart';

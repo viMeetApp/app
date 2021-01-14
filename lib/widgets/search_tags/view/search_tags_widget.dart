@@ -14,7 +14,7 @@ class TagWidget extends StatelessWidget {
             vsync: Scaffold.of(context),
             duration: Duration(milliseconds: 250),
             child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.all((state.isExpanded) ? 8 : 4),
               child: LimitedBox(
                 maxHeight: state.isExpanded ? double.infinity : 0,
                 child: Wrap(

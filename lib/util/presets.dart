@@ -125,8 +125,9 @@ class AppThemeData {
   // define font sizes
   static TextStyle textFormField({Color color = colorFormField}) =>
       TextStyle(color: color, fontSize: 16);
-  static TextStyle textNormal({Color color = colorControls}) =>
-      TextStyle(color: color, fontSize: 14);
+  static TextStyle textNormal(
+          {Color color = colorControls, FontWeight fontWeight}) =>
+      TextStyle(color: color, fontSize: 14, fontWeight: fontWeight);
   static TextStyle textHeading1({Color color = colorControls}) =>
       TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold);
   static TextStyle textHeading2({Color color = colorControls}) =>

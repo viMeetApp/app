@@ -18,10 +18,8 @@ class GroupMember extends GroupState {
 ///Not Part of Group one can only ask to join
 class NotGroupMember extends GroupState {
   NotGroupMember({@required group}) : super(group: group) {
-    requestedToJoin = this
-        .group
-        .requestedToJoin
-        .contains(FirebaseAuth.instance.currentUser.uid);
+    requestedToJoin =
+        this.group.requestedToJoin.contains(UserRepository.getUID());
   }
   bool requestedToJoin; //Whether one already requested to join the Group
 

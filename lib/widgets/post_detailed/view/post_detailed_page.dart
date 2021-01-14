@@ -25,6 +25,56 @@ class PostDetailedPage extends StatelessWidget {
   final Post post;
 
   PostDetailedPage({@required this.post});
+
+  static Widget getUserInfo(Post post) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 7),
+      child: Row(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FlatButton(
+              padding: EdgeInsets.all(0),
+              visualDensity: VisualDensity.compact,
+              textColor: AppThemeData.colorControls,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Icon(Icons.person),
+                  ),
+                  Text(
+                    post.author.name,
+                    style: AppThemeData.textNormal(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              onPressed: () => {},
+            ),
+            (post.group != null)
+                ? FlatButton(
+                    padding: EdgeInsets.all(0),
+                    visualDensity: VisualDensity.compact,
+                    textColor: AppThemeData.colorControls,
+                    child: Row(
+                      children: [
+                        Container(
+                          //padding: const EdgeInsets.only(right: 5),
+                          child: Text("   in "),
+                        ),
+                        Text(
+                          post.group.name,
+                          style: AppThemeData.textNormal(
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    onPressed: () => {},
+                  )
+                : Text(""),
+          ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //Das ist eine schöne Version an User zu kommen ohne Netzwerkcall zu machen
@@ -96,7 +146,7 @@ class PostDetailedPage extends StatelessWidget {
               Scaffold.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(const SnackBar(
-                  content: Text('Anmdelden'),
+                  content: Text('Anmelden'),
                 ));
             } else if (state.unsubscribing) {
               Scaffold.of(context)
@@ -155,16 +205,17 @@ class BlocDescription extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Text(
                         state.post.title,
                         style: AppThemeData.textHeading2(),
                       ),
                     ),
+
                     //Only Show Text when Expanded
                     if (state.isExpanded)
                       Padding(
-                        padding: EdgeInsets.only(bottom: 10),
+                        padding: EdgeInsets.only(bottom: 0),
                         child: InfoSection(state.post),
                       ),
 
