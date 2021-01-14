@@ -17,14 +17,7 @@ class GroupSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GroupSettingsCubit>(
-      create: (_) => GroupSettingsCubit(group: group),
-      child: BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
-        builder: (context, state) {
-          return GroupSettingsMainWidget(
-            state: state,
-          );
-        },
-      ),
-    );
+        create: (_) => GroupSettingsCubit(group: group),
+        child: GroupSettingsMainWidget(group: group));
   }
 }

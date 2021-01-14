@@ -16,8 +16,12 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
 
   GroupSettingsCubit({@required Group group})
       : super(GroupMemberSettings(group: group)) {
-    //Defaults to member Settings but can change quick
     _checkAndEmitMatchingState(group: group);
+
+    //ensures real time updates of the group
+    _groupRepository
+        .getGroupStreamById(group.id)
+        .listen((Group group) => _checkAndEmitMatchingState(group: group));
   }
 
   ///Update Settings of Group only valid if admin
