@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/widgets/group/group_settings/view/widgets/requestedToJoinWidget.dart';
-import 'package:signup_app/widgets/group/group_settings/view/widgets/updateSettingsWidget.dart';
-import 'package:signup_app/widgets/group/group_settings/view/widgets/userListWidget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/admit_to_join_group_widget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/members_of_group_widget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/update_settings_widget.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
-  final GroupMemberSettings state;
-  GroupSettingsMainWidget({@required this.state});
+  final Group group;
+  GroupSettingsMainWidget({@required this.group});
 
   Widget _settingsGroup({String title, Widget child, bool padded = true}) {
     return Container(
@@ -75,22 +77,38 @@ class GroupSettingsMainWidget extends StatelessWidget {
                 ),
               ]),
             ),
-            if (state is AdminSettings)
-              _settingsGroup(
-                title: "Informationen",
-                child: UpdateSettingsWidget(
-                  group: state.group,
-                ),
-              ),
-            if (state is AdminSettings &&
-                state.group.requestedToJoin.length != 0)
-              RequestedToJoinWidget(
-                group: state.group,
-              ),
-            _settingsGroup(
-                title: "Mitglieder",
-                child: UserListWidget(group: state.group),
-                padded: false),
+            //Widgtes are only rebuild when the Type os Settings State changes
+            //During the same state it is a widgtes responsibility to update itself
+            //not the resonsibility of the BlocBuilder
+            BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
+                buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
+                builder: (context, state) {
+                  return state is AdminSettings
+                      ? _settingsGroup(
+                          title: "Informationen",
+                          child: UpdateSettingsWidget(
+                            group: group,
+                          ),
+                        )
+                      : Container();
+                }),
+            BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
+                buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
+                builder: (context, state) {
+                  return state is AdminSettings
+                      ? AdmitToJoinGroupWidget(
+                          group: group,
+                        )
+                      : Container();
+                }),
+            BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
+                buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
+                builder: (context, state) {
+                  return _settingsGroup(
+                      title: "Mitglieder",
+                      child: MembersOfGroupWidget(group: group),
+                      padded: false);
+                }),
           ],
         ),
       ),
