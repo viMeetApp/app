@@ -5,7 +5,7 @@ import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cub
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/admit_to_join_group_widget.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/members_of_group_widget.dart';
-import 'package:signup_app/widgets/group/group_settings/widgets/update_settings_widget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/update_group_info_widget/update_group_info_widget.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
   final Group group;
@@ -86,7 +86,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
                   return state is AdminSettings
                       ? _settingsGroup(
                           title: "Informationen",
-                          child: UpdateSettingsWidget(
+                          child: UpdateGroupInfoWidget(
                             group: group,
                           ),
                         )
