@@ -69,8 +69,9 @@ class Presets {
     );
   }
 
-  static Widget getSignUpCard({@required Widget child}) {
+  static Widget simpleCard({@required Widget child, EdgeInsets margin}) {
     return Container(
+      margin: margin,
       padding: EdgeInsets.all(AppThemeData.varPaddingCard),
       decoration: BoxDecoration(
           color: AppThemeData.colorCard,

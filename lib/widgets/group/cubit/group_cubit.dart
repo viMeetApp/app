@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
-import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
@@ -23,7 +21,13 @@ class GroupCubit extends Cubit<GroupState> {
     });
   }
 
+  void withdrawJoinRequest() {
+    /*emit((state as NotGroupMember).copyWith(requesting: true));*/
+    //TODO: Implement a way to withdraw a join request
+  }
+
   void requestToJoinGroup() {
+    emit((state as NotGroupMember).copyWith(requesting: true));
     GroupInteractions.joinGroup(state.group.id, (success) {
       print(success
           ? "Subscribed Sucessfully"
