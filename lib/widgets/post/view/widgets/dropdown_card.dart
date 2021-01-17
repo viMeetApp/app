@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/post/cubit/post_cubit.dart';
-import 'package:signup_app/widgets/post/cubit/subscription_cubit.dart';
 import 'package:signup_app/widgets/post/view/widgets/post_details_infosection.dart';
+import 'package:signup_app/widgets/post/widgets/subscription_button/view/subscription_button.dart';
 
 class DropdownCard extends StatelessWidget {
   @override
@@ -37,7 +37,7 @@ class DropdownCard extends StatelessWidget {
                     if (state.isExpanded) showDetailedInformation(state),
                     Row(
                       children: [
-                        showSubscriptionButton(state, context),
+                        SubscriptionButton(),
                         if ((state.post as Event).maxPeople != -1)
                           showNumbersOfParticipants(state)
                       ],
@@ -62,28 +62,6 @@ class DropdownCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 0),
       child: InfoSection(state.post),
-    );
-  }
-
-  Widget showSubscriptionButton(PostState state, BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: (state as EventState).isSubscribed == false
-          ? RaisedButton(
-              onPressed: () {
-                BlocProvider.of<SubscriptionCubit>(context)
-                    .subscribe(postId: state.post.id);
-              },
-              child: Text("anmelden"),
-            )
-          : RaisedButton(
-              color: AppThemeData.colorPlaceholder,
-              onPressed: () {
-                BlocProvider.of<SubscriptionCubit>(context)
-                    .unsubscribe(postId: state.post.id);
-              },
-              child: Text("abmelden"),
-            ),
     );
   }
 

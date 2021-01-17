@@ -5,7 +5,6 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/chat/view/chat_widget.dart';
 import 'package:signup_app/widgets/post/cubit/post_cubit.dart';
-import 'package:signup_app/widgets/post/cubit/subscription_cubit.dart';
 import 'package:signup_app/widgets/post/view/widgets/action_buttons.dart';
 import 'package:signup_app/widgets/post/view/widgets/dropdown_card.dart';
 
@@ -34,15 +33,8 @@ class PostPage extends StatelessWidget {
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
     print("post: " + post.toDoc().toString());
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PostCubit>(
-          create: (context) => PostCubit(post: post),
-        ),
-        BlocProvider<SubscriptionCubit>(
-          create: (context) => SubscriptionCubit(),
-        )
-      ],
+    return BlocProvider<PostCubit>(
+      create: (context) => PostCubit(post: post),
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: AppThemeData.colorCard,
@@ -54,35 +46,12 @@ class PostPage extends StatelessWidget {
             ),
             title: Text("Post"),
             actions: ActionButtons.getActionButtons()),
-        body: BlocListener<SubscriptionCubit, SubscriptionState>(
-          listener: (context, state) {
-            if (state.error) {
-              Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                  content: Text('Fehler beim Anmelden. Prüfe deine Verbindung'),
-                ));
-            } else if (state.subscribing) {
-              Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                  content: Text('Anmelden'),
-                ));
-            } else if (state.unsubscribing) {
-              Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(const SnackBar(
-                  content: Text('Abmelden'),
-                ));
-            }
-          },
-          child: SafeArea(
-            child: Column(
-              children: [
-                DropdownCard(),
-                ChatWidget(post: post, user: user),
-              ],
-            ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              DropdownCard(),
+              ChatWidget(post: post, user: user),
+            ],
           ),
         ),
       ),
