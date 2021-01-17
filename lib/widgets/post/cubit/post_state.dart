@@ -1,38 +1,42 @@
-part of 'post_detailed_cubit.dart';
+part of 'post_cubit.dart';
 
 ///State for the Detail Screen
 ///[isFavourite] True if user liked this Event -> heart is active
 ///[isSubscribed] True if user added this Event to his Events
 ///[canSubsribe] True if there is a free place in the Post
 @immutable
-class PostDetailedState {
+class PostState {
   Post post;
   bool isFavourite;
   bool isExpanded = true;
   bool showPostVerlaengern = false;
+  bool isAuthor;
 
   //Empty Constructor
-  PostDetailedState.empty()
+  PostState.empty()
       : post = null,
         isFavourite = false,
         showPostVerlaengern = null,
-        isExpanded = true;
+        isExpanded = true,
+        isAuthor = false;
 
-  PostDetailedState({@required this.post, this.isFavourite, this.isExpanded}) {
+  PostState(
+      {@required this.post, this.isFavourite, this.isExpanded, this.isAuthor}) {
     //Diese Werte kann man nacher dynamisch bei erzeugung berechnen
     this.isFavourite = this.isFavourite != null ? this.isFavourite : false;
     this.isExpanded = this.isExpanded != null ? this.isExpanded : true;
+    this.isAuthor = this.isAuthor != null ? this.isAuthor : false;
 
     if (post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000)
       showPostVerlaengern = true;
   }
 
-  PostDetailedState copyWith({
+  PostState copyWith({
     Post post,
     bool isFavourite,
     bool isExpanded,
   }) {
-    return PostDetailedState(
+    return PostState(
       post: post ?? this.post,
       isFavourite: isFavourite ?? this.isFavourite,
       isExpanded: isExpanded ?? this.isExpanded,
@@ -40,12 +44,12 @@ class PostDetailedState {
   }
 }
 
-class Uninitialized extends PostDetailedState {
+class Uninitialized extends PostState {
   Uninitialized() : super.empty();
 }
 
 ///State in which Screen is if Post is an Event
-class EventState extends PostDetailedState {
+class EventState extends PostState {
   bool isSubscribed;
   bool canSubscribe;
 
@@ -72,6 +76,6 @@ class EventState extends PostDetailedState {
 }
 
 ///State in which Screen is if Post is a Buddy Post
-class BuddyState extends PostDetailedState {
+class BuddyState extends PostState {
   BuddyState({@required Post post}) : super(post: post);
 }

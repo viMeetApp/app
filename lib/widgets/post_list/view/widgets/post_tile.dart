@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/post/view/post_page.dart';
 import 'package:signup_app/widgets/post_list/view/widgets/tags_dialog.dart';
 
 class PostTile extends StatelessWidget {
@@ -115,7 +115,7 @@ class PostTile extends StatelessWidget {
               ],
             )),
         onTap: () {
-          Navigator.push(context, PostDetailedPage.route(post));
+          Navigator.push(context, PostPage.route(post));
         });
   }
 }

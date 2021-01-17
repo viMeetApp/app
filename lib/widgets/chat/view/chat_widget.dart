@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/chat/view/message_tile.dart';
-import 'package:signup_app/widgets/post_detailed/cubit/post_detailed_cubit.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/util/creation_aware_widget.dart';
+import 'package:signup_app/widgets/post/cubit/post_cubit.dart';
 
 import '../chat.dart';
 
@@ -72,8 +72,7 @@ class ChatWidget extends StatelessWidget {
                               Flexible(
                                   child: TextFormField(
                                 onTap: () {
-                                  BlocProvider.of<PostdetailedCubit>(context)
-                                      .foldIn();
+                                  BlocProvider.of<PostCubit>(context).foldIn();
                                 }, //Schließt die Karte für Details -> geht nur wenn Chat immer in diesem Context verwendet wird
                                 keyboardType: TextInputType.multiline,
                                 minLines: 1,

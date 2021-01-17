@@ -83,7 +83,8 @@ class GroupRepository {
   }
 
   ///Returns a stream of alll users which are currently member of a [group]
-  Stream<List<User>> getStreamOfUsersWhichAreCurrentMemberOfGroup(Group group) {
+  Stream<List<User>> getStreamOfUsersWhichAreCurrentyMemberOfGroup(
+      Group group) {
     if (group.users.length == 0) {
       throw new Exception("user list is malformed. List is empty");
     } else {

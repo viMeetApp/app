@@ -4,13 +4,13 @@ import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
-part 'post_detailed_state.dart';
+part 'post_state.dart';
 
-class PostdetailedCubit extends Cubit<PostDetailedState> {
+class PostCubit extends Cubit<PostState> {
   Post post;
   PostRepository _postRepository = new PostRepository();
 
-  PostdetailedCubit({@required this.post})
+  PostCubit({@required this.post})
       : assert(post != null),
         super(Uninitialized()) {
     if (post.type == 'event') {

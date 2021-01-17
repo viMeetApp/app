@@ -26,7 +26,7 @@ class MembersOfGroupWidgetCubit extends Cubit<List<User>> {
       emit([]);
     } else {
       currentStream =
-          _groupRepository.getStreamOfUsersWhichAreCurrentMemberOfGroup(group);
+          _groupRepository.getStreamOfUsersWhichAreCurrentyMemberOfGroup(group);
       _streamSubscription = currentStream.listen((List<User> users) {
         emit(users);
       });
