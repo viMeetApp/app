@@ -69,8 +69,8 @@ class GroupSettingsMainWidget extends StatelessWidget {
                   child: Center(
                     child: CircleAvatar(
                       backgroundColor: AppThemeData.colorPlaceholder,
-                      backgroundImage:
-                          AssetImage("assets/img/logo_light_text_trans.png"),
+                      backgroundImage: AssetImage(
+                          "assets/img/brand/logo_light_text_trans.png"),
                       maxRadius: 50,
                       minRadius: 50,
                     ),
