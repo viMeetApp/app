@@ -16,7 +16,7 @@ class SplashPage extends StatelessWidget {
         child: FractionallySizedBox(
           widthFactor: 0.4,
           child: Image(
-            image: AssetImage("assets/img/logo_light_text_trans.png"),
+            image: AssetImage("assets/img/brand/logo_light_text_trans.png"),
           ),
         ),
       ),

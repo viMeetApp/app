@@ -77,8 +77,8 @@ class HomePage extends StatelessWidget {
                         unselectedLabelColor: AppThemeData.colorControls,
                         tabs: [
                           Tab(
-                              icon: ImageIcon(
-                                  AssetImage('assets/img/logo_icon.png'))),
+                              icon: ImageIcon(AssetImage(
+                                  'assets/img/brand/logo_icon.png'))),
                           Tab(icon: Icon(Icons.group)),
                           Tab(icon: Icon(Icons.chat_bubble)),
                           Tab(icon: Icon(Icons.menu)),

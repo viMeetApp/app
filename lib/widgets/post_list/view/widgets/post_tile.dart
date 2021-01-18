@@ -94,14 +94,14 @@ class PostTile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8),
                   child: Text(
-                    post.title,
+                    post.title + "Hallo dies ist ein super langer titel",
                     softWrap: true,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
-                Padding(
+                /*Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Row(
                     children: [
@@ -111,7 +111,7 @@ class PostTile extends StatelessWidget {
                         (Text("TODO: Buddy"))
                     ],
                   ),
-                )
+                )*/
               ],
             )),
         onTap: () {
