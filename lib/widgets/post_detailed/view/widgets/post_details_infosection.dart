@@ -28,7 +28,7 @@ class InfoSection extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 13, top: 7),
           child: Text(post.about),
         ),
-        Container(
+        /*Container(
           padding: EdgeInsets.only(bottom: 10),
           height: 40,
           child: ListView(
@@ -43,7 +43,7 @@ class InfoSection extends StatelessWidget {
                       ),
                     )),
           ),
-        ),
+        ),*/
         Column(
             children: new List.generate(
                 post.details.length,
@@ -51,7 +51,7 @@ class InfoSection extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              right: 15, left: 10, bottom: 8, top: 8),
+                              right: 15, bottom: 8, top: 8),
                           child: Icon(
                             iconFromDetailsID(post.details[index].id),
                             color: AppThemeData.colorPlaceholder,

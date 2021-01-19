@@ -43,7 +43,10 @@ class PostListPart extends StatelessWidget {
                                   //color: AppThemeData.colorAccent,
                                   padding: EdgeInsets.only(top: 15),
                                   child: PostTile(post: snapshot.data[index]))
-                              : PostTile(post: snapshot.data[index])));
+                              : PostTile(
+                                  post: snapshot.data[index],
+                                  highlight: paddedTop,
+                                )));
                 }
               },
             ),

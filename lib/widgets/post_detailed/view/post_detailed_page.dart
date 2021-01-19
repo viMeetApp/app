@@ -42,10 +42,7 @@ class PostDetailedPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 5),
                     child: Icon(Icons.person),
                   ),
-                  Text(
-                    post.author.name,
-                    style: AppThemeData.textNormal(fontWeight: FontWeight.bold),
-                  )
+                  Text(post.author.name, style: AppThemeData.textHeading4())
                 ],
               ),
               onPressed: () => {},
@@ -59,12 +56,14 @@ class PostDetailedPage extends StatelessWidget {
                       children: [
                         Container(
                           //padding: const EdgeInsets.only(right: 5),
-                          child: Text("   in "),
+                          child: Text(
+                            "  in  ",
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                         Text(
                           post.group.name,
-                          style: AppThemeData.textNormal(
-                              fontWeight: FontWeight.bold),
+                          style: AppThemeData.textHeading4(),
                         )
                       ],
                     ),
@@ -205,7 +204,7 @@ class BlocDescription extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.only(bottom: 15),
                       child: Text(
                         state.post.title,
                         style: AppThemeData.textHeading2(),
@@ -215,7 +214,7 @@ class BlocDescription extends StatelessWidget {
                     //Only Show Text when Expanded
                     if (state.isExpanded)
                       Padding(
-                        padding: EdgeInsets.only(bottom: 0),
+                        padding: EdgeInsets.only(bottom: 10),
                         child: InfoSection(state.post),
                       ),
 
