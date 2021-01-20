@@ -91,6 +91,7 @@ class PostList extends StatelessWidget {
               //SizedBox(height: filterable ? 20 : 0),
               PostListPart(
                 paddedTop: filterable,
+                highlight: (group == null),
               ),
             ],
           ),

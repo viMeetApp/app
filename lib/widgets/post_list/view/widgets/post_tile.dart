@@ -17,12 +17,15 @@ class PostTile extends StatelessWidget {
             height: 120,
             margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.transparent),
-                color:
-                    /*(post.group != null && highlight)
-                    ? AppThemeData.swatchPrimary[20]
-                    : AppThemeData.colorCard,*/
-                    AppThemeData.colorCard,
+                border: Border.all(
+                    width: 3,
+                    color: (post.group != null && highlight)
+                        ? AppThemeData.swatchAccent[300]
+                        : Colors.transparent),
+                color: (post.group != null && highlight)
+                    ? AppThemeData.swatchAccent[100]
+                    : AppThemeData.colorCard,
+                //AppThemeData.colorCard,
                 borderRadius: BorderRadius.all(AppThemeData.varCardRadius)),
             padding: const EdgeInsets.all(10),
             child: Column(
