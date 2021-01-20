@@ -80,7 +80,6 @@ class PostDetailedPage extends StatelessWidget {
     User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
-    print("post: " + post.toDoc().toString());
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostdetailedCubit>(
