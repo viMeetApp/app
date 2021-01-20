@@ -4,7 +4,7 @@ import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cub
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/cubit/admit_to_join_group_widget_cubit.dart';
-import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/widgets/request_widget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 
 class AdmitToJoinGroupWidget extends StatelessWidget {
   final AdmitToJoinGroupWidgetCubit cubit;
@@ -22,29 +22,45 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
         child: BlocBuilder<AdmitToJoinGroupWidgetCubit, List<User>>(
           cubit: cubit,
           builder: (context, users) {
-            if (users.length == 0) return Container();
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Mitglieder Anfragen:",
-                    style: AppThemeData.textHeading4(),
-                  ),
-                  Column(
-                    children: users.map(
-                      (user) {
-                        return RequestWidget(
-                          user: user,
-                        );
-                      },
-                    ).toList(),
-                  )
-                ],
-              ),
-            );
+            return (users.length == 0)
+                ? Container()
+                : GroupSettingsGroup(
+                    highlight: true,
+                    padded: false,
+                    title: "Mitglieder Anfragen",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: users.map(
+                        (user) {
+                          return Container(
+                            padding: EdgeInsets.only(left: 3),
+                            child: ListTile(
+                                leading: Icon(Icons.account_circle),
+                                title: Text(user.name),
+                                trailing: Wrap(children: [
+                                  IconButton(
+                                    icon: Icon(Icons.check),
+                                    padding: EdgeInsets.only(left: 10),
+                                    onPressed: () {
+                                      BlocProvider.of<GroupSettingsCubit>(
+                                              context)
+                                          .accepRequest(user: user);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.close),
+                                    padding: EdgeInsets.only(left: 10),
+                                    onPressed: () {
+                                      BlocProvider.of<GroupSettingsCubit>(
+                                              context)
+                                          .declineRequest(user: user);
+                                    },
+                                  ),
+                                ])),
+                          );
+                        },
+                      ).toList(),
+                    ));
           },
         ));
   }

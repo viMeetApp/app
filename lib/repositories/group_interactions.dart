@@ -33,4 +33,13 @@ class GroupInteractions {
         .then((value) => onResponse(true))
         .catchError((err) => onResponse(false));
   }
+
+  static changeAdmin(
+      String groupID, String uid, bool makeAdmin, OnResponse onResponse) {
+    _firestore.collection('groups').doc(groupID).update({
+      'admins': (makeAdmin)
+          ? FieldValue.arrayUnion([uid])
+          : FieldValue.arrayRemove([uid])
+    }).then((value) => onResponse(true));
+  }
 }
