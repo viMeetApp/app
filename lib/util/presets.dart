@@ -100,6 +100,7 @@ class AppThemeData {
 
   static final ColorSwatch swatchPrimary =
       MaterialColor(Color(0xFFFF6b6b).value, {
+    20: Color(0xFFFFeeee),
     50: Color(0xFFFFdddd),
     100: Color(0xFFFFc2c2),
     200: Color(0xFFFF9999),
@@ -110,6 +111,16 @@ class AppThemeData {
     700: Color(0xFFee0000),
     800: Color(0xFFcc0000),
     900: Color(0xFFaa0000),
+  });
+
+  static final ColorSwatch swatchAccent =
+      MaterialColor(Color(0xff4ecdca).value, {
+    100: Color(0xffebfaf9),
+    200: Color(0xffd7f4f3),
+    300: Color(0xFFafe9e7),
+    500: Color(0xFF87dedb),
+    700: Color(0xFF5fd3cf),
+    900: Color(0xFF37c8c3),
   });
 
   // define basic colors
