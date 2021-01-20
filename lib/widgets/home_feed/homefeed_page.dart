@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/widgets/bug_report/view/bug_report_page.dart';
 import 'package:signup_app/widgets/create_post/view/create_post_page.dart';
 import 'package:signup_app/widgets/home_feed/location_dialog/location_dialog.dart';
 import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
@@ -35,7 +36,7 @@ class HomeFeed extends StatelessWidget {
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.calendar_today),
+              icon: Icon(Icons.event),
               onPressed: () => {
                 Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text("TODO: Kalender-View")))
@@ -71,11 +72,9 @@ class HomeFeed extends StatelessWidget {
           actions: [
             Builder(
               builder: (context) => IconButton(
-                icon: Icon(Icons.favorite),
-                onPressed: () => {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("TODO: Favoriten")))
-                },
+                icon: Icon(Icons.bug_report),
+                onPressed: () =>
+                    {Navigator.push(context, BugReportPage.route())},
               ),
             ),
           ],

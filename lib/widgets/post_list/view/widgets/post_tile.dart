@@ -101,17 +101,22 @@ class PostTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.more_vert),
-                          padding: const EdgeInsets.only(left: 10),
-                          visualDensity: VisualDensity.compact,
-                          color: AppThemeData.colorControlsDisabled,
-                          onPressed: () {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text("TODO: Weitere Optionen")));
-                          },
-                        )
-                        /*if (post.tags.length > 1)
+                        PopupMenuButton(
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: AppThemeData.colorControlsDisabled,
+                            ),
+                            padding: const EdgeInsets.only(left: 10),
+                            itemBuilder: (_) => <PopupMenuItem<String>>[
+                                  new PopupMenuItem<String>(
+                                      child: const Text('teilen'),
+                                      value: 'share'),
+                                  new PopupMenuItem<String>(
+                                      child: const Text('melden'),
+                                      value: 'report'),
+                                ],
+                            onSelected:
+                                (string) {}) /*if (post.tags.length > 1)
                           Padding(
                             padding: EdgeInsets.only(right: 6),
                             child: FlatButton(
