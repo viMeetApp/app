@@ -1,8 +1,4 @@
-# signup_app
+# viMeet App
 
-Das Repository der localSign App
-
-### Benutzte FOSS Software
-
-- [Bubble Bottom Bar](https://pub.dev/packages/bubble_bottom_bar)
+Die ist eine App die es gehörlosen Menschen erleichtern soll sich untereinander zu vernetzen
  

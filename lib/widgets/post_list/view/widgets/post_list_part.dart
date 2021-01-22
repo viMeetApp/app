@@ -10,7 +10,8 @@ import 'package:signup_app/util/creation_aware_widget.dart';
 ///filterablePostList and PlainPostist
 class PostListPart extends StatelessWidget {
   final bool paddedTop;
-  PostListPart({this.paddedTop = false});
+  final bool highlight;
+  PostListPart({this.paddedTop = false, this.highlight = true});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class PostListPart extends StatelessWidget {
                                   //color: AppThemeData.colorAccent,
                                   padding: EdgeInsets.only(top: 15),
                                   child: PostTile(post: snapshot.data[index]))
-                              : PostTile(post: snapshot.data[index])));
+                              : PostTile(
+                                  post: snapshot.data[index],
+                                  highlight: highlight,
+                                )));
                 }
               },
             ),

@@ -25,11 +25,26 @@ class _ExpandableListState extends State<ExpandableList> {
     for (int i = 0; i < length; ++i) {
       widgets.add(
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.only(left: 3),
           child: ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text(users[i].name),
-          ),
+              leading: Icon(Icons.account_circle),
+              title: Text(users[i].name),
+              trailing: Wrap(children: [
+                IconButton(
+                    icon: Icon(Icons.verified_user),
+                    padding: EdgeInsets.only(left: 10),
+                    onPressed: () {
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text("TODO: modify admins")));
+                    }),
+                IconButton(
+                    icon: Icon(Icons.close),
+                    padding: EdgeInsets.only(left: 10),
+                    onPressed: () {
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text("TODO: remove user")));
+                    }),
+              ])),
         ),
       );
     }

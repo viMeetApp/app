@@ -4,40 +4,13 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/admit_to_join_group_widget.dart';
+import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/members_of_group_widget.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/update_group_info_widget/update_group_info_widget.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
   final Group group;
   GroupSettingsMainWidget({@required this.group});
-
-  Widget _settingsGroup({String title, Widget child, bool padded = true}) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.white),
-      padding: EdgeInsets.all(padded ? 20 : 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-                top: padded ? 0 : 20,
-                left: padded ? 0 : 20,
-                right: padded ? 0 : 20,
-                bottom: 10),
-            child: Text(
-              title,
-              style: AppThemeData.textHeading4(),
-            ),
-          ),
-          child,
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +42,8 @@ class GroupSettingsMainWidget extends StatelessWidget {
                   child: Center(
                     child: CircleAvatar(
                       backgroundColor: AppThemeData.colorPlaceholder,
-                      backgroundImage:
-                          AssetImage("assets/img/logo_light_text_trans.png"),
+                      backgroundImage: AssetImage(
+                          "assets/img/brand/logo_light_text_trans.png"),
                       maxRadius: 50,
                       minRadius: 50,
                     ),
@@ -85,7 +58,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
                 buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
                 builder: (context, state) {
                   return state is AdminSettings
-                      ? _settingsGroup(
+                      ? GroupSettingsGroup(
                           title: "Informationen",
                           child: UpdateGroupInfoWidget(
                             group: group,
@@ -105,7 +78,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
             BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
                 buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
                 builder: (context, state) {
-                  return _settingsGroup(
+                  return GroupSettingsGroup(
                       title: group.users.length.toString() + " Mitglieder",
                       child: MembersOfGroupWidget(group: group),
                       padded: false);
