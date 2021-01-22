@@ -1,6 +1,8 @@
-part of 'create_post_cubit.dart';
+part of 'post_editor_cubit.dart';
 
-class CreatePostState {
+class PostEditorState {
+  //ToDo It would be better if we have two subclasses
+  final bool isCreate;
   //Variables for Validation
   final bool isError;
   final bool isSubmitted;
@@ -31,10 +33,11 @@ class CreatePostState {
   DateTime eventDate;
   TimeOfDay eventTime;
   //Constructor
-  CreatePostState(
+  PostEditorState(
       {@required this.isError,
       @required this.isSubmitted,
       @required this.isSubmitting,
+      @required this.isCreate,
       this.group,
       this.eventDate,
       this.eventTime,
@@ -50,35 +53,78 @@ class CreatePostState {
 //Create first initial Staten when post loaded
 //Resets validation and sets Group Info if there is a group
 //After this only work with Copy with
-  factory CreatePostState.initial({Group group}) {
+  factory PostEditorState.initial({Group group}) {
     GroupInfo groupInfo;
     if (group != null) groupInfo = GroupInfo(id: group.id, name: group.name);
-    return CreatePostState(
+    return PostEditorState(
+        isCreate: true,
         isError: false,
         isSubmitted: false,
         isSubmitting: false,
         group: groupInfo);
   }
 
-  CreatePostState createSubmitting() {
+  factory PostEditorState.fromPost({Post post}) {
+    GroupInfo groupInfo = post.group;
+    Map<String, dynamic> mandatoryFields = {
+      'title': post.title,
+      'about': post.about,
+      'tags': post.tags
+    };
+    //optional fields
+    Map<String, dynamic> optionalFields = {
+      'treffpunkt': post.details.length >= 1 ? post.details[0].value : null,
+      'kosten': post.details.length >= 2 ? post.details[1].value : null,
+    };
+    Map<String, dynamic> eventOnlyFields = {
+      'maxPeople': -1,
+    };
+
+    Map<String, dynamic> buddyOnlyFields = {};
+    DateTime eventDate;
+    TimeOfDay eventTime;
+    if (post is Event) {
+      eventOnlyFields = {
+        'maxPeople': post.maxPeople,
+      };
+      eventDate = post.eventDate != null
+          ? DateTime.fromMillisecondsSinceEpoch(post.eventDate)
+          : null;
+    }
+
+    return PostEditorState(
+        isCreate: false,
+        isError: false,
+        isSubmitted: false,
+        isSubmitting: false,
+        group: groupInfo)
+      ..mandatoryFields = mandatoryFields
+      ..optionalFields = optionalFields
+      ..eventOnlyFields = eventOnlyFields
+      ..buddyOnlyFields = buddyOnlyFields
+      ..eventDate = eventDate
+      ..eventTime = eventTime;
+  }
+
+  PostEditorState createSubmitting() {
     return copyWith(isError: false, isSubmitted: false, isSubmitting: true);
   }
 
-  CreatePostState createSuccess() {
+  PostEditorState createSuccess() {
     return copyWith(isError: false, isSubmitted: true, isSubmitting: false);
   }
 
-  CreatePostState createError() {
+  PostEditorState createError() {
     return copyWith(isError: true, isSubmitted: false, isSubmitting: false);
   }
 
-  CreatePostState copyWith(
+  PostEditorState copyWith(
       {isError,
       isSubmitting,
       isSubmitted,
       DateTime eventDate,
       TimeOfDay eventTime}) {
-    return CreatePostState(
+    return PostEditorState(
       isError: isError ?? this.isError,
       isSubmitted: isSubmitted ?? this.isSubmitted,
       isSubmitting: isSubmitting ?? this.isSubmitting,

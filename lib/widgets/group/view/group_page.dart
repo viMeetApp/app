@@ -26,15 +26,6 @@ class GroupPage extends StatelessWidget {
       child: BlocBuilder<GroupCubit, GroupState>(
         builder: (context, state) {
           return Scaffold(body: GroupPageContent(state: state));
-          /*if (state is GroupMember) {
-            return GroupMemberPage(state: state);
-          } else if (state is NotGroupMember) {
-            return NotGroupMemberPage(state: state);
-          } else if (state is GroupAdmin) {
-          } else {
-            //Uninitialized
-
-          }*/
         },
       ),
     );

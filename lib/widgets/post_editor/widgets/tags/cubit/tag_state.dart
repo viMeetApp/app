@@ -7,10 +7,17 @@ class TagState {
       value: (item) => false)
     ..remove('event')
     ..remove('buddy');
-  TagState();
 
   TagState toggleTag(String tag) {
     this.tagMap[tag] = !this.tagMap[tag];
     return TagState()..tagMap = this.tagMap;
+  }
+
+  TagState([List<String> tags]) {
+    if (tags != null) {
+      tags.forEach((tag) {
+        tagMap[tag] = true;
+      });
+    }
   }
 }

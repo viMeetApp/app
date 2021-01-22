@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/widgets/create_post/view/create_post_page.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
+import 'package:signup_app/widgets/post_editor/implementations/create_post_page.dart';
 import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
 import 'package:signup_app/util/presets.dart';
 

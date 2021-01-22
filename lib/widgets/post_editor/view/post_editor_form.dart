@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:signup_app/widgets/create_post/cubit/create_post_cubit.dart';
-import 'package:signup_app/widgets/create_post/tags/cubit/tag_cubit.dart';
-import 'package:signup_app/widgets/create_post/tags/view/tag-widget.dart';
 import 'package:signup_app/util/dialog_helper.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/post_editor/cubit/post_editor_cubit.dart';
+import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
+import 'package:signup_app/widgets/post_editor/widgets/tags/view/tag-widget.dart';
 
 import '../../../util/presets.dart';
 
@@ -16,7 +16,7 @@ import '../../../util/presets.dart';
 class CreatePostForm extends StatelessWidget {
   CreatePostForm();
 
-  Widget groupInfoField(CreatePostState state) {
+  Widget groupInfoField(PostEditorState state) {
     return Container(
         padding: EdgeInsets.only(left: 13, right: 10, top: 5),
         child: Row(children: [
@@ -67,11 +67,10 @@ class CreatePostForm extends StatelessWidget {
       ),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<CreatePostCubit, CreatePostState>(
+          BlocListener<PostEditorCubit, PostEditorState>(
             listener: (context, state) {
               //When Logged In -> Call Authetication Bloc with Logged in
               if (state.isSubmitted) {
-                // !TODO navigate to the next screen
                 Navigator.of(context).pop();
               }
               //In Error Case or name invalid Show Error Snackbar
@@ -81,7 +80,7 @@ class CreatePostForm extends StatelessWidget {
                   ..showSnackBar(const SnackBar(
                     content: Text('Bitte alle Felder ausfüllen'),
                   ));
-                BlocProvider.of<CreatePostCubit>(context).resetError();
+                BlocProvider.of<PostEditorCubit>(context).resetError();
               }
               //Show is Loading Snackbar
               else if (state.isSubmitting) {
@@ -100,11 +99,11 @@ class CreatePostForm extends StatelessWidget {
                 if (value == true) tagList.add(key);
               },
             );
-            BlocProvider.of<CreatePostCubit>(context)
+            BlocProvider.of<PostEditorCubit>(context)
                 .setMandatoryField('tags', tagList);
           })
         ],
-        child: BlocBuilder<CreatePostCubit, CreatePostState>(
+        child: BlocBuilder<PostEditorCubit, PostEditorState>(
             builder: (context, state) {
           return SafeArea(
             child: Column(
@@ -118,8 +117,10 @@ class CreatePostForm extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
+                          controller: TextEditingController(
+                              text: state.mandatoryFields['title']),
                           onChanged: (text) {
-                            BlocProvider.of<CreatePostCubit>(context)
+                            BlocProvider.of<PostEditorCubit>(context)
                                 .setMandatoryField(
                                     'title',
                                     (text != null && text.length > 0)
@@ -150,11 +151,12 @@ class CreatePostForm extends StatelessWidget {
                                 onPressed: () {
                                   showDatePicker(
                                     context: context,
-                                    initialDate: DateTime.now(),
+                                    initialDate:
+                                        state.eventDate ?? DateTime.now(),
                                     firstDate: DateTime(2000),
                                     lastDate: DateTime(2025),
                                   ).then((value) {
-                                    BlocProvider.of<CreatePostCubit>(context)
+                                    BlocProvider.of<PostEditorCubit>(context)
                                         .updateDate(value);
                                   });
                                 },
@@ -176,9 +178,10 @@ class CreatePostForm extends StatelessWidget {
                                 onPressed: () {
                                   showTimePicker(
                                           context: context,
-                                          initialTime: TimeOfDay.now())
+                                          initialTime: state.eventTime ??
+                                              TimeOfDay.now())
                                       .then((value) {
-                                    BlocProvider.of<CreatePostCubit>(context)
+                                    BlocProvider.of<PostEditorCubit>(context)
                                         .updateTime(value);
                                   });
                                 },
@@ -194,8 +197,10 @@ class CreatePostForm extends StatelessWidget {
                               ),
                             ),
                             new TextFormField(
+                              controller: TextEditingController(
+                                  text: state.mandatoryFields['about']),
                               onChanged: (text) {
-                                BlocProvider.of<CreatePostCubit>(context)
+                                BlocProvider.of<PostEditorCubit>(context)
                                     .setMandatoryField(
                                         'about',
                                         (text != null && text.length > 0)
@@ -213,8 +218,10 @@ class CreatePostForm extends StatelessWidget {
                             ),
                             /*Text("Weitere Freiwillige Angaben"),*/
                             new TextFormField(
+                              controller: TextEditingController(
+                                  text: state.optionalFields['kosten']),
                               onChanged: (text) {
-                                BlocProvider.of<CreatePostCubit>(context)
+                                BlocProvider.of<PostEditorCubit>(context)
                                     .setOptionalField(
                                         'treffpunkt',
                                         (text != null && text.length > 0)
@@ -259,7 +266,7 @@ class CreatePostForm extends StatelessWidget {
                                                 WhitelistingTextInputFormatter
                                                     .digitsOnly
                                               ]).then((value) {
-                                            BlocProvider.of<CreatePostCubit>(
+                                            BlocProvider.of<PostEditorCubit>(
                                                     context)
                                                 .setEventOnlyField(
                                                     'maxPeople',
@@ -286,7 +293,7 @@ class CreatePostForm extends StatelessWidget {
                                               title: "Kosten pro Person",
                                               context: context,
                                               formatters: []).then((value) {
-                                            BlocProvider.of<CreatePostCubit>(
+                                            BlocProvider.of<PostEditorCubit>(
                                                     context)
                                                 .setOptionalField(
                                                     'kosten',
@@ -316,7 +323,7 @@ class CreatePostForm extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("submit pressed");
-          BlocProvider.of<CreatePostCubit>(context).submit();
+          BlocProvider.of<PostEditorCubit>(context).submit();
         },
         child: Icon(
           Icons.send,

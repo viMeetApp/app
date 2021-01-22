@@ -8,13 +8,19 @@ import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
-part 'create_post_state.dart';
+part 'post_editor_state.dart';
 
-class CreatePostCubit extends Cubit<CreatePostState> {
-  //At start create first initial State, onyl Group Information are stored when Group is given (Post from within group)
-  CreatePostCubit({Group group}) : super(CreatePostState.initial(group: group));
+class PostEditorCubit extends Cubit<PostEditorState> {
+  PostEditorCubit.createNewPost({Group group})
+      : post = null,
+        super(PostEditorState.initial(group: group));
+
+  PostEditorCubit.updatePost({Post post})
+      : post = post,
+        super(PostEditorState.fromPost(post: post));
 
   final PostRepository _postRepository = new PostRepository();
+  final Post post; //ToDo wäre auch schöner wenn man das über den state machrt
   void submit() async {
     emit(state.createSubmitting());
     bool abort = false;
@@ -65,13 +71,23 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       //!ToDo what to do with Event Time
     }
 
-    //Write to Firetore
-    _postRepository.createPost(event).then((_) {
-      emit(state.createSuccess());
-    }).catchError((err) {
-      log("Error Create Post with Firebase");
-      log(err.toString());
-    });
+    if (state.isCreate == true) {
+      //Write to Firetore
+      _postRepository.createPost(event).then((_) {
+        emit(state.createSuccess());
+      }).catchError((err) {
+        log("Error Create Post with Firebase");
+        log(err.toString());
+      });
+    } else {
+      event.id = post.id;
+      _postRepository.updatePost(event).then((_) {
+        emit(state.createSuccess());
+      }).catchError((err) {
+        log("Error Create Post with Firebase");
+        log(err.toString());
+      });
+    }
   }
 
   void updateDate(DateTime eventDate) {
