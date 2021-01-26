@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:signup_app/util/data_models.dart';
 
@@ -85,15 +87,47 @@ class GroupRepository {
   ///Returns a stream of alll users which are currently member of a [group]
   Stream<List<User>> getStreamOfUsersWhichAreCurrentyMemberOfGroup(
       Group group) {
+    StreamController<List<User>> streamController =
+        new StreamController<List<User>>();
     if (group.users.length == 0) {
       throw new Exception("user list is malformed. List is empty");
     } else {
-      return _firestore
-          .collection('users')
-          .where('__name__', whereIn: group.users)
-          .snapshots()
-          .map((QuerySnapshot querySnapshot) =>
-              querySnapshot.docs.map((doc) => User.fromDoc(doc)).toList());
+      List<List<User>> _allPagedResults = List<List<User>>();
+      int requestIndex = 0;
+
+      //Slice Array into chunk
+      List<List<String>> chunks = List<List<String>>();
+      int counter = 0;
+      while (group.users.length - counter > 10) {
+        chunks.add(group.users.sublist(counter, counter + 10));
+        counter += 10;
+      }
+      chunks.add(group.users.sublist(counter));
+
+      chunks.forEach((List<String> userList) {
+        int currentIndex = requestIndex;
+        requestIndex++;
+        _allPagedResults.add(List<User>());
+        _firestore
+            .collection('users')
+            .where('__name__', whereIn: userList)
+            .snapshots()
+            .listen((QuerySnapshot userListSnapshot) {
+          if (userListSnapshot.docs.isNotEmpty) {
+            List<User> users = userListSnapshot.docs
+                .map((QueryDocumentSnapshot userDoc) => User.fromDoc(userDoc))
+                .toList();
+            _allPagedResults[currentIndex] = users;
+
+            //Make one result out of all Sub User array
+            List<User> allUsers = _allPagedResults.fold<List<User>>(
+                List<User>(),
+                (initialValue, pageItems) => initialValue..addAll(pageItems));
+            streamController.add(allUsers);
+          }
+        });
+      });
     }
+    return streamController.stream;
   }
 }
