@@ -73,8 +73,12 @@ class PostEditorState {
     };
     //optional fields
     Map<String, dynamic> optionalFields = {
-      'treffpunkt': post.details.length >= 1 ? post.details[0].value : null,
-      'kosten': post.details.length >= 2 ? post.details[1].value : null,
+      'treffpunkt': post.details
+          .firstWhere((detail) => detail.id == 'treffpunkt', orElse: () => null)
+          ?.value,
+      'kosten': post.details
+          .firstWhere((detail) => detail.id == 'kosten', orElse: () => null)
+          ?.value
     };
     Map<String, dynamic> eventOnlyFields = {
       'maxPeople': -1,
