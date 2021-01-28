@@ -219,7 +219,7 @@ class CreatePostForm extends StatelessWidget {
                             /*Text("Weitere Freiwillige Angaben"),*/
                             new TextFormField(
                               controller: TextEditingController(
-                                  text: state.optionalFields['kosten']),
+                                  text: state.optionalFields['treffpunkt']),
                               onChanged: (text) {
                                 BlocProvider.of<PostEditorCubit>(context)
                                     .setOptionalField(

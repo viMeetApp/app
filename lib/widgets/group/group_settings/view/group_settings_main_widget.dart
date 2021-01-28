@@ -75,14 +75,10 @@ class GroupSettingsMainWidget extends StatelessWidget {
                         )
                       : Container();
                 }),
-            BlocBuilder<GroupSettingsCubit, GroupSettingsState>(
-                buildWhen: (curr, last) => curr.runtimeType != last.runtimeType,
-                builder: (context, state) {
-                  return GroupSettingsGroup(
-                      title: group.users.length.toString() + " Mitglieder",
-                      child: MembersOfGroupWidget(group: group),
-                      padded: false);
-                }),
+            GroupSettingsGroup(
+                title: group.users.length.toString() + " Mitglieder",
+                child: MembersOfGroupWidget(group: group),
+                padded: false),
           ],
         ),
       ),
