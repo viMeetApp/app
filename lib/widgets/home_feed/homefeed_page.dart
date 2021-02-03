@@ -36,10 +36,10 @@ class HomeFeed extends StatelessWidget {
         appBar: AppBar(
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.event),
+              icon: Icon(Icons.favorite),
               onPressed: () => {
-                Scaffold.of(context).showSnackBar(
-                    SnackBar(content: Text("TODO: Kalender-View")))
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("TODO: Favoriten")))
               },
               /*() {
                 showDialog(
