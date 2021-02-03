@@ -217,3 +217,17 @@ class DeviceLocation {
   String name;
   String geohash;
 }
+
+class BugReport extends DatabaseDocument implements UserGeneratedContent {
+  String version;
+  int timestamp;
+
+  String title;
+  String message;
+  String type;
+  @override
+  User author;
+
+  @override
+  Map<String, dynamic> toDoc() => _bugreportToDoc(this);
+}

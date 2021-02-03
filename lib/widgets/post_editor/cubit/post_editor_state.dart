@@ -140,7 +140,7 @@ class PostEditorState {
       mandatoryFields: this.mandatoryFields,
       optionalFields: this.optionalFields,
       eventOnlyFields: this.eventOnlyFields,
-      buddyOnlyFields: this.buddyOnlyFields,
+      buddyOnlyFields: this.buddyOnlyFields, isCreate: null,
     );
   }
 }
