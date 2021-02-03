@@ -4,17 +4,17 @@ import 'package:signup_app/util/data_models.dart';
 
 class BugReportRepository {
   final FirebaseFirestore _firestore;
-  CollectionReference _postCollectionReference;
+  CollectionReference _collectionReference;
 
   BugReportRepository({FirebaseFirestore firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance {
-    _postCollectionReference = _firestore.collection('bugreports');
+    _collectionReference = _firestore.collection('bugreports');
   }
 
   ///Create c chat BugReport in firebase
-  Future<void> createChatMessage({@required BugReport bugReport}) async {
+  Future<void> createBugReport({@required BugReport bugReport}) async {
     try {
-      await _postCollectionReference.add(bugReport.toDoc());
+      await _collectionReference.add(bugReport.toDoc());
     } catch (err) {
       throw err;
     }
