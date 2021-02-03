@@ -54,7 +54,8 @@ Map<String, dynamic> _bugreportToDoc(BugReport instance,
 
   serialized.putIfAbsent('title', () => instance.title);
   serialized.putIfAbsent('type', () => instance.type);
-  serialized.putIfAbsent('message', () => instance.title);
+  serialized.putIfAbsent('message', () => instance.message);
+  serialized.putIfAbsent('version', () => instance.version);
   serialized.putIfAbsent('timestamp', () => instance.timestamp);
   serialized.putIfAbsent('author', () => instance.author?.toMap());
 

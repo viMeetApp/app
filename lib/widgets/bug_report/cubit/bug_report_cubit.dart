@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info/package_info.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
+import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'bug_report_state.dart';
@@ -27,8 +28,9 @@ class BugReportCubit extends Cubit<BugReportState> {
         report.title = title;
         report.type = type;
         report.message = message;
-        report.author = null;
+        report.author = await UserRepository().getUser();
         report.version = packageInfo.version;
+        report.timestamp = DateTime.now().millisecondsSinceEpoch;
 
         await _bugRepository.createBugReport(bugReport: report);
         emit(BugReportState.success());
