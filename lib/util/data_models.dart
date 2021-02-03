@@ -227,6 +227,7 @@ class BugReport extends DatabaseDocument implements UserGeneratedContent {
   String type;
   @override
   User author;
+  String state = "open";
 
   @override
   Map<String, dynamic> toDoc() => _bugreportToDoc(this);
