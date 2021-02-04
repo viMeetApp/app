@@ -11,10 +11,6 @@ class BugReportPage extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => BugReportPage());
   }
 
-  String _title;
-  String _type;
-  String _message;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

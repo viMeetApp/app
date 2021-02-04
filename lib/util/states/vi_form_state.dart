@@ -1,42 +1,44 @@
-part of 'bug_report_cubit.dart';
+import 'package:flutter/widgets.dart';
 
 @immutable
-class BugReportState {
+
+/// a simple state for form widgets in the viMeet app
+class ViFormState {
   final bool isValid;
   final bool isSubmitting;
   final bool isError;
   final bool wasSubmitted;
 
-  BugReportState(
+  ViFormState(
       {@required this.isValid,
       @required this.isSubmitting,
       @required this.isError,
       @required this.wasSubmitted});
-  factory BugReportState.empty() {
-    return BugReportState(
+  factory ViFormState.empty() {
+    return ViFormState(
         isValid: true,
         isSubmitting: false,
         isError: false,
         wasSubmitted: false);
   }
 
-  factory BugReportState.loading() {
-    return BugReportState(
+  factory ViFormState.loading() {
+    return ViFormState(
         isValid: true, isSubmitting: true, isError: false, wasSubmitted: false);
   }
-  factory BugReportState.failure() {
-    return BugReportState(
+  factory ViFormState.failure() {
+    return ViFormState(
         isSubmitting: false,
         isValid: false,
         isError: false,
         wasSubmitted: false);
   }
-  factory BugReportState.success() {
-    return BugReportState(
+  factory ViFormState.success() {
+    return ViFormState(
         isSubmitting: false, isValid: true, isError: false, wasSubmitted: true);
   }
-  factory BugReportState.error() {
-    return BugReportState(
+  factory ViFormState.error() {
+    return ViFormState(
         isSubmitting: false, isValid: true, isError: true, wasSubmitted: false);
   }
 }

@@ -1,28 +1,28 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/widgets.dart';
-import 'package:package_info/package_info.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/repositories/report_repository.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
-class BugReportCubit extends Cubit<ViFormState> {
-  BugReportCubit(this._bugRepository)
-      : assert(_bugRepository != null),
+class ReportCubit extends Cubit<ViFormState> {
+  static const int TYPE_POST = 0;
+  static const int TYPE_MESSAGE = 1;
+
+  ReportCubit(this._reportRepository)
+      : assert(_reportRepository != null),
         super(ViFormState.empty());
 
-  final BugReportRepository _bugRepository;
+  final ReportRepository _reportRepository;
 
   ///Document gets submitted (User Loggs in)
   ///Checks if User Name Valid the Log In
-  void submitted(String title, String type, String message) async {
+  void submitted(
+      {String id, int type = TYPE_POST, List<String> reasons}) async {
     emit(ViFormState.loading());
 
     //Check if all fields were answered
-    if (title != null && type != null && message != null) {
+    if (id != null && type != null && reasons != null) {
       try {
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
+        /*PackageInfo packageInfo = await PackageInfo.fromPlatform();
         BugReport report = new BugReport();
         report.title = title;
         report.type = type;
@@ -31,7 +31,7 @@ class BugReportCubit extends Cubit<ViFormState> {
         report.version = packageInfo.version;
         report.timestamp = DateTime.now().millisecondsSinceEpoch;
 
-        await _bugRepository.createBugReport(bugReport: report);
+        await _bugRepository.createBugReport(bugReport: report);*/
         emit(ViFormState.success());
       } catch (err) {
         print("Error in submitted Event");

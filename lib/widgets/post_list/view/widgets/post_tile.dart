@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:signup_app/widgets/home_feed/location_dialog/location_dialog.dart';
 import 'package:signup_app/widgets/post/view/post_page.dart';
 import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/report/view/report_dialog.dart';
 
 class PostTile extends StatelessWidget {
   final Post post;
@@ -115,8 +117,15 @@ class PostTile extends StatelessWidget {
                                       child: const Text('melden'),
                                       value: 'report'),
                                 ],
-                            onSelected:
-                                (string) {}) /*if (post.tags.length > 1)
+                            onSelected: (value) {
+                              if (value == "report") {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      ReportDialog(),
+                                );
+                              }
+                            }) /*if (post.tags.length > 1)
                           Padding(
                             padding: EdgeInsets.only(right: 6),
                             child: FlatButton(
