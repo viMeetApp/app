@@ -14,7 +14,7 @@ class ViFormState {
       @required this.isSubmitting,
       @required this.isError,
       @required this.wasSubmitted});
-  factory ViFormState.empty() {
+  factory ViFormState.okay() {
     return ViFormState(
         isValid: true,
         isSubmitting: false,
@@ -26,7 +26,7 @@ class ViFormState {
     return ViFormState(
         isValid: true, isSubmitting: true, isError: false, wasSubmitted: false);
   }
-  factory ViFormState.failure() {
+  factory ViFormState.invalid() {
     return ViFormState(
         isSubmitting: false,
         isValid: false,

@@ -9,7 +9,7 @@ import 'package:signup_app/util/states/vi_form_state.dart';
 class BugReportCubit extends Cubit<ViFormState> {
   BugReportCubit(this._bugRepository)
       : assert(_bugRepository != null),
-        super(ViFormState.empty());
+        super(ViFormState.okay());
 
   final BugReportRepository _bugRepository;
 
@@ -40,7 +40,7 @@ class BugReportCubit extends Cubit<ViFormState> {
       }
     } else {
       //Username invalid
-      emit(ViFormState.failure());
+      emit(ViFormState.invalid());
     }
   }
 }

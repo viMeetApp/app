@@ -232,3 +232,38 @@ class BugReport extends DatabaseDocument implements UserGeneratedContent {
   @override
   Map<String, dynamic> toDoc() => _bugreportToDoc(this);
 }
+
+class ReportReason {
+  const ReportReason(this.id, this.name);
+  final String id;
+  final String name;
+}
+
+// Report for reporting Objects that violate the user agreement
+class Report extends DatabaseDocument implements UserGeneratedContent {
+  static const REPORT_REASONS = <ReportReason>[
+    ReportReason("harassment", "Beleidigung"),
+    ReportReason("hate", "Hass"),
+    ReportReason("violance", "Androhung von Gewalt"),
+    ReportReason("sexualization", "Sexualisierung"),
+    ReportReason("copyright", "Copyright Verstoß"),
+    ReportReason("misinformation", "Falschinformation"),
+    ReportReason("spam", "Spam"),
+  ];
+
+  static const TYPE_POST = "post";
+  static const TYPE_MESSAGE = "message";
+  static const TYPE_USER = "user";
+
+  int timestamp;
+  String id;
+  String type;
+  String state = "open";
+  List<String> reasons;
+
+  @override
+  User author;
+
+  @override
+  Map<String, dynamic> toDoc() => _reportToDoc(this);
+}

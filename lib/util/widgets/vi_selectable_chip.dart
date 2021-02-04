@@ -20,21 +20,27 @@ class _ViSelectableChipState extends State<ViSelectableChip> {
     //isActive = widget.isActive;
   }
 
+  Widget getChip({Widget child, bool isActive}) {
+    return Container(
+      child: widget.label,
+      padding: EdgeInsets.only(top: 7, bottom: 7, left: 9, right: 9),
+      //margin: EdgeInsets.only(right: 10, bottom: 5, top: 5),
+      decoration: BoxDecoration(
+        border: Border.all(
+            width: 3,
+            color: isActive
+                ? AppThemeData.colorPrimaryLighter
+                : Colors.transparent),
+        color: isActive ? AppThemeData.swatchPrimary[100] : Color(0xFFdedede),
+        borderRadius: BorderRadius.circular(100),
+      ), // .all(AppThemeData.varCardRadius)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-          padding: const EdgeInsets.only(right: 10),
-          child: widget.isActive
-              ? Chip(
-                  label: widget.label,
-                  backgroundColor: AppThemeData.swatchPrimary[100],
-                  elevation: 2,
-                )
-              : Chip(
-                  label: widget.label,
-                  backgroundColor: AppThemeData.colorCard,
-                )),
+      child: getChip(child: widget.label, isActive: widget.isActive),
       onTap: () => {
         setState(() {
           widget.isActive = !widget.isActive;

@@ -9,6 +9,15 @@ import 'package:signup_app/widgets/report/view/widgets/report_form.dart';
 class ReportDialog extends StatelessWidget {
   List<String> reasons = [];
 
+  String id;
+  String reportType;
+  BuildContext parentContext;
+
+  ReportDialog(
+      {@required this.id,
+      @required this.reportType,
+      @required this.parentContext});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -24,7 +33,11 @@ class ReportDialog extends StatelessWidget {
           padding: EdgeInsets.all(20),
           child: BlocProvider<ReportCubit>(
             create: (_) => ReportCubit(ReportRepository()),
-            child: ReportForm(),
+            child: ReportForm(
+              id: id,
+              reportType: reportType,
+              parentContext: parentContext,
+            ),
           ),
         ),
       ),

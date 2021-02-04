@@ -14,7 +14,11 @@ class BugReportRepository {
   ///Create c chat BugReport in firebase
   Future<void> createBugReport({@required BugReport bugReport}) async {
     try {
-      await _collectionReference.add(bugReport.toDoc());
+      await _collectionReference
+          .add(bugReport.toDoc())
+          .timeout(Duration(seconds: 5), onTimeout: () {
+        throw Exception("connection timed out");
+      });
     } catch (err) {
       throw err;
     }

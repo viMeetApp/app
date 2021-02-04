@@ -1,46 +1,42 @@
 import 'package:bloc/bloc.dart';
-import 'package:signup_app/repositories/bugreport_repository.dart';
 import 'package:signup_app/repositories/report_repository.dart';
+import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
 class ReportCubit extends Cubit<ViFormState> {
-  static const int TYPE_POST = 0;
-  static const int TYPE_MESSAGE = 1;
-
   ReportCubit(this._reportRepository)
       : assert(_reportRepository != null),
-        super(ViFormState.empty());
+        super(ViFormState.invalid());
 
   final ReportRepository _reportRepository;
 
-  ///Document gets submitted (User Loggs in)
-  ///Checks if User Name Valid the Log In
   void submitted(
-      {String id, int type = TYPE_POST, List<String> reasons}) async {
+      {String id, String type = Report.TYPE_POST, List<String> reasons}) async {
     emit(ViFormState.loading());
 
-    //Check if all fields were answered
     if (id != null && type != null && reasons != null) {
       try {
-        /*PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        BugReport report = new BugReport();
-        report.title = title;
+        Report report = new Report();
+        report.id = id;
         report.type = type;
-        report.message = message;
+        report.reasons = reasons;
         report.author = await UserRepository().getUser();
-        report.version = packageInfo.version;
         report.timestamp = DateTime.now().millisecondsSinceEpoch;
 
-        await _bugRepository.createBugReport(bugReport: report);*/
+        await _reportRepository.createReport(report: report);
         emit(ViFormState.success());
       } catch (err) {
-        print("Error in submitted Event");
+        print("Error in submitted Report");
         print(err.toString());
         emit(ViFormState.error());
       }
     } else {
-      //Username invalid
-      emit(ViFormState.failure());
+      emit(ViFormState.invalid());
     }
+  }
+
+  void updateValid(bool reasonsEmpty) {
+    emit(reasonsEmpty ? ViFormState.invalid() : ViFormState.okay());
   }
 }

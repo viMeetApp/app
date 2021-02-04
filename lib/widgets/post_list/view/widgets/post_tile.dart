@@ -121,8 +121,11 @@ class PostTile extends StatelessWidget {
                               if (value == "report") {
                                 showDialog(
                                   context: context,
-                                  builder: (BuildContext context) =>
-                                      ReportDialog(),
+                                  builder: (BuildContext cont) => ReportDialog(
+                                    id: post.id,
+                                    reportType: Report.TYPE_POST,
+                                    parentContext: context,
+                                  ),
                                 );
                               }
                             }) /*if (post.tags.length > 1)
