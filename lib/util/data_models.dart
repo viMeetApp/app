@@ -256,7 +256,7 @@ class Report extends DatabaseDocument implements UserGeneratedContent {
   static const TYPE_USER = "user";
 
   int timestamp;
-  String id;
+  String objectid;
   String type;
   String state = "open";
   List<String> reasons;

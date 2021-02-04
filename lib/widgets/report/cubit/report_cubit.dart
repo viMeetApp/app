@@ -18,7 +18,7 @@ class ReportCubit extends Cubit<ViFormState> {
     if (id != null && type != null && reasons != null) {
       try {
         Report report = new Report();
-        report.id = id;
+        report.objectid = id;
         report.type = type;
         report.reasons = reasons;
         report.author = await UserRepository().getUser();

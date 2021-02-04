@@ -68,7 +68,7 @@ Map<String, dynamic> _reportToDoc(Report instance,
   serialized = serialized ?? <String, dynamic>{};
 
   serialized.putIfAbsent('author', () => instance.author?.toMap());
-  serialized.putIfAbsent('id', () => instance.id);
+  serialized.putIfAbsent('objectid', () => instance.objectid);
   serialized.putIfAbsent('timestamp', () => instance.timestamp);
   serialized.putIfAbsent('reasons', () => instance.reasons);
   serialized.putIfAbsent('type', () => instance.type);
