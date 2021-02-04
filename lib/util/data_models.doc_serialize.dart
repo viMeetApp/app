@@ -63,6 +63,20 @@ Map<String, dynamic> _bugreportToDoc(BugReport instance,
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
 
+Map<String, dynamic> _reportToDoc(Report instance,
+    {Map<String, dynamic> serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+
+  serialized.putIfAbsent('author', () => instance.author?.toMap());
+  serialized.putIfAbsent('id', () => instance.id);
+  serialized.putIfAbsent('timestamp', () => instance.timestamp);
+  serialized.putIfAbsent('reasons', () => instance.reasons);
+  serialized.putIfAbsent('type', () => instance.type);
+  serialized.putIfAbsent('state', () => instance.state);
+
+  return _databaseDocumentToDoc(instance, serialized: serialized);
+}
+
 Map<String, dynamic> _eventToDoc(Event instance,
     {Map<String, dynamic> serialized}) {
   serialized = serialized ?? <String, dynamic>{};

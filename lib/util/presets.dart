@@ -69,12 +69,15 @@ class Presets {
     );
   }
 
-  static Widget simpleCard({@required Widget child, EdgeInsets margin}) {
+  static Widget simpleCard(
+      {@required Widget child,
+      EdgeInsets margin,
+      Color color = AppThemeData.colorCard}) {
     return Container(
       margin: margin,
       padding: EdgeInsets.all(AppThemeData.varPaddingCard),
       decoration: BoxDecoration(
-          color: AppThemeData.colorCard,
+          color: color,
           border: Border.all(
             color: Colors.transparent,
           ),
@@ -94,7 +97,7 @@ class AppThemeData {
   static const Color colorPrimaryLighter = Color(0xffffa4a4);
   static const Color colorAccent = Color(0xff4ecdca);
   static const Color colorControls = Color(0xff383838);
-  static const Color colorControlsDisabled = Color(0xff9f9f9f);
+  static const Color colorControlsDisabled = Color(0xffc1c1c1);
   static const Color colorFormField = Color(0xff505050);
   static const Color colorPlaceholder = Color(0xff606060);
 

@@ -4,20 +4,19 @@ import 'package:package_info/package_info.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/states/vi_form_state.dart';
 
-part 'bug_report_state.dart';
-
-class BugReportCubit extends Cubit<BugReportState> {
+class BugReportCubit extends Cubit<ViFormState> {
   BugReportCubit(this._bugRepository)
       : assert(_bugRepository != null),
-        super(BugReportState.empty());
+        super(ViFormState.okay());
 
   final BugReportRepository _bugRepository;
 
   ///Document gets submitted (User Loggs in)
   ///Checks if User Name Valid the Log In
   void submitted(String title, String type, String message) async {
-    emit(BugReportState.loading());
+    emit(ViFormState.loading());
 
     //Check if all fields were answered
     if (title != null && type != null && message != null) {
@@ -33,15 +32,15 @@ class BugReportCubit extends Cubit<BugReportState> {
         report.timestamp = DateTime.now().millisecondsSinceEpoch;
 
         await _bugRepository.createBugReport(bugReport: report);
-        emit(BugReportState.success());
+        emit(ViFormState.success());
       } catch (err) {
         print("Error in submitted Event");
         print(err.toString());
-        emit(BugReportState.error());
+        emit(ViFormState.error());
       }
     } else {
       //Username invalid
-      emit(BugReportState.failure());
+      emit(ViFormState.invalid());
     }
   }
 }

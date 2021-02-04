@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/states/vi_form_state.dart';
 import 'package:signup_app/util/widgets/vi_dropdown_button.dart';
 import 'package:signup_app/widgets/bug_report/cubit/bug_report_cubit.dart';
 import 'package:signup_app/widgets/bug_report/view/widgets/bug_report_success.dart';
@@ -15,7 +16,7 @@ class BugReportForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BugReportCubit, BugReportState>(
+    return BlocListener<BugReportCubit, ViFormState>(
         listener: (context, state) {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
             return BugReportSuccessPage();
@@ -42,7 +43,7 @@ class BugReportForm extends StatelessWidget {
                 .showSnackBar(SnackBar(content: Text("Fehler beim Speichern")));
           }
         },
-        child: BlocBuilder<BugReportCubit, BugReportState>(
+        child: BlocBuilder<BugReportCubit, ViFormState>(
             buildWhen: (previous, current) => true,
             builder: (context, state) {
               return Scaffold(
