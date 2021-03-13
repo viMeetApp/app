@@ -18,9 +18,9 @@ class BugReportForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<BugReportCubit, ViFormState>(
         listener: (context, state) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
+          /*Navigator.push(context, MaterialPageRoute(builder: (_) {
             return BugReportSuccessPage();
-          }));
+          }));*/
           //When Logged In -> Call Authetication Bloc with Logged in
           if (state.wasSubmitted) {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
