@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/widgets/settings/view/about_widget.dart';
+import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
+import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
+import 'package:signup_app/widgets/settings/view/subsettings_page.dart';
 
 import '../../../util/presets.dart';
+import 'accessibility_settings_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   static ShapeBorder _cardShape =
@@ -51,17 +54,29 @@ class SettingsPage extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text("Account"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
+                          title: Text("Account"),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          onTap: () => Navigator.push(
+                              context,
+                              SubSettingsPage.route(
+                                  title: "Account",
+                                  child: AccountSettingsWidget()))),
                       ListTile(
-                        title: Text("Spache"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
+                          title: Text("Spache"),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          onTap: () => Navigator.push(
+                              context,
+                              SubSettingsPage.route(
+                                  title: "Sprache",
+                                  child: LanguageSettingsWidget()))),
                       ListTile(
-                        title: Text("Textgröße"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      )
+                          title: Text("Barrierefreiheit"),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          onTap: () => Navigator.push(
+                              context,
+                              SubSettingsPage.route(
+                                  title: "Barrierefreiheit",
+                                  child: AccessibilitySettingsWidget()))),
                     ],
                   ),
                 ),
@@ -73,18 +88,20 @@ class SettingsPage extends StatelessWidget {
                       ListTile(
                         onTap: () => Navigator.push(
                             context,
-                            AboutPage.route(
+                            SubSettingsPage.route(
                                 title: "Datenschutz",
-                                legalFileName: "datenschutz")),
+                                child:
+                                    AboutWidget(legalFileName: "datenschutz"))),
                         title: Text("Datenschutz"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       ),
                       ListTile(
                         onTap: () => Navigator.push(
                             context,
-                            AboutPage.route(
+                            SubSettingsPage.route(
                                 title: "Impressum",
-                                legalFileName: "impressum")),
+                                child:
+                                    AboutWidget(legalFileName: "impressum"))),
                         title: Text("Impressum"),
                         trailing: Icon(Icons.keyboard_arrow_right),
                       )
@@ -93,47 +110,5 @@ class SettingsPage extends StatelessWidget {
                 ),
               ],
             )));
-  }
-}
-
-class AboutPage extends StatelessWidget {
-  String title = "About";
-  String legalFileName;
-
-  static Route route({String title, @required String legalFileName}) {
-    return MaterialPageRoute<void>(
-        builder: (_) => AboutPage(title: title, legalFileName: legalFileName));
-  }
-
-  AboutPage({this.title, @required this.legalFileName});
-
-  Future<String> getData() async {
-    try {
-      return await rootBundle
-          .loadString('assets/legal/' + legalFileName + '.md');
-    } on FlutterError catch (_) {
-      return "ERROR: Seite kann nicht geladen werden";
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: AppThemeData.colorControls),
-          backgroundColor: Colors.transparent,
-          title: Text(
-            title,
-            style: TextStyle(color: AppThemeData.colorTextRegular),
-          ),
-        ),
-        body: new FutureBuilder(
-            future: getData(),
-            builder: (context, snapshot) {
-              return new Markdown(
-                data: snapshot.data ?? "",
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
-              );
-            }));
   }
 }

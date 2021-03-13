@@ -15,7 +15,7 @@ class BugReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("kontaktiere uns"),
+        title: Text("unterstütze uns"),
       ),
       body: BlocProvider<BugReportCubit>(
         create: (_) => BugReportCubit(BugReportRepository()),
