@@ -105,6 +105,22 @@ class CreatePostForm extends StatelessWidget {
         ],
         child: BlocBuilder<PostEditorCubit, PostEditorState>(
             builder: (context, state) {
+          //TODO Temporärer Fix damit die Curser-Position nicht konstant an den Anfang des Feldes springt
+          TextEditingController titleController =
+              TextEditingController(text: state.mandatoryFields['title']);
+          titleController.selection = TextSelection.fromPosition(
+              TextPosition(offset: titleController.text.length));
+
+          TextEditingController aboutController =
+              TextEditingController(text: state.mandatoryFields['about']);
+          aboutController.selection = TextSelection.fromPosition(
+              TextPosition(offset: aboutController.text.length));
+
+          TextEditingController placeController =
+              TextEditingController(text: state.optionalFields['treffpunkt']);
+          placeController.selection = TextSelection.fromPosition(
+              TextPosition(offset: placeController.text.length));
+
           return SafeArea(
             child: Column(
               children: [
@@ -117,9 +133,9 @@ class CreatePostForm extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
-                          controller: TextEditingController(
-                              text: state.mandatoryFields['title']),
+                          controller: titleController,
                           onChanged: (text) {
+                            print("submitted");
                             BlocProvider.of<PostEditorCubit>(context)
                                 .setMandatoryField(
                                     'title',
@@ -197,8 +213,8 @@ class CreatePostForm extends StatelessWidget {
                               ),
                             ),
                             new TextFormField(
-                              controller: TextEditingController(
-                                  text: state.mandatoryFields['about']),
+                              controller:
+                                  aboutController, //TextEditingController(text: state.mandatoryFields['about']),
                               onChanged: (text) {
                                 BlocProvider.of<PostEditorCubit>(context)
                                     .setMandatoryField(
@@ -218,8 +234,8 @@ class CreatePostForm extends StatelessWidget {
                             ),
                             /*Text("Weitere Freiwillige Angaben"),*/
                             new TextFormField(
-                              controller: TextEditingController(
-                                  text: state.optionalFields['treffpunkt']),
+                              controller:
+                                  placeController, //TextEditingController(text: state.optionalFields['treffpunkt']),
                               onChanged: (text) {
                                 BlocProvider.of<PostEditorCubit>(context)
                                     .setOptionalField(

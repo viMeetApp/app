@@ -6,7 +6,8 @@ import 'package:signup_app/util/data_models.dart';
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsRepository _repository = SettingsRepository();
+  final SettingsRepository _repository = SettingsRepository();
+
   SettingsCubit() : super(SettingsUninitialized()) {
     _repository.observeUser().listen((user) {
       if (user != null) {

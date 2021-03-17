@@ -71,7 +71,7 @@ class PostEditorCubit extends Cubit<PostEditorState> {
       //!ToDo what to do with Event Time
     }
 
-    if (state.isCreate == true) {
+    if (state.isCreate == true || post == null) {
       //Write to Firetore
       _postRepository.createPost(event).then((_) {
         emit(state.createSuccess());
@@ -105,6 +105,7 @@ class PostEditorCubit extends Cubit<PostEditorState> {
 
   void setMandatoryField(String field, value) {
     state.mandatoryFields[field] = value;
+    print("updateState");
     emit(state.copyWith());
   }
 
