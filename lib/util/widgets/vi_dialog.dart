@@ -7,7 +7,7 @@ import 'package:signup_app/util/presets.dart';
 ///Helper Class which extracts the Logic for Using Popup Dialogs
 class ViDialog {
   ViDialog();
-  static Future _showDialog(
+  static Future showWidgetDialog(
       {@required context,
       @required Widget child,
       @required String title,
@@ -61,7 +61,7 @@ class ViDialog {
       Navigator.pop(context, currentValue);
     };
 
-    return _showDialog(
+    return showWidgetDialog(
         context: context,
         title: title,
         child: Wrap(
@@ -94,7 +94,7 @@ class ViDialog {
       Navigator.pop(context, currentValue);
     };
 
-    return _showDialog(
+    return showWidgetDialog(
         context: context,
         title: title,
         child: TextFormField(
