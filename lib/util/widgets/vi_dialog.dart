@@ -5,8 +5,8 @@ import 'package:signup_app/util/presets.dart';
 
 //ToDo Bin mir nicht sicher ob das so gut ist mit Klasse oder Static besser wäre
 ///Helper Class which extracts the Logic for Using Popup Dialogs
-class DialogHelper {
-  DialogHelper();
+class ViDialog {
+  ViDialog();
   static Future _showDialog(
       {@required context,
       @required Widget child,

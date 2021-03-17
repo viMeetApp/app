@@ -70,6 +70,15 @@ class UserRepository {
     }
   }
 
+  ///Return the User who is currently authenticated
+  Stream<util.User> observeUser() {
+    return _firestore
+        .collection('users')
+        .doc(_firebaseAuth.currentUser.uid)
+        .snapshots()
+        .map((DocumentSnapshot doc) => util.User.fromDoc(doc));
+  }
+
   ///Is the Device already Signed In
   bool isSignedIn() {
     if (_firebaseAuth.currentUser == null ||

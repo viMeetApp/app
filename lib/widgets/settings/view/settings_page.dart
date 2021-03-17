@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/widgets/vi_dialog.dart';
+import 'package:signup_app/widgets/settings/cubit/settings_cubit.dart';
 import 'package:signup_app/widgets/settings/view/about_widget.dart';
 import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
 import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
@@ -20,8 +23,12 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        /*appBar: AppBar(
+    return BlocProvider<SettingsCubit>(
+        create: (_) => SettingsCubit(),
+        child: BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+          return Scaffold(
+              /*appBar: AppBar(
           iconTheme: IconThemeData(color: AppThemeData.colorControls),
           backgroundColor: Colors.transparent,
           title: Text(
@@ -29,86 +36,100 @@ class SettingsPage extends StatelessWidget {
             style: TextStyle(color: AppThemeData.colorTextRegular),
           ),
         ),*/
-        body: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: ListView(
-              children: [
-                Card(
-                    margin: EdgeInsets.only(top: 20, bottom: 20),
-                    shape: _cardShape,
-                    color: AppThemeData.colorPrimary,
-                    child: ListTile(
-                      onTap: () => {},
-                      title: Text(
-                        "Max Mustermann",
-                        style: AppThemeData.textHeading3(color: Colors.white),
-                      ),
-                      trailing: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
-                    )),
-                Card(
-                  margin: EdgeInsets.all(10),
-                  shape: _cardShape,
-                  child: Column(
+              body: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  child: ListView(
                     children: [
-                      ListTile(
-                          title: Text("Account"),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () => Navigator.push(
-                              context,
-                              SubSettingsPage.route(
-                                  title: "Account",
-                                  child: AccountSettingsWidget()))),
-                      ListTile(
-                          title: Text("Spache"),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () => Navigator.push(
-                              context,
-                              SubSettingsPage.route(
-                                  title: "Sprache",
-                                  child: LanguageSettingsWidget()))),
-                      ListTile(
-                          title: Text("Barrierefreiheit"),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () => Navigator.push(
-                              context,
-                              SubSettingsPage.route(
-                                  title: "Barrierefreiheit",
-                                  child: AccessibilitySettingsWidget()))),
-                    ],
-                  ),
-                ),
-                Card(
-                  margin: EdgeInsets.all(10),
-                  shape: _cardShape,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () => Navigator.push(
-                            context,
-                            SubSettingsPage.route(
-                                title: "Datenschutz",
-                                child:
-                                    AboutWidget(legalFileName: "datenschutz"))),
-                        title: Text("Datenschutz"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                      Card(
+                          margin: EdgeInsets.only(top: 20, bottom: 20),
+                          shape: _cardShape,
+                          color: AppThemeData.colorPrimary,
+                          child: ListTile(
+                            onTap: () {
+                              ViDialog.showTextInputDialog(
+                                title: "neuer Name",
+                                currentValue: state.user.name,
+                                context: context,
+                                keyboardType: TextInputType.text,
+                              ).then((value) {
+                                if (value != null) {
+                                  BlocProvider.of<SettingsCubit>(context)
+                                      .setName(value);
+                                }
+                              });
+                            },
+                            title: Text(
+                              state.user != null ? state.user.name : "",
+                              style: AppThemeData.textHeading3(
+                                  color: Colors.white),
+                            ),
+                            trailing: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          )),
+                      Card(
+                        margin: EdgeInsets.all(10),
+                        shape: _cardShape,
+                        child: Column(
+                          children: [
+                            ListTile(
+                                title: Text("Account"),
+                                trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    SubSettingsPage.route(
+                                        title: "Account",
+                                        child: AccountSettingsWidget()))),
+                            ListTile(
+                                title: Text("Spache"),
+                                trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    SubSettingsPage.route(
+                                        title: "Sprache",
+                                        child: LanguageSettingsWidget()))),
+                            ListTile(
+                                title: Text("Barrierefreiheit"),
+                                trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    SubSettingsPage.route(
+                                        title: "Barrierefreiheit",
+                                        child: AccessibilitySettingsWidget()))),
+                          ],
+                        ),
                       ),
-                      ListTile(
-                        onTap: () => Navigator.push(
-                            context,
-                            SubSettingsPage.route(
-                                title: "Impressum",
-                                child:
-                                    AboutWidget(legalFileName: "impressum"))),
-                        title: Text("Impressum"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      )
+                      Card(
+                        margin: EdgeInsets.all(10),
+                        shape: _cardShape,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  SubSettingsPage.route(
+                                      title: "Datenschutz",
+                                      child: AboutWidget(
+                                          legalFileName: "datenschutz"))),
+                              title: Text("Datenschutz"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                            ),
+                            ListTile(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  SubSettingsPage.route(
+                                      title: "Impressum",
+                                      child: AboutWidget(
+                                          legalFileName: "impressum"))),
+                              title: Text("Impressum"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-              ],
-            )));
+                  )));
+        }));
   }
 }

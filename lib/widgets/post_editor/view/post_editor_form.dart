@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:signup_app/util/dialog_helper.dart';
+import 'package:signup_app/util/widgets/vi_dialog.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/post_editor/cubit/post_editor_cubit.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
@@ -257,7 +257,7 @@ class CreatePostForm extends StatelessWidget {
                                                         .toString() +
                                                     " Teilnehmer",
                                         onPressed: () => {
-                                          DialogHelper.showTextInputDialog(
+                                          ViDialog.showTextInputDialog(
                                               title: "Maximale Zeilnehmerzahl",
                                               context: context,
                                               keyboardType:
@@ -289,7 +289,7 @@ class CreatePostForm extends StatelessWidget {
                                             : state.optionalFields["kosten"]
                                                 .toString(),
                                         onPressed: () {
-                                          DialogHelper.showTextInputDialog(
+                                          ViDialog.showTextInputDialog(
                                               title: "Kosten pro Person",
                                               context: context,
                                               formatters: []).then((value) {
