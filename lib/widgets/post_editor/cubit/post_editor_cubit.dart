@@ -22,20 +22,21 @@ class PostEditorCubit extends Cubit<PostEditorState> {
   final PostRepository _postRepository = new PostRepository();
   final Post post; //ToDo wäre auch schöner wenn man das über den state machrt
   void submit() async {
-    emit(state.createSubmitting());
     bool abort = false;
     //First Check if all mandatory Field aren't empty
     state.mandatoryFields.forEach((key, value) {
       if (value == null) {
         print("mandatory Field '" + key + "' empty");
         abort = true;
-        emit(state.createError());
+        //emit(state.createError());
       }
     });
     if (abort) {
+      emit(state.copyWith(isError: true, error: PostError.FieldsMissing));
       print("abort");
       return;
     }
+    emit(state.createSubmitting());
     //bring optional Fields in Array Structure
     List<PostDetail> postDetails = [];
     state.optionalFields.forEach((key, value) {
@@ -75,9 +76,13 @@ class PostEditorCubit extends Cubit<PostEditorState> {
       //Write to Firetore
       _postRepository.createPost(event).then((_) {
         emit(state.createSuccess());
+        print("post successful");
       }).catchError((err) {
-        log("Error Create Post with Firebase");
-        log(err.toString());
+        log("Error Create Post with Firebase: " + err.toString());
+        emit(state.copyWith(
+          isError: true,
+          error: err,
+        ));
       });
     } else {
       event.id = post.id;
@@ -85,7 +90,10 @@ class PostEditorCubit extends Cubit<PostEditorState> {
         emit(state.createSuccess());
       }).catchError((err) {
         log("Error Create Post with Firebase");
-        log(err.toString());
+        emit(state.copyWith(
+          isError: true,
+          error: err,
+        ));
       });
     }
   }

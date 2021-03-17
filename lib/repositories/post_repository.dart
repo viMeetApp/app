@@ -1,9 +1,16 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:signup_app/util/data_models.dart';
 
-enum PostErrors { LocationDisabled, LocationDenied, LocationDeniedPermanently }
+enum PostError {
+  LocationDisabled,
+  LocationDenied,
+  LocationDeniedPermanently,
+  FieldsMissing
+}
 
 ///Handles Communication between Flutter and Firestore
 class PostRepository {
@@ -39,7 +46,7 @@ class PostRepository {
           'When updating a Post, Object must contain a valid Id');
       await _postCollectionReference.doc(post.id).update(post.toDoc());
     } catch (err) {
-      throw err;
+      return err;
     }
   }
 
@@ -49,7 +56,8 @@ class PostRepository {
       post.geohash = await _getCurrentGeohash();
       await _postCollectionReference.add(post.toDoc());
     } catch (err) {
-      throw err;
+      log("post: " + err.toString());
+      return Future.error(err);
     }
   }
 
@@ -61,8 +69,8 @@ class PostRepository {
           .hash;
       return geohash.substring(0, 5); // return a geohash with limited accuracy
     } catch (err) {
-      print(err.toString());
-      return err;
+      log("geohash: " + err.toString());
+      return Future.error(err);
     }
   }
 
@@ -76,7 +84,7 @@ class PostRepository {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        return Future.error(PostErrors.LocationDisabled);
+        return Future.error(PostError.LocationDisabled);
       }
     }
 
@@ -84,7 +92,7 @@ class PostRepository {
     if (_permissionGranted == PermissionStatus.DENIED) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.GRANTED) {
-        return Future.error(PostErrors.LocationDenied);
+        return Future.error(PostError.LocationDenied);
       }
     }
 

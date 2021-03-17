@@ -11,7 +11,8 @@ class ViDialog {
       {@required context,
       @required Widget child,
       @required String title,
-      @required Function onOkay}) {
+      @required Function onOkay,
+      bool noActions = false}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -23,23 +24,31 @@ class ViDialog {
           backgroundColor: AppThemeData.colorBase,
           child: Padding(
             padding: EdgeInsets.all(20),
-            child: Wrap(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   title,
                   style: AppThemeData.textHeading3(),
                 ),
-                Padding(
+                Container(
+                  //color: Colors.red,
                   padding: EdgeInsets.only(bottom: 10, top: 20),
                   child: child,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    if (!noActions)
+                      FlatButton(
+                          onPressed: () => {Navigator.pop(context, null)},
+                          child: Text("Abbrechen")),
                     FlatButton(
-                        onPressed: () => {Navigator.pop(context, null)},
-                        child: Text("Abbrechen")),
-                    FlatButton(onPressed: onOkay, child: Text("Ok"))
+                        onPressed: noActions
+                            ? () => {Navigator.pop(context, null)}
+                            : onOkay,
+                        child: Text("Ok"))
                   ],
                 )
               ],

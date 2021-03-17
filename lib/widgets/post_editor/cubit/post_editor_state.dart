@@ -7,6 +7,7 @@ class PostEditorState {
   final bool isError;
   final bool isSubmitted;
   final bool isSubmitting;
+  final PostError error;
 
   //Group Info is set when post is within group happends with constructor
   final GroupInfo group;
@@ -38,6 +39,7 @@ class PostEditorState {
       @required this.isSubmitted,
       @required this.isSubmitting,
       @required this.isCreate,
+      this.error,
       this.group,
       this.eventDate,
       this.eventTime,
@@ -127,8 +129,10 @@ class PostEditorState {
       isSubmitting,
       isSubmitted,
       DateTime eventDate,
-      TimeOfDay eventTime}) {
+      TimeOfDay eventTime,
+      PostError error}) {
     return PostEditorState(
+      error: error,
       isError: isError ?? this.isError,
       isSubmitted: isSubmitted ?? this.isSubmitted,
       isSubmitting: isSubmitting ?? this.isSubmitting,

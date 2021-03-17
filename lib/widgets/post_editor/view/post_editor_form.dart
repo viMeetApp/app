@@ -69,6 +69,7 @@ class CreatePostForm extends StatelessWidget {
         listeners: [
           BlocListener<PostEditorCubit, PostEditorState>(
             listener: (context, state) {
+              print("setState isError: " + state.isError.toString());
               //When Logged In -> Call Authetication Bloc with Logged in
               if (state.isSubmitted) {
                 Navigator.of(context).pop();
@@ -77,10 +78,16 @@ class CreatePostForm extends StatelessWidget {
               else if (state.isError) {
                 Scaffold.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(
-                    content: Text('Bitte alle Felder ausfüllen'),
+                  ..showSnackBar(SnackBar(
+                    content: Text('Fehler: ' + state.error.toString()),
                   ));
-                BlocProvider.of<PostEditorCubit>(context).resetError();
+                /*ViDialog.showWidgetDialog(
+                    context: context,
+                    child: Text(state.error.toString()),
+                    title: "Fehler",
+                    noActions: true,
+                    onOkay: () {});
+                BlocProvider.of<PostEditorCubit>(context).resetError();*/
               }
               //Show is Loading Snackbar
               else if (state.isSubmitting) {
