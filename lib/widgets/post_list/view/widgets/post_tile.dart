@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:signup_app/widgets/home_feed/location_dialog/location_dialog.dart';
+import 'package:signup_app/widgets/home_feed/location_dialog/view/location_dialog_widget.dart';
 import 'package:signup_app/widgets/post/view/post_page.dart';
 import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 import 'package:signup_app/util/data_models.dart';
