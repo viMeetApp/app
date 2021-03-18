@@ -4,12 +4,12 @@ class LocationWidgetState {
   List<PostalPlace> places;
   PostalPlace currentPlace;
 
-  LocationWidgetState(this.currentPlace);
+  LocationWidgetState({this.currentPlace});
 
   LocationWidgetState copyWith(
       {PostalPlace currentPlace, List<PostalPlace> places}) {
     LocationWidgetState state =
-        LocationWidgetState(currentPlace ?? this.currentPlace);
+        LocationWidgetState(currentPlace: currentPlace ?? this.currentPlace);
     state.places = places ?? this.places;
     return state;
   }

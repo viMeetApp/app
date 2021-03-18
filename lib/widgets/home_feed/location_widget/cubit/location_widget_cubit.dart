@@ -4,8 +4,11 @@ import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_state.dart';
 
 class LocationWidgetCubit extends Cubit<LocationWidgetState> {
-  LocationWidgetCubit({@required PostalPlace currentPlace})
-      : super(LocationWidgetState(currentPlace)) {
+  LocationWidgetCubit({PostalPlace currentPlace})
+      : super(LocationWidgetState()) {
+    if (currentPlace == null) {
+      GeoService.getCurrentPlace().then((value) => setCurrentPlace(value));
+    }
     _getPlaces();
   }
 
@@ -15,7 +18,9 @@ class LocationWidgetCubit extends Cubit<LocationWidgetState> {
   }
 
   void setCurrentPlace(PostalPlace place) {
-    print("setting: " + place.name);
-    emit(state.copyWith(currentPlace: place));
+    if (place != null) {
+      GeoService.currentPlace = place;
+      emit(state.copyWith(currentPlace: place));
+    }
   }
 }
