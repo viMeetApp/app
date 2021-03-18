@@ -1,15 +1,15 @@
 import 'package:signup_app/services/geo_service.dart';
 
-class LocationDialogState {
+class LocationWidgetState {
   List<PostalPlace> places;
   PostalPlace currentPlace;
 
-  LocationDialogState(this.currentPlace);
+  LocationWidgetState(this.currentPlace);
 
-  LocationDialogState copyWith(
+  LocationWidgetState copyWith(
       {PostalPlace currentPlace, List<PostalPlace> places}) {
-    LocationDialogState state =
-        LocationDialogState(currentPlace ?? this.currentPlace);
+    LocationWidgetState state =
+        LocationWidgetState(currentPlace ?? this.currentPlace);
     state.places = places ?? this.places;
     return state;
   }

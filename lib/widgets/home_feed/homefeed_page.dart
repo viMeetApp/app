@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/widgets/bug_report/view/bug_report_page.dart';
-import 'package:signup_app/widgets/home_feed/location_dialog/view/location_dialog_widget.dart';
+import 'package:signup_app/widgets/home_feed/location_widget/view/location_widget.dart';
 import 'package:signup_app/widgets/post_editor/implementations/create_post_page.dart';
 import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
 import 'package:signup_app/util/presets.dart';
@@ -49,26 +49,7 @@ class HomeFeed extends StatelessWidget {
               },*/
             ),
           ),
-          title: FlatButton(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.location_on),
-                Text(
-                  "Freiburg",
-                  style: AppThemeData.textHeading2(),
-                ),
-              ],
-            ),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => LocationDialog(),
-              );
-              //BlocProvider.of<HomePageCubit>(context)
-              //    .openGroups(context);
-            },
-          ),
+          title: LocationWidget(),
           actions: [
             Builder(
               builder: (context) => IconButton(
