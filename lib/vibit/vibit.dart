@@ -49,7 +49,9 @@ class ViState extends State<ViBit> {
         print("Warning: No ViBitDynamic widget was found in the scope");
       }
     } else {
-      setState(() {});
+      if (this.mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -80,9 +82,10 @@ class ViBitDynamic<T extends ViState> extends StatefulWidget {
 
 class _ViBitDynamicState extends State<ViBitDynamic> {
   _ViBitDynamicState(ViBitDynamic wgt) {
-    print("set function");
     wgt.state.onRefresh = () {
-      setState(() {});
+      if (this.mounted) {
+        setState(() {});
+      }
     };
   }
   @override
