@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_cubit.dart';
-import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_state.dart';
+import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_vibit.dart';
 
 class LocationDialog extends StatefulWidget {
   LocationWidgetState state;
-  LocationWidgetCubit cubit;
 
-  LocationDialog({@required this.state, @required this.cubit});
+  LocationDialog({@required this.state});
 
   @override
   _LocationDialogState createState() => _LocationDialogState();
@@ -106,7 +104,7 @@ class _LocationDialogState extends State<LocationDialog> {
                                 ),
                                 onTap: () {
                                   Navigator.pop(context);
-                                  widget.cubit
+                                  widget.state
                                       .setCurrentPlace(filteredPlaces[index]);
                                 },
                               ),
