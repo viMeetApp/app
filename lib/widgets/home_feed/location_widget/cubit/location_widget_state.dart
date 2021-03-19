@@ -1,7 +1,8 @@
-import 'package:signup_app/services/error_service.dart';
+import 'package:signup_app/util/errors.dart';
 import 'package:signup_app/services/geo_service.dart';
+import 'package:signup_app/vibit/vibit.dart';
 
-class LocationWidgetState {
+class LocationWidgetState extends ViState {
   List<PostalPlace> places;
   PostalPlace currentPlace;
   ViException exception;
