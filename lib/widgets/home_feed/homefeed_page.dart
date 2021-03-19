@@ -62,11 +62,8 @@ class HomeFeed extends StatelessWidget {
           ],
         ),
         body: SafeArea(
-          child: Center(
-            child: PostList(
-              filterable: true,
-            ),
-          ),
+          child: Center(child: ViBitTest() //PostList(filterable: true,),
+              ),
         ),
       ),
     ]);
