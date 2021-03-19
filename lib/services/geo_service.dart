@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:proximity_hash/proximity_hash.dart';
-import 'package:signup_app/repositories/post_repository.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:signup_app/services/error_service.dart';
 
 class PostalPlace {
   double long;
@@ -89,8 +88,7 @@ class GeoService with ChangeNotifier {
       }
       return result;
     } catch (err) {
-      print("error getting current region: permission denied by the user");
-      return null;
+      return Future.error(err);
     }
   }
 
@@ -116,7 +114,7 @@ class GeoService with ChangeNotifier {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        return Future.error(PostError.LocationDisabled);
+        return Future.error(ViServiceLocationException());
       }
     }
 
@@ -124,7 +122,7 @@ class GeoService with ChangeNotifier {
     if (_permissionGranted == PermissionStatus.DENIED) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.GRANTED) {
-        return Future.error(PostError.LocationDenied);
+        return Future.error(ViPermissionLocationException());
       }
     }
 
@@ -137,6 +135,9 @@ class GeoService with ChangeNotifier {
     }
     List<String> range =
         createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
+    if (range.length < 2) {
+      throw ViException("RangeError in GeoHashRange: " + range.toString());
+    }
     return GeohashRange(lower: range[1], upper: range[0]);
   }
 }

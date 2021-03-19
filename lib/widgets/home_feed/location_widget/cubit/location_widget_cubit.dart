@@ -13,14 +13,22 @@ class LocationWidgetCubit extends Cubit<LocationWidgetState> {
   }
 
   void _getPlaces() {
-    GeoService.getPostalPlaces()
-        .then((value) => emit(state.copyWith(places: value)));
+    GeoService.getPostalPlaces().then((value) {
+      state.places = value;
+      refresh();
+    });
   }
 
   void setCurrentPlace(PostalPlace place) {
     if (place != null) {
       GeoService.currentPlace = place;
-      emit(state.copyWith(currentPlace: place));
+      state.currentPlace = place;
+      refresh();
     }
+  }
+
+  void refresh() {
+    emit(state);
+    print("updating");
   }
 }
