@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
-import 'package:signup_app/widgets/settings/cubit/settings_cubit.dart';
+import 'package:signup_app/vibit/vibit.dart';
+import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
 import 'package:signup_app/widgets/settings/view/about_widget.dart';
 import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
 import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
@@ -23,19 +24,10 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsCubit>(
-        create: (_) => SettingsCubit(),
-        child: BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (context, state) {
+    return ViBit<SettingsState>(
+        state: SettingsState(),
+        onRefresh: (context, state) {
           return Scaffold(
-              /*appBar: AppBar(
-          iconTheme: IconThemeData(color: AppThemeData.colorControls),
-          backgroundColor: Colors.transparent,
-          title: Text(
-            "Einstellungen",
-            style: TextStyle(color: AppThemeData.colorTextRegular),
-          ),
-        ),*/
               body: Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                   child: ListView(
@@ -48,18 +40,19 @@ class SettingsPage extends StatelessWidget {
                             onTap: () {
                               ViDialog.showTextInputDialog(
                                 title: "neuer Name",
-                                currentValue: state.user.name,
+                                currentValue: state.user?.name ?? "",
                                 context: context,
                                 keyboardType: TextInputType.text,
                               ).then((value) {
                                 if (value != null) {
-                                  BlocProvider.of<SettingsCubit>(context)
-                                      .setName(value);
+                                  state.setName(value);
                                 }
                               });
                             },
                             title: Text(
-                              state.user != null ? state.user.name : "",
+                              state.user != null
+                                  ? state.user.name
+                                  : "unbekannter Nutzer",
                               style: AppThemeData.textHeading3(
                                   color: Colors.white),
                             ),
@@ -130,6 +123,6 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ],
                   )));
-        }));
+        });
   }
 }

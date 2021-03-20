@@ -136,6 +136,9 @@ class GeoService with ChangeNotifier {
     List<String> range =
         createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
     if (range.length < 2) {
+      if (range.length == 1) {
+        return GeohashRange(lower: range[0], upper: range[0]);
+      }
       throw ViException("RangeError in GeoHashRange: " + range.toString());
     }
     return GeohashRange(lower: range[1], upper: range[0]);

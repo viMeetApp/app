@@ -49,9 +49,7 @@ class ViState extends State<ViBit> {
         print("Warning: No ViBitDynamic widget was found in the scope");
       }
     } else {
-      if (this.mounted) {
-        setState(() {});
-      }
+      Util.refreshIfMounted(this.mounted, setState);
     }
   }
 
@@ -83,9 +81,7 @@ class ViBitDynamic<T extends ViState> extends StatefulWidget {
 class _ViBitDynamicState extends State<ViBitDynamic> {
   _ViBitDynamicState(ViBitDynamic wgt) {
     wgt.state.onRefresh = () {
-      if (this.mounted) {
-        setState(() {});
-      }
+      Util.refreshIfMounted(this.mounted, setState);
     };
   }
   @override
@@ -118,4 +114,22 @@ class ViBit<T extends ViState> extends StatefulWidget {
   @nonVirtual
   @override
   ViState createState() => state;
+}
+
+///this class holds fields and functions that are used by multiple ViBit components
+class Util {
+  /// I am not sure if this method is really neccessary. Nonetheless as I
+  /// understand there might be a small window in the mounting cycle where
+  /// the initial state of a widget might not be concidered correctly
+  static refreshIfMounted(bool isMounted, Function setS) {
+    if (isMounted) {
+      setS(() {});
+    } else {
+      Future.delayed(Duration(milliseconds: 500), () {
+        if (isMounted) {
+          setS(() {});
+        }
+      });
+    }
+  }
 }
