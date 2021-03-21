@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/tools.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
@@ -98,6 +98,12 @@ class SettingsPage extends StatelessWidget {
                         shape: _cardShape,
                         child: Column(
                           children: [
+                            ListTile(
+                              onTap: () =>
+                                  Tools.openUrl("https://vimeet.app/help"),
+                              title: Text("Hilfe"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                            ),
                             ListTile(
                               onTap: () => Navigator.push(
                                   context,
