@@ -1,8 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:location/location.dart';
+import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/data_models.dart';
 
 enum PostError {
@@ -14,7 +13,6 @@ enum PostError {
 
 ///Handles Communication between Flutter and Firestore
 class PostRepository {
-  final geo = Geoflutterfire();
   final FirebaseFirestore _firestore;
   CollectionReference _postCollectionReference;
 
@@ -53,74 +51,11 @@ class PostRepository {
   /// Creates a [post] Object in Firestore
   Future<void> createPost(Post post) async {
     try {
-      post.geohash = await _getCurrentGeohash();
+      post.geohash = await GeoService.getCurrentGeohash();
       await _postCollectionReference.add(post.toDoc());
     } catch (err) {
       log("post: " + err.toString());
       return Future.error(err);
     }
   }
-
-  Future<String> _getCurrentGeohash() async {
-    try {
-      LocationData position = await _getDeviceLocation();
-      String geohash = geo
-          .point(latitude: position.latitude, longitude: position.longitude)
-          .hash;
-      return geohash.substring(0, 5); // return a geohash with limited accuracy
-    } catch (err) {
-      log("geohash: " + err.toString());
-      return Future.error(err);
-    }
-  }
-
-  Future<LocationData> _getDeviceLocation() async {
-    Location location = new Location();
-
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return Future.error(PostError.LocationDisabled);
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.DENIED) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.GRANTED) {
-        return Future.error(PostError.LocationDenied);
-      }
-    }
-
-    return await location.getLocation();
-  }
-
-  /*Future<Position> _getDevicePositionOLD() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error(PostErrors.LocationDisabled);
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately.
-        return Future.error(PostErrors.LocationDeniedPermanently);
-      }
-
-      if (permission == LocationPermission.denied) {
-        return Future.error(PostErrors.LocationDisabled);
-      }
-    }
-    return await Geolocator.getCurrentPosition();
-  }*/
 }

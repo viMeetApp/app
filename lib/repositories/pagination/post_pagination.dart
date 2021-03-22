@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/data_models.dart';
 
 //ToDo Das Problem im Moment ist es, dass ich alte Suchen nicht gecancelt bekomme, sie laufen die ganze Zeit im Hintergrund. Es wird zwar durch einen Counter sichergestellt, dass sie keinen Einfluss haben, schöner wäre es aber wenn ich sie Stoppen könnte
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {
+  final geo = Geoflutterfire();
   PostPagination({@required this.paginationDistance, this.user, this.group});
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -44,25 +48,34 @@ class PostPagination {
     Query query;
     //First Check for Group (if Group Provided only Show Posts from Group)
     if (group != null) {
-      query = colReference.where("group.id", isEqualTo: group.id);
+      query =
+          colReference.where("group.id", isEqualTo: group.id).where("geohash");
     }
     //Then Check for User (if User provided only show Posts from User)
-    if (user != null) {
+    else if (user != null) {
       query = colReference.where("participants", arrayContains: user.id);
     }
+
+    //! Filtering nach Tags muss ggf. lokal passieren wenn nach Ort gefiltert werden soll :/
     //After that Filter for Tags
-    if (tags != null && tags.length != 0) {
+    /*else if (tags != null && tags.length != 0) {
       query = query != null
           ? query.where("tags.${tags[0]}", isEqualTo: true)
           : colReference.where("tags.${tags[0]}", isEqualTo: true);
       for (int i = 1; i < tags.length; ++i) {
         query = query.where("tags.${tags[i]}", isEqualTo: true);
       }
+    }*/
+
+    else {
+      GeohashRange range = GeoService.getGeohashRange();
+      log("updating feed: " + range.lower + ", " + range.upper);
+      query = colReference
+          .where("geohash", isGreaterThanOrEqualTo: range.lower)
+          .where("geohash", isLessThanOrEqualTo: range.upper);
     }
 
-    postQuery = query != null
-        ? query.limit(paginationDistance)
-        : colReference.limit(paginationDistance);
+    postQuery = query.limit(paginationDistance);
     requestPosts();
   }
 

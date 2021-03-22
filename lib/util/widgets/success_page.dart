@@ -3,15 +3,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:signup_app/util/presets.dart';
 
-class BugReportSuccessPage extends StatelessWidget {
+class SuccessPage extends StatelessWidget {
+  final String message;
+  SuccessPage({this.message});
+
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => BugReportSuccessPage());
+    return MaterialPageRoute<void>(builder: (_) => SuccessPage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: 'bugrep_success',
+      tag: 'success',
       child: Scaffold(
         backgroundColor: AppThemeData.colorAccent,
         body: Center(
@@ -21,7 +24,7 @@ class BugReportSuccessPage extends StatelessWidget {
             color: AppThemeData.colorCard,
             size: 100,
           ),
-          Text("Danke!",
+          Text(message ?? "",
               style: TextStyle(
                   color: AppThemeData.colorCard,
                   fontWeight: FontWeight.bold,

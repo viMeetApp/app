@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/pagination/post_pagination.dart';
+import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/data_models.dart';
 
 part 'post_list_state.dart';
@@ -16,6 +19,7 @@ class PostListCubit extends Cubit<PostListState> {
     postPagination = PostPagination(
         paginationDistance: paginationDistance, group: group, user: user);
     postPagination.newQuery(tags: null);
+    _listenForChanges();
     emit(PostListState(postStream: postPagination.postStreamController.stream));
   }
 
@@ -26,5 +30,9 @@ class PostListCubit extends Cubit<PostListState> {
   ///Update Filter with [tags]
   void updateFilter(List<String> tags) async {
     postPagination.newQuery(tags: tags);
+  }
+
+  void _listenForChanges() {
+    GeoService.addCurrentPlaceListener((value) => postPagination.newQuery());
   }
 }

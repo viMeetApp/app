@@ -37,8 +37,10 @@ dependencies:
 
   # geo services (GeoHash-Conversion)
   geoflutterfire: ^2.2.1
+  proximity_hash: ^1.1.0
   #geolocator: ^5.3.0
   location: ^2.5.4
+  url_launcher: ^5.7.5
 
   #authentication_repository:
   #  path: packages/authentication_repository
@@ -75,6 +77,7 @@ flutter:
     - assets/img/
     - assets/img/brand/
     - assets/legal/
+    - assets/data/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
