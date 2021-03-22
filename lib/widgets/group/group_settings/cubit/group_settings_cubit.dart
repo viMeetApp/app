@@ -12,10 +12,10 @@ import 'package:signup_app/util/data_models.dart';
 part 'group_settings_state.dart';
 
 class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
-  final userId = fire.FirebaseAuth.instance.currentUser.uid;
+  final userId = fire.FirebaseAuth.instance.currentUser!.uid;
   final GroupRepository _groupRepository = new GroupRepository();
 
-  GroupSettingsCubit({@required Group group})
+  GroupSettingsCubit({required Group group})
       : super(GroupMemberSettings(group: group)) {
     _checkAndEmitMatchingState(group: group);
 
@@ -27,7 +27,7 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
 
   ///Update Settings of Group only valid if admin
   Future<void> updateGroup(
-      {@required Group group, @required BuildContext ctx}) async {
+      {required Group group, required BuildContext ctx}) async {
     //Save before state to make reset possible when Network Fails
     Group oldGroup = state.group;
     if (state is AdminSettings) {
@@ -49,7 +49,7 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
   }
 
   ///Accept Request for New Group Memeber, onyly Admmins allowed
-  void accepRequest({@required User user}) {
+  void accepRequest({required User user}) {
     if (state is AdminSettings) {
       _groupRepository.updateGroupViaQuery(state.group, {
         'requestedToJoin': FieldValue.arrayRemove([user.id]),
@@ -61,7 +61,7 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
   }
 
   ///Decline Request for New Group Memeber, onyly Admmins allowed
-  void declineRequest({@required User user}) {
+  void declineRequest({required User user}) {
     if (state is AdminSettings) {
       _groupRepository.updateGroupViaQuery(state.group, {
         'requestedToJoin': FieldValue.arrayRemove([user.id])
@@ -72,11 +72,11 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
   }
 
   ///Helper Function, Decides if person is Admin of Group or just basic Member
-  void _checkAndEmitMatchingState({Group group}) {
+  void _checkAndEmitMatchingState({required Group group}) {
     //Create User and State Map
-    if (group.admins.contains(userId)) {
+    if (group.admins!.contains(userId)) {
       emit(AdminSettings(group: group));
-    } else if (group.users.contains(userId)) {
+    } else if (group.users!.contains(userId)) {
       emit(GroupMemberSettings(group: group));
     }
   }

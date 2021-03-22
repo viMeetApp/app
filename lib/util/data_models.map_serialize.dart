@@ -19,21 +19,21 @@ Map<String, dynamic> _groupInfoToMap(GroupInfo instance) => <String, dynamic>{
 
 GroupInfo _groupInfoFromMap(Map<String, dynamic> map) {
   return GroupInfo(
-    id: map['id'] as String,
-    name: map['name'] as String,
+    id: map['id'] as String?,
+    name: map['name'] as String?,
   );
 }
 
 PostDetail _postDetailFromMap(Map<String, dynamic> map) {
   return PostDetail(
-    id: map['id'] as String,
-    value: map['value'] as String,
+    id: map['id'] as String?,
+    value: map['value'] as String?,
   );
 }
 
 User _userFromMap(Map<String, dynamic> map) {
   return User(
-    id: map['id'] as String,
-    name: map['name'] as String,
+    id: map['id'] as String?,
+    name: map['name'] as String?,
   );
 }

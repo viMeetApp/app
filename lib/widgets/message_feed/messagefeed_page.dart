@@ -36,7 +36,7 @@ class MessageFeed extends StatelessWidget {
           child: PostList(
             //ToDo fix this with User but therefore usere constructor must work
             user: User(
-                name: 'egal', id: fire.FirebaseAuth.instance.currentUser.uid),
+                name: 'egal', id: fire.FirebaseAuth.instance.currentUser!.uid),
           ),
         ),
       ),

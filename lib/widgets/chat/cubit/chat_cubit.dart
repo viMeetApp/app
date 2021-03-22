@@ -12,12 +12,9 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
 
   final ChatMessageRepository _chatMessageRepository =
       new ChatMessageRepository();
-  ChatMessagePagination chatMessagePagination;
+  late ChatMessagePagination chatMessagePagination;
 
-  ChatCubit({@required this.post, @required this.user})
-      : assert(post != null),
-        assert(user != null),
-        super(Stream.empty()) {
+  ChatCubit({required this.post, required this.user}) : super(Stream.empty()) {
     chatMessagePagination =
         new ChatMessagePagination(post: post, paginationDistance: 20);
     emit(chatMessagePagination.messageStreamController.stream);
@@ -26,7 +23,7 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
 
   void sendMessage(String content) {
     //Check if MessageString is valid
-    if (content.length != 0 ?? content != null) {
+    if (content.length != 0) {
       Message chatMessage =
           Message.createTextMessage(author: user, content: content);
       _chatMessageRepository.createChatMessage(

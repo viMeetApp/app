@@ -10,7 +10,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
   Post post;
   PostRepository _postRepository = new PostRepository();
 
-  PostdetailedCubit({@required this.post})
+  PostdetailedCubit({required this.post})
       : assert(post != null),
         super(Uninitialized()) {
     if (post.type == 'event') {
@@ -21,7 +21,7 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
     //um ab da dynamische Gruppe zu haben.
-    _postRepository.getPostStreamById(post.id).listen((Post post) {
+    _postRepository.getPostStreamById(post.id).listen((Post? post) {
       if (post is Event) {
         emit(EventState(post: post));
       } else {
@@ -32,17 +32,17 @@ class PostdetailedCubit extends Cubit<PostDetailedState> {
 
   ///Toggle if Top Card is Expanded
   void toggleExpanded() {
-    emit(state.copyWith(isExpanded: !state.isExpanded));
+    emit(state.copyWith(isExpanded: !state.isExpanded!));
   }
 
   ///Fold in the Top Card
   void foldIn() {
-    if (state.isExpanded) emit(state.copyWith(isExpanded: false));
+    if (state.isExpanded!) emit(state.copyWith(isExpanded: false));
   }
 
   ///Function to call if Favourite Icon in pressed
   ///At the Moment just toggles State
   void favourite() {
-    emit(state.copyWith(isFavourite: !state.isFavourite));
+    emit(state.copyWith(isFavourite: !state.isFavourite!));
   }
 }

@@ -19,7 +19,8 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
         listener: (context, state) {
           cubit.updateStreamSubscription(state.group);
         },
-        child: BlocBuilder<AdmitToJoinGroupWidgetCubit, List<User>>(
+        child: Text("TODO: reenable"));
+    /*BlocBuilder<AdmitToJoinGroupWidgetCubit, List<User>>(
           cubit: cubit,
           builder: (context, users) {
             return (users.length == 0)
@@ -62,6 +63,6 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
                       ).toList(),
                     ));
           },
-        ));
+        ));*/
   }
 }

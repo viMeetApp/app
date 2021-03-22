@@ -5,7 +5,7 @@ part 'data_models.doc_serialize.dart';
 part 'data_models.map_serialize.dart';
 
 abstract class DocumentSerializable {
-  Map<String, dynamic> toDoc();
+  Map<String, dynamic>? toDoc();
   static fromDoc(DocumentSnapshot document) {
     return null;
   }
@@ -22,10 +22,10 @@ abstract class MapSerializable {
 ///
 ///  [id] the author of the Object in the database
 class DatabaseDocument implements DocumentSerializable {
-  String id;
+  String? id;
 
   @override
-  Map<String, dynamic> toDoc() => _databaseDocumentToDoc(this);
+  Map<String, dynamic>? toDoc() => _databaseDocumentToDoc(this);
 
   @override
   static DatabaseDocument fromDoc(DocumentSnapshot document) =>
@@ -37,13 +37,13 @@ class DatabaseDocument implements DocumentSerializable {
 /// [id] links a network user to a Firebase-Authentication user
 /// [name] name of the user that the user can set himself
 class User extends DatabaseDocument implements MapSerializable {
-  String name;
-  User({this.name, String id}) {
+  String? name;
+  User({this.name, String? id}) {
     super.id = id;
   }
 
   @override
-  Map<String, dynamic> toDoc() => _userToDoc(this);
+  Map<String, dynamic>? toDoc() => _userToDoc(this);
 
   @override
   static User fromDoc(DocumentSnapshot document) =>
@@ -60,7 +60,7 @@ class User extends DatabaseDocument implements MapSerializable {
 ///
 ///  [author] the author of the Object
 class UserGeneratedContent {
-  User author;
+  User? author;
 }
 
 /// Object that holds information to a group as saved in the database
@@ -70,14 +70,14 @@ class UserGeneratedContent {
 /// [users] a list of the userIDs of the users that are in the group
 class Group extends DatabaseDocument {
   Group();
-  String name;
-  String about;
-  List<String> users = [];
-  List<String> admins = [];
-  List<String> requestedToJoin = [];
+  String? name;
+  String? about;
+  List<String>? users = [];
+  List<String>? admins = [];
+  List<String>? requestedToJoin = [];
 
   @override
-  Map<String, dynamic> toDoc() => _groupToDoc(this);
+  Map<String, dynamic>? toDoc() => _groupToDoc(this);
 
   @override
   static Group fromDoc(DocumentSnapshot document) =>
@@ -99,21 +99,21 @@ class Group extends DatabaseDocument {
 
 class Post extends DatabaseDocument implements UserGeneratedContent {
   Post();
-  String title;
-  String geohash;
-  List<String> tags;
-  String about;
-  String type;
-  int createdDate;
-  int expireDate;
-  GroupInfo group;
-  List<PostDetail> details;
+  String? title;
+  String? geohash;
+  List<String>? tags;
+  String? about;
+  String? type;
+  int? createdDate;
+  int? expireDate;
+  GroupInfo? group;
+  List<PostDetail?>? details;
 
   @override
-  User author;
+  User? author;
 
   @override
-  Map<String, dynamic> toDoc() => _postToDoc(this);
+  Map<String, dynamic>? toDoc() => _postToDoc(this);
 
   @override
   static Post fromDoc(DocumentSnapshot document) =>
@@ -121,10 +121,10 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
 }
 
 class PostDetail implements MapSerializable {
-  String id;
-  String value;
+  String? id;
+  String? value;
 
-  PostDetail({@required this.id, @required this.value});
+  PostDetail({required this.id, required this.value});
 
   @override
   Map<String, dynamic> toMap() => _postDetailToMap(this);
@@ -135,10 +135,10 @@ class PostDetail implements MapSerializable {
 }
 
 class GroupInfo implements MapSerializable {
-  String id;
-  String name;
+  String? id;
+  String? name;
 
-  GroupInfo({@required this.id, @required this.name});
+  GroupInfo({required this.id, required this.name});
 
   @override
   Map<String, dynamic> toMap() => _groupInfoToMap(this);
@@ -155,21 +155,21 @@ class GroupInfo implements MapSerializable {
 /// [content] message of the user or reference to the video file
 class Message extends DatabaseDocument implements UserGeneratedContent {
   Message();
-  int timestamp;
-  String type;
-  String content;
+  int? timestamp;
+  String? type;
+  String? content;
 
   @override
-  User author;
+  User? author;
 
   ///Create a new Chat Text Message by [author] with the message [content]
   ///Automatically sets [timestamp] to now and [type] to Text Message
-  Message.createTextMessage({@required this.author, @required this.content})
+  Message.createTextMessage({required this.author, required this.content})
       : timestamp = DateTime.now().millisecondsSinceEpoch,
         type = 'text';
 
   @override
-  Map<String, dynamic> toDoc() => _messageToDoc(this);
+  Map<String, dynamic>? toDoc() => _messageToDoc(this);
 
   @override
   static Message fromDoc(DocumentSnapshot document) =>
@@ -184,12 +184,12 @@ class Message extends DatabaseDocument implements UserGeneratedContent {
 /// [cost] estimated cost of participation
 class Event extends Post {
   Event();
-  int eventDate;
-  int maxPeople;
-  List<String> participants;
+  int? eventDate;
+  int? maxPeople;
+  List<String>? participants;
 
   @override
-  Map<String, dynamic> toDoc() => _eventToDoc(this);
+  Map<String, dynamic>? toDoc() => _eventToDoc(this);
 
   @override
   static Event fromDoc(DocumentSnapshot document) =>
@@ -201,7 +201,7 @@ class Buddy extends Post {
   Buddy();
 
   @override
-  Map<String, dynamic> toDoc() => _buddyToDoc(this);
+  Map<String, dynamic>? toDoc() => _buddyToDoc(this);
 
   @override
   static Buddy fromDoc(DocumentSnapshot document) =>
@@ -214,23 +214,23 @@ class Buddy extends Post {
 /// [geohash] location of the city
 class DeviceLocation {
   DeviceLocation({name, geohash});
-  String name;
-  String geohash;
+  String? name;
+  String? geohash;
 }
 
 class BugReport extends DatabaseDocument implements UserGeneratedContent {
-  String version;
-  int timestamp;
+  String? version;
+  int? timestamp;
 
-  String title;
-  String message;
-  String type;
+  String? title;
+  String? message;
+  String? type;
   @override
-  User author;
+  User? author;
   String state = "open";
 
   @override
-  Map<String, dynamic> toDoc() => _bugreportToDoc(this);
+  Map<String, dynamic>? toDoc() => _bugreportToDoc(this);
 }
 
 class ReportReason {
@@ -255,15 +255,15 @@ class Report extends DatabaseDocument implements UserGeneratedContent {
   static const TYPE_MESSAGE = "message";
   static const TYPE_USER = "user";
 
-  int timestamp;
-  String objectid;
-  String type;
+  int? timestamp;
+  String? objectid;
+  String? type;
   String state = "open";
-  List<String> reasons;
+  List<String>? reasons;
 
   @override
-  User author;
+  User? author;
 
   @override
-  Map<String, dynamic> toDoc() => _reportToDoc(this);
+  Map<String, dynamic>? toDoc() => _reportToDoc(this);
 }

@@ -7,15 +7,15 @@ import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/report/view/report_dialog.dart';
 
 class PostTile extends StatelessWidget {
-  final Post post;
+  final Post? post;
   final bool highlight;
 
-  PostTile({@required this.post, this.highlight = false});
+  PostTile({required this.post, this.highlight = false});
 
   Widget getEventDateText(Event event) {
     if (event.eventDate != null) {
       String formattedDate = DateFormat('dd.MM.yyyy')
-          .format(DateTime.fromMillisecondsSinceEpoch(event.eventDate));
+          .format(DateTime.fromMillisecondsSinceEpoch(event.eventDate!));
       return Row(children: [
         Icon(
           Icons.event,
@@ -49,10 +49,10 @@ class PostTile extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 3,
-                    color: (post.group != null && highlight)
-                        ? AppThemeData.swatchAccent[300]
+                    color: (post!.group != null && highlight)
+                        ? AppThemeData.swatchAccent[300]!
                         : Colors.transparent),
-                color: (post.group != null && highlight)
+                color: (post!.group != null && highlight)
                     ? AppThemeData.swatchAccent[100]
                     : AppThemeData.colorCard,
                 //AppThemeData.colorCard,
@@ -75,21 +75,21 @@ class PostTile extends StatelessWidget {
                         ),
                         Container(
                             child: Text(
-                              this.post.author.name,
+                              this.post!.author!.name!,
                               style: TextStyle(
                                   color: AppThemeData.colorTextRegularLight,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700),
                             ),
                             padding: EdgeInsets.only(left: 5)),
-                        if (this.post.group != null)
+                        if (this.post!.group != null)
                           Row(children: [
                             Text(
                               "  in  ",
                               style: TextStyle(fontSize: 15),
                             ),
                             Text(
-                              this.post.group.name,
+                              this.post!.group!.name!,
                               style: TextStyle(
                                   color: AppThemeData.colorTextRegularLight,
                                   fontSize: 15,
@@ -116,12 +116,12 @@ class PostTile extends StatelessWidget {
                                       child: const Text('melden'),
                                       value: 'report'),
                                 ],
-                            onSelected: (value) {
+                            onSelected: (dynamic value) {
                               if (value == "report") {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext cont) => ReportDialog(
-                                    id: post.id,
+                                    id: post!.id,
                                     reportType: Report.TYPE_POST,
                                     parentContext: context,
                                   ),
@@ -172,7 +172,7 @@ class PostTile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8, bottom: 8),
                   child: Text(
-                    post.title + "\n",
+                    post!.title! + "\n",
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,

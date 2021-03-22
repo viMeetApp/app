@@ -5,18 +5,18 @@ import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cub
 
 class MemberTile extends StatelessWidget {
   final User user;
-  final bool userHasAdminRights;
+  final bool? userHasAdminRights;
 
-  MemberTile({@required this.user, this.userHasAdminRights});
+  MemberTile({required this.user, this.userHasAdminRights});
   Widget build(BuildContext context) {
     final isAdmin = BlocProvider.of<GroupSettingsCubit>(context)
         .state
         .group
-        .admins
+        .admins!
         .contains(user.id);
     return ListTile(
       leading: Icon(Icons.account_circle),
-      title: Text(user.name),
+      title: Text(user.name!),
       trailing: Wrap(
         children: [
           if (isAdmin)
@@ -27,7 +27,7 @@ class MemberTile extends StatelessWidget {
                   Scaffold.of(context).showSnackBar(
                       SnackBar(content: Text("TODO: modify admins")));
                 }),
-          if (userHasAdminRights)
+          if (userHasAdminRights!)
             IconButton(
                 icon: Icon(Icons.close),
                 padding: EdgeInsets.only(left: 10),

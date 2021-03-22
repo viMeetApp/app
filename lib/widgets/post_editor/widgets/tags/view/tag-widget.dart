@@ -18,7 +18,7 @@ class TagWidget extends StatelessWidget {
   }
 }
 
-List<Widget> buildTags(Map<String, bool> tags) {
+List<Widget> buildTags(Map<String?, bool> tags) {
   List<Widget> tagWidgets = [
     SizedBox(
       width: 10,

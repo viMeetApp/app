@@ -15,7 +15,7 @@ class GroupListCubit extends Cubit<Stream<List<Group>>> {
   Stream<List<Group>> _getPersonalGroupStreamFromFirestore() {
     return FirebaseFirestore.instance
         .collection('groups')
-        .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)
+        .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .map((list) => list.docs.map((doc) => (Group.fromDoc(doc))).toList());
   }

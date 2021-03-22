@@ -4,18 +4,18 @@ import 'package:signup_app/util/data_models.dart';
 
 class BugReportRepository {
   final FirebaseFirestore _firestore;
-  CollectionReference _collectionReference;
+  late CollectionReference _collectionReference;
 
-  BugReportRepository({FirebaseFirestore firestore})
+  BugReportRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance {
     _collectionReference = _firestore.collection('bugreports');
   }
 
   ///Create c chat BugReport in firebase
-  Future<void> createBugReport({@required BugReport bugReport}) async {
+  Future<void> createBugReport({required BugReport bugReport}) async {
     try {
       await _collectionReference
-          .add(bugReport.toDoc())
+          .add(bugReport.toDoc()!)
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw Exception("connection timed out");
       });

@@ -7,7 +7,7 @@ import 'package:signup_app/util/widgets/vi_dialog.dart';
 class UpdateGroupInfoWidget extends StatelessWidget {
   final Group group;
   final descriptionController;
-  UpdateGroupInfoWidget({@required this.group})
+  UpdateGroupInfoWidget({required this.group})
       : descriptionController = new TextEditingController(text: group.about);
 
   @override
@@ -31,7 +31,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
               }
             });
           },
-          title: Text(group.name),
+          title: Text(group.name!),
         ),
         ListTile(
           leading: Icon(Icons.subject),
@@ -50,7 +50,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
               }
             });
           },
-          title: Text(group.about),
+          title: Text(group.about!),
         ),
       ],
     );

@@ -18,43 +18,43 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.8.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: "0.5.0+1"
-  bloc: ^6.0.1
-  flutter_bloc: ^6.0.1
-  cloud_firestore: "^0.14.1+3"
-  firebase_auth: ^0.18.0+1
-  bubble_bottom_bar: ^1.2.0
-  intl: ^0.16.1
-  flutter_launcher_icons: ^0.8.1
-  json_annotation: ^2.4.0
-  cloud_functions: "^0.7.0-dev.2"
-  flutter_markdown: ^0.5.1
+  firebase_core: ^1.0.1
+  bloc: ^7.0.0
+  flutter_bloc: ^7.0.0
+  cloud_firestore: ^1.0.0
+  firebase_auth: ^1.0.1
+  intl: ^0.17.0
+  flutter_launcher_icons: ^0.9.0
+  json_annotation: ^4.0.1
+  cloud_functions: ^1.0.0
+  flutter_markdown: ^0.6.1
 
   # geo services (GeoHash-Conversion)
-  geoflutterfire: ^2.2.1
-  proximity_hash: ^1.1.0
-  #geolocator: ^5.3.0
-  location: ^2.5.4
-  url_launcher: ^5.7.5
+  geoflutterfire: ^3.0.0-nullsafety.1
+  # proximity_hash: ^1.1.0
+  # geolocator: ^5.3.0
+  location: ^4.1.1
+  url_launcher: ^6.0.2
 
   #authentication_repository:
   #  path: packages/authentication_repository
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
-  package_info: ^0.4.0+13
-  animations: ^1.1.2
+  cupertino_icons: ^1.0.2
+  package_info: ^2.0.0
+  animations: ^2.0.0
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.0.0
-  json_serializable: ^3.0.0
+  #build_runner: ^1.0.0
+  json_serializable: ^4.1.0
 
 flutter_icons:
   android: true

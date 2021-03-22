@@ -4,9 +4,9 @@ import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
 
 class Tag extends StatelessWidget {
-  final String tagDescription;
+  final String? tagDescription;
   final bool isActive;
-  Tag({@required this.tagDescription, @required this.isActive});
+  Tag({required this.tagDescription, required this.isActive});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +22,7 @@ class Tag extends StatelessWidget {
               backgroundColor: isActive
                   ? AppThemeData.colorCard
                   : AppThemeData.colorPrimaryLighter,
-              label: Text(tagDescription,
+              label: Text(tagDescription!,
                   style: TextStyle(
                       fontSize: 14,
                       color: isActive

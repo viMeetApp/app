@@ -7,8 +7,8 @@ import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
 import 'package:signup_app/util/presets.dart';
 
 class HomeFeed extends StatelessWidget {
-  final bool initLoggedIn;
-  static Route route({bool loggedIn}) {
+  final bool? initLoggedIn;
+  static Route route({bool? loggedIn}) {
     return MaterialPageRoute<void>(
         builder: (_) => HomeFeed(
               initLoggedIn: loggedIn,

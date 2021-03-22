@@ -3,9 +3,9 @@ import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class LocationWidgetState extends ViState {
-  List<PostalPlace> places;
-  PostalPlace currentPlace;
-  ViException exception;
+  List<PostalPlace>? places;
+  PostalPlace? currentPlace;
+  ViException? exception;
 
   LocationWidgetState({this.currentPlace}) {
     if (currentPlace == null) {
@@ -19,7 +19,7 @@ class LocationWidgetState extends ViState {
     });
   }
 
-  void setCurrentPlace(PostalPlace place) {
+  void setCurrentPlace(PostalPlace? place) {
     if (place != null) {
       GeoService.currentPlace = place;
       currentPlace = place;

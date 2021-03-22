@@ -12,7 +12,7 @@ class GroupDropdownCubit extends Cubit<Stream<List<Group>>> {
   GroupDropdownCubit() : super(Stream.empty()) {
     Stream<List<Group>> groupStream = FirebaseFirestore.instance
         .collection('groups')
-        .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)
+        .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .map((list) => list.docs.map((doc) => (Group.fromDoc(doc))).toList());
 
@@ -24,7 +24,7 @@ class GroupDropdownCubit extends Cubit<Stream<List<Group>>> {
         Stream<List<Group>> groupStream = FirebaseFirestore.instance
             .collection('groups')
             .where('users',
-                arrayContains: FirebaseAuth.instance.currentUser.uid)
+                arrayContains: FirebaseAuth.instance.currentUser!.uid)
             .snapshots()
             .map((list) =>
                 list.docs.map((doc) => (Group.fromDoc(doc))).toList());

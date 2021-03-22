@@ -11,16 +11,16 @@ import 'package:signup_app/util/data_models.dart';
 part 'post_editor_state.dart';
 
 class PostEditorCubit extends Cubit<PostEditorState> {
-  PostEditorCubit.createNewPost({Group group})
+  PostEditorCubit.createNewPost({Group? group})
       : post = null,
         super(PostEditorState.initial(group: group));
 
-  PostEditorCubit.updatePost({Post post})
+  PostEditorCubit.updatePost({required Post post})
       : post = post,
         super(PostEditorState.fromPost(post: post));
 
   final PostRepository _postRepository = new PostRepository();
-  final Post post; //ToDo wäre auch schöner wenn man das über den state machrt
+  final Post? post; //ToDo wäre auch schöner wenn man das über den state machrt
   void submit() async {
     bool abort = false;
     //First Check if all mandatory Field aren't empty
@@ -56,8 +56,8 @@ class PostEditorCubit extends Cubit<PostEditorState> {
       ..createdDate = DateTime.now().millisecondsSinceEpoch
       ..expireDate = DateTime.now().millisecondsSinceEpoch
       ..details = postDetails
-      ..participants = [fire.FirebaseAuth.instance.currentUser.uid]
-      ..maxPeople = state.eventOnlyFields['maxPeople'] as int
+      ..participants = [fire.FirebaseAuth.instance.currentUser!.uid]
+      ..maxPeople = state.eventOnlyFields['maxPeople'] as int?
       ..author = await UserRepository().getUser()
       ..group = state
           .group; //This is null if not posted freom Group ans Group if Posted from Group
@@ -66,7 +66,7 @@ class PostEditorCubit extends Cubit<PostEditorState> {
     //First Add Time if existent
     //Add Time to optional Fields
     if (state.eventDate != null) {
-      event.eventDate = state.eventDate.millisecondsSinceEpoch;
+      event.eventDate = state.eventDate!.millisecondsSinceEpoch;
     }
     if (state.eventTime != null) {
       //!ToDo what to do with Event Time
@@ -85,7 +85,7 @@ class PostEditorCubit extends Cubit<PostEditorState> {
         ));
       });
     } else {
-      event.id = post.id;
+      event.id = post!.id;
       _postRepository.updatePost(event).then((_) {
         emit(state.createSuccess());
       }).catchError((err) {
@@ -98,11 +98,11 @@ class PostEditorCubit extends Cubit<PostEditorState> {
     }
   }
 
-  void updateDate(DateTime eventDate) {
+  void updateDate(DateTime? eventDate) {
     emit(state.copyWith(eventDate: eventDate, eventTime: state.eventTime));
   }
 
-  void updateTime(TimeOfDay eventTime) {
+  void updateTime(TimeOfDay? eventTime) {
     emit(state.copyWith(eventTime: eventTime, eventDate: state.eventDate));
   }
 

@@ -8,10 +8,10 @@ import 'package:signup_app/util/presets.dart';
 class ViDialog {
   ViDialog();
   static Future showWidgetDialog(
-      {@required context,
-      @required Widget child,
-      @required String title,
-      @required Function onOkay,
+      {required context,
+      required Widget child,
+      required String title,
+      required Function onOkay,
       bool noActions = false}) {
     return showDialog(
       context: context,
@@ -47,7 +47,7 @@ class ViDialog {
                     FlatButton(
                         onPressed: noActions
                             ? () => {Navigator.pop(context, null)}
-                            : onOkay,
+                            : onOkay as void Function()?,
                         child: Text("Ok"))
                   ],
                 )
@@ -60,10 +60,10 @@ class ViDialog {
   }
 
   static Future showTextInputDialog(
-      {@required context,
+      {required context,
       String title = "",
-      String currentValue = "",
-      List<TextInputFormatter> formatters,
+      String? currentValue = "",
+      List<TextInputFormatter>? formatters,
       TextInputType keyboardType = TextInputType.text}) {
     Function onOkay = () {
       viLog(context, currentValue);
@@ -91,12 +91,12 @@ class ViDialog {
   }
 
   static Future showTextInputDialogMultiline(
-      {@required context,
+      {required context,
       int minLine = 3,
       int maxLine = 5,
       String title = "",
-      String currentValue = "",
-      List<TextInputFormatter> formatters,
+      String? currentValue = "",
+      List<TextInputFormatter>? formatters,
       TextInputType keyboardType = TextInputType.text}) {
     Function onOkay = () {
       viLog(context, currentValue);

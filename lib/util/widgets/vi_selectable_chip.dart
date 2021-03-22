@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/util/presets.dart';
 
 class ViSelectableChip extends StatefulWidget {
-  Widget label = Text("viChip");
-  String value;
-  Function onChanged;
+  Widget? label = Text("viChip");
+  String? value;
+  Function? onChanged;
   bool isActive;
 
   ViSelectableChip(
@@ -20,7 +20,7 @@ class _ViSelectableChipState extends State<ViSelectableChip> {
     //isActive = widget.isActive;
   }
 
-  Widget getChip({Widget child, bool isActive}) {
+  Widget getChip({Widget? child, required bool isActive}) {
     return Container(
       child: widget.label,
       padding: EdgeInsets.only(top: 7, bottom: 7, left: 9, right: 9),
@@ -45,7 +45,7 @@ class _ViSelectableChipState extends State<ViSelectableChip> {
         setState(() {
           widget.isActive = !widget.isActive;
           if (widget.onChanged != null) {
-            widget.onChanged(widget.isActive);
+            widget.onChanged!(widget.isActive);
           }
         })
       },

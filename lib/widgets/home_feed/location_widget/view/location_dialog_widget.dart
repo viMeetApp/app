@@ -7,7 +7,7 @@ import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widg
 class LocationDialog extends StatefulWidget {
   LocationWidgetState state;
 
-  LocationDialog({@required this.state});
+  LocationDialog({required this.state});
 
   @override
   _LocationDialogState createState() => _LocationDialogState();
@@ -21,12 +21,12 @@ class _LocationDialogState extends State<LocationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    List<PostalPlace> filteredPlaces = widget.state.places
+    List<PostalPlace> filteredPlaces = widget.state.places!
         .where((element) =>
-            element.name
+            element.name!
                 .toLowerCase()
                 .startsWith(searchController.text.toLowerCase()) ||
-            element.plz
+            element.plz!
                 .toLowerCase()
                 .startsWith(searchController.text.toLowerCase()))
         .toList();
@@ -93,14 +93,14 @@ class _LocationDialogState extends State<LocationDialog> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        filteredPlaces[index].plz + "    ",
+                                        filteredPlaces[index].plz! + "    ",
                                         style: TextStyle(
                                             color: AppThemeData
                                                 .colorTextRegularLight),
                                       ),
                                       Expanded(
                                         child: Text(
-                                          filteredPlaces[index].name,
+                                          filteredPlaces[index].name!,
                                           //overflow: TextOverflow.ellipsis,
                                         ),
                                       ),

@@ -10,7 +10,7 @@ class PostCubit extends Cubit<PostState> {
   Post post;
   PostRepository _postRepository = new PostRepository();
 
-  PostCubit({@required this.post})
+  PostCubit({required this.post})
       : assert(post != null),
         super(Uninitialized()) {
     if (post.type == 'event') {
@@ -21,11 +21,11 @@ class PostCubit extends Cubit<PostState> {
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
     //um ab da dynamische Gruppe zu haben.
-    _postRepository.getPostStreamById(post.id).listen((Post post) {
+    _postRepository.getPostStreamById(post.id).listen((Post? post) {
       if (post is Event) {
         emit(EventState(post: post));
       } else {
-        emit(BuddyState(post: post));
+        emit(BuddyState(post: post!));
       }
     });
   }

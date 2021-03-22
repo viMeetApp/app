@@ -7,7 +7,7 @@ class SettingsRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
 
-  SettingsRepository({FirebaseAuth firebaseAuth, FirebaseFirestore firestore})
+  SettingsRepository({FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
@@ -22,7 +22,7 @@ class SettingsRepository {
     try {
       await _firestore
           .collection('users')
-          .doc(_firebaseAuth.currentUser.uid)
+          .doc(_firebaseAuth.currentUser!.uid)
           .set({'name': name});
       return true;
     } catch (err) {

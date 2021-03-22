@@ -14,13 +14,13 @@ class TagWidget extends StatelessWidget {
             vsync: Scaffold.of(context),
             duration: Duration(milliseconds: 250),
             child: Padding(
-              padding: EdgeInsets.all((state.isExpanded) ? 8 : 4),
-              child: !state.isExpanded
+              padding: EdgeInsets.all(state.isExpanded! ? 8 : 4),
+              child: !state.isExpanded!
                   ? null
                   : LimitedBox(
                       //maxHeight: state.isExpanded ? double.infinity : 0,
                       child: Wrap(
-                        children: buildTags(state.tagMap),
+                        children: buildTags(state.tagMap!),
                         alignment: WrapAlignment.center,
                       ),
                     ),
@@ -29,7 +29,7 @@ class TagWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> buildTags(Map<String, bool> tags) {
+  List<Widget> buildTags(Map<String?, bool> tags) {
     List<Widget> tagWidgets = [];
     tags.forEach((key, value) {
       tagWidgets.add(Tag(

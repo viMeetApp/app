@@ -13,7 +13,7 @@ class ChatWidget extends StatelessWidget {
   final User user;
 
   final TextEditingController _chatController = new TextEditingController();
-  ChatWidget({@required this.post, @required this.user})
+  ChatWidget({required this.post, required this.user})
       : assert(post != null),
         assert(user != null);
 
@@ -44,7 +44,7 @@ class ChatWidget extends StatelessWidget {
                           return Expanded(
                             child: ListView.builder(
                                 reverse: true,
-                                itemCount: snapshot.data.length,
+                                itemCount: (snapshot.data as List).length,
                                 itemBuilder: (context, index) =>
                                     CreationAwareWidget(
                                       itemCreated: () {
@@ -57,7 +57,8 @@ class ChatWidget extends StatelessWidget {
                                         }
                                       },
                                       child: MessageTile(
-                                          message: snapshot.data[index]),
+                                          message:
+                                              (snapshot.data as List)[index]),
                                     )),
                           );
                         }

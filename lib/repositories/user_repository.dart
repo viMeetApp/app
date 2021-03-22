@@ -6,7 +6,7 @@ class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
 
-  UserRepository({FirebaseAuth firebaseAuth, FirebaseFirestore firestore})
+  UserRepository({FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
@@ -20,8 +20,8 @@ class UserRepository {
     //Create matching user model in DB
     await _firestore
         .collection('users')
-        .doc(userCredential.user.uid)
-        .set({'name': null, 'uid': userCredential.user.uid});
+        .doc(userCredential.user!.uid)
+        .set({'name': null, 'uid': userCredential.user!.uid});
   }
 
   Future<void> signUpAnonymously(String name) async {
@@ -31,10 +31,10 @@ class UserRepository {
       if (name == null || name.length == 0)
         throw ("Can't Create User, Name Invalid");
       //Create User in Firebase
-      _firebaseAuth.currentUser.updateProfile(displayName: name);
+      _firebaseAuth.currentUser!.updateProfile(displayName: name);
       await _firestore
           .collection('users')
-          .doc(_firebaseAuth.currentUser.uid)
+          .doc(_firebaseAuth.currentUser!.uid)
           .set({'name': name});
     } catch (err) {
       print("Error Sign Up Anonymously");
@@ -47,12 +47,12 @@ class UserRepository {
         .collection('users')
         .where('uid', whereIn: userIds)
         .snapshots()
-        .map((list) => list.docs.map((doc) => util.User.fromDoc(doc)));
+        .map((list) => list.docs.map((doc) => util.User.fromDoc(doc)) as List<util.User>);
     return userStream;
   }
 
   static String getUID() {
-    return FirebaseAuth.instance.currentUser.uid;
+    return FirebaseAuth.instance.currentUser!.uid;
   }
 
   ///Return the User who is currently authenticated
@@ -60,7 +60,7 @@ class UserRepository {
     try {
       var snap = await _firestore
           .collection('users')
-          .doc(_firebaseAuth.currentUser.uid)
+          .doc(_firebaseAuth.currentUser!.uid)
           .get();
       return util.User.fromDoc(snap);
     } catch (err) {
@@ -74,7 +74,7 @@ class UserRepository {
   Stream<util.User> observeUser() {
     return _firestore
         .collection('users')
-        .doc(_firebaseAuth.currentUser.uid)
+        .doc(_firebaseAuth.currentUser!.uid)
         .snapshots()
         .map((DocumentSnapshot doc) => util.User.fromDoc(doc));
   }
@@ -82,12 +82,12 @@ class UserRepository {
   ///Is the Device already Signed In
   bool isSignedIn() {
     if (_firebaseAuth.currentUser == null ||
-        _firebaseAuth.currentUser.uid == null) {
+        _firebaseAuth.currentUser!.uid == null) {
       return false;
     }
     // ich nutze hier den 'displayName', da für eine Abfrage der Datenbank ein
     // größerer Zeitaufwand & asynchrone Methoden nötig wären
-    if (_firebaseAuth.currentUser.displayName != null) {
+    if (_firebaseAuth.currentUser!.displayName != null) {
       return true;
     }
     return false;

@@ -9,7 +9,7 @@ import 'package:signup_app/widgets/post/view/widgets/action_buttons.dart';
 import 'package:signup_app/widgets/post/view/widgets/dropdown_card.dart';
 
 class PostPage extends StatelessWidget {
-  static Route route(Post post) {
+  static Route route(Post? post) {
     return MaterialPageRoute<void>(builder: (_) {
       //TODO Fix buddy parsing. Ignoring buddies:
       if (post is Buddy) {
@@ -22,9 +22,9 @@ class PostPage extends StatelessWidget {
     });
   }
 
-  final Post post;
+  final Post? post;
 
-  PostPage({@required this.post});
+  PostPage({required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class PostPage extends StatelessWidget {
     User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
-    print("post: " + post.toDoc().toString());
+    print("post: " + post!.toDoc().toString());
     return BlocProvider<PostCubit>(
-      create: (context) => PostCubit(post: post),
+      create: (context) => PostCubit(post: post!),
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: AppThemeData.colorCard,
@@ -50,7 +50,7 @@ class PostPage extends StatelessWidget {
           child: Column(
             children: [
               DropdownCard(),
-              ChatWidget(post: post, user: user),
+              ChatWidget(post: post!, user: user),
             ],
           ),
         ),

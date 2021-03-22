@@ -27,22 +27,22 @@ class CreatePostForm extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          Text(state.group.name,
+          Text(state.group!.name!,
               style: AppThemeData.textHeading4(color: Colors.white))
         ]));
   }
 
   Widget _optionalField({
-    @required context,
-    Function onPressed,
-    String text,
-    IconData icon,
+    required context,
+    Function? onPressed,
+    required String text,
+    IconData? icon,
   }) {
     return Padding(
       padding: const EdgeInsets.only(top: 6, bottom: 6),
       child: FlatButton.icon(
         textColor: AppThemeData.colorFormField,
-        onPressed: onPressed,
+        onPressed: onPressed as void Function()?,
         icon: Icon(icon),
         label: Expanded(
           child: Text(
@@ -105,7 +105,7 @@ class CreatePostForm extends StatelessWidget {
             },
           ),
           BlocListener<TagCubit, TagState>(listener: (context, state) {
-            List<String> tagList = [];
+            List<String?> tagList = [];
             state.tagMap.forEach(
               (key, value) {
                 if (value == true) tagList.add(key);
@@ -227,7 +227,7 @@ class CreatePostForm extends StatelessWidget {
                                         child: Text(
                                             state.eventDate != null
                                                 ? DateFormat('dd.MM.yyyy')
-                                                    .format(state.eventDate)
+                                                    .format(state.eventDate!)
                                                 : "Datum",
                                             style:
                                                 AppThemeData.textFormField()),
@@ -253,7 +253,7 @@ class CreatePostForm extends StatelessWidget {
                                       label: Expanded(
                                         child: Text(
                                           state.eventTime != null
-                                              ? state.eventTime.format(context)
+                                              ? state.eventTime!.format(context)
                                               : "Startzeit",
                                           style: AppThemeData.textFormField(),
                                         ),

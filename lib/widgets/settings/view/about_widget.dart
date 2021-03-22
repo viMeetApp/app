@@ -6,7 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 class AboutWidget extends StatelessWidget {
   String legalFileName;
 
-  AboutWidget({@required this.legalFileName});
+  AboutWidget({required this.legalFileName});
 
   Future<String> getData() async {
     try {
@@ -23,7 +23,7 @@ class AboutWidget extends StatelessWidget {
         future: getData(),
         builder: (context, snapshot) {
           return new Markdown(
-            data: snapshot.data ?? "",
+            data: snapshot.data.toString(),
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
           );
         });

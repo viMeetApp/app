@@ -2,15 +2,15 @@ part of 'post_editor_cubit.dart';
 
 class PostEditorState {
   //ToDo It would be better if we have two subclasses
-  final bool isCreate;
+  final bool? isCreate;
   //Variables for Validation
   final bool isError;
   final bool isSubmitted;
   final bool isSubmitting;
-  final PostError error;
+  final PostError? error;
 
   //Group Info is set when post is within group happends with constructor
-  final GroupInfo group;
+  final GroupInfo? group;
   //All Madatroy Fields
   Map<String, dynamic> mandatoryFields = {
     'title': null,
@@ -31,22 +31,22 @@ class PostEditorState {
 
   //Must be saved extra otherwise won't work
   //These are also optional
-  DateTime eventDate;
-  TimeOfDay eventTime;
+  DateTime? eventDate;
+  TimeOfDay? eventTime;
   //Constructor
   PostEditorState(
-      {@required this.isError,
-      @required this.isSubmitted,
-      @required this.isSubmitting,
-      @required this.isCreate,
+      {required this.isError,
+      required this.isSubmitted,
+      required this.isSubmitting,
+      required this.isCreate,
       this.error,
       this.group,
       this.eventDate,
       this.eventTime,
-      Map<String, dynamic> mandatoryFields,
-      Map<String, dynamic> buddyOnlyFields,
-      Map<String, dynamic> eventOnlyFields,
-      Map<String, dynamic> optionalFields}) {
+      Map<String, dynamic>? mandatoryFields,
+      Map<String, dynamic>? buddyOnlyFields,
+      Map<String, dynamic>? eventOnlyFields,
+      Map<String, dynamic>? optionalFields}) {
     this.mandatoryFields = mandatoryFields ?? this.mandatoryFields;
     this.buddyOnlyFields = buddyOnlyFields ?? this.buddyOnlyFields;
     this.eventOnlyFields = eventOnlyFields ?? this.eventOnlyFields;
@@ -55,8 +55,8 @@ class PostEditorState {
 //Create first initial Staten when post loaded
 //Resets validation and sets Group Info if there is a group
 //After this only work with Copy with
-  factory PostEditorState.initial({Group group}) {
-    GroupInfo groupInfo;
+  factory PostEditorState.initial({Group? group}) {
+    GroupInfo? groupInfo;
     if (group != null) groupInfo = GroupInfo(id: group.id, name: group.name);
     return PostEditorState(
         isCreate: true,
@@ -66,8 +66,8 @@ class PostEditorState {
         group: groupInfo);
   }
 
-  factory PostEditorState.fromPost({Post post}) {
-    GroupInfo groupInfo = post.group;
+  factory PostEditorState.fromPost({required Post post}) {
+    GroupInfo? groupInfo = post.group;
     Map<String, dynamic> mandatoryFields = {
       'title': post.title,
       'about': post.about,
@@ -75,26 +75,24 @@ class PostEditorState {
     };
     //optional fields
     Map<String, dynamic> optionalFields = {
-      'treffpunkt': post.details
-          .firstWhere((detail) => detail.id == 'treffpunkt', orElse: () => null)
-          ?.value,
-      'kosten': post.details
-          .firstWhere((detail) => detail.id == 'kosten', orElse: () => null)
-          ?.value
+      'treffpunkt': post.details!
+        ..firstWhere((detail) => detail!.id == 'treffpunkt')!.value,
+      'kosten':
+          post.details!.firstWhere((detail) => detail!.id == 'kosten')!.value
     };
     Map<String, dynamic> eventOnlyFields = {
       'maxPeople': -1,
     };
 
     Map<String, dynamic> buddyOnlyFields = {};
-    DateTime eventDate;
-    TimeOfDay eventTime;
+    DateTime? eventDate;
+    TimeOfDay? eventTime;
     if (post is Event) {
       eventOnlyFields = {
         'maxPeople': post.maxPeople,
       };
       eventDate = post.eventDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(post.eventDate)
+          ? DateTime.fromMillisecondsSinceEpoch(post.eventDate!)
           : null;
     }
 
@@ -128,9 +126,9 @@ class PostEditorState {
       {isError,
       isSubmitting,
       isSubmitted,
-      DateTime eventDate,
-      TimeOfDay eventTime,
-      PostError error}) {
+      DateTime? eventDate,
+      TimeOfDay? eventTime,
+      PostError? error}) {
     return PostEditorState(
       error: error,
       isError: isError ?? this.isError,

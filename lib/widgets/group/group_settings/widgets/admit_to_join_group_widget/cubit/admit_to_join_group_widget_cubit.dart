@@ -9,9 +9,9 @@ part 'admit_to_join_group_widget_state.dart';
 
 class AdmitToJoinGroupWidgetCubit extends Cubit<List<User>> {
   final _groupRepository = new GroupRepository();
-  StreamSubscription _streamSubscription;
-  Stream<List<User>> currentStream;
-  AdmitToJoinGroupWidgetCubit({@required Group group}) : super([]) {
+  StreamSubscription? _streamSubscription;
+  late Stream<List<User>> currentStream;
+  AdmitToJoinGroupWidgetCubit({required Group group}) : super([]) {
     updateStreamSubscription(group);
   }
 
@@ -20,10 +20,10 @@ class AdmitToJoinGroupWidgetCubit extends Cubit<List<User>> {
   //and renews subscription with a new one
   void updateStreamSubscription(Group group) async {
     if (_streamSubscription != null) {
-      await _streamSubscription.cancel();
+      await _streamSubscription!.cancel();
     }
     //In case there is no one to subscribe just return empty List of users (no Stream)
-    if (group.requestedToJoin.length == 0) {
+    if (group.requestedToJoin!.length == 0) {
       emit([]);
     } else {
       currentStream =

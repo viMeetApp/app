@@ -8,10 +8,10 @@ enum Types { active, processing, submitted, invalid, error }
 
 class BugReportState extends ViState {
   final BugReportRepository _bugRepository;
-  Exception error;
-  String title;
-  String kind;
-  String message;
+  Exception? error;
+  String? title;
+  String? kind;
+  String? message;
 
   BugReportState(this._bugRepository) : super(type: Types.active);
 
@@ -38,7 +38,7 @@ class BugReportState extends ViState {
       } catch (err) {
         print("Error in submitted Event");
         print(err.toString());
-        error = err;
+        error = err as Exception;
         this.type = Types.error;
       }
     } else {

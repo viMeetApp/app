@@ -9,8 +9,8 @@ import 'package:signup_app/util/data_models.dart';
 part 'group_state.dart';
 
 class GroupCubit extends Cubit<GroupState> {
-  final userId = FirebaseAuth.instance.currentUser.uid;
-  GroupCubit({@required Group group}) : super(GroupUninitialized()) {
+  final userId = FirebaseAuth.instance.currentUser!.uid;
+  GroupCubit({required Group group}) : super(GroupUninitialized()) {
     _checkAndEmitGroupState(group);
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
@@ -28,7 +28,7 @@ class GroupCubit extends Cubit<GroupState> {
 
   void requestToJoinGroup() {
     emit((state as NotGroupMember).copyWith(requesting: true));
-    GroupInteractions.joinGroup(state.group.id, (success) {
+    GroupInteractions.joinGroup(state.group!.id, (success) {
       print(success
           ? "Subscribed Sucessfully"
           : "There was an error subscribing");
@@ -36,9 +36,9 @@ class GroupCubit extends Cubit<GroupState> {
   }
 
   void _checkAndEmitGroupState(Group group) {
-    if (group.admins.contains(userId)) {
+    if (group.admins!.contains(userId)) {
       emit(GroupAdmin(group: group));
-    } else if (group.users.contains(userId)) {
+    } else if (group.users!.contains(userId)) {
       emit(GroupMember(group: group));
     } else {
       emit(NotGroupMember(group: group));

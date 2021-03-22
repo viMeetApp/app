@@ -12,7 +12,7 @@ import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group
 ///It is necessary to be stateful
 class ExpandableList extends StatefulWidget {
   final List<models.User> members;
-  ExpandableList({@required this.members});
+  ExpandableList({required this.members});
   @override
   _ExpandableListState createState() => _ExpandableListState();
 }
@@ -65,8 +65,8 @@ class _ExpandableListState extends State<ExpandableList> {
         BlocProvider.of<GroupSettingsCubit>(context)
             .state
             .group
-            .admins
-            .contains(FirebaseAuth.instance.currentUser.uid);
+            .admins!
+            .contains(FirebaseAuth.instance.currentUser!.uid);
     //Length of list currently displayed
     int listLength = isExpanded
         ? widget.members.length

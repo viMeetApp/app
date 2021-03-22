@@ -1,8 +1,8 @@
 /// An exception to handle errors specific to the ViMeet app
 class ViException implements Exception {
-  String _message;
+  late String _message;
 
-  ViException([String message]) {
+  ViException([String message = ""]) {
     _message = "ViException: " + message;
   }
 

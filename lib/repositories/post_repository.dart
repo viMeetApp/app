@@ -14,14 +14,14 @@ enum PostError {
 ///Handles Communication between Flutter and Firestore
 class PostRepository {
   final FirebaseFirestore _firestore;
-  CollectionReference _postCollectionReference;
+  late CollectionReference _postCollectionReference;
 
-  PostRepository({FirebaseFirestore firestore})
+  PostRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance {
     _postCollectionReference = _firestore.collection('posts');
   }
 
-  Stream<Post> getPostStreamById(String postId) {
+  Stream<Post?> getPostStreamById(String? postId) {
     return _postCollectionReference
         .doc(postId)
         .snapshots()
@@ -42,9 +42,9 @@ class PostRepository {
     try {
       assert(post.id != null && post.id != '',
           'When updating a Post, Object must contain a valid Id');
-      await _postCollectionReference.doc(post.id).update(post.toDoc());
+      await _postCollectionReference.doc(post.id).update(post.toDoc()!);
     } catch (err) {
-      return err;
+      //return err as Exception;
     }
   }
 
@@ -52,7 +52,7 @@ class PostRepository {
   Future<void> createPost(Post post) async {
     try {
       post.geohash = await GeoService.getCurrentGeohash();
-      await _postCollectionReference.add(post.toDoc());
+      await _postCollectionReference.add(post.toDoc()!);
     } catch (err) {
       log("post: " + err.toString());
       return Future.error(err);

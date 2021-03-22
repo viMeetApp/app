@@ -7,21 +7,19 @@ class SettingsState extends ViState {
   final SettingsRepository _repository = SettingsRepository();
 
   // values
-  User user;
+  User? user;
 
   SettingsState() {
     _repository.observeUser().listen((user) {
-      if (user != null) {
-        print("SETTING REFRESH:" + user.toMap().toString());
-        this.user = user;
-        refresh();
-      }
+      print("SETTING REFRESH:" + user.toMap().toString());
+      this.user = user;
+      refresh();
     });
   }
 
   void setName(String newName) {
     //Check if MessageString is valid
-    if (newName.length != 0 ?? newName != null) {
+    if (newName.length != 0) {
       _repository.setUserName(newName);
     }
   }
