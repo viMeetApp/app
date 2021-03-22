@@ -2,7 +2,7 @@
 class ViException implements Exception {
   late String _message;
 
-  ViException([String message]) {
+  ViException([String message = ""]) {
     _message = "ViException: " + message;
   }
 

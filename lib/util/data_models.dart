@@ -107,7 +107,7 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
   int? createdDate;
   int? expireDate;
   GroupInfo? group;
-  List<PostDetail>? details;
+  List<PostDetail?>? details;
 
   @override
   User? author;

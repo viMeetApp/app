@@ -19,10 +19,10 @@ class GroupListWidget extends StatelessWidget {
           else {
             return ListView.builder(
                 //ToDO Maybe only make scrollable if needed
-                itemCount: snapshot.data.length,
+                itemCount: (snapshot.data! as List).length,
                 itemBuilder: (context, index) {
                   return ListElement(
-                    group: snapshot.data[index],
+                    group: (snapshot.data! as List)[index],
                   );
                 });
           }

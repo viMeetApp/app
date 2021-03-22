@@ -38,7 +38,7 @@ class BugReportState extends ViState {
       } catch (err) {
         print("Error in submitted Event");
         print(err.toString());
-        error = err;
+        error = err as Exception;
         this.type = Types.error;
       }
     } else {

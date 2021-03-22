@@ -21,7 +21,7 @@ class GroupCreatorState extends ViState {
       throw Exception("NO_BACKEND_IMPLEMENTED");
       //_setType(Types.submitted);
     } catch (e) {
-      error = e;
+      error = e as Exception;
       type = Types.error;
     }
   }

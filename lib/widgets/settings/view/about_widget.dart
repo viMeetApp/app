@@ -23,7 +23,7 @@ class AboutWidget extends StatelessWidget {
         future: getData(),
         builder: (context, snapshot) {
           return new Markdown(
-            data: snapshot.data ?? "",
+            data: snapshot.data.toString(),
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
           );
         });

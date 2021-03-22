@@ -44,7 +44,7 @@ class ChatWidget extends StatelessWidget {
                           return Expanded(
                             child: ListView.builder(
                                 reverse: true,
-                                itemCount: snapshot.data.length,
+                                itemCount: (snapshot.data as List).length,
                                 itemBuilder: (context, index) =>
                                     CreationAwareWidget(
                                       itemCreated: () {
@@ -57,7 +57,8 @@ class ChatWidget extends StatelessWidget {
                                         }
                                       },
                                       child: MessageTile(
-                                          message: snapshot.data[index]),
+                                          message:
+                                              (snapshot.data as List)[index]),
                                     )),
                           );
                         }

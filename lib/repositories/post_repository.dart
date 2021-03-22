@@ -44,7 +44,7 @@ class PostRepository {
           'When updating a Post, Object must contain a valid Id');
       await _postCollectionReference.doc(post.id).update(post.toDoc()!);
     } catch (err) {
-      return err;
+      //return err as Exception;
     }
   }
 

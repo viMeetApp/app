@@ -16,7 +16,7 @@ class ChatMessagePagination {
   //Variables necessary for Pagination
   DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
-  List<List<Message>> _allPagedResults = List<List<Message>>();
+  List<List<Message>> _allPagedResults = [];
   void requestMessages() {
     //If there are no more posts return
     if (!_hasMorePosts) return;
@@ -60,8 +60,7 @@ class ChatMessagePagination {
 
         //Concaternate the pages to one big List of Messages
         List<Message> allChatMessages = _allPagedResults.fold<List<Message>>(
-            List<Message>(),
-            (initialValue, pageItems) => initialValue..addAll(pageItems));
+            [], (initialValue, pageItems) => initialValue..addAll(pageItems));
 
         //Broadcast this updated List Via Stream
         messageStreamController.add(allChatMessages);

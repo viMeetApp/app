@@ -15,7 +15,7 @@ class ViState<T> extends State<ViBit> {
     this.type = type;
   }
 
-  set type(T? type) {
+  set type(type) {
     _type = type;
     refresh();
   }

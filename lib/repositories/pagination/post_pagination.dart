@@ -17,11 +17,11 @@ class PostPagination {
   //Counter Variable to only update current Streams
   int counter = 0;
   //Variables Necessary for Pagination
-  StreamController<List<Post>> postStreamController =
+  StreamController<List<Post?>> postStreamController =
       new StreamController<List<Post>>();
   DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
-  List<List<Post>> _allPagedResults = List<List<Post>>();
+  List<List<Post?>> _allPagedResults = [];
   //How many Items get paginated every time
   final paginationDistance;
 
@@ -40,7 +40,7 @@ class PostPagination {
     //Reset all Variables
     _hasMorePosts = true;
     _lastDocument = null;
-    _allPagedResults = List<List<Post>>();
+    _allPagedResults = [];
     tags = tags;
     postQuery = null;
     //Create Matching Query to all Filters
@@ -95,7 +95,7 @@ class PostPagination {
     postQuery!.snapshots().listen((QuerySnapshot postsSnapshot) {
       if (counter == localCounter) {
         if (postsSnapshot.docs.isNotEmpty) {
-          List<Post> posts =
+          List<Post?> posts =
               postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
             // document.putIfAbsent("id", () => doc.id);
             if (snapshot.data()!['type'] == "event") {
@@ -105,7 +105,7 @@ class PostPagination {
             }
           }).toList();
           posts.sort((a, b) {
-            if (a.createdDate! <= b.createdDate!)
+            if (a!.createdDate! <= b!.createdDate!)
               return 1;
             else
               return -1;
@@ -126,11 +126,8 @@ class PostPagination {
 
           //Concaternate the full list to be shown
           //Was hier passiert ist, dass die ganzen Sublisten jetzt in eine Zusammengepackt werden
-          List<Post> allPosts = _allPagedResults.fold<List<Post>>(
-                  List<Post>(),
-                  (initialValue, pageItems) =>
-                      initialValue..addAll(pageItems)) ??
-              [];
+          List<Post?> allPosts = _allPagedResults.fold<List<Post?>>(
+              [], (initialValue, pageItems) => initialValue..addAll(pageItems));
 
           //Broadcast all posts
           postStreamController.add(allPosts);

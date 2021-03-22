@@ -92,11 +92,11 @@ class GroupRepository {
     if (group.users!.length == 0) {
       throw new Exception("user list is malformed. List is empty");
     } else {
-      List<List<User>> _allPagedResults = List<List<User>>();
+      List<List<User>> _allPagedResults = [];
       int requestIndex = 0;
 
       //Slice Array into chunk
-      List<List<String>> chunks = List<List<String>>();
+      List<List<String>> chunks = [];
       int counter = 0;
       while (group.users!.length - counter > 10) {
         chunks.add(group.users!.sublist(counter, counter + 10));
@@ -107,7 +107,7 @@ class GroupRepository {
       chunks.forEach((List<String> userList) {
         int currentIndex = requestIndex;
         requestIndex++;
-        _allPagedResults.add(List<User>());
+        _allPagedResults.add([]);
         _firestore
             .collection('users')
             .where('__name__', whereIn: userList)
@@ -120,8 +120,7 @@ class GroupRepository {
             _allPagedResults[currentIndex] = users;
 
             //Make one result out of all Sub User array
-            List<User> allUsers = _allPagedResults.fold<List<User>>(
-                List<User>(),
+            List<User> allUsers = _allPagedResults.fold<List<User>>([],
                 (initialValue, pageItems) => initialValue..addAll(pageItems));
             streamController.add(allUsers);
           }

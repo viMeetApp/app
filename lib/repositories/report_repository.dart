@@ -19,7 +19,7 @@ class ReportRepository {
           .add(report.toDoc()!)
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw Exception("connection timed out");
-      } as FutureOr<DocumentReference> Function()?);
+      });
     } catch (err) {
       print("error");
       throw err;

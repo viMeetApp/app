@@ -49,5 +49,3 @@ class LoginState {
         isLoggedIn: false);
   }
 }
-
-class LoginInitial extends LoginState {}

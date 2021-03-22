@@ -1,7 +1,7 @@
 part of 'post_list_cubit.dart';
 
 class PostListState {
-  Stream<List<Post>>? postStream;
+  Stream<List<Post?>>? postStream;
   List<String>? searchTags = [];
   PostListState({this.postStream, this.searchTags});
 

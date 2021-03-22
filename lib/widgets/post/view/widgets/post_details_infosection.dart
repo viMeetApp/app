@@ -70,13 +70,13 @@ class InfoSection extends StatelessWidget {
                           padding: const EdgeInsets.only(
                               right: 15, bottom: 8, top: 8),
                           child: Icon(
-                            iconFromDetailsID(post!.details![index].id),
+                            iconFromDetailsID(post!.details![index]!.id),
                             color: AppThemeData.colorPlaceholder,
                           ),
                         ),
                         Expanded(
                             child: Text(
-                          post!.details![index].value!,
+                          post!.details![index]!.value!,
                           style: AppThemeData.textHeading4(
                               color: AppThemeData.colorPlaceholder),
                         ))

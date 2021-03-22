@@ -18,7 +18,7 @@ class BugReportRepository {
           .add(bugReport.toDoc()!)
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw Exception("connection timed out");
-      } as FutureOr<DocumentReference> Function()?);
+      });
     } catch (err) {
       throw err;
     }

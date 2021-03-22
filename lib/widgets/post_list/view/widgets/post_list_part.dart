@@ -32,7 +32,7 @@ class PostListPart extends StatelessWidget {
                   return ListView.builder(
                       reverse:
                           false, //Muss so rum stehen sons Liste von unten aus gefüllt -> Das heißt wir müssen selber alle Einträge umdrehen (noch zu machen)
-                      itemCount: snapshot.data.length,
+                      itemCount: (snapshot.data! as List).length,
                       itemBuilder: (context, index) => CreationAwareWidget(
                           itemCreated: () {
                             if ((index + 1) % blocRef.paginationDistance == 0) {
@@ -43,9 +43,10 @@ class PostListPart extends StatelessWidget {
                               ? Container(
                                   //color: AppThemeData.colorAccent,
                                   padding: EdgeInsets.only(top: 15),
-                                  child: PostTile(post: snapshot.data[index]))
+                                  child: PostTile(
+                                      post: (snapshot.data! as List)[index]))
                               : PostTile(
-                                  post: snapshot.data[index],
+                                  post: (snapshot.data! as List)[index],
                                   highlight: highlight,
                                 )));
                 }

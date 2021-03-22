@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart' show IterableExtension;
 part of 'post_editor_cubit.dart';
 
 class PostEditorState {
@@ -77,11 +76,9 @@ class PostEditorState {
     //optional fields
     Map<String, dynamic> optionalFields = {
       'treffpunkt': post.details!
-          .firstWhereOrNull((detail) => detail.id == 'treffpunkt')
-          ?.value,
-      'kosten': post.details!
-          .firstWhereOrNull((detail) => detail.id == 'kosten')
-          ?.value
+        ..firstWhere((detail) => detail!.id == 'treffpunkt')!.value,
+      'kosten':
+          post.details!.firstWhere((detail) => detail!.id == 'kosten')!.value
     };
     Map<String, dynamic> eventOnlyFields = {
       'maxPeople': -1,
