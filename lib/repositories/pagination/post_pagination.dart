@@ -18,7 +18,7 @@ class PostPagination {
   int counter = 0;
   //Variables Necessary for Pagination
   StreamController<List<Post?>> postStreamController =
-      new StreamController<List<Post>>();
+      new StreamController<List<Post?>>();
   DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
   List<List<Post?>> _allPagedResults = [];

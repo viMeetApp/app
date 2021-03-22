@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:signup_app/services/helpers/proximity_hash.dart';
 import 'package:signup_app/util/errors.dart';
 
 class PostalPlace {
@@ -132,10 +133,8 @@ class GeoService with ChangeNotifier {
     if (_currentPlace == null) {
       return GeohashRange.empty();
     }
-    List<String> range =
-        //createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
-        //TODO reenable geohash creation!
-        ["0", "0"];
+    List<String> range = createGeohashes(
+        _currentPlace?.lat ?? 0, _currentPlace?.long ?? 0, POST_RADIUS, 3);
     if (range.length < 2) {
       if (range.length == 1) {
         return GeohashRange(lower: range[0], upper: range[0]);
