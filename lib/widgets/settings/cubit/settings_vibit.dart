@@ -1,17 +1,20 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/settings_repository.dart';
 import 'package:signup_app/util/data_models.dart';
-part 'settings_state.dart';
+import 'package:signup_app/vibit/vibit.dart';
 
-class SettingsCubit extends Cubit<SettingsState> {
+class SettingsState extends ViState {
+  // dependencies
   final SettingsRepository _repository = SettingsRepository();
 
-  SettingsCubit() : super(SettingsUninitialized()) {
+  // values
+  User user;
+
+  SettingsState() {
     _repository.observeUser().listen((user) {
       if (user != null) {
-        emit(SettingsState(user: user));
+        print("SETTING REFRESH:" + user.toMap().toString());
+        this.user = user;
+        refresh();
       }
     });
   }

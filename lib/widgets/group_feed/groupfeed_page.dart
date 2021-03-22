@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/pagination/group_pagination.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/widgets/find_new_group/find_new_group.dart';
+import 'package:signup_app/widgets/group_creator/view/group_creator_page.dart';
 import 'package:signup_app/widgets/group_list/view/group_list_widget.dart';
 
 class GroupFeed extends StatelessWidget {
@@ -30,9 +31,8 @@ class GroupFeed extends StatelessWidget {
           Builder(
             builder: (context) => IconButton(
               icon: Icon(Icons.add),
-              onPressed: () => {
-                Scaffold.of(context).showSnackBar(
-                    SnackBar(content: Text("TODO: Neue Gruppe erstellen")))
+              onPressed: () {
+                Navigator.push(context, GroupCreatorPage.route());
               },
             ),
           ),

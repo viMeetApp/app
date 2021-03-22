@@ -10,24 +10,25 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
-        child: isActive
-            ? Chip(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                elevation: 4,
-                backgroundColor: AppThemeData.colorCard,
-                label: Text(tagDescription,
-                    style: TextStyle(
-                        fontSize: 14, color: AppThemeData.colorTextRegular)),
-              )
-            : Chip(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                backgroundColor: AppThemeData.colorPrimaryLighter,
-                label: Text(tagDescription,
-                    style: TextStyle(
-                        fontSize: 14, color: AppThemeData.colorTextInverted)),
-              ),
+      child: Theme(
+        data: ThemeData.light(),
+        child: Container(
+            //color: AppThemeData.colorAccent,
+            padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
+            child: Chip(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              //elevation: 4,
+              //shadowColor: Color.fromARGB(100, 170, 170, 170),
+              backgroundColor: isActive
+                  ? AppThemeData.colorCard
+                  : AppThemeData.colorPrimaryLighter,
+              label: Text(tagDescription,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: isActive
+                          ? AppThemeData.colorTextRegular
+                          : AppThemeData.colorCard)),
+            )),
       ),
       onTap: () {
         BlocProvider.of<TagCubit>(context).updateTags(tagDescription);

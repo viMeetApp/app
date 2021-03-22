@@ -6,7 +6,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:proximity_hash/proximity_hash.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:signup_app/services/error_service.dart';
+import 'package:signup_app/util/errors.dart';
 
 class PostalPlace {
   double long;
@@ -136,6 +136,9 @@ class GeoService with ChangeNotifier {
     List<String> range =
         createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
     if (range.length < 2) {
+      if (range.length == 1) {
+        return GeohashRange(lower: range[0], upper: range[0]);
+      }
       throw ViException("RangeError in GeoHashRange: " + range.toString());
     }
     return GeohashRange(lower: range[1], upper: range[0]);

@@ -15,13 +15,15 @@ class TagWidget extends StatelessWidget {
             duration: Duration(milliseconds: 250),
             child: Padding(
               padding: EdgeInsets.all((state.isExpanded) ? 8 : 4),
-              child: LimitedBox(
-                maxHeight: state.isExpanded ? double.infinity : 0,
-                child: Wrap(
-                  children: buildTags(state.tagMap),
-                  alignment: WrapAlignment.center,
-                ),
-              ),
+              child: !state.isExpanded
+                  ? null
+                  : LimitedBox(
+                      //maxHeight: state.isExpanded ? double.infinity : 0,
+                      child: Wrap(
+                        children: buildTags(state.tagMap),
+                        alignment: WrapAlignment.center,
+                      ),
+                    ),
             ));
       },
     );
