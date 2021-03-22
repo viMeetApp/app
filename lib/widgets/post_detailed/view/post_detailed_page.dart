@@ -24,7 +24,7 @@ class PostDetailedPage extends StatelessWidget {
 
   final Post post;
 
-  PostDetailedPage({@required this.post});
+  PostDetailedPage({required this.post});
 
   static Widget getUserInfo(Post post) {
     return Container(
@@ -42,7 +42,7 @@ class PostDetailedPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 5),
                     child: Icon(Icons.person),
                   ),
-                  Text(post.author.name, style: AppThemeData.textHeading4())
+                  Text(post.author!.name!, style: AppThemeData.textHeading4())
                 ],
               ),
               onPressed: () => {},
@@ -62,7 +62,7 @@ class PostDetailedPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          post.group.name,
+                          post.group!.name!,
                           style: AppThemeData.textHeading4(),
                         )
                       ],
@@ -106,7 +106,7 @@ class PostDetailedPage extends StatelessWidget {
                     previous.isFavourite != current.isFavourite,
                 builder: (context, state) {
                   return IconButton(
-                    icon: Icon(state.isFavourite
+                    icon: Icon(state.isFavourite!
                         ? Icons.favorite
                         : Icons.favorite_border),
                     onPressed: () {
@@ -121,7 +121,7 @@ class PostDetailedPage extends StatelessWidget {
                     previous.isExpanded != current.isExpanded,
                 builder: (context, state) {
                   return IconButton(
-                    icon: Icon(state.isExpanded
+                    icon: Icon(state.isExpanded!
                         ? Icons.expand_less
                         : Icons.expand_more),
                     onPressed: () {
@@ -179,7 +179,7 @@ class BlocDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostdetailedCubit, PostDetailedState>(
         buildWhen: (previous, current) =>
-            previous.post.about != current.post.title ||
+            previous.post!.about != current.post!.title ||
             (previous as EventState).isSubscribed !=
                 (current as EventState).isSubscribed,
         builder: (context, state) {
@@ -191,7 +191,7 @@ class BlocDescription extends StatelessWidget {
                     BorderRadius.vertical(bottom: Radius.circular(20)),
                 boxShadow: [
                   new BoxShadow(
-                    color: Colors.grey[400],
+                    color: Colors.grey[400]!,
                     blurRadius: 20.0,
                   ),
                 ]),
@@ -205,13 +205,13 @@ class BlocDescription extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: Text(
-                        state.post.title,
+                        state.post!.title!,
                         style: AppThemeData.textHeading2(),
                       ),
                     ),
 
                     //Only Show Text when Expanded
-                    if (state.isExpanded)
+                    if (state.isExpanded!)
                       Padding(
                         padding: EdgeInsets.only(bottom: 10),
                         child: InfoSection(state.post),
@@ -225,7 +225,7 @@ class BlocDescription extends StatelessWidget {
                               ? RaisedButton(
                                   onPressed: () {
                                     BlocProvider.of<SubscriptionCubit>(context)
-                                        .subscribe(postId: state.post.id);
+                                        .subscribe(postId: state.post!.id);
                                   },
                                   child: Text("anmelden"),
                                 )
@@ -233,7 +233,7 @@ class BlocDescription extends StatelessWidget {
                                   color: AppThemeData.colorPlaceholder,
                                   onPressed: () {
                                     BlocProvider.of<SubscriptionCubit>(context)
-                                        .unsubscribe(postId: state.post.id);
+                                        .unsubscribe(postId: state.post!.id);
                                   },
                                   child: Text("abmelden"),
                                 ),
@@ -245,7 +245,7 @@ class BlocDescription extends StatelessWidget {
                             flex: 1,
                             child: Center(
                               child: Text(
-                                  "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmer"),
+                                  "${(state.post as Event).participants!.length}/${(state.post as Event).maxPeople} Teilnehmer"),
                             ),
                           ),
                       ],

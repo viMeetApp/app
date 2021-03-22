@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                   boxShadow: [
                     new BoxShadow(
-                      color: Colors.grey[400],
+                      color: Colors.grey[400]!,
                       blurRadius: 20.0,
                     ),
                   ]),

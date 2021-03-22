@@ -18,7 +18,7 @@ void main() async {
 
 class App extends StatelessWidget {
   const App({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState;
+  NavigatorState? get _navigator => _navigatorKey.currentState;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _AppViewState extends State<AppView> {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             // directing to the home screen and passing the current authentication state
-            _navigator.pushAndRemoveUntil<void>(
+            _navigator!.pushAndRemoveUntil<void>(
               HomePage.route(loggedIn: (state is Authenticated) ? true : false),
               (route) => false,
             );

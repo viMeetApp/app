@@ -12,7 +12,7 @@ class ReportCubit extends Cubit<ViFormState> {
   final ReportRepository _reportRepository;
 
   void submitted(
-      {String id, String type = Report.TYPE_POST, List<String> reasons}) async {
+      {String? id, String type = Report.TYPE_POST, List<String>? reasons}) async {
     emit(ViFormState.loading());
 
     if (id != null && type != null && reasons != null) {

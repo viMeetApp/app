@@ -9,7 +9,8 @@ class SubscriptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     EventState state = BlocProvider.of<PostCubit>(context).state as EventState;
-    return BlocListener<SubscriptionCubit, SubscriptionState>(
+    return Text("TODO: Reenable Button");
+    /*return BlocListener<SubscriptionCubit, SubscriptionState>(
       cubit: subscriptionCubit,
       listener: (context, state) {
         if (state.error) {
@@ -50,6 +51,6 @@ class SubscriptionButton extends StatelessWidget {
                 child: Text("abmelden"),
               ),
       ),
-    );
+    );*/
   }
 }

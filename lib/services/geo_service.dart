@@ -4,15 +4,14 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
-import 'package:proximity_hash/proximity_hash.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:signup_app/util/errors.dart';
 
 class PostalPlace {
-  double long;
-  double lat;
-  String name;
-  String plz;
+  double? long;
+  double? lat;
+  String? name;
+  String? plz;
 
   PostalPlace({this.lat, this.long, this.name, this.plz});
 
@@ -20,8 +19,8 @@ class PostalPlace {
 }
 
 class GeohashRange {
-  String upper;
-  String lower;
+  String? upper;
+  String? lower;
 
   GeohashRange({this.lower, this.upper});
 
@@ -32,14 +31,14 @@ class GeoService with ChangeNotifier {
   // The radius within which posts are requested in meters
   static const double POST_RADIUS = 10000;
   static final _geo = Geoflutterfire();
-  static PostalPlace _currentPlace;
+  static PostalPlace? _currentPlace;
   static List<Function> _currentPlaceListeners = <Function>[];
 
-  static PostalPlace get currentPlace {
+  static PostalPlace? get currentPlace {
     return _currentPlace;
   }
 
-  static set currentPlace(PostalPlace place) {
+  static set currentPlace(PostalPlace? place) {
     _currentPlace = place ?? null;
     _executeCurrentPlaceListeners();
   }
@@ -71,16 +70,16 @@ class GeoService with ChangeNotifier {
     return result;
   }
 
-  static Future<PostalPlace> getCurrentPlace() async {
+  static Future<PostalPlace?> getCurrentPlace() async {
     try {
       LocationData location = await getDeviceLocation();
       List<PostalPlace> places = await getPostalPlaces();
 
-      PostalPlace result;
+      PostalPlace? result;
       double distance = double.infinity;
       for (PostalPlace place in places) {
-        double dist = sqrt(pow(place.lat - location.latitude, 2) +
-            pow(place.long - location.longitude, 2));
+        double dist = sqrt(pow(place.lat! - location.latitude!, 2) +
+            pow(place.long! - location.longitude!, 2));
         if (dist < distance) {
           distance = dist;
           result = place;
@@ -96,7 +95,7 @@ class GeoService with ChangeNotifier {
     try {
       LocationData position = await getDeviceLocation();
       String geohash = _geo
-          .point(latitude: position.latitude, longitude: position.longitude)
+          .point(latitude: position.latitude!, longitude: position.longitude!)
           .hash;
       return geohash.substring(0, 5); // return a geohash with limited accuracy
     } catch (err) {
@@ -119,9 +118,9 @@ class GeoService with ChangeNotifier {
     }
 
     _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.DENIED) {
+    if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.GRANTED) {
+      if (_permissionGranted != PermissionStatus.granted) {
         return Future.error(ViPermissionLocationException());
       }
     }
@@ -134,7 +133,9 @@ class GeoService with ChangeNotifier {
       return GeohashRange.empty();
     }
     List<String> range =
-        createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
+        //createGeohashes(_currentPlace.lat, _currentPlace.long, POST_RADIUS, 3);
+        //TODO reenable geohash creation!
+        ["0", "0"];
     if (range.length < 2) {
       if (range.length == 1) {
         return GeohashRange(lower: range[0], upper: range[0]);

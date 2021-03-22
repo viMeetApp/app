@@ -6,10 +6,10 @@ part of 'post_detailed_cubit.dart';
 ///[canSubsribe] True if there is a free place in the Post
 @immutable
 class PostDetailedState {
-  Post post;
-  bool isFavourite;
-  bool isExpanded = true;
-  bool showPostVerlaengern = false;
+  Post? post;
+  bool? isFavourite;
+  bool? isExpanded = true;
+  bool? showPostVerlaengern = false;
 
   //Empty Constructor
   PostDetailedState.empty()
@@ -18,19 +18,19 @@ class PostDetailedState {
         showPostVerlaengern = null,
         isExpanded = true;
 
-  PostDetailedState({@required this.post, this.isFavourite, this.isExpanded}) {
+  PostDetailedState({required this.post, this.isFavourite, this.isExpanded}) {
     //Diese Werte kann man nacher dynamisch bei erzeugung berechnen
     this.isFavourite = this.isFavourite != null ? this.isFavourite : false;
     this.isExpanded = this.isExpanded != null ? this.isExpanded : true;
 
-    if (post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000)
+    if (post!.expireDate! < DateTime.now().millisecondsSinceEpoch + 86400000)
       showPostVerlaengern = true;
   }
 
   PostDetailedState copyWith({
-    Post post,
-    bool isFavourite,
-    bool isExpanded,
+    Post? post,
+    bool? isFavourite,
+    bool? isExpanded,
   }) {
     return PostDetailedState(
       post: post ?? this.post,
@@ -46,26 +46,26 @@ class Uninitialized extends PostDetailedState {
 
 ///State in which Screen is if Post is an Event
 class EventState extends PostDetailedState {
-  bool isSubscribed;
-  bool canSubscribe;
+  bool? isSubscribed;
+  bool? canSubscribe;
 
-  EventState({@required Post post, bool isFavourite, bool isExpanded})
+  EventState({required Post post, bool? isFavourite, bool? isExpanded})
       : super(post: post, isFavourite: isFavourite, isExpanded: isExpanded) {
     if ((post as Event)
-        .participants
-        .contains(FirebaseAuth.instance.currentUser.uid)) {
+        .participants!
+        .contains(FirebaseAuth.instance.currentUser!.uid)) {
       isSubscribed = true;
       canSubscribe = false;
     } else {
       isSubscribed = false;
-      canSubscribe = (post as Event).maxPeople == -1 ||
-          (post as Event).participants.length < (post as Event).maxPeople;
+      canSubscribe = post.maxPeople == -1 ||
+          post.participants!.length < post.maxPeople!;
     }
   }
 
-  EventState copyWith({Post post, bool isFavourite, bool isExpanded}) {
+  EventState copyWith({Post? post, bool? isFavourite, bool? isExpanded}) {
     return EventState(
-        post: post ?? this.post,
+        post: post ?? this.post!,
         isFavourite: isFavourite ?? this.isFavourite,
         isExpanded: isExpanded ?? this.isExpanded);
   }
@@ -73,5 +73,5 @@ class EventState extends PostDetailedState {
 
 ///State in which Screen is if Post is a Buddy Post
 class BuddyState extends PostDetailedState {
-  BuddyState({@required Post post}) : super(post: post);
+  BuddyState({required Post? post}) : super(post: post);
 }

@@ -9,8 +9,8 @@ import 'package:signup_app/widgets/message_feed/messagefeed_page.dart';
 import 'package:signup_app/widgets/settings/view/settings_page.dart';
 
 class HomePage extends StatelessWidget {
-  final bool initLoggedIn;
-  static Route route({bool loggedIn}) {
+  final bool? initLoggedIn;
+  static Route route({bool? loggedIn}) {
     return MaterialPageRoute<void>(
         builder: (_) => HomePage(
               initLoggedIn: loggedIn,
@@ -95,7 +95,7 @@ class HomePage extends StatelessWidget {
                 AnimatedContainer(
                   //color: Colors.white,
                   duration: Duration(milliseconds: 100),
-                  child: !state.loggedIn ? LoginPage() : null,
+                  child: !state.loggedIn! ? LoginPage() : null,
                 ),
               ],
             );

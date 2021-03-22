@@ -7,7 +7,7 @@ import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group
 
 class MembersOfGroupWidget extends StatelessWidget {
   final MembersOfGroupWidgetCubit cubit;
-  MembersOfGroupWidget({@required Group group})
+  MembersOfGroupWidget({required Group group})
       : cubit = MembersOfGroupWidgetCubit(
           group: group,
         );
@@ -16,15 +16,16 @@ class MembersOfGroupWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //When group changes update Stream via cubit
     return BlocListener<GroupSettingsCubit, GroupSettingsState>(
-      listener: (context, state) {
-        cubit.updateStreamSubscription(state.group);
-      },
-      child: BlocBuilder<MembersOfGroupWidgetCubit, List<User>>(
+        listener: (context, state) {
+          cubit.updateStreamSubscription(state.group);
+        },
+        child: Text("TODO: reenable"));
+    /*BlocBuilder<MembersOfGroupWidgetCubit, List<User>>(
         cubit: cubit,
         builder: (context, users) {
           return ExpandableList(members: users);
         },
       ),
-    );
+    );*/
   }
 }

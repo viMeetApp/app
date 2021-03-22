@@ -8,10 +8,10 @@ enum Types { active, processing, submitted, invalid, error }
 
 class BugReportState extends ViState {
   final BugReportRepository _bugRepository;
-  Exception error;
-  String title;
-  String kind;
-  String message;
+  Exception? error;
+  String? title;
+  String? kind;
+  String? message;
 
   BugReportState(this._bugRepository) : super(type: Types.active);
 

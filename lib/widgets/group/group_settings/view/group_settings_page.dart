@@ -5,9 +5,9 @@ import 'package:signup_app/widgets/group/group_settings/view/group_settings_main
 import 'package:signup_app/util/data_models.dart';
 
 class GroupSettingsPage extends StatelessWidget {
-  final Group group;
-  GroupSettingsPage({@required this.group});
-  static Route route({@required Group group}) {
+  final Group? group;
+  GroupSettingsPage({required this.group});
+  static Route route({required Group? group}) {
     return MaterialPageRoute<void>(
         builder: (_) => GroupSettingsPage(
               group: group,
@@ -17,7 +17,7 @@ class GroupSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GroupSettingsCubit>(
-        create: (_) => GroupSettingsCubit(group: group),
+        create: (_) => GroupSettingsCubit(group: group!),
         child: GroupSettingsMainWidget(group: group));
   }
 }

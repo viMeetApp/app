@@ -6,7 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 class AboutWidget extends StatelessWidget {
   String legalFileName;
 
-  AboutWidget({@required this.legalFileName});
+  AboutWidget({required this.legalFileName});
 
   Future<String> getData() async {
     try {

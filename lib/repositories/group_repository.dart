@@ -5,9 +5,9 @@ import 'package:signup_app/util/data_models.dart';
 
 class GroupRepository {
   final FirebaseFirestore _firestore;
-  CollectionReference _groupCollectionReference;
+  late CollectionReference _groupCollectionReference;
 
-  GroupRepository({FirebaseFirestore firestore})
+  GroupRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance {
     _groupCollectionReference = _firestore.collection('groups');
   }
@@ -15,7 +15,7 @@ class GroupRepository {
   ///Creates a [group] Object in Firestore
   Future<void> createGroup(Group group) async {
     try {
-      await _groupCollectionReference.add(group.toDoc());
+      await _groupCollectionReference.add(group.toDoc()!);
     } catch (err) {
       throw err;
     }
@@ -26,7 +26,7 @@ class GroupRepository {
     try {
       assert(group.id != null && group.id != '',
           'When updating a Group, Object must contain a valid Id');
-      await _groupCollectionReference.doc(group.id).update(group.toDoc());
+      await _groupCollectionReference.doc(group.id).update(group.toDoc()!);
     } catch (err) {
       throw err;
     }
@@ -49,7 +49,7 @@ class GroupRepository {
   ///Returns a Group Document specified by [groupId]
   ///
   ///This function only returns a one Time Read
-  Future<Group> getGroupDocumentById(String groupId) async {
+  Future<Group> getGroupDocumentById(String? groupId) async {
     try {
       assert(
           groupId != null && groupId != '', 'A Valid groupId must be provided');
@@ -63,7 +63,7 @@ class GroupRepository {
   }
 
   ///Returns a Stream (real Time Updates) of a Group specified by [groupId]
-  Stream<Group> getGroupStreamById(String groupId) {
+  Stream<Group> getGroupStreamById(String? groupId) {
     return _groupCollectionReference
         .doc(groupId)
         .snapshots()
@@ -72,7 +72,7 @@ class GroupRepository {
 
   ///Returns a stream of all users which are currently requesting to subscribe to a [group]
   Stream<List<User>> getStreamOfUsersRequestingToJoinAGroup(Group group) {
-    if (group.requestedToJoin.length == 0) {
+    if (group.requestedToJoin!.length == 0) {
       throw new Exception("requestedToJoin list is malformed. List is empty");
     } else {
       return _firestore
@@ -89,7 +89,7 @@ class GroupRepository {
       Group group) {
     StreamController<List<User>> streamController =
         new StreamController<List<User>>();
-    if (group.users.length == 0) {
+    if (group.users!.length == 0) {
       throw new Exception("user list is malformed. List is empty");
     } else {
       List<List<User>> _allPagedResults = List<List<User>>();
@@ -98,11 +98,11 @@ class GroupRepository {
       //Slice Array into chunk
       List<List<String>> chunks = List<List<String>>();
       int counter = 0;
-      while (group.users.length - counter > 10) {
-        chunks.add(group.users.sublist(counter, counter + 10));
+      while (group.users!.length - counter > 10) {
+        chunks.add(group.users!.sublist(counter, counter + 10));
         counter += 10;
       }
-      chunks.add(group.users.sublist(counter));
+      chunks.add(group.users!.sublist(counter));
 
       chunks.forEach((List<String> userList) {
         int currentIndex = requestIndex;

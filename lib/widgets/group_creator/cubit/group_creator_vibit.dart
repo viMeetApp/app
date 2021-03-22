@@ -4,7 +4,7 @@ import 'package:signup_app/vibit/vibit.dart';
 enum Types { submitted, error, invalid, processing, active }
 
 class GroupCreatorState extends ViState {
-  Exception error;
+  Exception? error;
   TextEditingController titleController = new TextEditingController();
   TextEditingController aboutController = new TextEditingController();
 

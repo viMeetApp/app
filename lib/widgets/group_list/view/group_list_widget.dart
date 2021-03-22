@@ -5,7 +5,7 @@ import 'package:signup_app/widgets/group/view/group_page.dart';
 
 class GroupListWidget extends StatelessWidget {
   final Stream<List<Group>> groupStream;
-  GroupListWidget({@required this.groupStream});
+  GroupListWidget({required this.groupStream});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class GroupListWidget extends StatelessWidget {
 }
 
 class ListElement extends StatelessWidget {
-  final Group group;
-  ListElement({@required this.group});
+  final Group? group;
+  ListElement({required this.group});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,7 +46,7 @@ class ListElement extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Hero(
-              tag: "group_icon" + group.id,
+              tag: "group_icon" + group!.id!,
               child: CircleAvatar(
                 backgroundColor: AppThemeData.colorPlaceholder,
                 backgroundImage: AssetImage("assets/img/exampleImage2.jpg"),
@@ -57,7 +57,7 @@ class ListElement extends StatelessWidget {
               width: 30,
             ),
             Flexible(
-              child: Text(group.name,
+              child: Text(group!.name!,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             )
           ],

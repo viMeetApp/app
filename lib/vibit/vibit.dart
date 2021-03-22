@@ -6,16 +6,16 @@ import 'package:flutter/widgets.dart';
 /// Class to manage the state of a ViBit Widget.
 /// This can be extended to include all neccessary data regarding a widget
 class ViState<T> extends State<ViBit> {
-  T _type;
-  Function _onBuild;
-  Function _onRefresh;
-  Function _onChangeLogic;
+  T? _type;
+  Function? _onBuild;
+  Function? _onRefresh;
+  Function? _onChangeLogic;
 
-  ViState({T type}) {
+  ViState({T? type}) {
     this.type = type;
   }
 
-  set type(T type) {
+  set type(T? type) {
     _type = type;
     refresh();
   }
@@ -27,7 +27,7 @@ class ViState<T> extends State<ViBit> {
   /// associate the function to build child widgets to the state.
   /// This method should not be called directly!
   @nonVirtual
-  set onBuild(Function onBd) {
+  set onBuild(Function? onBd) {
     if (_onBuild != null) {
       throw Exception("onBuild can not be set multiple times");
     }
@@ -35,7 +35,7 @@ class ViState<T> extends State<ViBit> {
   }
 
   @nonVirtual
-  set onChangeLogic(Function onCL) {
+  set onChangeLogic(Function? onCL) {
     if (_onChangeLogic != null) {
       throw Exception("onBuild can not be set multiple times");
     }
@@ -45,7 +45,7 @@ class ViState<T> extends State<ViBit> {
   /// associate the function to build child widgets to the state.
   /// This method should not be called directly!
   @nonVirtual
-  set onRefresh(Function onRf) {
+  set onRefresh(Function? onRf) {
     if (_onRefresh != null) {
       throw Exception("onRefresh can not be set multiple times. " +
           "Make sure you don't have a ViBitDynamic widget within a " +
@@ -56,7 +56,7 @@ class ViState<T> extends State<ViBit> {
 
   /// get the refresh function
   @nonVirtual
-  Function get onRefresh {
+  Function? get onRefresh {
     return _onRefresh;
   }
 
@@ -66,12 +66,12 @@ class ViState<T> extends State<ViBit> {
   @nonVirtual
   void refresh() {
     if (_onChangeLogic != null) {
-      _onChangeLogic(this);
+      _onChangeLogic!(this);
     }
 
     if (_onBuild != null) {
       if (_onRefresh != null) {
-        onRefresh();
+        onRefresh!();
       } else {
         print("Warning: No ViBitDynamic widget was found in the scope");
       }
@@ -86,9 +86,9 @@ class ViState<T> extends State<ViBit> {
   @override
   Widget build(BuildContext context) {
     return _onBuild != null
-        ? _onBuild(context, this)
+        ? _onBuild!(context, this)
         : _onRefresh != null
-            ? _onRefresh(context, this)
+            ? _onRefresh!(context, this)
             : Text("ViBit: no child defined");
   }
 }
@@ -97,11 +97,11 @@ class ViState<T> extends State<ViBit> {
 /// parts of a Widget on state changes
 class ViBitDynamic<T extends ViState> extends StatefulWidget {
   final ViState state;
-  final Function(BuildContext) onRefresh;
-  final Function(BuildContext, T) onRefreshWithState;
-  final Function() onChangeLogic;
+  final Function(BuildContext)? onRefresh;
+  final Function(BuildContext, T)? onRefreshWithState;
+  final Function()? onChangeLogic;
   ViBitDynamic(
-      {@required this.state,
+      {required this.state,
       this.onRefresh,
       this.onChangeLogic,
       this.onRefreshWithState});
@@ -114,7 +114,7 @@ class _ViBitDynamicState extends State<ViBitDynamic> {
   _ViBitDynamicState(ViBitDynamic wgt) {
     wgt.state.onRefresh = () {
       if (widget.onChangeLogic != null) {
-        widget.onChangeLogic();
+        widget.onChangeLogic!();
       }
       Util.refreshIfMounted(this.mounted, setState);
     };
@@ -122,8 +122,8 @@ class _ViBitDynamicState extends State<ViBitDynamic> {
   @override
   Widget build(BuildContext context) {
     return (widget.onRefreshWithState != null)
-        ? widget.onRefreshWithState(context, widget.state)
-        : widget.onRefresh(context);
+        ? widget.onRefreshWithState!(context, widget.state)
+        : widget.onRefresh!(context);
   }
 }
 
@@ -137,10 +137,10 @@ class ViBit<T extends ViState> extends StatefulWidget {
   ///
   /// [onBuild] is the function that returns possible child widgets of this one.
   ViBit(
-      {@required this.state,
-      Function(BuildContext, T) onBuild,
-      Function(BuildContext, T) onRefresh,
-      Function(T) onChangeLogic}) {
+      {required this.state,
+      Function(BuildContext, T)? onBuild,
+      Function(BuildContext, T)? onRefresh,
+      Function(T)? onChangeLogic}) {
     state.onBuild = onBuild;
     state.onRefresh = onRefresh;
     state.onChangeLogic = onChangeLogic;

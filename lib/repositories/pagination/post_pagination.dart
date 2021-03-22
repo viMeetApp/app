@@ -11,7 +11,7 @@ import 'package:signup_app/util/data_models.dart';
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {
   final geo = Geoflutterfire();
-  PostPagination({@required this.paginationDistance, this.user, this.group});
+  PostPagination({required this.paginationDistance, this.user, this.group});
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //Counter Variable to only update current Streams
@@ -19,23 +19,23 @@ class PostPagination {
   //Variables Necessary for Pagination
   StreamController<List<Post>> postStreamController =
       new StreamController<List<Post>>();
-  DocumentSnapshot _lastDocument;
+  DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
   List<List<Post>> _allPagedResults = List<List<Post>>();
   //How many Items get paginated every time
   final paginationDistance;
 
   //Variables Necessary for Filtering
-  List<String> tags;
-  final Group group;
-  final User user;
+  List<String>? tags;
+  final Group? group;
+  final User? user;
 
   //Query
-  Query postQuery;
+  Query? postQuery;
 
   ///Fuction to Call when New Query Stars
   ///For examlpe at beginning or after Filter Changes
-  void newQuery({List<String> tags}) async {
+  void newQuery({List<String?>? tags}) async {
     counter++;
     //Reset all Variables
     _hasMorePosts = true;
@@ -49,11 +49,11 @@ class PostPagination {
     //First Check for Group (if Group Provided only Show Posts from Group)
     if (group != null) {
       query =
-          colReference.where("group.id", isEqualTo: group.id).where("geohash");
+          colReference.where("group.id", isEqualTo: group!.id).where("geohash");
     }
     //Then Check for User (if User provided only show Posts from User)
     else if (user != null) {
-      query = colReference.where("participants", arrayContains: user.id);
+      query = colReference.where("participants", arrayContains: user!.id);
     }
 
     //! Filtering nach Tags muss ggf. lokal passieren wenn nach Ort gefiltert werden soll :/
@@ -69,7 +69,7 @@ class PostPagination {
 
     else {
       GeohashRange range = GeoService.getGeohashRange();
-      log("updating feed: " + range.lower + ", " + range.upper);
+      log("updating feed: " + range.lower! + ", " + range.upper!);
       query = colReference
           .where("geohash", isGreaterThanOrEqualTo: range.lower)
           .where("geohash", isLessThanOrEqualTo: range.upper);
@@ -86,26 +86,26 @@ class PostPagination {
     if (!_hasMorePosts) return;
     //If there is a last Document we paginate therefore gettin data after last Document
     if (_lastDocument != null) {
-      postQuery = postQuery.startAfterDocument(_lastDocument);
+      postQuery = postQuery!.startAfterDocument(_lastDocument!);
     }
     //Index how often we already fetched new data -> Number of Lists in big List
     int currentRequestIndex = _allPagedResults.length;
 
     //Callbackfunction is called every Time a Document updates itself
-    postQuery.snapshots().listen((QuerySnapshot postsSnapshot) {
+    postQuery!.snapshots().listen((QuerySnapshot postsSnapshot) {
       if (counter == localCounter) {
         if (postsSnapshot.docs.isNotEmpty) {
           List<Post> posts =
               postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
             // document.putIfAbsent("id", () => doc.id);
-            if (snapshot.data()['type'] == "event") {
+            if (snapshot.data()!['type'] == "event") {
               return Event.fromDoc(snapshot);
-            } else if (snapshot.data()['type'] == "buddy") {
+            } else if (snapshot.data()!['type'] == "buddy") {
               return Buddy.fromDoc(snapshot);
             }
           }).toList();
           posts.sort((a, b) {
-            if (a.createdDate <= b.createdDate)
+            if (a.createdDate! <= b.createdDate!)
               return 1;
             else
               return -1;

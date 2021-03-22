@@ -14,7 +14,7 @@ class SearchTagCubit extends Cubit<SearchTagState> {
   }
 
   ///Is called from Tag when tag is pressed -> updates the Tag Array
-  void updateFilterTags(String tag) {
+  void updateFilterTags(String? tag) {
     emit(state.toggleTag(tag));
   }
 }

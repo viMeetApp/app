@@ -8,13 +8,13 @@ class ChatMessagePagination {
   final paginationDistance;
   final Post post;
 
-  ChatMessagePagination({@required this.post, this.paginationDistance: 20});
+  ChatMessagePagination({required this.post, this.paginationDistance: 20});
 
   StreamController<List<Message>> messageStreamController =
       new StreamController<List<Message>>();
 
   //Variables necessary for Pagination
-  DocumentSnapshot _lastDocument;
+  DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
   List<List<Message>> _allPagedResults = List<List<Message>>();
   void requestMessages() {
@@ -30,7 +30,7 @@ class ChatMessagePagination {
 
     //If last Document is specified, we need to start Pagination after last Document
     if (_lastDocument != null) {
-      chatMessageQuery = chatMessageQuery.startAfterDocument(_lastDocument);
+      chatMessageQuery = chatMessageQuery.startAfterDocument(_lastDocument!);
     }
 
     //Index is number of times we already paginated

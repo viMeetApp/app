@@ -8,10 +8,10 @@ class LoginState {
   final bool isLoggedIn;
 
   LoginState(
-      {@required this.isNameValid,
-      @required this.isSubmitting,
-      @required this.isError,
-      @required this.isLoggedIn});
+      {required this.isNameValid,
+      required this.isSubmitting,
+      required this.isError,
+      required this.isLoggedIn});
   factory LoginState.empty() {
     return LoginState(
         isNameValid: true,

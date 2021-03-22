@@ -16,7 +16,7 @@ class Tools {
       ));
   }
 
-  static showSuccessPage(BuildContext context, {String message}) {
+  static showSuccessPage(BuildContext context, {String? message}) {
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return SuccessPage(
         message: message,

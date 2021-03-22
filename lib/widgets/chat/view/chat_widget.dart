@@ -13,7 +13,7 @@ class ChatWidget extends StatelessWidget {
   final User user;
 
   final TextEditingController _chatController = new TextEditingController();
-  ChatWidget({@required this.post, @required this.user})
+  ChatWidget({required this.post, required this.user})
       : assert(post != null),
         assert(user != null);
 

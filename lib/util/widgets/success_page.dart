@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/util/presets.dart';
 
 class SuccessPage extends StatelessWidget {
-  final String message;
+  final String? message;
   SuccessPage({this.message});
 
   static Route route() {

@@ -10,14 +10,14 @@ import 'package:signup_app/widgets/report/view/widgets/report_success_dialog.dar
 
 class ReportForm extends StatelessWidget {
   BuildContext parentContext;
-  String id;
+  String? id;
   String reportType = Report.TYPE_POST;
   List<String> reasons = [];
 
   ReportForm(
-      {@required this.id,
-      @required this.reportType,
-      @required this.parentContext});
+      {required this.id,
+      required this.reportType,
+      required this.parentContext});
 
   @override
   Widget build(BuildContext context) {

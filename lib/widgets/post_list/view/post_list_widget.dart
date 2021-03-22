@@ -10,8 +10,8 @@ import 'package:signup_app/util/presets.dart';
 ///This List shows all Posts
 ///In addtition to the standard List is this List also filterable via Tags
 class PostList extends StatelessWidget {
-  final Group group;
-  final User user;
+  final Group? group;
+  final User? user;
   final bool filterable;
   PostList({this.filterable = false, this.group, this.user});
   @override
@@ -29,8 +29,8 @@ class PostList extends StatelessWidget {
         ],
         child: BlocListener<SearchTagCubit, SearchTagState>(
           listener: (context, state) {
-            List<String> tagList = [];
-            state.tagMap.forEach(
+            List<String?> tagList = [];
+            state.tagMap!.forEach(
               (key, value) {
                 if (value == true) tagList.add(key);
               },

@@ -4,13 +4,13 @@ import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 
 class MessageTile extends StatelessWidget {
-  final Message message;
+  final Message? message;
 
-  MessageTile({@required this.message});
+  MessageTile({required this.message});
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    if (message.author.id == FirebaseAuth.instance.currentUser.uid) {
+    if (message!.author!.id == FirebaseAuth.instance.currentUser!.uid) {
       return Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Row(
@@ -33,14 +33,14 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message.author.name ?? "[UNBEKANNT]",
+                      message!.author!.name ?? "[UNBEKANNT]",
                       style: TextStyle(
                           color: AppThemeData.colorTextRegular,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    message.content ?? "[FEHLER IN NACHRICHT]",
+                    message!.content ?? "[FEHLER IN NACHRICHT]",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1000, //Change Later
                   ),
@@ -71,14 +71,14 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message.author.name,
+                      message!.author!.name!,
                       style: TextStyle(
                           color: AppThemeData.colorControls,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    message.content,
+                    message!.content!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1000, //Change Later
                   ),

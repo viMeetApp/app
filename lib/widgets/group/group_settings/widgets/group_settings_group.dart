@@ -3,7 +3,7 @@ import 'package:signup_app/util/presets.dart';
 
 class GroupSettingsGroup extends StatelessWidget {
   String title;
-  Widget child;
+  Widget? child;
   bool padded;
   bool highlight;
 
@@ -23,7 +23,7 @@ class GroupSettingsGroup extends StatelessWidget {
           border: Border.all(
               width: 3,
               color: highlight
-                  ? AppThemeData.swatchAccent[300]
+                  ? AppThemeData.swatchAccent[300]!
                   : Colors.transparent)),
       padding: EdgeInsets.all(padded ? 20 : 0),
       child: Column(
@@ -41,7 +41,7 @@ class GroupSettingsGroup extends StatelessWidget {
               style: AppThemeData.textHeading4(),
             ),
           ),
-          child,
+          child!,
         ],
       ),
     );

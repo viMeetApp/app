@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 part 'home_page_state.dart';
 
 class HomePageCubit extends Cubit<HomePageState> {
-  HomePageCubit(bool initLoggedIn)
+  HomePageCubit(bool? initLoggedIn)
       : super(HomePageState.initial(loggedIn: initLoggedIn));
 
   void login() {

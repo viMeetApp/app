@@ -12,9 +12,9 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
 
   final ChatMessageRepository _chatMessageRepository =
       new ChatMessageRepository();
-  ChatMessagePagination chatMessagePagination;
+  late ChatMessagePagination chatMessagePagination;
 
-  ChatCubit({@required this.post, @required this.user})
+  ChatCubit({required this.post, required this.user})
       : assert(post != null),
         assert(user != null),
         super(Stream.empty()) {

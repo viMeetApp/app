@@ -19,7 +19,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   ///
   ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
   ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void subscribe({@required String postId}) {
+  void subscribe({required String postId}) {
     emit(SubscriptionState.subscribing());
     HttpsCallable callable = functions.httpsCallable(
       'subscribeToPost',
@@ -37,7 +37,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
   ///
   ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
   ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void unsubscribe({@required String postId}) {
+  void unsubscribe({required String postId}) {
     emit(SubscriptionState.unsubscribing());
     HttpsCallable callable = functions.httpsCallable(
       'unsubscribeFromPost',

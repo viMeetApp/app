@@ -43,7 +43,7 @@ class GroupDropownWidget extends StatelessWidget {
                   ],
                 ),
 
-                BlocBuilder<GroupDropdownCubit, Stream<List<Group>>>(
+                /*BlocBuilder<GroupDropdownCubit, Stream<List<Group>>>(
                     cubit: groupDropdownCubit,
                     builder: (context, state) {
                       return StreamBuilder(
@@ -68,7 +68,7 @@ class GroupDropownWidget extends StatelessWidget {
                                   });
                             }
                           });
-                    }),
+                    }),*/
                 //Solange Anzahl unter mindestAnzahl nicht scrollable danach scrollable machen
 
                 SizedBox(height: 20),
@@ -95,7 +95,7 @@ class GroupDropownWidget extends StatelessWidget {
 
 class ListElement extends StatelessWidget {
   final Group group;
-  ListElement({@required this.group});
+  ListElement({required this.group});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -117,7 +117,7 @@ class ListElement extends StatelessWidget {
             SizedBox(
               width: 30,
             ),
-            Text(group.name,
+            Text(group.name!,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
           ],
         ),

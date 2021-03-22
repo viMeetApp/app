@@ -11,7 +11,7 @@ class DropdownCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostCubit, PostState>(
         buildWhen: (previous, current) =>
-            previous.post.about != current.post.title ||
+            previous.post!.about != current.post!.title ||
             (previous as EventState).isSubscribed !=
                 (current as EventState).isSubscribed,
         builder: (context, state) {
@@ -23,7 +23,7 @@ class DropdownCard extends StatelessWidget {
                     BorderRadius.vertical(bottom: Radius.circular(20)),
                 boxShadow: [
                   new BoxShadow(
-                    color: Colors.grey[400],
+                    color: Colors.grey[400]!,
                     blurRadius: 20.0,
                   ),
                 ]),
@@ -52,7 +52,7 @@ class DropdownCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Text(
-        state.post.title,
+        state.post!.title!,
         style: AppThemeData.textHeading2(),
       ),
     );
@@ -70,7 +70,7 @@ class DropdownCard extends StatelessWidget {
       flex: 1,
       child: Center(
         child: Text(
-            "${(state.post as Event).participants.length}/${(state.post as Event).maxPeople} Teilnehmende"),
+            "${(state.post as Event).participants!.length}/${(state.post as Event).maxPeople} Teilnehmende"),
       ),
     );
   }

@@ -12,9 +12,9 @@ part 'post_list_state.dart';
 class PostListCubit extends Cubit<PostListState> {
   //StreamController<List<Post>> streamController = StreamController();
   final int paginationDistance = 20;
-  Group group;
-  User user;
-  PostPagination postPagination;
+  Group? group;
+  User? user;
+  late PostPagination postPagination;
   PostListCubit({this.group, this.user}) : super(PostListState.initial()) {
     postPagination = PostPagination(
         paginationDistance: paginationDistance, group: group, user: user);
@@ -28,7 +28,7 @@ class PostListCubit extends Cubit<PostListState> {
   }
 
   ///Update Filter with [tags]
-  void updateFilter(List<String> tags) async {
+  void updateFilter(List<String?> tags) async {
     postPagination.newQuery(tags: tags);
   }
 

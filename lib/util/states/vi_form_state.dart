@@ -10,10 +10,10 @@ class ViFormState {
   final bool wasSubmitted;
 
   ViFormState(
-      {@required this.isValid,
-      @required this.isSubmitting,
-      @required this.isError,
-      @required this.wasSubmitted});
+      {required this.isValid,
+      required this.isSubmitting,
+      required this.isError,
+      required this.wasSubmitted});
   factory ViFormState.okay() {
     return ViFormState(
         isValid: true,

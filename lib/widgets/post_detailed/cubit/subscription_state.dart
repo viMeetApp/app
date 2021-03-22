@@ -1,7 +1,7 @@
 part of 'subscription_cubit.dart';
 
 class SubscriptionState {
-  SubscriptionState({bool subscribing, bool unsubscribing, bool error})
+  SubscriptionState({bool? subscribing, bool? unsubscribing, bool? error})
       : subscribing = subscribing ?? false,
         unsubscribing = unsubscribing ?? false,
         error = error ?? false;

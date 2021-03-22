@@ -9,11 +9,11 @@ class Presets {
   // preset component decoration
   static InputDecoration getTextFieldDecorationHintStyle(
       {String hintText = "",
-      IconButton suffixIcon,
-      IconButton prefixIcon,
-      String errorText,
+      IconButton? suffixIcon,
+      IconButton? prefixIcon,
+      String? errorText,
       Color fillColor = AppThemeData.colorCard,
-      TextStyle hintStyle,
+      TextStyle? hintStyle,
       bool hideFocusBorder = false}) {
     return InputDecoration(
       prefixIcon: prefixIcon,
@@ -38,7 +38,7 @@ class Presets {
 
   static InputDecoration getTextFieldDecorationLabelStyle(
       {String labelText = "",
-      String errorText,
+      String? errorText,
       Color fillColor = AppThemeData.colorCard,
       Color hintColor = AppThemeData.colorControls}) {
     return InputDecoration(
@@ -70,8 +70,8 @@ class Presets {
   }
 
   static Widget simpleCard(
-      {@required Widget child,
-      EdgeInsets margin,
+      {required Widget child,
+      EdgeInsets? margin,
       Color color = AppThemeData.colorCard}) {
     return Container(
       margin: margin,
@@ -138,10 +138,10 @@ class AppThemeData {
   static const Color colorBlackTrans = Color(0x14000000);
 
   // define font sizes
-  static TextStyle textFormField({Color color = colorFormField}) =>
+  static TextStyle textFormField({Color? color = colorFormField}) =>
       TextStyle(color: color, fontSize: 16);
   static TextStyle textNormal(
-          {Color color = colorControls, FontWeight fontWeight}) =>
+          {Color color = colorControls, FontWeight? fontWeight}) =>
       TextStyle(color: color, fontSize: 14, fontWeight: fontWeight);
   static TextStyle textHeading1({Color color = colorControls}) =>
       TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold);
@@ -176,7 +176,7 @@ class AppThemeData {
       primaryColorLight: colorPrimaryLight,
       accentColor: colorAccent,
 
-      primarySwatch: swatchPrimary,
+      primarySwatch: swatchPrimary as MaterialColor?,
 
       // Element Backgrounds
       scaffoldBackgroundColor: colorBase,

@@ -7,7 +7,7 @@ class SettingsState extends ViState {
   final SettingsRepository _repository = SettingsRepository();
 
   // values
-  User user;
+  User? user;
 
   SettingsState() {
     _repository.observeUser().listen((user) {

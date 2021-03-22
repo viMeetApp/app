@@ -9,7 +9,7 @@ import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_g
 class AdmitToJoinGroupWidget extends StatelessWidget {
   final AdmitToJoinGroupWidgetCubit cubit;
   //Returns Stream of all user who are currently requesting to Join
-  AdmitToJoinGroupWidget({required group})
+  AdmitToJoinGroupWidget({@required group})
       : cubit = AdmitToJoinGroupWidgetCubit(group: group);
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
         listener: (context, state) {
           cubit.updateStreamSubscription(state.group);
         },
-        child: Text("t"));
+        child: Text("TODO: reenable"));
     /*BlocBuilder<AdmitToJoinGroupWidgetCubit, List<User>>(
           cubit: cubit,
           builder: (context, users) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ViDropdownButton extends StatefulWidget {
-  List<String> elements;
-  String hint;
-  Function onChanged;
+  List<String>? elements;
+  String? hint;
+  Function? onChanged;
 
   ViDropdownButton({this.elements, this.hint, this.onChanged});
 
@@ -13,7 +13,7 @@ class ViDropdownButton extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _ViDropdownButtonState extends State<ViDropdownButton> {
-  String dropdownValue;
+  String? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +27,13 @@ class _ViDropdownButtonState extends State<ViDropdownButton> {
         //icon: Icon(Icons.arrow_downward),
         iconSize: 24,
         elevation: 16,
-        onChanged: (String newValue) {
+        onChanged: (String? newValue) {
           setState(() {
             dropdownValue = newValue;
-            widget.onChanged(newValue);
+            widget.onChanged!(newValue);
           });
         },
-        items: widget.elements.map<DropdownMenuItem<String>>((String value) {
+        items: widget.elements!.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),

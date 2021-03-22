@@ -7,13 +7,13 @@ import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart
 
 class CreatePostPage extends StatelessWidget {
   ///Set Group argument when post is Created out of Group
-  static Route route({Group group}) {
+  static Route route({Group? group}) {
     return MaterialPageRoute<void>(
         builder: (_) => CreatePostPage(group: group));
   }
 
-  final Group group;
-  CreatePostPage({@required this.group});
+  final Group? group;
+  CreatePostPage({required this.group});
 
   @override
   Widget build(BuildContext context) {
