@@ -5,9 +5,24 @@ import 'package:flutter/widgets.dart';
 
 /// Class to manage the state of a ViBit Widget.
 /// This can be extended to include all neccessary data regarding a widget
-class ViState extends State<ViBit> {
+class ViState<T> extends State<ViBit> {
+  T _type;
   Function _onBuild;
   Function _onRefresh;
+  Function _onChangeLogic;
+
+  ViState({T type}) {
+    this.type = type;
+  }
+
+  set type(T type) {
+    _type = type;
+    refresh();
+  }
+
+  get type {
+    return _type;
+  }
 
   /// associate the function to build child widgets to the state.
   /// This method should not be called directly!
@@ -17,6 +32,14 @@ class ViState extends State<ViBit> {
       throw Exception("onBuild can not be set multiple times");
     }
     _onBuild = onBd;
+  }
+
+  @nonVirtual
+  set onChangeLogic(Function onCL) {
+    if (_onChangeLogic != null) {
+      throw Exception("onBuild can not be set multiple times");
+    }
+    _onChangeLogic = onCL;
   }
 
   /// associate the function to build child widgets to the state.
@@ -42,6 +65,10 @@ class ViState extends State<ViBit> {
   /// to be called
   @nonVirtual
   void refresh() {
+    if (_onChangeLogic != null) {
+      _onChangeLogic(this);
+    }
+
     if (_onBuild != null) {
       if (_onRefresh != null) {
         onRefresh();
@@ -72,7 +99,12 @@ class ViBitDynamic<T extends ViState> extends StatefulWidget {
   final ViState state;
   final Function(BuildContext) onRefresh;
   final Function(BuildContext, T) onRefreshWithState;
-  ViBitDynamic({@required this.state, this.onRefresh, this.onRefreshWithState});
+  final Function() onChangeLogic;
+  ViBitDynamic(
+      {@required this.state,
+      this.onRefresh,
+      this.onChangeLogic,
+      this.onRefreshWithState});
 
   @override
   _ViBitDynamicState createState() => _ViBitDynamicState(this);
@@ -81,6 +113,9 @@ class ViBitDynamic<T extends ViState> extends StatefulWidget {
 class _ViBitDynamicState extends State<ViBitDynamic> {
   _ViBitDynamicState(ViBitDynamic wgt) {
     wgt.state.onRefresh = () {
+      if (widget.onChangeLogic != null) {
+        widget.onChangeLogic();
+      }
       Util.refreshIfMounted(this.mounted, setState);
     };
   }
@@ -104,9 +139,11 @@ class ViBit<T extends ViState> extends StatefulWidget {
   ViBit(
       {@required this.state,
       Function(BuildContext, T) onBuild,
-      Function(BuildContext, T) onRefresh}) {
+      Function(BuildContext, T) onRefresh,
+      Function(T) onChangeLogic}) {
     state.onBuild = onBuild;
     state.onRefresh = onRefresh;
+    state.onChangeLogic = onChangeLogic;
   }
 
   /// This method sets the connects the state with the widget.

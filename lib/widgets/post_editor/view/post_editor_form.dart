@@ -59,6 +59,10 @@ class CreatePostForm extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppThemeData.colorBase,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         iconTheme: IconThemeData(color: AppThemeData.colorCard),
         backgroundColor: AppThemeData.colorPrimaryLight,
         title: Text(
@@ -77,7 +81,7 @@ class CreatePostForm extends StatelessWidget {
               }
               //In Error Case or name invalid Show Error Snackbar
               else if (state.isError) {
-                Scaffold.of(context)
+                ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(SnackBar(
                     content: Text('Fehler: ' + state.error.toString()),
@@ -92,7 +96,7 @@ class CreatePostForm extends StatelessWidget {
               }
               //Show is Loading Snackbar
               else if (state.isSubmitting) {
-                Scaffold.of(context)
+                ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(const SnackBar(
                     content: Text('wird veröffentlicht'),

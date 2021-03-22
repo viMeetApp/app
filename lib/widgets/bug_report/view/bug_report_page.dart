@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
-import 'package:signup_app/widgets/bug_report/cubit/bug_report_cubit.dart';
-import 'package:signup_app/widgets/bug_report/view/widgets/bug_report_form.dart';
+import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/tools.dart';
+import 'package:signup_app/util/widgets/vi_dropdown_button.dart';
+import 'package:signup_app/vibit/vibit.dart';
+import 'package:signup_app/widgets/bug_report/cubit/bug_report_vibit.dart';
+import 'package:signup_app/util/widgets/success_page.dart';
 
 class BugReportPage extends StatelessWidget {
   ///Set Group argument when post is Created out of Group
@@ -14,13 +17,95 @@ class BugReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("unterstütze uns"),
-      ),
-      body: BlocProvider<BugReportCubit>(
-        create: (_) => BugReportCubit(BugReportRepository()),
-        child: BugReportForm(),
-      ),
-    );
+        appBar: AppBar(
+          title: Text("unterstütze uns"),
+        ),
+        body: ViBit<BugReportState>(
+            state: BugReportState(BugReportRepository()),
+            onChangeLogic: (state) {
+              switch (state.type) {
+                case Types.submitted:
+                  Tools.showSuccessPage(context, message: "Danke!");
+                  break;
+                case Types.invalid:
+                  Tools.showSnackbar(context, "Bitte fülle alles aus");
+                  break;
+                case Types.error:
+                  Tools.showSnackbar(context, "Fehler beim Speichern");
+                  break;
+                default:
+              }
+            },
+            onRefresh: (context, state) => Scaffold(
+                body: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView(
+                    //runSpacing: 10,
+                    //spacing: 10,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          "👋 Hilf uns die App zu verbessern",
+                          style: AppThemeData.textHeading2(
+                              color: AppThemeData.colorTextRegular),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          "Dir ist ein Fehler in der App aufgefallen? Dann würden wir uns sehr freuen wenn du uns hilfst diesen schnellstmöglich zu beheben indem du uns kurz mitteilst worum es geht:",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      TextField(
+                        enabled: state.type != Types.processing,
+                        decoration: Presets.getTextFieldDecorationHintStyle(
+                            hintStyle: TextStyle(
+                                color: AppThemeData.colorTextRegularLight),
+                            hintText: "kurze Beschreibung"),
+                        onChanged: (newValue) {
+                          state.title = newValue;
+                        },
+                      ),
+                      Presets.simpleCard(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: ViDropdownButton(
+                            elements: <String>[
+                              'Benutzeroberfläche',
+                              'App Logik',
+                              'fehlende Funktion',
+                              'Vorschlag für eine Funktion',
+                              'sonstige'
+                            ],
+                            hint: "Typ des Problems",
+                            onChanged: (value) {
+                              state.kind = value;
+                            },
+                          )),
+                      TextField(
+                          enabled: state.type != Types.processing,
+                          minLines: 10,
+                          maxLines: 10,
+                          decoration: Presets.getTextFieldDecorationHintStyle(
+                              hintStyle: TextStyle(
+                                  color: AppThemeData.colorTextRegularLight),
+                              hintText:
+                                  "Schildere das Problem kurz:\n- wann tritt er auf \n- was geschieht nach dem Fehler"),
+                          onChanged: (String newValue) {
+                            state.message = newValue;
+                          }),
+                    ],
+                  ),
+                ),
+                floatingActionButton: FloatingActionButton(
+                    heroTag: "bugrep_success",
+                    onPressed: () {
+                      state.submitted();
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                    )))));
   }
 }
