@@ -21,15 +21,15 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    // implement mapEventToState
     if (event is AppStarted) {
       try {
-        final _isSignedIn = _userRepository.isSignedIn();
+        final _isSignedIn = await _userRepository.isSignedIn();
         if (_isSignedIn) {
           final user = await _userRepository.getUser();
           yield Authenticated(user: user);
         } else {
-          _userRepository.createUserIfNotExisitent();
+          //_userRepository.createUserIfNotExisitent();
           yield Unauthenticated();
         }
       } catch (err) {

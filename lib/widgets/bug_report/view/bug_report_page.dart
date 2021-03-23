@@ -18,7 +18,7 @@ class BugReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("unterstütze uns"),
+          title: Text("Fehler melden"),
         ),
         body: ViBit<BugReportState>(
             state: BugReportState(BugReportRepository()),

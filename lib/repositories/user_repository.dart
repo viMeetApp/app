@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:signup_app/util/data_models.dart' as util;
@@ -127,7 +125,6 @@ class UserRepository {
   }
 
   Future<void> signUpAnonymously(String name) async {
-    //! ToDO Was passiert, wenn user zwar erzeugt wird in Firebase, aber schreiben in Model schiefläuft
     try {
       //Check for Error in Name
       if (name == null || name.length == 0)
@@ -149,7 +146,6 @@ class UserRepository {
       return false;
     }
 
-    //TODO das funktioniert nicht, da es die Datenbank betrachtet wird
     // ich nutze hier den 'displayName', da für eine Abfrage der Datenbank ein
     // größerer Zeitaufwand & asynchrone Methoden nötig wären
     log("display name: ${_firebaseAuth.currentUser!.displayName}");

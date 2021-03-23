@@ -45,13 +45,16 @@ class LoginForm extends StatelessWidget {
               controller: _nameController,
               decoration: Presets.getTextFieldDecorationHintStyle(
                 hintText: "Name",
-                errorText: (!state.isNameValid
-                    ? 'Bitte gibt einen Benutzername ein'
-                    : null),
+                errorText:
+                    (!state.isNameValid ? 'Bitte gib einen Namen ein' : null),
                 fillColor: AppThemeData.colorPrimaryLight,
                 hintStyle: TextStyle(
                     color: AppThemeData.colorTextInverted,
                     fontWeight: FontWeight.normal),
+                errorStyle: TextStyle(
+                    color: AppThemeData.colorTextInverted,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
                 suffixIcon: IconButton(
                   padding: EdgeInsets.only(right: 9),
                   icon: Icon(
