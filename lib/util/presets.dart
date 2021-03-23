@@ -14,12 +14,15 @@ class Presets {
       String? errorText,
       Color fillColor = AppThemeData.colorCard,
       TextStyle? hintStyle,
-      bool hideFocusBorder = false}) {
+      bool hideFocusBorder = false,
+      TextStyle? errorStyle}) {
     return InputDecoration(
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       hintText: hintText,
       hintStyle: hintStyle ?? TextStyle(color: AppThemeData.colorControls),
+      errorStyle:
+          errorStyle, //c ?? TextStyle(color: AppThemeData.colorControls),
       errorText: errorText,
       filled: true,
       border: OutlineInputBorder(

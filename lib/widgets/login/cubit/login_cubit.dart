@@ -19,7 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
     //Check if User Name is Valid
     if (username != null && username.length != 0) {
       try {
-        await _userRepository.signUpAnonymously(username);
+        await _userRepository.signUpAnon(username);
         emit(LoginState.success());
       } catch (err) {
         print("Error in submitted Event");

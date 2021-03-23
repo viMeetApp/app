@@ -10,45 +10,15 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
-  ///Create a new User with dynamic userId and [name]
+  // user interactions
 
-  Future<void> createUserIfNotExisitent() async {
-    if (_firebaseAuth.currentUser != null) {
-      return;
-    }
-    UserCredential userCredential = await _firebaseAuth.signInAnonymously();
-    //Create matching user model in DB
-    await _firestore
+  ///Return the User who is currently authenticated
+  Stream<util.User> observeUser() {
+    return _firestore
         .collection('users')
-        .doc(userCredential.user!.uid)
-        .set({'name': null, 'uid': userCredential.user!.uid});
-  }
-
-  Future<void> signUpAnonymously(String name) async {
-    //! ToDO Was passiert, wenn user zwar erzeugt wird in Firebase, aber schreiben in Model schiefläuft
-    try {
-      //Check for Error in Name
-      if (name == null || name.length == 0)
-        throw ("Can't Create User, Name Invalid");
-      //Create User in Firebase
-      _firebaseAuth.currentUser!.updateProfile(displayName: name);
-      await _firestore
-          .collection('users')
-          .doc(_firebaseAuth.currentUser!.uid)
-          .set({'name': name});
-    } catch (err) {
-      print("Error Sign Up Anonymously");
-      print(err.toString());
-    }
-  }
-
-  Stream<List<util.User>> getUsersWithMatchingId(List<String> userIds) {
-    Stream<List<util.User>> userStream = _firestore
-        .collection('users')
-        .where('uid', whereIn: userIds)
+        .doc(_firebaseAuth.currentUser!.uid)
         .snapshots()
-        .map((list) => list.docs.map((doc) => util.User.fromDoc(doc)) as List<util.User>);
-    return userStream;
+        .map((DocumentSnapshot doc) => util.User.fromDoc(doc));
   }
 
   static String getUID() {
@@ -70,26 +40,118 @@ class UserRepository {
     }
   }
 
-  ///Return the User who is currently authenticated
-  Stream<util.User> observeUser() {
-    return _firestore
+  Stream<List<util.User>> getUsersWithMatchingId(List<String> userIds) {
+    Stream<List<util.User>> userStream = _firestore
         .collection('users')
-        .doc(_firebaseAuth.currentUser!.uid)
+        .where('uid', whereIn: userIds)
         .snapshots()
-        .map((DocumentSnapshot doc) => util.User.fromDoc(doc));
+        .map((list) =>
+            list.docs.map((doc) => util.User.fromDoc(doc)) as List<util.User>);
+    return userStream;
   }
 
-  ///Is the Device already Signed In
-  bool isSignedIn() {
-    if (_firebaseAuth.currentUser == null ||
-        _firebaseAuth.currentUser!.uid == null) {
+  // login functions
+
+  /// check if the current user is authorized
+  /// (has an account with firebase auth). This method also tries to create an
+  /// account if none exists
+  Future<bool> isAuthorized() async {
+    return (await _createAuthUser()) != null;
+  }
+
+  /// check if the user is authorized and
+  /// the user document exists in the database
+  Future<bool> isSignedIn() async {
+    String? uid = await _createAuthUser();
+
+    if (uid == null) {
       return false;
     }
+
+    if (!(await _firestore.collection('users').doc(uid).get()).exists) {
+      return false;
+    }
+    return true;
+  }
+
+  /// let the user sign up inside the app using a name
+  /// [name] the display name of the user
+  Future<void> signUpAnon(String name) async {
+    if (name.length == 0) throw ("Can't Create User, Name Invalid");
+
+    String? uid = await _createAuthUser();
+
+    if (uid == null) {
+      throw Exception("could not create auth user");
+    }
+
+    _createUserDoc(uid, name);
+  }
+
+  /// internal function to create a user with firebase auth.
+  /// returns the uid of the created user
+  Future<String?> _createAuthUser() async {
+    // check if user already exists
+    User? currentUser = _firebaseAuth.currentUser;
+    if (currentUser != null) {
+      return currentUser.uid;
+    }
+    UserCredential userCredential = await _firebaseAuth.signInAnonymously();
+    // the following line does not seem to work for anonymous users
+    //_firebaseAuth.currentUser!.updateProfile(displayName: name);
+    return userCredential.user?.uid;
+  }
+
+  /// internal function to create a document for an auth user
+  /// [uid] the uid of the auth user
+  /// [name] the display name of the user
+  Future<void> _createUserDoc(String uid, String name) async {
+//Create matching user model in DB
+    await _firestore
+        .collection('users')
+        .doc(uid)
+        .set(util.User(name: name, id: uid).toDoc());
+  }
+
+  /*Future<void> signUp() async {
+    if (_firebaseAuth.currentUser != null) {
+      return;
+    }
+    UserCredential userCredential = await _firebaseAuth.signInAnonymously();
+  }
+
+  Future<void> createUserDoc(String uid, String name) async {
+    
+  }
+
+  Future<void> signUpAnonymously(String name) async {
+    try {
+      //Check for Error in Name
+      if (name == null || name.length == 0)
+        throw ("Can't Create User, Name Invalid");
+      //Create User in Firebase
+      
+      await _firestore
+          .collection('users')
+          .doc(_firebaseAuth.currentUser!.uid)
+          .set({'name': name});
+    } catch (err) {
+      print("Error Sign Up Anonymously");
+      print(err.toString());
+    }
+  }
+  ///Is the Device already Signed In
+  bool isSignedIn() {
+    if (_firebaseAuth.currentUser == null) {
+      return false;
+    }
+
     // ich nutze hier den 'displayName', da für eine Abfrage der Datenbank ein
     // größerer Zeitaufwand & asynchrone Methoden nötig wären
+    log("display name: ${_firebaseAuth.currentUser!.displayName}");
     if (_firebaseAuth.currentUser!.displayName != null) {
       return true;
     }
     return false;
-  }
+  }*/
 }
