@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:signup_app/util/widgets/success_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,5 +26,15 @@ class Tools {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).popUntil((route) => route.isFirst);
     });
+  }
+
+  static String dateFromEpoch(int epoch) {
+    return DateFormat('dd.MM.yyyy')
+        .format(DateTime.fromMillisecondsSinceEpoch(epoch));
+  }
+
+  static String timeFromEpoch(int epoch) {
+    return DateFormat('hh:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(epoch));
   }
 }

@@ -15,9 +15,9 @@ class InfoSection extends StatelessWidget {
           : "Datum unbekannt";
 
       // this is a hack to get the date field to the beginning of the list without changing the order of the other elements
-      post!.details = post!.details!.reversed.toList();
-      post!.details!.add(PostDetail(id: "date", value: formattedDate));
-      post!.details = post!.details!.reversed.toList();
+      post!.details = post!.details.reversed.toList();
+      post!.details.add(PostDetail(id: "date", value: formattedDate));
+      post!.details = post!.details.reversed.toList();
     }
   }
 
@@ -62,20 +62,20 @@ class InfoSection extends StatelessWidget {
         ),*/
         Column(
             children: new List.generate(
-                post!.details!.length,
+                post!.details.length,
                 (index) => Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 15, bottom: 8, top: 8),
                           child: Icon(
-                            iconFromDetailsID(post!.details![index]!.id),
+                            iconFromDetailsID(post!.details[index]!.id),
                             color: AppThemeData.colorPlaceholder,
                           ),
                         ),
                         Expanded(
                             child: Text(
-                          post!.details![index]!.value!,
+                          post!.details[index]!.value,
                           style: AppThemeData.textHeading4(
                               color: AppThemeData.colorPlaceholder),
                         ))

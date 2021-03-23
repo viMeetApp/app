@@ -26,8 +26,8 @@ GroupInfo _groupInfoFromMap(Map<String, dynamic> map) {
 
 PostDetail _postDetailFromMap(Map<String, dynamic> map) {
   return PostDetail(
-    id: map['id'] as String?,
-    value: map['value'] as String?,
+    id: map['id'] as String,
+    value: map['value'] as String,
   );
 }
 

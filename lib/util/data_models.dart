@@ -101,13 +101,13 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
   Post();
   String title = "";
   String? geohash;
-  List<String>? tags;
+  List<String> tags = [];
   String? about;
-  String? type;
-  int? createdDate;
-  int? expireDate;
+  String type = "";
+  int createdDate = 0;
+  int expireDate = 0;
   GroupInfo? group;
-  List<PostDetail?>? details;
+  List<PostDetail?> details = [];
 
   @override
   User? author;
@@ -121,8 +121,8 @@ class Post extends DatabaseDocument implements UserGeneratedContent {
 }
 
 class PostDetail implements MapSerializable {
-  String? id;
-  String? value;
+  String id;
+  String value;
 
   PostDetail({required this.id, required this.value});
 

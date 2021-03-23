@@ -39,7 +39,7 @@ class PostState {
   }
 
   static bool checkIfExpired(Post post) {
-    return post.expireDate! < DateTime.now().millisecondsSinceEpoch + 86400000;
+    return post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000;
   }
 
   static bool checkIfAuthor(Post post) {

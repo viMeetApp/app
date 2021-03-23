@@ -58,4 +58,15 @@ class PostRepository {
       return Future.error(err);
     }
   }
+
+  static String titleFromPostDetailID(String id) {
+    switch (id) {
+      case "treffpunkt":
+        return "Treffpunkt";
+      case "kosten":
+        return "Kosten pro Person";
+      default:
+        return "unbekannt";
+    }
+  }
 }

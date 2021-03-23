@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
@@ -52,7 +52,7 @@ class DropdownCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Text(
-        state.post!.title!,
+        state.post!.title,
         style: AppThemeData.textHeading2(),
       ),
     );
@@ -74,4 +74,4 @@ class DropdownCard extends StatelessWidget {
       ),
     );
   }
-}
+}*/

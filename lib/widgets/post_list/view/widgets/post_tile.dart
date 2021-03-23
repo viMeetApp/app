@@ -171,7 +171,7 @@ class PostTile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 8, bottom: 8),
                   child: Text(
-                    post.title! + "\n",
+                    post.title + "\n",
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,

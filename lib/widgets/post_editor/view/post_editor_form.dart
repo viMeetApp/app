@@ -275,7 +275,7 @@ class CreatePostForm extends StatelessWidget {
                                     maxLines: null,
                                     decoration:
                                         Presets.getTextFieldDecorationHintStyle(
-                                            hintText: "Beschreibung:"),
+                                            hintText: "weitere Infos:"),
                                   ),
                                   SizedBox(
                                     height: 80,

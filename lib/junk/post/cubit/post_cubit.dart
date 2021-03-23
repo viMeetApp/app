@@ -21,13 +21,6 @@ class PostCubit extends Cubit<PostState> {
     //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
     //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
     //um ab da dynamische Gruppe zu haben.
-    _postRepository.getPostStreamById(post.id).listen((Post? post) {
-      if (post is Event) {
-        emit(EventState(post: post));
-      } else {
-        emit(BuddyState(post: post!));
-      }
-    });
   }
 
   ///Toggle if Top Card is Expanded

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/post/cubit/post_cubit.dart';
 import 'package:signup_app/widgets/post/widgets/subscription_button/cubit/subscription_cubit.dart';
@@ -53,3 +53,4 @@ class SubscriptionButton extends StatelessWidget {
     );*/
   }
 }
+*/
