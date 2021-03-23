@@ -5,6 +5,7 @@ import 'package:signup_app/util/data_models.dart' as util;
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
+  static util.User? _currentUser;
 
   UserRepository({FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -26,7 +27,11 @@ class UserRepository {
   }
 
   ///Return the User who is currently authenticated
-  Future<util.User> getUser() async {
+  util.User? getUser() {
+    return _currentUser;
+  }
+
+  Future<util.User> getUserFromDatabase() async {
     try {
       var snap = await _firestore
           .collection('users')
@@ -71,6 +76,7 @@ class UserRepository {
     if (!(await _firestore.collection('users').doc(uid).get()).exists) {
       return false;
     }
+    _currentUser = await getUserFromDatabase();
     return true;
   }
 

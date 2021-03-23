@@ -146,7 +146,7 @@ Group _groupFromDoc(Group instance, DocumentSnapshot document) {
 }
 
 Post _postFromDoc(Post instance, DocumentSnapshot document) {
-  instance.title = document.data()!['title'] as String?;
+  instance.title = document.data()!['title'] as String;
   instance.geohash = document.data()!['geohash'] as String?;
   instance.tags = getTagsFromJson(document.data()!['tags']);
   instance.about = document.data()!['about'] as String?;

@@ -28,7 +28,7 @@ class ActionButtons {
         builder: (context, state) {
           if (!state.isAuthor) return Container();
           return IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.edit),
             onPressed: () {
               Navigator.push(context, UpdatePostPage.route(post: state.post));
             },

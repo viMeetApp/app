@@ -32,7 +32,7 @@ class PostPage extends StatelessWidget {
     User user =
         (BlocProvider.of<AuthenticationBloc>(context).state as Authenticated)
             .user;
-    print("post: " + post!.toDoc().toString());
+    //print("post: " + post!.toDoc().toString());
     return BlocProvider<PostCubit>(
       create: (context) => PostCubit(post: post!),
       child: Scaffold(
@@ -44,13 +44,13 @@ class PostPage extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            title: Text("Post"),
+            //title: Text("Post"),
             actions: ActionButtons.getActionButtons()),
         body: SafeArea(
           child: Column(
             children: [
               DropdownCard(),
-              ChatWidget(post: post!, user: user),
+              ChatWidget(post: post!),
             ],
           ),
         ),

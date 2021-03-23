@@ -99,7 +99,7 @@ class Group extends DatabaseDocument {
 
 class Post extends DatabaseDocument implements UserGeneratedContent {
   Post();
-  String? title;
+  String title = "";
   String? geohash;
   List<String>? tags;
   String? about;

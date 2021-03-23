@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/widgets/post_detailed/view/post_detailed_page.dart';
 
 class InfoSection extends StatelessWidget {
   final Post? post;
@@ -37,7 +36,7 @@ class InfoSection extends StatelessWidget {
     return LimitedBox(
       maxHeight: 300,
       child: ListView(shrinkWrap: true, children: [
-        PostDetailedPage.getUserInfo(post!),
+        //PostDetailedPage.getUserInfo(post!),
         Padding(
           padding: EdgeInsets.only(bottom: 13, top: 7),
           child: Text(

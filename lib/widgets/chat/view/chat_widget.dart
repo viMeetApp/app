@@ -10,18 +10,15 @@ import '../chat.dart';
 
 class ChatWidget extends StatelessWidget {
   final Post post;
-  final User user;
 
   final TextEditingController _chatController = new TextEditingController();
-  ChatWidget({required this.post, required this.user})
-      : assert(post != null),
-        assert(user != null);
+  ChatWidget({required this.post});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
-        create: (context) => ChatCubit(post: post, user: user),
+        create: (context) => ChatCubit(post: post),
         child: BlocBuilder<ChatCubit, Stream<List<Message>>>(
           builder: (context, state) {
             return Expanded(

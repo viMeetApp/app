@@ -26,7 +26,7 @@ class AuthenticationBloc
       try {
         final _isSignedIn = await _userRepository.isSignedIn();
         if (_isSignedIn) {
-          final user = await _userRepository.getUser();
+          final user = await _userRepository.getUserFromDatabase();
           yield Authenticated(user: user);
         } else {
           //_userRepository.createUserIfNotExisitent();
@@ -38,7 +38,7 @@ class AuthenticationBloc
         yield Unauthenticated();
       }
     } else if (event is LoggedIn) {
-      yield Authenticated(user: await _userRepository.getUser());
+      yield Authenticated(user: await _userRepository.getUserFromDatabase());
     }
   }
 }
