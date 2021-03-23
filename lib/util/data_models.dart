@@ -43,7 +43,7 @@ class User extends DatabaseDocument implements MapSerializable {
   }
 
   @override
-  Map<String, dynamic>? toDoc() => _userToDoc(this);
+  Map<String, dynamic> toDoc() => _userToDoc(this) ?? {};
 
   @override
   static User fromDoc(DocumentSnapshot document) =>

@@ -69,7 +69,6 @@ class PostPagination {
 
     else {
       GeohashRange range = GeoService.getGeohashRange();
-      log("updating feed: " + range.lower! + ", " + range.upper!);
       query = colReference
           .where("geohash", isGreaterThanOrEqualTo: range.lower)
           .where("geohash", isLessThanOrEqualTo: range.upper);

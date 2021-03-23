@@ -17,6 +17,8 @@ class PostalPlace {
   PostalPlace({this.lat, this.long, this.name, this.plz});
 
   PostalPlace.empty() : this(lat: 0, long: 0, name: "DEBUG", plz: "00000");
+
+  PostalPlace.outside() : this(lat: 0, long: 0, name: "Erde", plz: "00000");
 }
 
 class GeohashRange {
@@ -71,7 +73,7 @@ class GeoService with ChangeNotifier {
     return result;
   }
 
-  static Future<PostalPlace?> getCurrentPlace() async {
+  static Future<PostalPlace> getCurrentPlace() async {
     try {
       LocationData location = await getDeviceLocation();
       List<PostalPlace> places = await getPostalPlaces();
@@ -85,6 +87,9 @@ class GeoService with ChangeNotifier {
           distance = dist;
           result = place;
         }
+      }
+      if (result == null || distance > 0.1) {
+        return PostalPlace.outside();
       }
       return result;
     } catch (err) {

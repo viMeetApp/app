@@ -23,6 +23,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return BlocProvider(
       create: (_) => AuthenticationBloc(userRepository: UserRepository())
         ..add(AppStarted()),
