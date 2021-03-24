@@ -35,13 +35,13 @@ Map<String, dynamic>? _postToDoc(Post instance,
 
   serialized.putIfAbsent('title', () => instance.title);
   serialized.putIfAbsent('geohash', () => instance.geohash);
-  serialized.putIfAbsent('tags', () => createTagMapForJson(instance.tags!));
+  serialized.putIfAbsent('tags', () => createTagMapForJson(instance.tags));
   serialized.putIfAbsent('about', () => instance.about);
   serialized.putIfAbsent('type', () => instance.type);
   serialized.putIfAbsent('createdDate', () => instance.createdDate);
   serialized.putIfAbsent('expireDate', () => instance.expireDate);
   serialized.putIfAbsent(
-      'details', () => instance.details?.map((e) => e?.toMap())?.toList());
+      'details', () => instance.details.map((e) => e?.toMap()).toList());
   serialized.putIfAbsent('group', () => instance.group?.toMap());
   serialized.putIfAbsent('author', () => instance.author?.toMap());
 
@@ -135,31 +135,31 @@ Group _groupFromDoc(Group instance, DocumentSnapshot document) {
   instance.name = document.data()!['name'] as String?;
   instance.about = document.data()!['about'] as String?;
   instance.users =
-      (document.data()!['users'] as List?)?.map((e) => e as String)?.toList();
+      (document.data()!['users'] as List?)?.map((e) => e as String).toList();
   instance.admins =
-      (document.data()!['admins'] as List?)?.map((e) => e as String)?.toList();
+      (document.data()!['admins'] as List?)?.map((e) => e as String).toList();
   instance.requestedToJoin = (document.data()!['requestedToJoin'] as List?)
       ?.map((e) => e as String)
-      ?.toList();
+      .toList();
   instance.requestedToJoin!.removeWhere((element) => element == "");
   return _databaseDocumentFromDoc(instance, document) as Group;
 }
 
 Post _postFromDoc(Post instance, DocumentSnapshot document) {
-  instance.title = document.data()!['title'] as String?;
+  instance.title = document.data()!['title'] as String;
   instance.geohash = document.data()!['geohash'] as String?;
   instance.tags = getTagsFromJson(document.data()!['tags']);
   instance.about = document.data()!['about'] as String?;
-  instance.type = document.data()!['type'] as String?;
-  instance.createdDate = document.data()!['createdDate'] as int?;
-  instance.expireDate = document.data()!['expireDate'] as int?;
+  instance.type = document.data()!['type'] as String;
+  instance.createdDate = document.data()!['createdDate'] as int;
+  instance.expireDate = document.data()!['expireDate'] as int;
   instance.group = document.data()!['group'] == null
       ? null
       : GroupInfo.fromMap(document.data()!['group'] as Map<String, dynamic>);
-  instance.details = (document.data()!['details'] as List?)
-      ?.map((e) =>
+  instance.details = (document.data()!['details'] ?? [])
+      .map<PostDetail?>((e) =>
           e == null ? null : PostDetail.fromMap(e as Map<String, dynamic>))
-      ?.toList();
+      .toList();
   instance.author = document.data()!['author'] == null
       ? null
       : User.fromMap(document.data()!['author'] as Map<String, dynamic>);
@@ -171,7 +171,7 @@ Event _eventFromDoc(Event instance, DocumentSnapshot document) {
   instance.maxPeople = document.data()!['maxPeople'] as int?;
   instance.participants = (document.data()!['participants'] as List?)
       ?.map((e) => e as String)
-      ?.toList();
+      .toList();
 
   return _postFromDoc(instance, document) as Event;
 }

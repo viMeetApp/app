@@ -4,24 +4,21 @@ import 'package:signup_app/widgets/chat/view/message_tile.dart';
 import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/util/presets.dart';
 import 'package:signup_app/util/creation_aware_widget.dart';
-import 'package:signup_app/widgets/post/cubit/post_cubit.dart';
 
 import '../chat.dart';
 
 class ChatWidget extends StatelessWidget {
   final Post post;
-  final User user;
+  final Function? onTap;
 
   final TextEditingController _chatController = new TextEditingController();
-  ChatWidget({required this.post, required this.user})
-      : assert(post != null),
-        assert(user != null);
+  ChatWidget({required this.post, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: BlocProvider(
-        create: (context) => ChatCubit(post: post, user: user),
+        create: (context) => ChatCubit(post: post),
         child: BlocBuilder<ChatCubit, Stream<List<Message>>>(
           builder: (context, state) {
             return Expanded(
@@ -73,7 +70,7 @@ class ChatWidget extends StatelessWidget {
                               Flexible(
                                   child: TextFormField(
                                 onTap: () {
-                                  BlocProvider.of<PostCubit>(context).foldIn();
+                                  onTap!();
                                 }, //Schließt die Karte für Details -> geht nur wenn Chat immer in diesem Context verwendet wird
                                 keyboardType: TextInputType.multiline,
                                 minLines: 1,

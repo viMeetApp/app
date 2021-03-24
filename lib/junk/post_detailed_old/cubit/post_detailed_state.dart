@@ -23,7 +23,7 @@ class PostDetailedState {
     this.isFavourite = this.isFavourite != null ? this.isFavourite : false;
     this.isExpanded = this.isExpanded != null ? this.isExpanded : true;
 
-    if (post!.expireDate! < DateTime.now().millisecondsSinceEpoch + 86400000)
+    if (post!.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000)
       showPostVerlaengern = true;
   }
 
@@ -58,8 +58,8 @@ class EventState extends PostDetailedState {
       canSubscribe = false;
     } else {
       isSubscribed = false;
-      canSubscribe = post.maxPeople == -1 ||
-          post.participants!.length < post.maxPeople!;
+      canSubscribe =
+          post.maxPeople == -1 || post.participants!.length < post.maxPeople!;
     }
   }
 

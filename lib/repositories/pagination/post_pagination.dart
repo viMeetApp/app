@@ -104,7 +104,7 @@ class PostPagination {
             }
           }).toList();
           posts.sort((a, b) {
-            if (a!.createdDate! <= b!.createdDate!)
+            if (a!.createdDate <= b!.createdDate)
               return 1;
             else
               return -1;
