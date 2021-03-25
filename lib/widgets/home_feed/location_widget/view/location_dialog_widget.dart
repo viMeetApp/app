@@ -19,6 +19,12 @@ class _LocationDialogState extends State<LocationDialog> {
     //searchController.text = widget.state.currentPlace?.name ?? "";
   }
 
+  void autofillCurrentPlace() async {
+    String name = (await GeoService.getCurrentPlace()).name ?? "";
+    searchController.text = name;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     List<PostalPlace> filteredPlaces = widget.state.places!
@@ -66,7 +72,9 @@ class _LocationDialogState extends State<LocationDialog> {
                         color: AppThemeData.colorPrimary,
                         size: 30,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        autofillCurrentPlace();
+                      },
                     ),
                   ),
                   onChanged: (value) => setState(() {}),
