@@ -52,9 +52,8 @@ class GroupCreatorPage extends StatelessWidget {
                                   context, "wird veröffentlicht");
                               break;
                             case Types.submitted:
-                              Tools.showSnackbar(
-                                  context, "wurde veröffentlicht");
-                              Navigator.of(context).pop();
+                              Tools.showSuccessPage(context,
+                                  message: "Gruppe wurde erstellt");
                               break;
                             default:
                           }
@@ -76,6 +75,7 @@ class GroupCreatorPage extends StatelessWidget {
                                               AppThemeData.varPaddingNormal *
                                                   2),
                                       child: TextField(
+                                        controller: state.titleController,
                                         style: TextStyle(
                                             fontSize: 35,
                                             fontWeight: FontWeight.bold),
@@ -107,6 +107,7 @@ class GroupCreatorPage extends StatelessWidget {
                                   padding: EdgeInsets.all(
                                       AppThemeData.varPaddingNormal * 2),
                                   child: TextField(
+                                    controller: state.aboutController,
                                     enabled: state.type != Types.processing,
                                     decoration: InputDecoration(
                                         //border: InputBorder.none, //OutlineInputBorder(),

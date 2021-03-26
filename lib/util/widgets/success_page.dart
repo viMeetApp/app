@@ -13,26 +13,27 @@ class SuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
+    return /*Hero(
       tag: 'success',
-      child: Scaffold(
-        backgroundColor: AppThemeData.colorAccent,
-        body: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Icon(
-            Icons.check,
-            color: AppThemeData.colorCard,
-            size: 100,
-          ),
-          Text(message ?? "",
-              style: TextStyle(
-                  color: AppThemeData.colorCard,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28)),
-          /*Text("Dein Bericht wurde übermittelt",
+      child: */
+        Scaffold(
+      backgroundColor: AppThemeData.colorAccent,
+      body: Center(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(
+          Icons.check,
+          color: AppThemeData.colorCard,
+          size: 100,
+        ),
+        Text(message ?? "",
+            style: TextStyle(
+                color: AppThemeData.colorCard,
+                fontWeight: FontWeight.bold,
+                fontSize: 28)),
+        /*Text("Dein Bericht wurde übermittelt",
               style: AppThemeData.textHeading4(color: AppThemeData.colorCard))*/
-        ])),
-      ),
+      ])),
+      // ),
     );
   }
 }
