@@ -8,6 +8,7 @@ import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
 import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
+import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
 
 class PostPage extends StatelessWidget {
   final String _postID;
@@ -153,7 +154,8 @@ class PostPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.people),
                     onPressed: () {
-                      Tools.showSnackbar(context, "TODO: Show Teilnehmer");
+                      Navigator.push(context,
+                          PostMembersPage.route(event: (state.post as Event)));
                     },
                   ),
                   IconButton(
