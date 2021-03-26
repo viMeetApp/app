@@ -24,8 +24,11 @@ class GroupCreatorState extends ViState {
         return;
       }
 
-      Group newGroup =
-          Group(name: title, about: about, admins: [UserRepository.getUID()]);
+      Group newGroup = Group(
+          name: title,
+          about: about,
+          admins: [UserRepository.getUID()],
+          users: [UserRepository.getUID()]);
 
       await GroupRepository().createGroup(newGroup);
       type = Types.submitted;

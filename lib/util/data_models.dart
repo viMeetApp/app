@@ -69,7 +69,7 @@ class UserGeneratedContent {
 /// [about] Text that informs about the group
 /// [users] a list of the userIDs of the users that are in the group
 class Group extends DatabaseDocument {
-  Group({this.name, this.about, this.admins});
+  Group({this.name, this.about, this.admins, this.users});
   String? name;
   String? about;
   List<String>? users = [];

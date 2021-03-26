@@ -27,7 +27,7 @@ class PostPage extends StatelessWidget {
   Widget getPostInfoWidget({required Event event}) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 20),
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -36,7 +36,7 @@ class PostPage extends StatelessWidget {
               child: Text(event.about ?? ""),
             ),
             Container(
-              padding: const EdgeInsets.only(bottom: 15.0),
+              padding: const EdgeInsets.only(bottom: 15.0, top: 10),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
