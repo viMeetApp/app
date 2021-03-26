@@ -8,7 +8,7 @@ import 'package:signup_app/vibit/vibit.dart';
 class PostPageState extends ViState {
   PostRepository _postRepository = new PostRepository();
 
-  bool expanded = true;
+  bool expanded = false;
   bool favorited = false;
   bool subscribed = false;
   bool processing = false;

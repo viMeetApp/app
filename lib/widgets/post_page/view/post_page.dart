@@ -8,6 +8,7 @@ import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
 import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
+import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
 
 class PostPage extends StatelessWidget {
   final String _postID;
@@ -26,44 +27,44 @@ class PostPage extends StatelessWidget {
   Widget getPostInfoWidget({required Event event}) {
     return Expanded(
       child: Padding(
-          padding: EdgeInsets.only(top: 10),
-          child: ListView(
-            shrinkWrap: true,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: Text(event.about ?? ""),
+        padding: EdgeInsets.only(top: 20),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              child: Text(event.about ?? ""),
+            ),
+            Container(
+              padding: const EdgeInsets.only(bottom: 15.0, top: 10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                        child: Text(Tools.dateFromEpoch(event.eventDate ?? 0),
+                            style: AppThemeData.textNormal(
+                                fontWeight: FontWeight.bold))),
+                    Expanded(
+                        child: Text(Tools.timeFromEpoch(event.eventDate ?? 0),
+                            style: AppThemeData.textNormal(
+                                fontWeight: FontWeight.bold))),
+                  ]),
+            ),
+            if (event.details.length > 0)
+              Divider(
+                color: AppThemeData.colorControlsDisabled,
+                thickness: 1,
               ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: Text(Tools.dateFromEpoch(event.eventDate ?? 0),
-                              style: AppThemeData.textNormal(
-                                  fontWeight: FontWeight.bold))),
-                      Expanded(
-                          child: Text(Tools.timeFromEpoch(event.eventDate ?? 0),
-                              style: AppThemeData.textNormal(
-                                  fontWeight: FontWeight.bold))),
-                    ]),
+            for (PostDetail? detail in event.details)
+              if (detail != null) getPostDetailView(detail),
+            if (event.details.length > 0)
+              Divider(
+                color: AppThemeData.colorControlsDisabled,
+                thickness: 1,
               ),
-              if (event.details.length > 0)
-                Divider(
-                  color: AppThemeData.colorControlsDisabled,
-                  thickness: 1,
-                ),
-              for (PostDetail? detail in event.details)
-                if (detail != null) getPostDetailView(detail),
-              if (event.details.length > 0)
-                Divider(
-                  color: AppThemeData.colorControlsDisabled,
-                  thickness: 1,
-                ),
-            ],
-          )),
+          ],
+        ),
+      ),
     );
   }
 
@@ -150,19 +151,20 @@ class PostPage extends StatelessWidget {
                             context, UpdatePostPage.route(post: state.post));
                       },
                     ),
-                  if (state.postIsOwned())
-                    IconButton(
-                      icon: Icon(Icons.people),
-                      onPressed: () {
-                        Tools.showSnackbar(context, "TODO: Show Teilnehmer");
-                      },
-                    ),
+                  IconButton(
+                    icon: Icon(Icons.people),
+                    onPressed: () {
+                      Navigator.push(context,
+                          PostMembersPage.route(event: (state.post as Event)));
+                    },
+                  ),
                   IconButton(
                     icon: Icon(state.favorited
                         ? Icons.favorite
                         : Icons.favorite_border),
                     onPressed: () {
                       state.toggleFavorite();
+                      Tools.showSnackbar(context, "TODO: FavLogic");
                     },
                   ),
                   IconButton(
@@ -178,8 +180,9 @@ class PostPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    flex: 1,
+                    flex: state.expanded ? 1 : 0,
                     child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
                         padding: EdgeInsets.all(20),
                         //height: state.expanded ? 500 : 0,
                         //constraints: BoxConstraints(),
@@ -206,11 +209,24 @@ class PostPage extends StatelessWidget {
                           ],
                         )),
                   ),
-                  ChatWidget(
+                  if (!state.expanded)
+                    ChatWidget(
                       post: state.post,
-                      onTap: () {
-                        state.foldIn();
-                      }),
+                      /*onTap: () {
+                          state.foldIn();
+                        }*/
+                    ),
+                  /*if (state.expanded)
+                    GestureDetector(
+                      onTap: () => state.toggleExpanded(),
+                      child: Container(
+                        color: Colors.amber,
+                        child: SizedBox(
+                          height: 30,
+                          width: double.infinity,
+                        ),
+                      ),
+                    ),*/
                 ],
               ),
             );

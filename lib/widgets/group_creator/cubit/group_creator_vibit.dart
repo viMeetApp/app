@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:signup_app/repositories/group_repository.dart';
+import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/util/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 enum Types { submitted, error, invalid, processing, active }
@@ -10,16 +13,25 @@ class GroupCreatorState extends ViState {
 
   GroupCreatorState() : super(type: Types.active);
 
-  void submit() {
+  void submit() async {
     try {
+      FocusScope.of(context).unfocus();
       type = Types.processing;
       String title = titleController.value.text;
       String about = aboutController.value.text;
       if (title == "" || about == "") {
         type = Types.invalid;
+        return;
       }
-      throw Exception("NO_BACKEND_IMPLEMENTED");
-      //_setType(Types.submitted);
+
+      Group newGroup = Group(
+          name: title,
+          about: about,
+          admins: [UserRepository.getUID()],
+          users: [UserRepository.getUID()]);
+
+      await GroupRepository().createGroup(newGroup);
+      type = Types.submitted;
     } catch (e) {
       error = e as Exception;
       type = Types.error;

@@ -12,7 +12,7 @@ class LocationWidget extends StatelessWidget {
     return ViBit<LocationWidgetState>(
         state: LocationWidgetState(currentPlace: null),
         onRefresh: (context, state) {
-          return FlatButton(
+          return TextButton(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
