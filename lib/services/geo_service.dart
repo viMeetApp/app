@@ -146,6 +146,7 @@ class GeoService with ChangeNotifier {
       }
       throw ViException("RangeError in GeoHashRange: " + range.toString());
     }
+    print(range.toString());
     return GeohashRange(lower: range[1], upper: range[0]);
   }
 }

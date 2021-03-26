@@ -19,7 +19,7 @@ class LocationWidget extends StatelessWidget {
                 Icon(Icons.location_on),
                 Flexible(
                   child: Text(
-                    state.currentPlace?.name ?? "Unbekannt",
+                    LocationWidgetState.currentPlace?.name ?? "Unbekannt",
                     style: AppThemeData.textHeading2(),
                     overflow: TextOverflow.ellipsis,
                   ),

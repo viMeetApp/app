@@ -4,11 +4,15 @@ import 'package:signup_app/vibit/vibit.dart';
 
 class LocationWidgetState extends ViState {
   List<PostalPlace>? places;
-  PostalPlace? currentPlace;
+  static PostalPlace? currentPlace;
   ViException? exception;
 
-  LocationWidgetState({this.currentPlace}) {
-    if (currentPlace == null) {
+  LocationWidgetState({PostalPlace? currentPlace}) {
+    if (currentPlace != null) {
+      LocationWidgetState.currentPlace = currentPlace;
+    }
+
+    if (LocationWidgetState.currentPlace == null) {
       GeoService.getCurrentPlace().then((value) => setCurrentPlace(value));
     }
 

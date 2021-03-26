@@ -1,5 +1,11 @@
 [
     {
+        "lat": 0,
+        "long": 0,
+        "name": "Gallisches Dorf",
+        "plz": "00000"
+    },
+    {
         "lat": 51.0602569076,
         "long": 13.7178040368,
         "name": "Dresden",
