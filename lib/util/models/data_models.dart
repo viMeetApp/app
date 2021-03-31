@@ -36,15 +36,29 @@ class DatabaseDocument implements DocumentSerializable {
 /// [author] the author of the Object
 class UserGeneratedDocument extends DatabaseDocument {
   UserReference author = UserReference();
+
+  @override
+  Map<String, dynamic>? toDoc() => _userGeneratedDocumentToDoc(this);
+
+  @override
+  static DatabaseDocument fromDoc(DocumentSnapshot document) =>
+      _userGeneratedDocumentFromDoc(new UserGeneratedDocument(), document);
 }
 
 /// Lightweigt user that can be used within other documents
 ///
 /// [name] the custom name of the user.
 /// [picture] the id of the picture in the storage bucket.
-class UserReference extends DatabaseDocument {
+class UserReference extends DatabaseDocument implements MapSerializable {
   String name = "";
   String? picture;
+
+  @override
+  Map<String, dynamic> toMap() => _userReferenceToMap(this);
+
+  @override
+  static DatabaseDocument fromMap(Map<String, dynamic> map) =>
+      _userReferenceFromMap(new UserReference(), map);
 }
 
 /// extension of UserReference to include group specific data
@@ -52,6 +66,13 @@ class UserReference extends DatabaseDocument {
 /// [isAdmin] whether the user is an admin of the given group.
 class GroupUserReference extends UserReference {
   bool isAdmin = false;
+
+  @override
+  Map<String, dynamic> toMap() => _groupUserReferenceToMap(this);
+
+  @override
+  static DatabaseDocument fromMap(Map<String, dynamic> map) =>
+      _groupUserReferenceFromMap(GroupUserReference(), map);
 }
 
 /// Lightweigt group that can be used within other documents

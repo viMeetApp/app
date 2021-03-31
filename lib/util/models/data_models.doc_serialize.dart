@@ -1,14 +1,40 @@
 part of 'data_models.dart';
 
+throwSerialExc() {
+  throw Exception("error during serialization");
+}
+
 // Serialization
 
-Map<String, dynamic>? _databaseDocumentToDoc(DatabaseDocument instance,
+Map<String, dynamic> _databaseDocumentToDoc(DatabaseDocument instance,
     {Map<String, dynamic>? serialized}) {
-  // the ID should not be included in the serialized form
+  serialized = serialized ?? <String, dynamic>{};
+  //serialized.putIfAbsent('name', () => instance.id);
   return serialized;
 }
 
-Map<String, dynamic>? _userToDoc(User instance,
+Map<String, dynamic> _userGeneratedDocumentToDoc(UserGeneratedDocument instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent('author', () => instance.author.toMap());
+  return _databaseDocumentToDoc(instance, serialized: serialized);
+}
+
+// Deserialization
+
+DatabaseDocument _databaseDocumentFromDoc(
+    DatabaseDocument instance, DocumentSnapshot document) {
+  instance.id = document.data()?['id'] ?? throwSerialExc();
+  return instance;
+}
+
+UserGeneratedDocument _userGeneratedDocumentFromDoc(
+    UserGeneratedDocument instance, DocumentSnapshot document) {
+  instance.author = document.data()?['author'] ?? throwSerialExc();
+  return _databaseDocumentFromDoc(instance, document) as UserGeneratedDocument;
+}
+
+/*Map<String, dynamic> _userToDoc(User instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
   serialized.putIfAbsent('name', () => instance.name);
@@ -203,3 +229,4 @@ Map<String, bool> createTagMapForJson(List<String> tags) {
   });
   return tagMap;
 }
+*/
