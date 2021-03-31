@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 enum Types { submitted, error, invalid, processing, active }

@@ -4,8 +4,8 @@ import 'package:signup_app/widgets/post_list/cubit/post_list_cubit.dart';
 import 'package:signup_app/widgets/post_list/post_list.dart';
 import 'package:signup_app/widgets/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/widgets/search_tags/view/search_tags_widget.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 ///This List shows all Posts
 ///In addtition to the standard List is this List also filterable via Tags

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:signup_app/util/globalVariables.dart';
+import 'package:signup_app/util/presets/globalVariables.dart';
 
 part 'tag_state.dart';
 

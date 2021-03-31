@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:signup_app/repositories/report_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
 class ReportCubit extends Cubit<ViFormState> {
@@ -12,7 +12,9 @@ class ReportCubit extends Cubit<ViFormState> {
   final ReportRepository _reportRepository;
 
   void submitted(
-      {String? id, String type = Report.TYPE_POST, List<String>? reasons}) async {
+      {String? id,
+      String type = Report.TYPE_POST,
+      List<String>? reasons}) async {
     emit(ViFormState.loading());
 
     if (id != null && type != null && reasons != null) {

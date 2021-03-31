@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/post_list/cubit/post_list_cubit.dart';
 import 'package:signup_app/widgets/post_list/view/widgets/post_tile.dart';
-import 'package:signup_app/util/creation_aware_widget.dart';
+import 'package:signup_app/util/widgets/creation_aware_widget.dart';
 
 ///Shows List of all Posts matching criteria (filter)
 ///This is a more generic Class should not be used by Itsel one should Only used the derived Classes

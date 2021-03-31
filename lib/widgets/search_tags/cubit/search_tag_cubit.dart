@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:signup_app/util/globalVariables.dart';
+import 'package:signup_app/util/presets/globalVariables.dart';
 
 part 'search_tag_state.dart';
 

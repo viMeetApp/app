@@ -7,7 +7,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
 /// This class is necessary since DocumentSnapshot has no public constructor. Since the .fromDoc methods require a DocumentSnapshot as a parameter the only option was to create a semi-subclass of DocumentSnapshot.
 class _DocSnap implements DocumentSnapshot {

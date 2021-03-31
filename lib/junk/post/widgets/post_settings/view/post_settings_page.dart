@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
 class PostSettingsPage extends StatelessWidget {
   final Post post;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/cubit/members_of_group_widget_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/widgets/expandable_list.dart';
 

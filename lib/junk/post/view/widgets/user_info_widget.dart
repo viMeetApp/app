@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 class UserInfoWidget extends StatelessWidget {
   final Post? post;

@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/pagination/post_pagination.dart';
 import 'package:signup_app/services/geo_service.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
 part 'post_list_state.dart';
 

@@ -6,7 +6,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:signup_app/services/helpers/proximity_hash.dart';
-import 'package:signup_app/util/errors.dart';
+import 'package:signup_app/util/presets/errors.dart';
 
 class PostalPlace {
   double? long;

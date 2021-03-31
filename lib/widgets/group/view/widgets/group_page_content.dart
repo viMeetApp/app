@@ -4,7 +4,7 @@ import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
 import 'package:signup_app/widgets/post_editor/implementations/create_post_page.dart';
 import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 ///This is the view for actual Members of the Group
 ///Only Member can post and see posts

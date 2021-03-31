@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/post_editor/cubit/post_editor_cubit.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/view/tag-widget.dart';
 
-import '../../../util/presets.dart';
+import '../../../util/presets/presets.dart';
 
 ///Form from which posts are created. There are a few madatory Fields  title, about and tags, optional fields treffpunkt and kosten
 ///event only Fields max People

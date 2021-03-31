@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/util/tools.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
@@ -9,7 +9,7 @@ import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
 import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
 import 'package:signup_app/widgets/settings/view/subsettings_page.dart';
 
-import '../../../util/presets.dart';
+import '../../../util/presets/presets.dart';
 import 'accessibility_settings_widget.dart';
 
 class SettingsPage extends StatelessWidget {

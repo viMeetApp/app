@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/group_feed/groupfeed_page.dart';
 import 'package:signup_app/widgets/home/cubit/home_page_cubit.dart';
 import 'package:signup_app/widgets/home_feed/homefeed_page.dart';

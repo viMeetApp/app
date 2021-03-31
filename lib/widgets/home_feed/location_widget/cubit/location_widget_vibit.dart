@@ -1,4 +1,4 @@
-import 'package:signup_app/util/errors.dart';
+import 'package:signup_app/util/presets/errors.dart';
 import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/vibit/vibit.dart';
 

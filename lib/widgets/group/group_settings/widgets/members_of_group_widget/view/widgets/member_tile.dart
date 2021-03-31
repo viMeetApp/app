@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 
 class MemberTile extends StatelessWidget {

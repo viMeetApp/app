@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/util/tools.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/group_creator/cubit/group_creator_vibit.dart';
 

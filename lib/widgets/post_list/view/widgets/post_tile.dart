@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/post_page/view/post_page.dart';
 import 'package:signup_app/widgets/report/view/report_dialog.dart';
 

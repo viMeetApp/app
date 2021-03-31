@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/group/view/group_page.dart';
 import 'package:signup_app/junk/group_dropdown_widget/cubit/group_dropdown_cubit.dart';
 
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
-import '../../../util/presets.dart';
+import '../../../util/presets/presets.dart';
 
 class GroupDropownWidget extends StatelessWidget {
   final GroupDropdownCubit groupDropdownCubit = GroupDropdownCubit();

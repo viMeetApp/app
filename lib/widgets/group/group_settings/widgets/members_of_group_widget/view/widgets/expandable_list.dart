@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/data_models.dart' as models;
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart' as models;
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/widgets/member_tile.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:signup_app/util/debug_tools.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/tools/debug_tools.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 //ToDo Bin mir nicht sicher ob das so gut ist mit Klasse oder Static besser wäre
 ///Helper Class which extracts the Logic for Using Popup Dialogs
