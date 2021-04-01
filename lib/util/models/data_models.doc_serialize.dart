@@ -1,10 +1,6 @@
 part of 'data_models.dart';
 
-throwSerialExc() {
-  throw Exception("error during serialization");
-}
-
-// Serialization
+// SERIALIZATION
 
 Map<String, dynamic> _databaseDocumentToDoc(DatabaseDocument instance,
     {Map<String, dynamic>? serialized}) {
@@ -20,18 +16,108 @@ Map<String, dynamic> _userGeneratedDocumentToDoc(UserGeneratedDocument instance,
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
 
-// Deserialization
+Map<String, dynamic> _userToDoc(User instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent('name', () => instance.name);
+  serialized.putIfAbsent('picture', () => instance.picture);
+  serialized.putIfAbsent('savedPosts', () => instance.savedPosts);
+  serialized.putIfAbsent('violationReports', () => instance.violationReports);
+  return _databaseDocumentToDoc(instance, serialized: serialized);
+}
 
-DatabaseDocument _databaseDocumentFromDoc(
-    DatabaseDocument instance, DocumentSnapshot document) {
+Map<String, dynamic> _postToDoc(Post instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent('title', () => instance.title);
+  serialized.putIfAbsent('createdAt', () => instance.createdAt);
+  serialized.putIfAbsent('expiresAt', () => instance.expiresAt);
+  serialized.putIfAbsent('type', () => enumToString(instance.type));
+  serialized.putIfAbsent('tags', () => postTagsToMap(instance.tags));
+  return _databaseDocumentToDoc(instance, serialized: serialized);
+}
+
+Map<String, dynamic> _eventToDoc(Event instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent('about', () => instance.about);
+  serialized.putIfAbsent('costs', () => instance.costs);
+  serialized.putIfAbsent('eventLocation', () => instance.eventLocation);
+  serialized.putIfAbsent('eventAt', () => instance.eventAt);
+  serialized.putIfAbsent('maxParticipants', () => instance.maxParticipants);
+  return _postToDoc(instance, serialized: serialized);
+}
+
+Map<String, dynamic> _buddyToDoc(Buddy instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent('buddy', () => instance.buddy?.toMap());
+  return _postToDoc(instance, serialized: serialized);
+}
+
+Map<String, dynamic> _groupToDoc(Group instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent("name", () => instance.name);
+  serialized.putIfAbsent("picture", () => instance.picture);
+  serialized.putIfAbsent("about", () => instance.about);
+  serialized.putIfAbsent("isPrivate", () => instance.isPrivate);
+
+  //TODO
+  serialized.putIfAbsent("members", () => instance.isPrivate);
+  serialized.putIfAbsent("requestedToJoin", () => instance.isPrivate);
+  return _databaseDocumentToDoc(instance, serialized: serialized);
+}
+
+// DE-SERIALIZATION
+
+DatabaseDocument _databaseDocumentFromDoc(DocumentSnapshot document,
+    {DatabaseDocument? instance}) {
+  instance = instance ?? DatabaseDocument(id: "");
   instance.id = document.data()?['id'] ?? throwSerialExc();
   return instance;
 }
 
-UserGeneratedDocument _userGeneratedDocumentFromDoc(
-    UserGeneratedDocument instance, DocumentSnapshot document) {
-  instance.author = document.data()?['author'] ?? throwSerialExc();
-  return _databaseDocumentFromDoc(instance, document) as UserGeneratedDocument;
+UserGeneratedDocument _userGeneratedDocumentFromDoc(DocumentSnapshot document,
+    {UserGeneratedDocument? instance}) {
+  instance = instance ?? UserGeneratedDocument(id: "", author: UserReference());
+  instance.author = UserReference.fromMap(document.data()?['author']);
+  return _databaseDocumentFromDoc(document, instance: instance)
+      as UserGeneratedDocument;
+}
+
+User _userFromDoc(DocumentSnapshot document, {User? instance}) {
+  instance = instance ?? User();
+  instance.name = document.data()?['name'] ?? throwSerialExc();
+  instance.picture = document.data()?['picture'];
+  instance.savedPosts = document.data()?['savedPosts'];
+  instance.violationReports = document.data()?['violationReports'];
+  return _databaseDocumentFromDoc(document, instance: instance) as User;
+}
+
+Post _postFromDoc(Post instance, DocumentSnapshot document) {
+  instance.title = document.data()?['title'] ?? throwSerialExc();
+  instance.createdAt = document.data()?['createdAt'] ?? throwSerialExc();
+  instance.expiresAt = document.data()?['expiresAt'] ?? throwSerialExc();
+  instance.geohash = document.data()?['geohash'] ?? throwSerialExc();
+  instance.tags = mapToPostTags(document.data()?["tags"] ?? throwSerialExc());
+  instance.type = stringToEnum(document.data()?['type'], PostType.values);
+  return _userGeneratedDocumentFromDoc(instance, document) as Post;
+}
+
+Event _eventFromDoc(Event instance, DocumentSnapshot document) {
+  instance.about = document.data()?['about'];
+  instance.eventAt = document.data()?['eventAt'];
+  instance.maxParticipants = document.data()?['maxParticipants'];
+  instance.costs = document.data()?['costs'];
+  instance.eventLocation = document.data()?['eventLocation'];
+  return _postFromDoc(instance, document) as Event;
+}
+
+Buddy _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
+  Map<String, dynamic>? buddy = document.data()?['author'];
+  instance.buddy = buddy != null ? UserReference.fromMap(buddy) : null;
+  return _postFromDoc(instance, document) as Buddy;
 }
 
 /*Map<String, dynamic> _userToDoc(User instance,
@@ -204,29 +290,5 @@ Event _eventFromDoc(Event instance, DocumentSnapshot document) {
 
 Buddy _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
   return _postFromDoc(instance, document) as Buddy;
-}
-
-// HELPER FUNCTIONS
-
-///Helper Function to generate Tags List From json
-List<String> getTagsFromJson(Map<String, dynamic>? json) {
-  List<String> tags = [];
-  if (json == null) {
-    return tags;
-  }
-  json.forEach((key, value) {
-    if (value == true) tags.add(key);
-  });
-  return tags;
-}
-
-///Helper Function to generate TagMap for Database from tag List
-///Not tested yet
-Map<String, bool> createTagMapForJson(List<String> tags) {
-  Map<String, bool> tagMap = Map();
-  tags.forEach((tag) {
-    tagMap.addEntries([MapEntry(tag, true)]);
-  });
-  return tagMap;
 }
 */

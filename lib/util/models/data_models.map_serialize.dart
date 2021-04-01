@@ -18,6 +18,15 @@ Map<String, dynamic> _groupUserReferenceToMap(GroupUserReference instance,
   return _userReferenceToMap(instance, serialized: serialized);
 }
 
+Map<String, dynamic> _groupReferenceToMap(GroupReference instance,
+    {Map<String, dynamic>? serialized}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfAbsent("id", () => instance.id);
+  serialized.putIfAbsent("name", () => instance.name);
+  serialized.putIfAbsent("picture", () => instance.picture);
+  return serialized;
+}
+
 // De-Serialization
 
 UserReference _userReferenceFromMap(
@@ -32,6 +41,14 @@ GroupUserReference _groupUserReferenceFromMap(
     GroupUserReference instance, Map<String, dynamic> map) {
   instance.isAdmin = map['isAdmin'] ?? false;
   return _userReferenceFromMap(instance, map) as GroupUserReference;
+}
+
+GroupReference _groupReferenceFromMap(
+    GroupReference instance, Map<String, dynamic> map) {
+  instance.id = map['id'] ?? throwSerialExc();
+  instance.name = map['name'] ?? throwSerialExc();
+  instance.picture = map['picture'];
+  return instance;
 }
 
 /*Map<String, dynamic> _postDetailToMap(PostDetail instance) =>
