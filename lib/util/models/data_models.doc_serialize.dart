@@ -5,67 +5,68 @@ part of 'data_models.dart';
 Map<String, dynamic> _databaseDocumentToDoc(DatabaseDocument instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  //serialized.putIfAbsent('name', () => instance.id);
   return serialized;
 }
 
 Map<String, dynamic> _userGeneratedDocumentToDoc(UserGeneratedDocument instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent('author', () => instance.author.toMap());
+  serialized.putIfNotNull('author', instance.author.toMap());
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _userToDoc(User instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent('name', () => instance.name);
-  serialized.putIfAbsent('picture', () => instance.picture);
-  serialized.putIfAbsent('savedPosts', () => instance.savedPosts);
-  serialized.putIfAbsent('violationReports', () => instance.violationReports);
+  serialized.putIfNotNull('name', instance.name);
+  serialized.putIfNotNull('picture', instance.picture);
+  serialized.putIfNotNull('savedPosts', instance.savedPosts);
+  serialized.putIfNotNull('violationReports', instance.violationReports);
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _postToDoc(Post instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent('title', () => instance.title);
-  serialized.putIfAbsent('createdAt', () => instance.createdAt);
-  serialized.putIfAbsent('expiresAt', () => instance.expiresAt);
-  serialized.putIfAbsent('type', () => enumToString(instance.type));
-  serialized.putIfAbsent('tags', () => postTagsToMap(instance.tags));
-  return _databaseDocumentToDoc(instance, serialized: serialized);
+  serialized.putIfNotNull('title', instance.title);
+  serialized.putIfNotNull('createdAt', instance.createdAt);
+  serialized.putIfNotNull('expiresAt', instance.expiresAt);
+  serialized.putIfNotNull('geohash', instance.geohash);
+  serialized.putIfNotNull('type', enumToString(instance.type));
+  serialized.putIfNotNull('tags', postTagsToMap(instance.tags));
+  return _userGeneratedDocumentToDoc(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _eventToDoc(Event instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent('about', () => instance.about);
-  serialized.putIfAbsent('costs', () => instance.costs);
-  serialized.putIfAbsent('eventLocation', () => instance.eventLocation);
-  serialized.putIfAbsent('eventAt', () => instance.eventAt);
-  serialized.putIfAbsent('maxParticipants', () => instance.maxParticipants);
+  serialized.putIfNotNull('about', instance.about);
+  serialized.putIfNotNull('costs', instance.costs);
+  serialized.putIfNotNull('eventLocation', instance.eventLocation);
+  serialized.putIfNotNull('eventAt', instance.eventAt);
+  serialized.putIfNotNull('maxParticipants', instance.maxParticipants);
   return _postToDoc(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _buddyToDoc(Buddy instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent('buddy', () => instance.buddy?.toMap());
+  serialized.putIfNotNull('buddy', instance.buddy?.toMap());
   return _postToDoc(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _groupToDoc(Group instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent("name", () => instance.name);
-  serialized.putIfAbsent("picture", () => instance.picture);
-  serialized.putIfAbsent("about", () => instance.about);
-  serialized.putIfAbsent("isPrivate", () => instance.isPrivate);
+  serialized.putIfNotNull("name", instance.name);
+  serialized.putIfNotNull("picture", instance.picture);
+  serialized.putIfNotNull("about", instance.about);
+  serialized.putIfNotNull("isPrivate", instance.isPrivate);
 
-  //TODO
-  serialized.putIfAbsent("members", () => instance.isPrivate);
-  serialized.putIfAbsent("requestedToJoin", () => instance.isPrivate);
+  //TODO Serialisierung von Listen
+  throwSerialExc();
+  serialized.putIfNotNull("members", instance.isPrivate);
+  serialized.putIfNotNull("requestedToJoin", instance.isPrivate);
   return _databaseDocumentToDoc(instance, serialized: serialized);
 }
 

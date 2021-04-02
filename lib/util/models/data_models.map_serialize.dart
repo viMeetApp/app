@@ -5,25 +5,25 @@ part of 'data_models.dart';
 Map<String, dynamic> _userReferenceToMap(UserReference instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent("id", () => instance.id);
-  serialized.putIfAbsent("name", () => instance.name);
-  serialized.putIfAbsent("picture", () => instance.picture);
+  serialized.putIfNotNull("id", instance.id);
+  serialized.putIfNotNull("name", instance.name);
+  serialized.putIfNotNull("picture", instance.picture);
   return serialized;
 }
 
 Map<String, dynamic> _groupUserReferenceToMap(GroupUserReference instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent("isAdmin", () => instance.isAdmin);
+  serialized.putIfNotNull("isAdmin", instance.isAdmin);
   return _userReferenceToMap(instance, serialized: serialized);
 }
 
 Map<String, dynamic> _groupReferenceToMap(GroupReference instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
-  serialized.putIfAbsent("id", () => instance.id);
-  serialized.putIfAbsent("name", () => instance.name);
-  serialized.putIfAbsent("picture", () => instance.picture);
+  serialized.putIfNotNull("id", instance.id);
+  serialized.putIfNotNull("name", instance.name);
+  serialized.putIfNotNull("picture", instance.picture);
   return serialized;
 }
 

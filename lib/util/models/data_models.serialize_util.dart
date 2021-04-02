@@ -47,6 +47,14 @@ Map<String, bool> postTagsToMap(List<PostTag> tags) {
   return tagMap;
 }
 
+extension ViMap on Map {
+  void putIfNotNull(dynamic key, dynamic? value) {
+    if (value != null) {
+      this.putIfAbsent(key, () => value);
+    }
+  }
+}
+
 /*List<T> mapToList<T>(Map<String, dynamic>? json,
     T Function(String key, dynamic value) onElement) {
   List<T> tags = [];
