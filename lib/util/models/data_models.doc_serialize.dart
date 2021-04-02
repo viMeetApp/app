@@ -73,21 +73,21 @@ Map<String, dynamic> _groupToDoc(Group instance,
 
 DatabaseDocument _databaseDocumentFromDoc(DocumentSnapshot document,
     {DatabaseDocument? instance}) {
-  instance = instance ?? DatabaseDocument(id: "");
+  instance = instance ?? DatabaseDocument.empty();
   instance.id = document.data()?['id'] ?? throwSerialExc();
   return instance;
 }
 
 UserGeneratedDocument _userGeneratedDocumentFromDoc(DocumentSnapshot document,
     {UserGeneratedDocument? instance}) {
-  instance = instance ?? UserGeneratedDocument(id: "", author: UserReference());
+  instance = instance ?? UserGeneratedDocument.empty();
   instance.author = UserReference.fromMap(document.data()?['author']);
   return _databaseDocumentFromDoc(document, instance: instance)
       as UserGeneratedDocument;
 }
 
 User _userFromDoc(DocumentSnapshot document, {User? instance}) {
-  instance = instance ?? User();
+  instance = instance ?? User.empty();
   instance.name = document.data()?['name'] ?? throwSerialExc();
   instance.picture = document.data()?['picture'];
   instance.savedPosts = document.data()?['savedPosts'];
@@ -95,29 +95,32 @@ User _userFromDoc(DocumentSnapshot document, {User? instance}) {
   return _databaseDocumentFromDoc(document, instance: instance) as User;
 }
 
-Post _postFromDoc(Post instance, DocumentSnapshot document) {
+Post _postFromDoc(DocumentSnapshot document, {Post? instance}) {
+  instance = instance ?? Post.empty();
   instance.title = document.data()?['title'] ?? throwSerialExc();
   instance.createdAt = document.data()?['createdAt'] ?? throwSerialExc();
   instance.expiresAt = document.data()?['expiresAt'] ?? throwSerialExc();
   instance.geohash = document.data()?['geohash'] ?? throwSerialExc();
   instance.tags = mapToPostTags(document.data()?["tags"] ?? throwSerialExc());
   instance.type = stringToEnum(document.data()?['type'], PostType.values);
-  return _userGeneratedDocumentFromDoc(instance, document) as Post;
+  return _userGeneratedDocumentFromDoc(document, instance: instance) as Post;
 }
 
-Event _eventFromDoc(Event instance, DocumentSnapshot document) {
+Event _eventFromDoc(DocumentSnapshot document, {Event? instance}) {
+  instance = instance ?? Event.empty();
   instance.about = document.data()?['about'];
   instance.eventAt = document.data()?['eventAt'];
   instance.maxParticipants = document.data()?['maxParticipants'];
   instance.costs = document.data()?['costs'];
   instance.eventLocation = document.data()?['eventLocation'];
-  return _postFromDoc(instance, document) as Event;
+  return _postFromDoc(document, instance: instance) as Event;
 }
 
-Buddy _buddyFromDoc(Buddy instance, DocumentSnapshot document) {
+Buddy _buddyFromDoc(DocumentSnapshot document, {Buddy? instance}) {
+  instance = instance ?? Buddy.empty();
   Map<String, dynamic>? buddy = document.data()?['author'];
   instance.buddy = buddy != null ? UserReference.fromMap(buddy) : null;
-  return _postFromDoc(instance, document) as Buddy;
+  return _postFromDoc(document, instance: instance) as Buddy;
 }
 
 /*Map<String, dynamic> _userToDoc(User instance,

@@ -26,6 +26,8 @@ class DatabaseDocument implements DocumentSerializable {
 
   DatabaseDocument({required this.id});
 
+  DatabaseDocument.empty() : this.id = "";
+
   @override
   Map<String, dynamic>? toDoc() => _databaseDocumentToDoc(this);
 
@@ -41,6 +43,10 @@ class UserGeneratedDocument extends DatabaseDocument {
 
   UserGeneratedDocument({required String id, required this.author})
       : super(id: id);
+
+  UserGeneratedDocument.empty()
+      : author = UserReference.empty(),
+        super.empty();
 
   @override
   Map<String, dynamic>? toDoc() => _userGeneratedDocumentToDoc(this);
@@ -60,6 +66,10 @@ class UserReference extends DatabaseDocument implements MapSerializable {
 
   UserReference({required String id, required this.name, this.picture})
       : super(id: id);
+
+  UserReference.empty()
+      : this.name = "",
+        super.empty();
 
   @override
   Map<String, dynamic> toMap() => _userReferenceToMap(this);
@@ -82,6 +92,10 @@ class GroupUserReference extends UserReference {
     this.isAdmin = false,
   }) : super(id: id, name: name, picture: picture);
 
+  GroupUserReference.empty()
+      : isAdmin = false,
+        super.empty();
+
   @override
   Map<String, dynamic> toMap() => _groupUserReferenceToMap(this);
 
@@ -100,6 +114,10 @@ class GroupReference extends DatabaseDocument implements MapSerializable {
 
   GroupReference({required String id, required this.name, this.picture})
       : super(id: id);
+
+  GroupReference.empty()
+      : this.name = "",
+        super.empty();
 
   @override
   Map<String, dynamic> toMap() => _groupReferenceToMap(this);
@@ -123,6 +141,8 @@ class User extends UserReference {
     String? picture,
     this.savedPosts,
   }) : super(id: id, name: name, picture: picture);
+
+  User.empty() : super.empty();
 
   @override
   Map<String, dynamic>? toDoc() => _userToDoc(this);
@@ -173,6 +193,15 @@ class Post extends UserGeneratedDocument {
     required this.tags,
   }) : super(id: id, author: author);
 
+  Post.empty()
+      : title = "",
+        createdAt = -1,
+        expiresAt = -1,
+        geohash = "",
+        type = PostType.event,
+        tags = [],
+        super.empty();
+
   @override
   Map<String, dynamic>? toDoc() => _postToDoc(this);
 
@@ -212,6 +241,8 @@ class Event extends Post {
             type: type,
             tags: tags);
 
+  Event.empty() : super.empty();
+
   @override
   Map<String, dynamic>? toDoc() => _eventToDoc(this);
 
@@ -243,6 +274,8 @@ class Buddy extends Post {
             type: type,
             tags: tags);
 
+  Buddy.empty() : super.empty();
+
   @override
   Map<String, dynamic>? toDoc() => _buddyToDoc(this);
 
@@ -257,9 +290,9 @@ class Buddy extends Post {
 /// [members] are the members and admins of the group
 /// [requestedToJoin] are the members in the approval process
 class Group extends GroupReference {
-  String about = "";
-  bool isPrivate = false;
-  List<GroupUserReference> members = [];
+  String about;
+  bool isPrivate;
+  List<GroupUserReference> members;
   List<UserReference>? requestedToJoin;
 
   Group(
@@ -271,6 +304,12 @@ class Group extends GroupReference {
       required this.members,
       this.requestedToJoin})
       : super(id: id, name: name, picture: picture);
+
+  Group.empty()
+      : this.about = "",
+        this.isPrivate = false,
+        this.members = [],
+        super.empty();
 
   /*@override
   Map<String, dynamic>? toDoc() => _groupToDoc(this);
@@ -297,7 +336,7 @@ class Report extends UserGeneratedDocument {
   int reportedAt;
   ReportType type;
   ReportState state;
-  DocumentReference objectReference;
+  DocumentReference? objectReference;
 
   Report({
     required String id,
@@ -308,6 +347,13 @@ class Report extends UserGeneratedDocument {
     required this.state,
     required this.objectReference,
   }) : super(id: id, author: author);
+
+  Report.empty()
+      : this.reasons = [],
+        this.reportedAt = -1,
+        this.type = ReportType.post,
+        this.state = ReportState.open,
+        super.empty();
 }
 
 enum BugReportType { ui, logic, functionality, request, other }
@@ -335,4 +381,12 @@ class BugReport extends UserGeneratedDocument {
     this.state,
     this.comment,
   }) : super(id: id, author: author);
+
+  BugReport.empty()
+      : this.title = "",
+        this.message = "",
+        this.type = BugReportType.other,
+        this.reportedAt = -1,
+        this.version = "",
+        super.empty();
 }

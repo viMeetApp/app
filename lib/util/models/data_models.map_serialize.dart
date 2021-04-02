@@ -29,22 +29,25 @@ Map<String, dynamic> _groupReferenceToMap(GroupReference instance,
 
 // De-Serialization
 
-UserReference _userReferenceFromMap(
-    UserReference instance, Map<String, dynamic> map) {
+UserReference _userReferenceFromMap(Map<String, dynamic> map,
+    {UserReference? instance}) {
+  instance = instance ?? UserReference.empty();
   instance.id = map['id'] ?? throwSerialExc();
   instance.name = map['name'] ?? throwSerialExc();
   instance.picture = map['picture'];
   return instance;
 }
 
-GroupUserReference _groupUserReferenceFromMap(
-    GroupUserReference instance, Map<String, dynamic> map) {
+GroupUserReference _groupUserReferenceFromMap(Map<String, dynamic> map,
+    {GroupUserReference? instance}) {
+  instance = instance ?? GroupUserReference.empty();
   instance.isAdmin = map['isAdmin'] ?? false;
-  return _userReferenceFromMap(instance, map) as GroupUserReference;
+  return _userReferenceFromMap(map, instance: instance) as GroupUserReference;
 }
 
-GroupReference _groupReferenceFromMap(
-    GroupReference instance, Map<String, dynamic> map) {
+GroupReference _groupReferenceFromMap(Map<String, dynamic> map,
+    {GroupReference? instance}) {
+  instance = instance ?? GroupReference.empty();
   instance.id = map['id'] ?? throwSerialExc();
   instance.name = map['name'] ?? throwSerialExc();
   instance.picture = map['picture'];

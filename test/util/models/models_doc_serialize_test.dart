@@ -5,17 +5,12 @@ import 'package:signup_app/util/models/data_models.dart';
 
 UserReference createUserReference(
     {String id = "", String name = "", String? picture}) {
-  UserReference ref = UserReference();
-  ref.id = id;
-  ref.name = name;
-  ref.picture = picture;
-  return ref;
+  return UserReference(id: id, name: name, picture: picture);
 }
 
 void main() {
   test("serial DatabaseDocument", () {
-    DatabaseDocument instance = DatabaseDocument();
-    instance.id = "123456789";
+    DatabaseDocument instance = DatabaseDocument(id: "123456789");
 
     // expected result
     Map serialized = {};
@@ -24,9 +19,8 @@ void main() {
   });
 
   test("serial UserGeneratedDocument", () {
-    UserGeneratedDocument instance = UserGeneratedDocument();
-    instance.id = "123456789";
-    instance.author = createUserReference(id: "ABCDE123,");
+    UserGeneratedDocument instance = UserGeneratedDocument(
+        id: "123456789", author: createUserReference(id: "ABCDE123,"));
 
     // expected result
     Map serialized = {
