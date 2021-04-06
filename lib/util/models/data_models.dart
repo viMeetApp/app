@@ -14,7 +14,7 @@ abstract class DocumentSerializable {
 class DatabaseDocument implements DocumentSerializable {
   String id;
 
-  DatabaseDocument({required this.id});
+  DatabaseDocument({this.id = ""});
 
   DatabaseDocument.empty() : this.id = "";
 
@@ -34,8 +34,7 @@ class DatabaseDocument implements DocumentSerializable {
 class UserGeneratedDocument extends DatabaseDocument {
   UserReference author;
 
-  UserGeneratedDocument({required String id, required this.author})
-      : super(id: id);
+  UserGeneratedDocument({String id = "", required this.author}) : super(id: id);
 
   UserGeneratedDocument.empty()
       : author = UserReference.empty(),
@@ -59,7 +58,7 @@ class UserReference extends DatabaseDocument {
   String name;
   String? picture;
 
-  UserReference({required String id, required this.name, this.picture})
+  UserReference({String id = "", required this.name, this.picture})
       : super(id: id);
 
   UserReference.empty()
@@ -81,7 +80,7 @@ class GroupUserReference extends UserReference {
   bool isAdmin;
 
   GroupUserReference({
-    required String id,
+    String id = "",
     required String name,
     String? picture,
     this.isAdmin = false,
@@ -107,7 +106,7 @@ class GroupReference extends DatabaseDocument {
   String name;
   String? picture;
 
-  GroupReference({required String id, required this.name, this.picture})
+  GroupReference({String id = "", required this.name, this.picture})
       : super(id: id);
 
   GroupReference.empty()
@@ -131,7 +130,7 @@ class User extends UserReference {
   List<String>? violationReports;
 
   User({
-    required String id,
+    String id = "",
     required String name,
     String? picture,
     this.savedPosts,
@@ -180,7 +179,7 @@ class Post extends UserGeneratedDocument {
   List<PostTag> tags;
 
   Post({
-    required String id,
+    String id = "",
     required UserReference author,
     required this.title,
     required this.createdAt,
@@ -217,7 +216,7 @@ class Event extends Post {
   String? eventLocation;
 
   Event(
-      {required String id,
+      {String id = "",
       required UserReference author,
       required String title,
       required int createdAt,
@@ -256,7 +255,7 @@ class Buddy extends Post {
   UserReference? buddy;
 
   Buddy(
-      {required String id,
+      {String id = "",
       required UserReference author,
       required String title,
       required int createdAt,
@@ -299,7 +298,7 @@ class Message extends UserGeneratedDocument {
   String content;
 
   Message(
-      {required String id,
+      {String id = "",
       required UserReference author,
       required this.createdAt,
       required this.type,
@@ -334,7 +333,7 @@ class Group extends GroupReference {
   List<UserReference>? requestedToJoin;
 
   Group(
-      {required String id,
+      {String id = "",
       required String name,
       String? picture,
       required this.about,
@@ -378,7 +377,7 @@ class Report extends UserGeneratedDocument {
   String objectReference;
 
   Report({
-    required String id,
+    String id = "",
     required UserReference author,
     required this.reasons,
     required this.reportedAt,
@@ -419,7 +418,7 @@ class BugReport extends UserGeneratedDocument {
   String? comment;
 
   BugReport({
-    required String id,
+    String id = "",
     required UserReference author,
     required this.title,
     required this.message,
