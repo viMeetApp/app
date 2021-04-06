@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-part 'data_models.doc_serialize.dart';
 part 'data_models.map_serialize.dart';
 part 'data_models.serialize_util.dart';
 
 abstract class DocumentSerializable {
-  Map<String, dynamic>? toDoc();
+  Map<String, dynamic>? toMap({bool includeID = false});
   //abstract factory DocumentSerializable.fromDoc(DocumentSnapshot document);
 }
 
@@ -20,10 +19,13 @@ class DatabaseDocument implements DocumentSerializable {
   DatabaseDocument.empty() : this.id = "";
 
   @override
-  Map<String, dynamic>? toDoc() => _databaseDocumentToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _databaseDocumentToMap(this, includeID: includeID);
 
   factory DatabaseDocument.fromDoc(DocumentSnapshot document) =>
-      _databaseDocumentFromDoc(docToMap(document));
+      DatabaseDocument.fromMap(docToMap(document));
+  factory DatabaseDocument.fromMap(Map<String, dynamic> document) =>
+      _databaseDocumentFromMap(document);
 }
 
 /// Document that also contains
@@ -40,11 +42,13 @@ class UserGeneratedDocument extends DatabaseDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toDoc() => _userGeneratedDocumentToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _userGeneratedDocumentToMap(this, includeID: includeID);
 
-  @override
   factory UserGeneratedDocument.fromDoc(DocumentSnapshot document) =>
-      _userGeneratedDocumentFromDoc(document);
+      UserGeneratedDocument.fromMap(docToMap(document));
+  factory UserGeneratedDocument.fromMap(Map<String, dynamic> document) =>
+      _userGeneratedDocumentFromMap(document);
 }
 
 /// Lightweigt user that can be used within other documents
@@ -63,7 +67,11 @@ class UserReference extends DatabaseDocument {
         super.empty();
 
   @override
-  factory UserReference.fromMap(Map<String, dynamic> map) => _userFromDoc(map);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _userReferenceToMap(this, includeID: includeID);
+
+  factory UserReference.fromMap(Map<String, dynamic> document) =>
+      _userReferenceFromMap(document);
 }
 
 /// extension of UserReference to include group specific data
@@ -84,18 +92,18 @@ class GroupUserReference extends UserReference {
         super.empty();
 
   @override
-  Map<String, dynamic> toMap() => _groupUserReferenceToMap(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _groupUserReferenceToMap(this, includeID: includeID);
 
-  @override
-  factory GroupUserReference.fromMap(Map<String, dynamic> map) =>
-      _groupUserReferenceFromMap(map);
+  factory GroupUserReference.fromMap(Map<String, dynamic> document) =>
+      _groupUserReferenceFromMap(document);
 }
 
 /// Lightweigt group that can be used within other documents
 ///
 /// [name] the given name of the group.
 /// [picture] the id of the picture in the storage bucket.
-class GroupReference extends DatabaseDocument implements MapSerializable {
+class GroupReference extends DatabaseDocument {
   String name;
   String? picture;
 
@@ -107,11 +115,11 @@ class GroupReference extends DatabaseDocument implements MapSerializable {
         super.empty();
 
   @override
-  Map<String, dynamic> toMap() => _groupReferenceToMap(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _groupReferenceToMap(this, includeID: includeID);
 
-  @override
-  factory GroupReference.fromMap(Map<String, dynamic> map) =>
-      _groupReferenceFromMap(map);
+  factory GroupReference.fromMap(Map<String, dynamic> document) =>
+      _groupReferenceFromMap(document);
 }
 
 /// User model to be saved to the database
@@ -132,10 +140,12 @@ class User extends UserReference {
   User.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toDoc() => _userToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _userToMap(this, includeID: includeID);
 
-  @override
-  factory User.fromDoc(DocumentSnapshot document) => _userFromDoc(document);
+  factory User.fromDoc(DocumentSnapshot document) =>
+      User.fromMap(docToMap(document));
+  factory User.fromMap(Map<String, dynamic> document) => _userFromMap(document);
 }
 
 enum PostType { event, buddy }
@@ -190,10 +200,12 @@ class Post extends UserGeneratedDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toDoc() => _postToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _postToMap(this, includeID: includeID);
 
-  @override
-  factory Post.fromDoc(DocumentSnapshot document) => _postFromDoc(document);
+  factory Post.fromDoc(DocumentSnapshot document) =>
+      Post.fromMap(docToMap(document));
+  factory Post.fromMap(Map<String, dynamic> document) => _postFromMap(document);
 }
 
 /// model for an event with multiple participants
@@ -231,10 +243,13 @@ class Event extends Post {
   Event.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toDoc() => _eventToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _eventToMap(this, includeID: includeID);
 
-  @override
-  factory Event.fromDoc(DocumentSnapshot document) => _eventFromDoc(document);
+  factory Event.fromDoc(DocumentSnapshot document) =>
+      Event.fromMap(docToMap(document));
+  factory Event.fromMap(Map<String, dynamic> document) =>
+      _eventFromMap(document);
 }
 
 /// model for a post with just one participant
@@ -264,10 +279,13 @@ class Buddy extends Post {
   Buddy.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toDoc() => _buddyToDoc(this);
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _buddyToMap(this, includeID: includeID);
 
-  @override
-  factory Buddy.fromDoc(DocumentSnapshot document) => _buddyFromDoc(document);
+  factory Buddy.fromDoc(DocumentSnapshot document) =>
+      Buddy.fromMap(docToMap(document));
+  factory Buddy.fromMap(Map<String, dynamic> document) =>
+      _buddyFromMap(document);
 }
 
 /// model for groups in which posts can be published

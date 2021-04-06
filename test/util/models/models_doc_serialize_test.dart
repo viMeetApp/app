@@ -10,7 +10,7 @@ void main() {
     // expected result
     Map serialized = {};
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 
   test("serial UserGeneratedDocument", () {
@@ -26,7 +26,7 @@ void main() {
       }
     };
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 
   test("serial User", () {
@@ -43,7 +43,7 @@ void main() {
       "savedPosts": ["987654321"]
     };
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 
   test("serial Post", () {
@@ -68,7 +68,7 @@ void main() {
       "tags": {"food": true, "online": true}
     };
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 
   test("serial Event", () {
@@ -101,7 +101,7 @@ void main() {
       "eventLocation": "Bahnhof"
     };
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 
   test("serial Buddy", () {
@@ -128,6 +128,6 @@ void main() {
       "buddy": {"id": "32168", "name": "buddy user"},
     };
 
-    expect(instance.toDoc(), equals(serialized));
+    expect(instance.toMap(), equals(serialized));
   });
 }
