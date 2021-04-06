@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ViDropdownButton extends StatefulWidget {
-  List<String>? elements;
+  List? elements;
   String? hint;
   Function? onChanged;
 
@@ -33,7 +33,7 @@ class _ViDropdownButtonState extends State<ViDropdownButton> {
             widget.onChanged!(newValue);
           });
         },
-        items: widget.elements!.map<DropdownMenuItem<String>>((String value) {
+        items: widget.elements!.map<DropdownMenuItem<String>>((value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),

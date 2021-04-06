@@ -6,14 +6,14 @@ import 'package:signup_app/vibit/vibit.dart';
 
 enum Types { active, processing, submitted, invalid, error }
 
-class BugReportState extends ViState {
+class BugReportPageState extends ViState {
   final BugReportRepository _bugRepository;
   Exception? error;
   String? title;
-  String? kind;
+  BugReportType? kind;
   String? message;
 
-  BugReportState(this._bugRepository) : super(type: Types.active);
+  BugReportPageState(this._bugRepository) : super(type: Types.active);
 
   ///Document gets submitted (User Loggs in)
   ///Checks if User Name Valid the Log In
@@ -25,13 +25,18 @@ class BugReportState extends ViState {
       try {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-        BugReport report = new BugReport();
-        report.title = title;
-        report.type = kind;
-        report.message = message;
-        report.author = await UserRepository().getUser();
-        report.version = packageInfo.version;
-        report.timestamp = DateTime.now().millisecondsSinceEpoch;
+        User? user = await UserRepository().getUser();
+        if (user == null) {
+          throw Exception("active user is null");
+        }
+
+        BugReport report = new BugReport(
+            title: title!,
+            type: kind!,
+            message: message!,
+            author: user,
+            version: packageInfo.version,
+            reportedAt: DateTime.now().millisecondsSinceEpoch);
 
         await _bugRepository.createBugReport(bugReport: report);
         this.type = Types.submitted;

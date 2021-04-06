@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/util/widgets/vi_dropdown_button.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/bug_report/cubit/bug_report_vibit.dart';
-import 'package:signup_app/util/widgets/success_page.dart';
 
 class BugReportPage extends StatelessWidget {
   ///Set Group argument when post is Created out of Group
@@ -20,8 +20,8 @@ class BugReportPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Fehler melden"),
         ),
-        body: ViBit<BugReportState>(
-            state: BugReportState(BugReportRepository()),
+        body: ViBit<BugReportPageState>(
+            state: BugReportPageState(BugReportRepository()),
             onChangeLogic: (state) {
               switch (state.type) {
                 case Types.submitted:
@@ -71,16 +71,22 @@ class BugReportPage extends StatelessWidget {
                       Presets.simpleCard(
                           margin: EdgeInsets.symmetric(vertical: 10),
                           child: ViDropdownButton(
-                            elements: <String>[
-                              'Benutzeroberfläche',
-                              'App Logik',
-                              'fehlende Funktion',
-                              'Vorschlag für eine Funktion',
-                              'sonstige'
+                            elements: [
+                              ['Benutzeroberfläche', BugReportType.ui],
+                              ['App Logik', BugReportType.logic],
+                              [
+                                'fehlende Funktion',
+                                BugReportType.functionality
+                              ],
+                              [
+                                'Vorschlag für eine Funktion',
+                                BugReportType.request
+                              ],
+                              ['sonstige', BugReportType.other],
                             ],
                             hint: "Typ des Problems",
                             onChanged: (value) {
-                              state.kind = value;
+                              state.kind = value[1];
                             },
                           )),
                       TextField(

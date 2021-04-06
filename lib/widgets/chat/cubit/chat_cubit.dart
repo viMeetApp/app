@@ -26,9 +26,12 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
 
   void sendMessage(String content) {
     //Check if MessageString is valid
-    if (content.length != 0) {
-      Message chatMessage =
-          Message.createTextMessage(author: user, content: content);
+    if (content.length != 0 && user != null) {
+      Message chatMessage = Message(
+          author: user!,
+          type: MessageType.text,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          content: content);
       _chatMessageRepository.createChatMessage(
           post: post, message: chatMessage);
     }

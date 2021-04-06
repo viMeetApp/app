@@ -5,9 +5,7 @@ import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
 class ReportCubit extends Cubit<ViFormState> {
-  ReportCubit(this._reportRepository)
-      : assert(_reportRepository != null),
-        super(ViFormState.invalid());
+  ReportCubit(this._reportRepository) : super(ViFormState.invalid());
 
   final ReportRepository _reportRepository;
 
