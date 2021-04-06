@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-part 'data_models.map_serialize.dart';
+part 'data_models.serialize.dart';
 part 'data_models.serialize_util.dart';
 
 abstract class DocumentSerializable {
-  Map<String, dynamic>? toMap({bool includeID = false});
+  Map<String, dynamic> toMap({bool includeID = false});
   //abstract factory DocumentSerializable.fromDoc(DocumentSnapshot document);
 }
 
@@ -19,7 +19,7 @@ class DatabaseDocument implements DocumentSerializable {
   DatabaseDocument.empty() : this.id = "";
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _databaseDocumentToMap(this, includeID: includeID);
 
   factory DatabaseDocument.fromDoc(DocumentSnapshot document) =>
@@ -42,7 +42,7 @@ class UserGeneratedDocument extends DatabaseDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _userGeneratedDocumentToMap(this, includeID: includeID);
 
   factory UserGeneratedDocument.fromDoc(DocumentSnapshot document) =>
@@ -67,7 +67,7 @@ class UserReference extends DatabaseDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _userReferenceToMap(this, includeID: includeID);
 
   factory UserReference.fromMap(Map<String, dynamic> map) =>
@@ -92,7 +92,7 @@ class GroupUserReference extends UserReference {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _groupUserReferenceToMap(this, includeID: includeID);
 
   factory GroupUserReference.fromMap(Map<String, dynamic> map) =>
@@ -115,7 +115,7 @@ class GroupReference extends DatabaseDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _groupReferenceToMap(this, includeID: includeID);
 
   factory GroupReference.fromMap(Map<String, dynamic> map) =>
@@ -140,7 +140,7 @@ class User extends UserReference {
   User.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _userToMap(this, includeID: includeID);
 
   factory User.fromDoc(DocumentSnapshot document) =>
@@ -200,7 +200,7 @@ class Post extends UserGeneratedDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _postToMap(this, includeID: includeID);
 
   factory Post.fromDoc(DocumentSnapshot document) =>
@@ -243,7 +243,7 @@ class Event extends Post {
   Event.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _eventToMap(this, includeID: includeID);
 
   factory Event.fromDoc(DocumentSnapshot document) =>
@@ -278,7 +278,7 @@ class Buddy extends Post {
   Buddy.empty() : super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _buddyToMap(this, includeID: includeID);
 
   factory Buddy.fromDoc(DocumentSnapshot document) =>
@@ -315,7 +315,7 @@ class Group extends GroupReference {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _groupToMap(this, includeID: includeID);
 
   factory Group.fromDoc(DocumentSnapshot document) =>
@@ -361,7 +361,7 @@ class Report extends UserGeneratedDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _reportToMap(this, includeID: includeID);
 
   factory Report.fromDoc(DocumentSnapshot document) =>
@@ -404,7 +404,7 @@ class BugReport extends UserGeneratedDocument {
         super.empty();
 
   @override
-  Map<String, dynamic>? toMap({bool includeID = false}) =>
+  Map<String, dynamic> toMap({bool includeID = false}) =>
       _bugReportToMap(this, includeID: includeID);
 
   factory BugReport.fromDoc(DocumentSnapshot document) =>

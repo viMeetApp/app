@@ -205,7 +205,7 @@ Event _eventFromMap(Map<String, dynamic> map, {Event? instance}) {
 
 Buddy _buddyFromMap(Map<String, dynamic> map, {Buddy? instance}) {
   instance = instance ?? Buddy.empty();
-  Map<String, dynamic>? buddy = map['author'];
+  Map<String, dynamic>? buddy = map['buddy'];
   instance.buddy = buddy != null ? UserReference.fromMap(buddy) : null;
   return _postFromMap(map, instance: instance) as Buddy;
 }
@@ -225,8 +225,8 @@ Group _groupFromMap(Map<String, dynamic> map, {Group? instance}) {
 
 Report _reportFromMap(Map<String, dynamic> map, {Report? instance}) {
   instance = instance ?? Report.empty();
-  instance.reasons = jsonListToList(
-          map['about'], (value) => stringToEnum(value, ReportReason.values)) ??
+  instance.reasons = jsonListToList(map['reasons'],
+          (value) => stringToEnum(value, ReportReason.values)) ??
       throwSerialExc();
   instance.objectReference = map["objectReference"] ?? throwSerialExc();
   instance.reportedAt = map["reportedAt"] ?? throwSerialExc();

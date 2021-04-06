@@ -156,4 +156,54 @@ void main() {
 
     expect(instance.toMap(), equals(serialized));
   });
+
+  test("serial Report", () {
+    Report instance = Report(
+        id: "123456789",
+        author: UserReference.empty(),
+        reasons: [ReportReason.copyright, ReportReason.hate],
+        objectReference: "C137",
+        reportedAt: 1234,
+        type: ReportType.user,
+        state: ReportState.open);
+
+    // expected result
+    Map serialized = {
+      "author": {"id": "", "name": ""},
+      "reasons": ["copyright", "hate"],
+      "objectReference": "C137",
+      "reportedAt": 1234,
+      "type": "user",
+      "state": "open"
+    };
+
+    expect(instance.toMap(), equals(serialized));
+  });
+
+  test("serial BugReport", () {
+    BugReport instance = BugReport(
+        id: "123456789",
+        author: UserReference.empty(),
+        title: "test report",
+        message: "this is the discription",
+        type: BugReportType.logic,
+        reportedAt: 12345,
+        version: "0.0.1-TEST",
+        state: BugReportState.open,
+        comment: "this is a comment");
+
+    // expected result
+    Map serialized = {
+      "author": {"id": "", "name": ""},
+      "title": "test report",
+      "message": "this is the discription",
+      "type": "logic",
+      "reportedAt": 12345,
+      "version": "0.0.1-TEST",
+      "state": "open",
+      "comment": "this is a comment"
+    };
+
+    expect(instance.toMap(), equals(serialized));
+  });
 }
