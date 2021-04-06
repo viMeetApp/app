@@ -92,16 +92,44 @@ Map<String, dynamic> _groupToMap(Group instance,
   serialized = serialized ?? <String, dynamic>{};
   serialized.putIfNotNull("about", instance.about);
   serialized.putIfNotNull("isPrivate", instance.isPrivate);
-  throwSerialExc();
   serialized.putIfNotNull(
       "members",
       listToJsonList<GroupUserReference>(
-          instance.members, (value) => (value.toMap())));
+          instance.members, (value) => (value.toMap(includeID: true))));
   serialized.putIfNotNull(
       "requestedToJoin",
       listToJsonList<UserReference>(
-          instance.requestedToJoin, (value) => (value.toMap())));
+          instance.requestedToJoin, (value) => (value.toMap(includeID: true))));
   return _groupReferenceToMap(instance,
+      serialized: serialized, includeID: includeID);
+}
+
+Map<String, dynamic> _reportToMap(Report instance,
+    {Map<String, dynamic>? serialized, bool includeID = false}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfNotNull("reasons",
+      listToJsonList(instance.reasons, (value) => enumToString(value)));
+  serialized.putIfNotNull("objectReference", instance.objectReference);
+  serialized.putIfNotNull("reportedAt", instance.reportedAt);
+  serialized.putIfNotNull("type", enumToString(instance.type));
+  serialized.putIfNotNull("state", enumToString(instance.state));
+
+  return _userGeneratedDocumentToMap(instance,
+      serialized: serialized, includeID: includeID);
+}
+
+Map<String, dynamic> _bugReportToMap(BugReport instance,
+    {Map<String, dynamic>? serialized, bool includeID = false}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfNotNull("title", instance.title);
+  serialized.putIfNotNull("message", instance.message);
+  serialized.putIfNotNull("type", enumToString(instance.type));
+  serialized.putIfNotNull("reportedAt", instance.reportedAt);
+  serialized.putIfNotNull("version", instance.version);
+  serialized.putIfNotNull("state", enumToString(instance.state));
+  serialized.putIfNotNull("comment", instance.comment);
+
+  return _userGeneratedDocumentToMap(instance,
       serialized: serialized, includeID: includeID);
 }
 
@@ -180,6 +208,48 @@ Buddy _buddyFromMap(Map<String, dynamic> map, {Buddy? instance}) {
   Map<String, dynamic>? buddy = map['author'];
   instance.buddy = buddy != null ? UserReference.fromMap(buddy) : null;
   return _postFromMap(map, instance: instance) as Buddy;
+}
+
+Group _groupFromMap(Map<String, dynamic> map, {Group? instance}) {
+  instance = instance ?? Group.empty();
+  instance.about = map["about"] ?? throwSerialExc();
+  instance.isPrivate = map["isPrivate"] ?? false;
+  instance.members = jsonListToList<GroupUserReference>(
+          map["members"], (value) => GroupUserReference.fromMap(value)) ??
+      [];
+  instance.requestedToJoin = jsonListToList<UserReference>(
+          map["requestedToJoin"], (value) => UserReference.fromMap(value)) ??
+      [];
+  return _groupReferenceFromMap(map, instance: instance) as Group;
+}
+
+Report _reportFromMap(Map<String, dynamic> map, {Report? instance}) {
+  instance = instance ?? Report.empty();
+  instance.reasons = jsonListToList(
+          map['about'], (value) => stringToEnum(value, ReportReason.values)) ??
+      throwSerialExc();
+  instance.objectReference = map["objectReference"] ?? throwSerialExc();
+  instance.reportedAt = map["reportedAt"] ?? throwSerialExc();
+  instance.type =
+      stringToEnum(map["type"], ReportType.values) ?? throwSerialExc();
+  instance.state =
+      stringToEnum(map["state"], ReportState.values) ?? throwSerialExc();
+  return _userGeneratedDocumentFromMap(map, instance: instance) as Report;
+}
+
+BugReport _bugReportFromMap(Map<String, dynamic> map, {BugReport? instance}) {
+  instance = instance ?? BugReport.empty();
+
+  instance.title = map["title"] ?? throwSerialExc();
+  instance.message = map["message"] ?? throwSerialExc();
+  instance.type =
+      stringToEnum(map["type"], BugReportType.values) ?? throwSerialExc();
+  instance.reportedAt = map["reportedAt"] ?? throwSerialExc();
+  instance.version = map["version"] ?? throwSerialExc();
+  instance.state =
+      stringToEnum(map["state"], BugReportState.values) ?? throwSerialExc();
+  instance.comment = map["comment"] ?? throwSerialExc();
+  return _userGeneratedDocumentFromMap(map, instance: instance) as BugReport;
 }
 
 /*Map<String, dynamic> _userToMap(User instance,

@@ -24,8 +24,8 @@ class DatabaseDocument implements DocumentSerializable {
 
   factory DatabaseDocument.fromDoc(DocumentSnapshot document) =>
       DatabaseDocument.fromMap(docToMap(document));
-  factory DatabaseDocument.fromMap(Map<String, dynamic> document) =>
-      _databaseDocumentFromMap(document);
+  factory DatabaseDocument.fromMap(Map<String, dynamic> map) =>
+      _databaseDocumentFromMap(map);
 }
 
 /// Document that also contains
@@ -47,8 +47,8 @@ class UserGeneratedDocument extends DatabaseDocument {
 
   factory UserGeneratedDocument.fromDoc(DocumentSnapshot document) =>
       UserGeneratedDocument.fromMap(docToMap(document));
-  factory UserGeneratedDocument.fromMap(Map<String, dynamic> document) =>
-      _userGeneratedDocumentFromMap(document);
+  factory UserGeneratedDocument.fromMap(Map<String, dynamic> map) =>
+      _userGeneratedDocumentFromMap(map);
 }
 
 /// Lightweigt user that can be used within other documents
@@ -70,8 +70,8 @@ class UserReference extends DatabaseDocument {
   Map<String, dynamic>? toMap({bool includeID = false}) =>
       _userReferenceToMap(this, includeID: includeID);
 
-  factory UserReference.fromMap(Map<String, dynamic> document) =>
-      _userReferenceFromMap(document);
+  factory UserReference.fromMap(Map<String, dynamic> map) =>
+      _userReferenceFromMap(map);
 }
 
 /// extension of UserReference to include group specific data
@@ -95,8 +95,8 @@ class GroupUserReference extends UserReference {
   Map<String, dynamic>? toMap({bool includeID = false}) =>
       _groupUserReferenceToMap(this, includeID: includeID);
 
-  factory GroupUserReference.fromMap(Map<String, dynamic> document) =>
-      _groupUserReferenceFromMap(document);
+  factory GroupUserReference.fromMap(Map<String, dynamic> map) =>
+      _groupUserReferenceFromMap(map);
 }
 
 /// Lightweigt group that can be used within other documents
@@ -118,8 +118,8 @@ class GroupReference extends DatabaseDocument {
   Map<String, dynamic>? toMap({bool includeID = false}) =>
       _groupReferenceToMap(this, includeID: includeID);
 
-  factory GroupReference.fromMap(Map<String, dynamic> document) =>
-      _groupReferenceFromMap(document);
+  factory GroupReference.fromMap(Map<String, dynamic> map) =>
+      _groupReferenceFromMap(map);
 }
 
 /// User model to be saved to the database
@@ -145,7 +145,7 @@ class User extends UserReference {
 
   factory User.fromDoc(DocumentSnapshot document) =>
       User.fromMap(docToMap(document));
-  factory User.fromMap(Map<String, dynamic> document) => _userFromMap(document);
+  factory User.fromMap(Map<String, dynamic> map) => _userFromMap(map);
 }
 
 enum PostType { event, buddy }
@@ -205,7 +205,7 @@ class Post extends UserGeneratedDocument {
 
   factory Post.fromDoc(DocumentSnapshot document) =>
       Post.fromMap(docToMap(document));
-  factory Post.fromMap(Map<String, dynamic> document) => _postFromMap(document);
+  factory Post.fromMap(Map<String, dynamic> map) => _postFromMap(map);
 }
 
 /// model for an event with multiple participants
@@ -248,8 +248,7 @@ class Event extends Post {
 
   factory Event.fromDoc(DocumentSnapshot document) =>
       Event.fromMap(docToMap(document));
-  factory Event.fromMap(Map<String, dynamic> document) =>
-      _eventFromMap(document);
+  factory Event.fromMap(Map<String, dynamic> map) => _eventFromMap(map);
 }
 
 /// model for a post with just one participant
@@ -284,8 +283,7 @@ class Buddy extends Post {
 
   factory Buddy.fromDoc(DocumentSnapshot document) =>
       Buddy.fromMap(docToMap(document));
-  factory Buddy.fromMap(Map<String, dynamic> document) =>
-      _buddyFromMap(document);
+  factory Buddy.fromMap(Map<String, dynamic> map) => _buddyFromMap(map);
 }
 
 /// model for groups in which posts can be published
@@ -316,12 +314,13 @@ class Group extends GroupReference {
         this.members = [],
         super.empty();
 
-  /*@override
-  Map<String, dynamic>? toDoc() => _groupToDoc(this);
-
   @override
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _groupToMap(this, includeID: includeID);
+
   factory Group.fromDoc(DocumentSnapshot document) =>
-      _groupFromDoc(new Group(), document);*/
+      Group.fromMap(docToMap(document));
+  factory Group.fromMap(Map<String, dynamic> map) => _groupFromMap(map);
 }
 
 enum ReportReason {
@@ -341,7 +340,7 @@ class Report extends UserGeneratedDocument {
   int reportedAt;
   ReportType type;
   ReportState state;
-  DocumentReference? objectReference;
+  String objectReference;
 
   Report({
     required String id,
@@ -358,7 +357,16 @@ class Report extends UserGeneratedDocument {
         this.reportedAt = -1,
         this.type = ReportType.post,
         this.state = ReportState.open,
+        this.objectReference = "",
         super.empty();
+
+  @override
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _reportToMap(this, includeID: includeID);
+
+  factory Report.fromDoc(DocumentSnapshot document) =>
+      Report.fromMap(docToMap(document));
+  factory Report.fromMap(Map<String, dynamic> map) => _reportFromMap(map);
 }
 
 enum BugReportType { ui, logic, functionality, request, other }
@@ -394,4 +402,12 @@ class BugReport extends UserGeneratedDocument {
         this.reportedAt = -1,
         this.version = "",
         super.empty();
+
+  @override
+  Map<String, dynamic>? toMap({bool includeID = false}) =>
+      _bugReportToMap(this, includeID: includeID);
+
+  factory BugReport.fromDoc(DocumentSnapshot document) =>
+      BugReport.fromMap(docToMap(document));
+  factory BugReport.fromMap(Map<String, dynamic> map) => _bugReportFromMap(map);
 }

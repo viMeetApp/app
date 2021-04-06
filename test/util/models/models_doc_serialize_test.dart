@@ -130,4 +130,30 @@ void main() {
 
     expect(instance.toMap(), equals(serialized));
   });
+
+  test("serial Group", () {
+    Group instance = Group(
+      id: "123456789",
+      name: 'test group',
+      about: 'this is a group',
+      isPrivate: false,
+      members: [GroupUserReference(id: "abcd", name: "Max", isAdmin: false)],
+      requestedToJoin: [UserReference(id: "xyz", name: "Justus")],
+    );
+
+    // expected result
+    Map serialized = {
+      "name": 'test group',
+      "about": 'this is a group',
+      "isPrivate": false,
+      "members": [
+        {"id": "abcd", "name": "Max", "isAdmin": false}
+      ],
+      "requestedToJoin": [
+        {"id": "xyz", "name": "Justus"}
+      ],
+    };
+
+    expect(instance.toMap(), equals(serialized));
+  });
 }
