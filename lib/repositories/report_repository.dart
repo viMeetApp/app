@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 class ReportRepository {
@@ -16,7 +15,7 @@ class ReportRepository {
     try {
       print("send");
       await _collectionReference
-          .add(report.toDoc()!)
+          .add(report.toMap())
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw Exception("connection timed out");
       });

@@ -24,12 +24,20 @@ class GroupPagination {
         .map((list) => list.docs
             .where((doc) {
               Group group = Group.fromDoc(doc);
-              return !group.users!
+              return getMemberIDs(group.members)
                   .contains(FirebaseAuth.instance.currentUser!.uid);
             })
             .map((doc) => (Group.fromDoc(doc)))
             .toList());
 
     return groupStream;
+  }
+
+  static List<String> getMemberIDs(List<GroupUserReference> members) {
+    List<String> result = [];
+    for (GroupUserReference ref in members) {
+      result.add(ref.id);
+    }
+    return result;
   }
 }

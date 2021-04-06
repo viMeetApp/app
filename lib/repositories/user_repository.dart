@@ -116,7 +116,7 @@ class UserRepository {
     await _firestore
         .collection('users')
         .doc(uid)
-        .set(util.User(name: name, id: uid).toDoc());
+        .set(util.User(name: name, id: uid).toMap());
   }
 
   /*Future<void> signUp() async {

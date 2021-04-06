@@ -15,7 +15,7 @@ class BugReportRepository {
   Future<void> createBugReport({required BugReport bugReport}) async {
     try {
       await _collectionReference
-          .add(bugReport.toDoc()!)
+          .add(bugReport.toMap())
           .timeout(Duration(seconds: 5), onTimeout: () {
         throw Exception("connection timed out");
       });

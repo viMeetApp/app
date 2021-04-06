@@ -16,7 +16,7 @@ class GroupRepository {
   ///Creates a [group] Object in Firestore
   Future<void> createGroup(Group group) async {
     try {
-      await _groupCollectionReference.add(group.toDoc()!);
+      await _groupCollectionReference.add(group.toMap());
     } catch (err) {
       throw err;
     }
@@ -27,7 +27,7 @@ class GroupRepository {
     try {
       assert(group.id != null && group.id != '',
           'When updating a Group, Object must contain a valid Id');
-      await _groupCollectionReference.doc(group.id).update(group.toDoc()!);
+      await _groupCollectionReference.doc(group.id).update(group.toMap());
     } catch (err) {
       throw err;
     }
@@ -85,27 +85,28 @@ class GroupRepository {
     }
   }
 
+  //! this should not be neccessary anymore (since we are saving references)
   ///Returns a stream of alll users which are currently member of a [group]
-  Stream<List<User>> getStreamOfUsersWhichAreCurrentyMemberOfGroup(
+  /*Stream<List<User>> getStreamOfUsersWhichAreCurrentyMemberOfGroup(
       Group group) {
     StreamController<List<User>> streamController =
         new StreamController<List<User>>();
-    if (group.users!.length == 0) {
+    if (group.members.length == 0) {
       throw new Exception("user list is malformed. List is empty");
     } else {
       List<List<User>> _allPagedResults = [];
       int requestIndex = 0;
 
       //Slice Array into chunk
-      List<List<String>> chunks = [];
+      List<List<GroupUserReference>> chunks = [];
       int counter = 0;
-      while (group.users!.length - counter > 10) {
-        chunks.add(group.users!.sublist(counter, counter + 10));
+      while (group.members.length - counter > 10) {
+        chunks.add(group.members.sublist(counter, counter + 10));
         counter += 10;
       }
-      chunks.add(group.users!.sublist(counter));
+      chunks.add(group.members.sublist(counter));
 
-      chunks.forEach((List<String> userList) {
+      chunks.forEach((List<GroupUserReference> userList) {
         int currentIndex = requestIndex;
         requestIndex++;
         _allPagedResults.add([]);
@@ -129,7 +130,7 @@ class GroupRepository {
       });
     }
     return streamController.stream;
-  }
+  }*/
 
   Stream<List<Group>> getStreamOfMemberGroups() {
     return FirebaseFirestore.instance

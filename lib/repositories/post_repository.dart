@@ -42,7 +42,7 @@ class PostRepository {
     try {
       assert(post.id != null && post.id != '',
           'When updating a Post, Object must contain a valid Id');
-      await _postCollectionReference.doc(post.id).update(post.toDoc()!);
+      await _postCollectionReference.doc(post.id).update(post.toMap());
     } catch (err) {
       //return err as Exception;
     }
@@ -52,7 +52,7 @@ class PostRepository {
   Future<void> createPost(Post post) async {
     try {
       post.geohash = await GeoService.getCurrentGeohash();
-      await _postCollectionReference.add(post.toDoc()!);
+      await _postCollectionReference.add(post.toMap());
     } catch (err) {
       log("post: " + err.toString());
       return Future.error(err);
