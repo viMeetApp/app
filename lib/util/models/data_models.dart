@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 part 'data_models.doc_serialize.dart';
@@ -9,13 +7,6 @@ part 'data_models.serialize_util.dart';
 abstract class DocumentSerializable {
   Map<String, dynamic>? toDoc();
   //abstract factory DocumentSerializable.fromDoc(DocumentSnapshot document);
-}
-
-abstract class MapSerializable {
-  Map<String, dynamic> toMap();
-  /*static fromMap(Map<String, dynamic> map) {
-    return null;
-  }*/
 }
 
 /// Database Object that includes an id
@@ -32,7 +23,7 @@ class DatabaseDocument implements DocumentSerializable {
   Map<String, dynamic>? toDoc() => _databaseDocumentToDoc(this);
 
   factory DatabaseDocument.fromDoc(DocumentSnapshot document) =>
-      _databaseDocumentFromDoc(document);
+      _databaseDocumentFromDoc(docToMap(document));
 }
 
 /// Document that also contains
@@ -60,7 +51,7 @@ class UserGeneratedDocument extends DatabaseDocument {
 ///
 /// [name] the custom name of the user.
 /// [picture] the id of the picture in the storage bucket.
-class UserReference extends DatabaseDocument implements MapSerializable {
+class UserReference extends DatabaseDocument {
   String name;
   String? picture;
 
@@ -72,11 +63,7 @@ class UserReference extends DatabaseDocument implements MapSerializable {
         super.empty();
 
   @override
-  Map<String, dynamic> toMap() => _userReferenceToMap(this);
-
-  @override
-  factory UserReference.fromMap(Map<String, dynamic> map) =>
-      _userReferenceFromMap(map);
+  factory UserReference.fromMap(Map<String, dynamic> map) => _userFromDoc(map);
 }
 
 /// extension of UserReference to include group specific data
