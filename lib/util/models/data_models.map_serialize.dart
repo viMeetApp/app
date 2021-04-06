@@ -2,7 +2,7 @@ part of 'data_models.dart';
 
 // Serialization
 
-Map<String, dynamic> _userReferenceToMap(UserReference instance,
+/*Map<String, dynamic> _userReferenceToMap(UserReference instance,
     {Map<String, dynamic>? serialized}) {
   serialized = serialized ?? <String, dynamic>{};
   serialized.putIfNotNull("id", instance.id);
@@ -83,4 +83,4 @@ User _userFromMap(Map<String, dynamic> map) {
     id: map['id'] as String?,
     name: map['name'] as String?,
   );
-}*/
+}*/*/

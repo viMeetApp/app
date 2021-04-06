@@ -55,6 +55,37 @@ extension ViMap on Map {
   }
 }
 
+List<T>? jsonListToList<T>(
+    List<dynamic>? json, T Function(dynamic value) onElement) {
+  if (json == null) {
+    return null;
+  }
+  List<T> result = [];
+  json.forEach((value) {
+    result.add(onElement(value));
+  });
+  return result;
+}
+
+List<dynamic>? listToJsonList<T>(
+    List<T>? list, dynamic Function(T value) onElement) {
+  if (list == null) {
+    return null;
+  }
+  List<dynamic> result = [];
+  list.forEach((value) {
+    result.add(onElement(value));
+  });
+
+  return result;
+}
+
+Map<String, dynamic> docToMap(DocumentSnapshot snapshot) {
+  Map<String, dynamic> result = snapshot.data() ?? {};
+  result.putIfNotNull("id", snapshot.id);
+  return result;
+}
+
 /*List<T> mapToList<T>(Map<String, dynamic>? json,
     T Function(String key, dynamic value) onElement) {
   List<T> tags = [];
