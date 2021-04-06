@@ -87,6 +87,16 @@ Map<String, dynamic> _buddyToMap(Buddy instance,
   return _postToMap(instance, serialized: serialized, includeID: includeID);
 }
 
+Map<String, dynamic> _messageToMap(Message instance,
+    {Map<String, dynamic>? serialized, bool includeID = false}) {
+  serialized = serialized ?? <String, dynamic>{};
+  serialized.putIfNotNull('createdAt', instance.createdAt);
+  serialized.putIfNotNull('type', enumToString(instance.type));
+  serialized.putIfNotNull('content', instance.content);
+  return _userGeneratedDocumentToMap(instance,
+      serialized: serialized, includeID: includeID);
+}
+
 Map<String, dynamic> _groupToMap(Group instance,
     {Map<String, dynamic>? serialized, bool includeID = false}) {
   serialized = serialized ?? <String, dynamic>{};
@@ -208,6 +218,14 @@ Buddy _buddyFromMap(Map<String, dynamic> map, {Buddy? instance}) {
   Map<String, dynamic>? buddy = map['buddy'];
   instance.buddy = buddy != null ? UserReference.fromMap(buddy) : null;
   return _postFromMap(map, instance: instance) as Buddy;
+}
+
+Message _messageFromMap(Map<String, dynamic> map, {Message? instance}) {
+  instance = instance ?? Message.empty();
+  instance.createdAt = map['createdAt'];
+  instance.type = stringToEnum(map['type'], MessageType.values);
+  instance.content = map['content'];
+  return _userGeneratedDocumentFromMap(map, instance: instance) as Message;
 }
 
 Group _groupFromMap(Map<String, dynamic> map, {Group? instance}) {

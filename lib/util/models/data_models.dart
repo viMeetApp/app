@@ -286,6 +286,41 @@ class Buddy extends Post {
   factory Buddy.fromMap(Map<String, dynamic> map) => _buddyFromMap(map);
 }
 
+enum MessageType { text, image, video }
+
+/// model for messages to be posted within posts
+///
+/// [createdAt] timestamp when the message was submitted
+/// [type] gives information about the type of the message
+/// [content] the actual message or storage reference
+class Message extends UserGeneratedDocument {
+  int createdAt;
+  MessageType type;
+  String content;
+
+  Message(
+      {required String id,
+      required UserReference author,
+      required this.createdAt,
+      required this.type,
+      required this.content})
+      : super(id: id, author: author);
+
+  Message.empty()
+      : this.createdAt = -1,
+        this.type = MessageType.text,
+        this.content = "",
+        super(id: "", author: UserReference.empty());
+
+  @override
+  Map<String, dynamic> toMap({bool includeID = false}) =>
+      _messageToMap(this, includeID: includeID);
+
+  factory Message.fromDoc(DocumentSnapshot document) =>
+      Message.fromMap(docToMap(document));
+  factory Message.fromMap(Map<String, dynamic> map) => _messageFromMap(map);
+}
+
 /// model for groups in which posts can be published
 ///
 /// [about] contains a description of the group.

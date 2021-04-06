@@ -16,6 +16,7 @@ void main() {
     expect(Post.empty(), isA<Post>(), reason: "Post");
     expect(Event.empty(), isA<Event>(), reason: "Event");
     expect(Buddy.empty(), isA<Buddy>(), reason: "Buddy");
+    expect(Message.empty(), isA<Message>(), reason: "Message");
     expect(Group.empty(), isA<Group>(), reason: "Group");
     expect(Report.empty(), isA<Report>(), reason: "Report");
     expect(BugReport.empty(), isA<BugReport>(), reason: "BugReport");

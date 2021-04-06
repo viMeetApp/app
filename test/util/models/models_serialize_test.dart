@@ -106,6 +106,19 @@ void main() {
         Buddy.fromMap(serialized).toMap(includeID: true), equals(serialized));
   });
 
+  test("Message serialization", () {
+    Map<String, dynamic> serialized = {
+      "id": "123456789",
+      "author": {"id": "", "name": ""},
+      "createdAt": 12345,
+      "type": "text",
+      "content": "Hi! dies ist eine Nachricht."
+    };
+
+    expect(
+        Message.fromMap(serialized).toMap(includeID: true), equals(serialized));
+  });
+
   test("GroupReference serialization", () {
     Map<String, dynamic> serialized = {
       "id": "123456789",
