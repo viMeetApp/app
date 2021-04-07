@@ -9,7 +9,7 @@ import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/update_group_info_widget/update_group_info_widget.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
-  final Group? group;
+  final Group group;
   GroupSettingsMainWidget({required this.group});
 
   @override
@@ -61,7 +61,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
                       ? GroupSettingsGroup(
                           title: "Informationen",
                           child: UpdateGroupInfoWidget(
-                            group: group!,
+                            group: group,
                           ),
                         )
                       : Container();
@@ -76,8 +76,8 @@ class GroupSettingsMainWidget extends StatelessWidget {
                       : Container();
                 }),
             GroupSettingsGroup(
-                title: group!.users!.length.toString() + " Mitglieder",
-                child: MembersOfGroupWidget(group: group!),
+                title: group.members.length.toString() + " Mitglieder",
+                child: MembersOfGroupWidget(group: group),
                 padded: false),
           ],
         ),

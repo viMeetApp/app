@@ -1,13 +1,13 @@
 part of 'group_cubit.dart';
 
 abstract class GroupState {
-  Group? group;
+  Group group;
   GroupState({required this.group});
 }
 
 ///State while Loading everything
 class GroupUninitialized extends GroupState {
-  GroupUninitialized() : super(group: null);
+  GroupUninitialized() : super(group: Group.empty());
 }
 
 ///When you are just a User No Rights to Change Group Delete, Admit Members etc.

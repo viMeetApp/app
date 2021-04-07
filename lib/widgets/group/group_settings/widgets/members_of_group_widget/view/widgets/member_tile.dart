@@ -9,11 +9,14 @@ class MemberTile extends StatelessWidget {
 
   MemberTile({required this.user, this.userHasAdminRights});
   Widget build(BuildContext context) {
-    final isAdmin = BlocProvider.of<GroupSettingsCubit>(context)
-        .state
-        .group
-        .admins!
-        .contains(user.id);
+    bool isAdmin = false;
+    for (GroupUserReference member
+        in BlocProvider.of<GroupSettingsCubit>(context).state.group.members) {
+      if (member.id == user.id && member.isAdmin) {
+        isAdmin = true;
+        break;
+      }
+    }
     return ListTile(
       leading: Icon(Icons.account_circle),
       title: Text(user.name!),

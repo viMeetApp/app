@@ -73,11 +73,13 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
 
   ///Helper Function, Decides if person is Admin of Group or just basic Member
   void _checkAndEmitMatchingState({required Group group}) {
-    //Create User and State Map
-    if (group.admins!.contains(userId)) {
-      emit(AdminSettings(group: group));
-    } else if (group.users!.contains(userId)) {
-      emit(GroupMemberSettings(group: group));
+    for (GroupUserReference member in group.members) {
+      if (member.id == userId) {
+        emit(member.isAdmin
+            ? AdminSettings(group: group)
+            : GroupMemberSettings(group: group));
+        break;
+      }
     }
   }
 

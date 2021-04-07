@@ -61,12 +61,14 @@ class _ExpandableListState extends State<ExpandableList> {
 
   @override
   Widget build(BuildContext context) {
-    final bool currentUserIsAdminForThisGroup =
-        BlocProvider.of<GroupSettingsCubit>(context)
-            .state
-            .group
-            .admins!
-            .contains(FirebaseAuth.instance.currentUser!.uid);
+    bool currentUserIsAdminForThisGroup = false;
+    for (models.GroupUserReference user
+        in BlocProvider.of<GroupSettingsCubit>(context).state.group.members) {
+      if (user.id == FirebaseAuth.instance.currentUser!.uid && user.isAdmin) {
+        currentUserIsAdminForThisGroup = true;
+        break;
+      }
+    }
     //Length of list currently displayed
     int listLength = isExpanded
         ? widget.members.length

@@ -5,9 +5,9 @@ import 'package:signup_app/widgets/group/group_settings/view/group_settings_main
 import 'package:signup_app/util/models/data_models.dart';
 
 class GroupSettingsPage extends StatelessWidget {
-  final Group? group;
+  final Group group;
   GroupSettingsPage({required this.group});
-  static Route route({required Group? group}) {
+  static Route route({required Group group}) {
     return MaterialPageRoute<void>(
         builder: (_) => GroupSettingsPage(
               group: group,

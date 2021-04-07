@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
@@ -36,12 +35,14 @@ class GroupCubit extends Cubit<GroupState> {
   }
 
   void _checkAndEmitGroupState(Group group) {
-    if (group.admins!.contains(userId)) {
-      emit(GroupAdmin(group: group));
-    } else if (group.users!.contains(userId)) {
-      emit(GroupMember(group: group));
-    } else {
-      emit(NotGroupMember(group: group));
+    for (GroupUserReference member in group.members) {
+      if (member.id == userId) {
+        emit(member.isAdmin
+            ? GroupAdmin(group: group)
+            : GroupMember(group: group));
+        break;
+      }
     }
+    emit(NotGroupMember(group: group));
   }
 }

@@ -13,7 +13,7 @@ class UserRepository {
 
   // user interactions
 
-  ///Return the User who is currently authenticated
+  /// Return the User who is currently authenticated
   Stream<util.User> observeUser() {
     return _firestore
         .collection('users')
@@ -26,7 +26,7 @@ class UserRepository {
     return FirebaseAuth.instance.currentUser!.uid;
   }
 
-  ///Return the User who is currently authenticated
+  /// Return the User who is currently authenticated
   util.User? getUser() {
     return _currentUser;
   }
