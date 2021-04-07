@@ -19,7 +19,7 @@ class MemberTile extends StatelessWidget {
     }
     return ListTile(
       leading: Icon(Icons.account_circle),
-      title: Text(user.name!),
+      title: Text(user.name),
       trailing: Wrap(
         children: [
           if (isAdmin)

@@ -25,10 +25,12 @@ class GroupCreatorState extends ViState {
       }
 
       Group newGroup = Group(
-          name: title,
-          about: about,
-          members: [UserRepository.getUID()],
-          users: [UserRepository.getUID()]);
+        name: title,
+        about: about,
+        isPrivate: false,
+        //! this is not safe!
+        members: [UserRepository().getUser() as GroupUserReference],
+      );
 
       await GroupRepository().createGroup(newGroup);
       type = Types.submitted;
