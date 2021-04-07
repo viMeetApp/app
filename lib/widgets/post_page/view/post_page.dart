@@ -6,6 +6,7 @@ import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
+import 'package:signup_app/widgets/post_editor/implementations/event_editor_page.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
 import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
 import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
@@ -41,11 +42,11 @@ class PostPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                        child: Text(Tools.dateFromEpoch(event.eventDate ?? 0),
+                        child: Text(Tools.dateFromEpoch(event.eventAt ?? 0),
                             style: AppThemeData.textNormal(
                                 fontWeight: FontWeight.bold))),
                     Expanded(
-                        child: Text(Tools.timeFromEpoch(event.eventDate ?? 0),
+                        child: Text(Tools.timeFromEpoch(event.eventAt ?? 0),
                             style: AppThemeData.textNormal(
                                 fontWeight: FontWeight.bold))),
                   ]),
