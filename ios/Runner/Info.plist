@@ -54,6 +54,10 @@
                 </dict>
            </dict>
       </dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app need access to location when in foreground.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in background.</string>
 
 </dict>
 </plist>
