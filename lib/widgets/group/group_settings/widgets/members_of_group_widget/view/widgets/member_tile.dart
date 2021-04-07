@@ -12,11 +12,10 @@ class MemberTile extends StatelessWidget {
     final isAdmin = BlocProvider.of<GroupSettingsCubit>(context)
         .state
         .group
-        .admins!
-        .contains(user.id);
+        .isAdmin(user.id);
     return ListTile(
       leading: Icon(Icons.account_circle),
-      title: Text(user.name!),
+      title: Text(user.name),
       trailing: Wrap(
         children: [
           if (isAdmin)

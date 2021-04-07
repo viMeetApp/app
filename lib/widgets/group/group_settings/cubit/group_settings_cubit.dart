@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
@@ -73,12 +72,12 @@ class GroupSettingsCubit extends Cubit<GroupMemberSettings> {
 
   ///Helper Function, Decides if person is Admin of Group or just basic Member
   void _checkAndEmitMatchingState({required Group group}) {
-    //Create User and State Map
-    if (group.admins!.contains(userId)) {
-      emit(AdminSettings(group: group));
-    } else if (group.users!.contains(userId)) {
-      emit(GroupMemberSettings(group: group));
-    }
+    GroupUserReference selfReference =
+        group.members.firstWhere((member) => member.id == userId);
+    if (selfReference.isAdmin) {
+      return emit(AdminSettings(group: group));
+    } else
+      return emit(GroupMemberSettings(group: group));
   }
 
 //ToDo Extract Cloud Function logic

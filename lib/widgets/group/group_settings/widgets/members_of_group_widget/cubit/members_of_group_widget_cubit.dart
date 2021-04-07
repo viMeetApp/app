@@ -22,7 +22,7 @@ class MembersOfGroupWidgetCubit extends Cubit<List<User>> {
     if (_streamSubscription != null) {
       await _streamSubscription!.cancel();
     }
-    if (group.users!.length == 0) {
+    if (group.members.length == 0) {
       emit([]);
     } else {
       currentStream =

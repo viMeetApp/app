@@ -76,7 +76,7 @@ class GroupSettingsMainWidget extends StatelessWidget {
                       : Container();
                 }),
             GroupSettingsGroup(
-                title: group!.users!.length.toString() + " Mitglieder",
+                title: group!.members.length.toString() + " Mitglieder",
                 child: MembersOfGroupWidget(group: group!),
                 padded: false),
           ],

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 
 part 'data_models.serialize.dart';
 part 'data_models.serialize_util.dart';
@@ -355,6 +356,29 @@ class Group extends GroupReference {
   factory Group.fromDoc(DocumentSnapshot document) =>
       Group.fromMap(docToMap(document));
   factory Group.fromMap(Map<String, dynamic> map) => _groupFromMap(map);
+
+  /// Helper function to check if user specified by [id] is currently member of the group
+  bool isMember(String id) {
+    final GroupUserReference? selfReference =
+        this.members.firstWhereOrNull((member) => member.id == id);
+    if (selfReference != null) {
+      return true;
+    }
+    return false;
+  }
+
+  /// Helper function to check if user specified by [id] is currently admin of group
+  bool isAdmin(String id) {
+    final GroupUserReference? selfReference =
+        this.members.firstWhereOrNull((member) => member.id == id);
+    if (selfReference != null) {
+      if (selfReference.isAdmin) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
 }
 
 enum ReportReason {

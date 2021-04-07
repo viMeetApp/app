@@ -18,7 +18,11 @@ class UpdatePostPage extends StatelessWidget {
       providers: [
         BlocProvider<PostEditorCubit>(
             create: (_) => PostEditorCubit.updatePost(post: post!)),
-        BlocProvider<TagCubit>(create: (_) => TagCubit(tags: post!.tags)),
+        BlocProvider<TagCubit>(
+          create: (_) =>
+              //ToDo Fix that no ! for posts necessary. It never should be nullable
+              TagCubit(tags: post!.tags.map((tag) => tag.toString()).toList()),
+        )
       ],
       child: CreatePostForm(),
     );

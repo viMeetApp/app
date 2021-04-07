@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/widgets/post_page/view/post_page.dart';
 import 'package:signup_app/widgets/report/view/report_dialog.dart';
 
@@ -12,9 +13,8 @@ class PostTile extends StatelessWidget {
   PostTile({required this.post, this.highlight = false});
 
   Widget getEventDateText(Event event) {
-    if (event.eventDate != null) {
-      String formattedDate = DateFormat('dd.MM.yyyy')
-          .format(DateTime.fromMillisecondsSinceEpoch(event.eventDate!));
+    if (event.eventAt != null) {
+      String formattedDate = Tools.dateFromEpoch(event.eventAt!);
       return Row(children: [
         Icon(
           Icons.event,
