@@ -86,6 +86,10 @@ void main() {
       "tags": {"food": true, "online": true},
       "about": "this is the about text",
       "maxParticipants": 12,
+      "participants": [
+        {"id": "123", "name": "Anna"},
+        {"id": "456", "name": "Bert"}
+      ],
       "costs": "14€",
       "eventLocation": "Bahnhof"
     };

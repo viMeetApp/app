@@ -214,6 +214,7 @@ class Post extends UserGeneratedDocument {
 class Event extends Post {
   String? about;
   int? maxParticipants;
+  List<UserReference>? participants;
   int? eventAt;
   String? costs;
   String? eventLocation;
@@ -231,7 +232,8 @@ class Event extends Post {
       this.maxParticipants,
       this.eventAt,
       this.costs,
-      this.eventLocation})
+      this.eventLocation,
+      this.participants})
       : super(
             id: id,
             author: author,

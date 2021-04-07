@@ -78,6 +78,10 @@ Map<String, dynamic> _eventToMap(Event instance,
   serialized.putIfNotNull('eventLocation', instance.eventLocation);
   serialized.putIfNotNull('eventAt', instance.eventAt);
   serialized.putIfNotNull('maxParticipants', instance.maxParticipants);
+  serialized.putIfNotNull(
+      'participants',
+      listToJsonList<UserReference>(
+          instance.participants, (value) => value.toMap(includeID: true)));
   return _postToMap(instance, serialized: serialized, includeID: includeID);
 }
 
@@ -213,6 +217,8 @@ Event _eventFromMap(Map<String, dynamic> map, {Event? instance}) {
   instance.maxParticipants = map['maxParticipants'];
   instance.costs = map['costs'];
   instance.eventLocation = map['eventLocation'];
+  instance.participants = jsonListToList<UserReference>(
+      map['participants'], (value) => UserReference.fromMap(value));
   return _postFromMap(map, instance: instance) as Event;
 }
 
