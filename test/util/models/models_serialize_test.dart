@@ -64,7 +64,11 @@ void main() {
       "type": "event",
       "geohash": "ABCDE",
       "tags": {"food": true, "online": true},
-      "groupId": "ABCDE12345"
+      "group": {
+        "id": "ABCD1234",
+        "name": "super Gruppe",
+        "picture": "image.png"
+      }
     };
 
     expect(Post.fromMap(serialized).toMap(includeID: true), equals(serialized));

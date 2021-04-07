@@ -178,7 +178,7 @@ class Post extends UserGeneratedDocument {
   String geohash;
   PostType type;
   List<PostTag> tags;
-  String? groupId;
+  GroupReference? group;
 
   Post(
       {String id = "",
@@ -189,7 +189,7 @@ class Post extends UserGeneratedDocument {
       required this.geohash,
       required this.type,
       required this.tags,
-      this.groupId})
+      this.group})
       : super(id: id, author: author);
 
   Post.empty()
