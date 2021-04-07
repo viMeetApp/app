@@ -51,6 +51,7 @@ class EventEditorForm extends StatelessWidget {
         ],
         child: BlocBuilder<EventEditorCubit, EventEditorState>(
             builder: (context, state) {
+          print(state.eventAt);
           return SafeArea(
             child: SizedBox.expand(
               child: SingleChildScrollView(
@@ -126,7 +127,9 @@ class EventEditorForm extends StatelessWidget {
                                 runSpacing: 10,
                                 children: [
                                   //---------------------------------
-                                  DateAndTimePicker(),
+                                  DateAndTimePicker(
+                                    dateInMilliseconds: state.eventAt,
+                                  ),
                                   //----------------------------------
                                   TextFormField(
                                     initialValue: state.about,
@@ -273,6 +276,11 @@ class DateAndTimePicker extends StatelessWidget {
       if (_timeOfDay != null)
         tempDate = new DateTime(tempDate.year, tempDate.month, tempDate.day,
             _timeOfDay!.hour, _timeOfDay!.minute);
+      else {
+        final currentTime = TimeOfDay.now();
+        tempDate = new DateTime(tempDate.year, tempDate.month, tempDate.day,
+            currentTime.hour, currentTime.minute);
+      }
       BlocProvider.of<EventEditorCubit>(context)
           .setEventAt(tempDate.millisecondsSinceEpoch);
     }
@@ -282,8 +290,8 @@ class DateAndTimePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FractionallySizedBox(
-          widthFactor: 0.5,
+        Expanded(
+          flex: 1,
           child: TextButton.icon(
             //textColor: AppThemeData.colorFormField,
             onPressed: () {
@@ -299,13 +307,16 @@ class DateAndTimePicker extends StatelessWidget {
             },
             icon: Icon(Icons.calendar_today),
             label: Expanded(
-              child: Text(_dateTime != null ? _dateTime.toString() : "Datum",
+              child: Text(
+                  _dateTime != null
+                      ? Tools.readableDateFromDate(_dateTime!)
+                      : "Datum",
                   style: AppThemeData.textFormField()),
             ),
           ),
         ),
-        FractionallySizedBox(
-          widthFactor: 0.5,
+        Expanded(
+          flex: 1,
           child: TextButton.icon(
             // textColor: AppThemeData.colorFormField,
             // This Button is only active if an date is set -> can not set time without a date
@@ -313,7 +324,9 @@ class DateAndTimePicker extends StatelessWidget {
                 ? () {
                     showTimePicker(
                             context: context,
-                            initialTime: _timeOfDay ?? TimeOfDay.now())
+                            initialTime: _timeOfDay ??
+                                TimeOfDay
+                                    .now()) //Normaly TimeOfDay.now() should never be called because only active if DateTime is set
                         .then((TimeOfDay? time) {
                       _timeOfDay = time;
                       updateEventTime(context);
@@ -323,7 +336,9 @@ class DateAndTimePicker extends StatelessWidget {
             icon: Icon(Icons.access_time),
             label: Expanded(
               child: Text(
-                _timeOfDay != null ? _timeOfDay.toString() : "Startzeit",
+                _timeOfDay != null
+                    ? Tools.readableTimeFromTimeOfDay(_timeOfDay!)
+                    : "Startzeit",
                 style: AppThemeData.textFormField(),
               ),
             ),
@@ -342,8 +357,8 @@ Widget _optionalField({
 }) {
   return Padding(
     padding: const EdgeInsets.only(top: 6, bottom: 6),
-    child: FlatButton.icon(
-      textColor: AppThemeData.colorFormField,
+    child: TextButton.icon(
+      //textColor: AppThemeData.colorFormField,
       onPressed: onPressed as void Function()?,
       icon: Icon(icon),
       label: Expanded(

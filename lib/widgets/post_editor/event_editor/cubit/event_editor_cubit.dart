@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:signup_app/repositories/post_repository.dart';
+import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 import 'package:signup_app/util/tools/debug_tools.dart';
@@ -22,8 +23,10 @@ class EventEditorCubit extends Cubit<EventEditorState>
   void submit() async {
     emit(state.copyWith(validationState: ViFormState.loading()));
     if (event == null) {
-      UserReference author = new UserReference(id: "1234", name: "ToDo"); //ToDo
       //Create new Event also set created At
+      final UserReference? author = UserRepository().getUserReference();
+      if (author == null)
+        return emit(state.copyWith(validationState: ViFormState.error()));
       event = new Event(
         author: author,
         title: state.title,
@@ -37,6 +40,7 @@ class EventEditorCubit extends Cubit<EventEditorState>
         eventLocation: state.eventLocation,
         eventAt: state.eventAt,
         costs: state.costs,
+
         // Todo GroupReference
       );
     } else {

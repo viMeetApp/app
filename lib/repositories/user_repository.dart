@@ -31,6 +31,15 @@ class UserRepository {
     return _currentUser;
   }
 
+  util.UserReference? getUserReference() {
+    if (_currentUser != null) {
+      return util.UserReference(
+          name: _currentUser!.name,
+          id: _currentUser!.id,
+          picture: _currentUser!.picture);
+    }
+  }
+
   Future<util.User> getUserFromDatabase() async {
     try {
       var snap = await _firestore

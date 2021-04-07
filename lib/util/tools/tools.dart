@@ -33,8 +33,16 @@ class Tools {
         .format(DateTime.fromMillisecondsSinceEpoch(epoch));
   }
 
+  static String readableDateFromDate(DateTime date) {
+    return DateFormat('dd.MM.yyyy').format(date);
+  }
+
   static String timeFromEpoch(int epoch) {
     return DateFormat('hh:mm')
         .format(DateTime.fromMillisecondsSinceEpoch(epoch));
+  }
+
+  static String readableTimeFromTimeOfDay(TimeOfDay timeOfDay) {
+    return timeOfDay.toString().substring(10, 15);
   }
 }
