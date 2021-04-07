@@ -177,17 +177,19 @@ class Post extends UserGeneratedDocument {
   String geohash;
   PostType type;
   List<PostTag> tags;
+  String? groupId;
 
-  Post({
-    String id = "",
-    required UserReference author,
-    required this.title,
-    required this.createdAt,
-    required this.expiresAt,
-    required this.geohash,
-    required this.type,
-    required this.tags,
-  }) : super(id: id, author: author);
+  Post(
+      {String id = "",
+      required UserReference author,
+      required this.title,
+      required this.createdAt,
+      required this.expiresAt,
+      required this.geohash,
+      required this.type,
+      required this.tags,
+      this.groupId})
+      : super(id: id, author: author);
 
   Post.empty()
       : title = "",

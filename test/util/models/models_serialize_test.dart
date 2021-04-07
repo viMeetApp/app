@@ -63,7 +63,8 @@ void main() {
       "expiresAt": 62,
       "type": "event",
       "geohash": "ABCDE",
-      "tags": {"food": true, "online": true}
+      "tags": {"food": true, "online": true},
+      "groupId": "ABCDE12345"
     };
 
     expect(Post.fromMap(serialized).toMap(includeID: true), equals(serialized));
