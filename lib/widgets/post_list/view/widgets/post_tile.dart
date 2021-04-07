@@ -121,7 +121,7 @@ class PostTile extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext cont) => ReportDialog(
                                     id: post.id,
-                                    reportType: Report.TYPE_POST,
+                                    reportType: ReportType.post,
                                     parentContext: context,
                                   ),
                                 );

@@ -12,16 +12,14 @@ class PostPageState extends ViState {
   bool favorited = false;
   bool subscribed = false;
   bool processing = false;
-  Post post = Post();
+  Post post = Post.empty();
 
   PostPageState(String postID) {
     _postRepository.getPostStreamById(postID).listen((Post? dbpost) {
       if (dbpost is Event) {
         processing = false;
         post = dbpost;
-        subscribed =
-            (dbpost.participants?.contains(UserRepository().getUser()?.id) ??
-                false);
+        subscribed = (dbpost.contains(UserRepository().getUser()?.id) ?? false);
         refresh();
       } else {
         //emit(BuddyState(post: post!));
@@ -30,12 +28,12 @@ class PostPageState extends ViState {
   }
 
   bool postIsExpired() {
-    return post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000;
+    return post.expiresAt < DateTime.now().millisecondsSinceEpoch;
   }
 
   /// returns whether the current user is the author of the post
   bool postIsOwned() {
-    return post.author?.id == FirebaseAuth.instance.currentUser!.uid;
+    return post.author.id == FirebaseAuth.instance.currentUser!.uid;
   }
 
   void toggleFavorite() {
