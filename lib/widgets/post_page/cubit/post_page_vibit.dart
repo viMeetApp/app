@@ -19,7 +19,9 @@ class PostPageState extends ViState {
       if (dbpost is Event) {
         processing = false;
         post = dbpost;
-        subscribed = (dbpost.contains(UserRepository().getUser()?.id) ?? false);
+        subscribed =
+            (dbpost.participants?.contains(UserRepository().getUser()?.id) ??
+                false);
         refresh();
       } else {
         //emit(BuddyState(post: post!));

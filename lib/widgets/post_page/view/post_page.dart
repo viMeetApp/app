@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
-import 'package:signup_app/widgets/post_editor/implementations/event_editor_page.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
 import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
 import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
@@ -32,10 +30,11 @@ class PostPage extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: Text(event.about ?? ""),
-            ),
+            if (event.about != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Text(event.about!),
+              ),
             Container(
               padding: const EdgeInsets.only(bottom: 15.0, top: 10),
               child: Row(
@@ -51,36 +50,39 @@ class PostPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold))),
                   ]),
             ),
-            if (event.details.length > 0)
-              Divider(
-                color: AppThemeData.colorControlsDisabled,
-                thickness: 1,
-              ),
-            for (PostDetail? detail in event.details)
-              if (detail != null) getPostDetailView(detail),
-            if (event.details.length > 0)
-              Divider(
-                color: AppThemeData.colorControlsDisabled,
-                thickness: 1,
-              ),
+            Divider(
+              color: AppThemeData.colorControlsDisabled,
+              thickness: 1,
+            ),
+            if (event.maxParticipants != null)
+              EventFieldView(
+                  'Max. Teilnehmende', event.maxParticipants.toString()),
+            if (event.eventAt != null)
+              EventFieldView('EventAt', event.eventAt.toString()),
+            if (event.costs != null)
+              EventFieldView('Kosten', event.costs.toString()),
+            if (event.eventLocation != null)
+              EventFieldView('Ort', event.eventLocation!),
+            Divider(
+              color: AppThemeData.colorControlsDisabled,
+              thickness: 1,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget getPostDetailView(PostDetail detail) {
+  Widget EventFieldView(String name, String content) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-              child:
-                  Text(PostRepository.titleFromPostDetailID(detail.id) + ":")),
+          Expanded(child: Text(name + ":")),
           Expanded(
               child: Text(
-            detail.value,
+            content,
             style: AppThemeData.textNormal(fontWeight: FontWeight.bold),
           ))
         ],
@@ -125,8 +127,8 @@ class PostPage extends StatelessWidget {
               flex: 1,
               child: Center(
                   child: Text("${(state.post as Event).participants!.length}" +
-                      (((state.post as Event).maxPeople ?? 0) > 0
-                          ? "/${(state.post as Event).maxPeople}"
+                      (((state.post as Event).maxParticipants ?? 0) > 0
+                          ? "/${(state.post as Event).maxParticipants}"
                           : "") +
                       " Teilnehmende")))
         ],

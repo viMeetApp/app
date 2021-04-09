@@ -43,8 +43,8 @@ class PostMembersPage extends StatelessWidget {
           children: [
             EntwicklungsTools.getTODOWidget(
                 "komplette Nutzer laden.\nggf. Nutzernamen mit Post in Datenbank speichern"),
-            for (String member in event.participants ?? [])
-              getMemberTile(member)
+            for (UserReference member in event.participants ?? [])
+              getMemberTile(member.name) //ToDo Change to whole member
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 import 'package:signup_app/util/tools/debug_tools.dart';
@@ -28,21 +29,19 @@ class EventEditorCubit extends Cubit<EventEditorState>
       if (author == null)
         return emit(state.copyWith(validationState: ViFormState.error()));
       event = new Event(
-        author: author,
-        title: state.title,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        geohash: "ToDo Hash",
-        expiresAt: 0, //ToDo expires at
-        type: PostType.event,
-        tags: state.tags,
-        about: state.about,
-        maxParticipants: state.maxParticipants,
-        eventLocation: state.eventLocation,
-        eventAt: state.eventAt,
-        costs: state.costs,
-
-        // Todo GroupReference
-      );
+          author: author,
+          title: state.title,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          geohash: await GeoService.getCurrentGeohash(),
+          expiresAt: 0, //ToDo expires at
+          type: PostType.event,
+          tags: state.tags,
+          about: state.about,
+          maxParticipants: state.maxParticipants,
+          eventLocation: state.eventLocation,
+          eventAt: state.eventAt,
+          costs: state.costs,
+          group: state.groupReference);
     } else {
       //update event
       event!.title = state.title;
