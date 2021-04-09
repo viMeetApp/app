@@ -219,23 +219,23 @@ class Event extends Post {
   String? costs;
   String? eventLocation;
 
-  Event({
-    String id = "",
-    required UserReference author,
-    required String title,
-    required int createdAt,
-    required int expiresAt,
-    required String geohash,
-    required PostType type,
-    required List<PostTag> tags,
-    GroupReference? group, //ToDo reicht das wie ich das ergänzt habe?
-    this.about,
-    this.maxParticipants,
-    this.eventAt,
-    this.costs,
-    this.eventLocation,
-    this.participants,
-  }) : super(
+  Event(
+      {String id = "",
+      required UserReference author,
+      required String title,
+      required int createdAt,
+      required int expiresAt,
+      required String geohash,
+      required PostType type,
+      required List<PostTag> tags,
+      this.about,
+      this.maxParticipants,
+      this.eventAt,
+      this.costs,
+      this.eventLocation,
+      this.participants,
+      GroupReference? group})
+      : super(
             id: id,
             author: author,
             title: title,
@@ -270,6 +270,7 @@ class Buddy extends Post {
       required String geohash,
       required PostType type,
       required List<PostTag> tags,
+      GroupReference? group,
       this.buddy})
       : super(
             id: id,
@@ -279,7 +280,8 @@ class Buddy extends Post {
             expiresAt: expiresAt,
             geohash: geohash,
             type: type,
-            tags: tags);
+            tags: tags,
+            group: group);
 
   Buddy.empty() : super.empty();
 
