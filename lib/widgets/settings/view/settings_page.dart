@@ -51,7 +51,7 @@ class SettingsPage extends StatelessWidget {
                             },
                             title: Text(
                               state.user != null
-                                  ? state.user!.name!
+                                  ? state.user!.name
                                   : "unbekannter Nutzer",
                               style: AppThemeData.textHeading3(
                                   color: Colors.white),

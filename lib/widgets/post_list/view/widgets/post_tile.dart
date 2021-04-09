@@ -74,7 +74,7 @@ class PostTile extends StatelessWidget {
                         ),
                         Container(
                             child: Text(
-                              this.post.author!.name!,
+                              this.post.author.name,
                               style: TextStyle(
                                   color: AppThemeData.colorTextRegularLight,
                                   fontSize: 15,
@@ -88,7 +88,7 @@ class PostTile extends StatelessWidget {
                               style: TextStyle(fontSize: 15),
                             ),
                             Text(
-                              this.post.group!.name!,
+                              this.post.group!.name,
                               style: TextStyle(
                                   color: AppThemeData.colorTextRegularLight,
                                   fontSize: 15,

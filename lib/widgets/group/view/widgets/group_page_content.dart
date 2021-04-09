@@ -119,7 +119,7 @@ class GroupPageContent extends StatelessWidget {
                           margin: EdgeInsets.only(left: 10),
                           transform: Matrix4.translationValues(0.0, -23.0, 0.0),
                           child: Hero(
-                            tag: "group_icon" + state.group!.id!,
+                            tag: "group_icon" + state.group.id,
                             child: CircleAvatar(
                               radius: 50,
                               backgroundColor: AppThemeData.colorCard,
@@ -141,7 +141,7 @@ class GroupPageContent extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  state.group!.name!,
+                                  state.group.name,
                                   style: AppThemeData.textHeading1(),
                                   textAlign: TextAlign.left,
                                 ),
@@ -188,7 +188,7 @@ class GroupPageContent extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 5),
-                  Text(state.group!.about!, style: AppThemeData.textNormal()),
+                  Text(state.group.about, style: AppThemeData.textNormal()),
                 ],
               ),
             ),

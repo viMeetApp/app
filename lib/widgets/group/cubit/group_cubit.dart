@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
-import 'package:collection/collection.dart';
 
 part 'group_state.dart';
 
@@ -28,7 +27,7 @@ class GroupCubit extends Cubit<GroupState> {
 
   void requestToJoinGroup() {
     emit((state as NotGroupMember).copyWith(requesting: true));
-    GroupInteractions.joinGroup(state.group!.id, (success) {
+    GroupInteractions.joinGroup(state.group.id, (success) {
       print(success
           ? "Subscribed Sucessfully"
           : "There was an error subscribing");

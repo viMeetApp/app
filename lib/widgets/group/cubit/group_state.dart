@@ -20,7 +20,7 @@ class NotGroupMember extends GroupState {
   NotGroupMember({required group, this.requesting = false})
       : super(group: group) {
     requestedToJoin =
-        this.group!.requestedToJoin!.contains(UserRepository.getUID());
+        this.group.requestedToJoin!.contains(UserRepository.getUID());
   }
 
   NotGroupMember copyWith({bool? requesting}) {

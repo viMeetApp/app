@@ -31,7 +31,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
               }
             });
           },
-          title: Text(group.name!),
+          title: Text(group.name),
         ),
         ListTile(
           leading: Icon(Icons.subject),
@@ -50,7 +50,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
               }
             });
           },
-          title: Text(group.about!),
+          title: Text(group.about),
         ),
       ],
     );

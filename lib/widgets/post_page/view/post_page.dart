@@ -15,7 +15,7 @@ class PostPage extends StatelessWidget {
 
   static Route route({required Post post}) {
     return MaterialPageRoute<void>(builder: (_) {
-      return post is Event ? PostPage(post.id ?? "") : tempBuddyPage();
+      return post is Event ? PostPage(post.id) : tempBuddyPage();
     });
   }
 
