@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/admit_to_join_group_widget.dart';
@@ -9,11 +8,11 @@ import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group
 import 'package:signup_app/widgets/group/group_settings/widgets/update_group_info_widget/update_group_info_widget.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
-  final Group group;
-  GroupSettingsMainWidget({required this.group});
+  GroupSettingsMainWidget();
 
   @override
   Widget build(BuildContext context) {
+    final GroupCubit _groupCubit = BlocProvider.of<GroupCubit>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppThemeData.colorControls),
@@ -62,16 +61,18 @@ class GroupSettingsMainWidget extends StatelessWidget {
                     GroupSettingsGroup(
                       title: "Informationen",
                       child: UpdateGroupInfoWidget(
-                        group: group,
+                        group: _groupCubit.state.group,
                       ),
                     ),
                     AdmitToJoinGroupWidget(
-                      group: group,
+                      group: _groupCubit.state.group,
                     ),
                   ],
                   GroupSettingsGroup(
-                      title: group.members.length.toString() + " Mitglieder",
-                      child: MembersOfGroupWidget(group: group),
+                      title: _groupCubit.state.group.members.length.toString() +
+                          " Mitglieder",
+                      child:
+                          MembersOfGroupWidget(group: _groupCubit.state.group),
                       padded: false),
                 ],
               ),

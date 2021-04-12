@@ -19,6 +19,6 @@ class GroupSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-        value: groupCubit, child: GroupSettingsMainWidget(group: group));
+        value: groupCubit, child: GroupSettingsMainWidget());
   }
 }

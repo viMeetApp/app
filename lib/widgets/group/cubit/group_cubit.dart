@@ -15,6 +15,7 @@ class GroupCubit extends Cubit<GroupState> {
             group, FirebaseAuth.instance.currentUser!.uid)) {
     //Subscribe to Group to keep information up to date
     GroupInteractions.getGroupInfo(group.id, (group) {
+      print('update');
       emit(_getCurrentGroupState(group, userId));
     });
   }
