@@ -255,6 +255,16 @@ class Event extends Post {
   factory Event.fromDoc(DocumentSnapshot document) =>
       Event.fromMap(docToMap(document));
   factory Event.fromMap(Map<String, dynamic> map) => _eventFromMap(map);
+
+  /// Helper function to check if user specified by [id] is currently member of the group
+  bool isMember(String id) {
+    final UserReference? selfReference =
+        this.participants?.firstWhereOrNull((member) => member.id == id);
+    if (selfReference != null) {
+      return true;
+    }
+    return false;
+  }
 }
 
 /// model for a post with just one participant

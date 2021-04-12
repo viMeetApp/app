@@ -35,21 +35,22 @@ class PostPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 15.0),
                 child: Text(event.about!),
               ),
-            Container(
-              padding: const EdgeInsets.only(bottom: 15.0, top: 10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                        child: Text(Tools.dateFromEpoch(event.eventAt ?? 0),
-                            style: AppThemeData.textNormal(
-                                fontWeight: FontWeight.bold))),
-                    Expanded(
-                        child: Text(Tools.timeFromEpoch(event.eventAt ?? 0),
-                            style: AppThemeData.textNormal(
-                                fontWeight: FontWeight.bold))),
-                  ]),
-            ),
+            if (event.eventAt != null)
+              Container(
+                padding: const EdgeInsets.only(bottom: 15.0, top: 10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                          child: Text(Tools.dateFromEpoch(event.eventAt!),
+                              style: AppThemeData.textNormal(
+                                  fontWeight: FontWeight.bold))),
+                      Expanded(
+                          child: Text(Tools.timeFromEpoch(event.eventAt!),
+                              style: AppThemeData.textNormal(
+                                  fontWeight: FontWeight.bold))),
+                    ]),
+              ),
             Divider(
               color: AppThemeData.colorControlsDisabled,
               thickness: 1,
@@ -57,8 +58,6 @@ class PostPage extends StatelessWidget {
             if (event.maxParticipants != null)
               EventFieldView(
                   'Max. Teilnehmende', event.maxParticipants.toString()),
-            if (event.eventAt != null)
-              EventFieldView('EventAt', event.eventAt.toString()),
             if (event.costs != null)
               EventFieldView('Kosten', event.costs.toString()),
             if (event.eventLocation != null)
@@ -126,7 +125,7 @@ class PostPage extends StatelessWidget {
           Expanded(
               flex: 1,
               child: Center(
-                  child: Text("${(state.post as Event).participants!.length}" +
+                  child: Text("${(state.post as Event).participants?.length}" +
                       (((state.post as Event).maxParticipants ?? 0) > 0
                           ? "/${(state.post as Event).maxParticipants}"
                           : "") +

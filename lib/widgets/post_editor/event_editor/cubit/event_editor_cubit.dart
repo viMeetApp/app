@@ -22,38 +22,41 @@ class EventEditorCubit extends Cubit<EventEditorState>
         super(EventEditorState.fromGivenEvent(event: event));
 
   void submit() async {
-    emit(state.copyWith(validationState: ViFormState.loading()));
-    if (event == null) {
-      //Create new Event also set created At
-      final UserReference? author = UserRepository().getUserReference();
-      if (author == null)
-        return emit(state.copyWith(validationState: ViFormState.error()));
-      event = new Event(
-          author: author,
-          title: state.title,
-          createdAt: DateTime.now().millisecondsSinceEpoch,
-          geohash: await GeoService.getCurrentGeohash(),
-          expiresAt: 0, //ToDo expires at
-          type: PostType.event,
-          tags: state.tags,
-          about: state.about,
-          maxParticipants: state.maxParticipants,
-          eventLocation: state.eventLocation,
-          eventAt: state.eventAt,
-          costs: state.costs,
-          group: state.groupReference);
-    } else {
-      //update event
-      event!.title = state.title;
-      event!.tags = state.tags;
-      event!.about = state.about;
-      event!.maxParticipants = state.maxParticipants;
-      event!.eventLocation = state.eventLocation;
-      event!.eventAt = state.eventAt;
-      event!.costs = state.costs;
-    }
     try {
-      await _postRepository.createPost(event!);
+      emit(state.copyWith(validationState: ViFormState.loading()));
+      if (event == null) {
+        //Create new Event also set created At
+        final UserReference? author = UserRepository().getUserReference();
+        if (author == null)
+          return emit(state.copyWith(validationState: ViFormState.error()));
+        event = new Event(
+            author: author,
+            title: state.title,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            geohash: await GeoService.getCurrentGeohash(),
+            expiresAt: 0, //ToDo expires at
+            type: PostType.event,
+            tags: state.tags,
+            about: state.about,
+            maxParticipants: state.maxParticipants,
+            eventLocation: state.eventLocation,
+            eventAt: state.eventAt,
+            costs: state.costs,
+            participants: [UserRepository().getUserReference()!],
+            group: state.groupReference);
+        await _postRepository.createPost(event!);
+      } else {
+        //update event
+        event!.title = state.title;
+        event!.tags = state.tags;
+        event!.about = state.about;
+        event!.maxParticipants = state.maxParticipants;
+        event!.eventLocation = state.eventLocation;
+        event!.eventAt = state.eventAt;
+        event!.costs = state.costs;
+        await _postRepository.updatePost(event!);
+      }
+
       emit(state.copyWith(validationState: ViFormState.success()));
     } catch (err) {
       viLog(err, err.toString());

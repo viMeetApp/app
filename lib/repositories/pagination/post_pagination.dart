@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
@@ -75,6 +73,7 @@ class PostPagination {
     }
 
     postQuery = query.limit(paginationDistance);
+    //postQuery = colReference.limit(paginationDistance);
     requestPosts();
   }
 
