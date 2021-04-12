@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
+import 'package:signup_app/repositories/group_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
 
 class UpdateGroupInfoWidget extends StatelessWidget {
   final Group group;
   final descriptionController;
+  final GroupRepository _groupRepository = new GroupRepository();
   UpdateGroupInfoWidget({required this.group})
       : descriptionController = new TextEditingController(text: group.about);
 
@@ -26,8 +26,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 group.name = value;
-                BlocProvider.of<GroupSettingsCubit>(context)
-                    .updateGroup(group: group, ctx: context);
+                _groupRepository.updateGroup(group);
               }
             });
           },
@@ -45,8 +44,7 @@ class UpdateGroupInfoWidget extends StatelessWidget {
             ).then((value) {
               if (value != null) {
                 group.about = value;
-                BlocProvider.of<GroupSettingsCubit>(context)
-                    .updateGroup(group: group, ctx: context);
+                _groupRepository.updateGroup(group);
               }
             });
           },

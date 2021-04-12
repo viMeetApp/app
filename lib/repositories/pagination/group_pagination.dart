@@ -9,7 +9,8 @@ class GroupPagination {
   static Stream<List<Group>> getSubscribedGroups() {
     Stream<List<Group>> groupStream = FirebaseFirestore.instance
         .collection('groups')
-        .where('users', arrayContains: FirebaseAuth.instance.currentUser!.uid)
+        .where('membersReferences',
+            arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .map((list) => list.docs.map((doc) => (Group.fromDoc(doc))).toList());
 

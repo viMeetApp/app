@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 class GroupRepository {
@@ -132,11 +131,4 @@ class GroupRepository {
     return streamController.stream;
   }*/
 
-  Stream<List<Group>> getStreamOfMemberGroups() {
-    return FirebaseFirestore.instance
-        .collection('groups')
-        .where('users', arrayContains: UserRepository.getUID())
-        .snapshots()
-        .map((list) => list.docs.map((doc) => (Group.fromDoc(doc))).toList());
-  }
 }

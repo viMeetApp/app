@@ -9,6 +9,7 @@ class GroupListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Froup List Widget");
     return StreamBuilder(
         stream: groupStream,
         builder: (context, snapshot) {

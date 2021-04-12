@@ -11,7 +11,8 @@ typedef void OnGroupReceived(Group group);
 typedef void OnResponse(bool success);
 
 class GroupInteractions {
-  static getGroupInfo(String? groupID, OnGroupReceived onGroupReceived) {
+  /// Subscribes to Snapshot Stream for a group specified by [id] with every new event callback-function [onGroupReceived] is called
+  static getGroupInfo(String groupID, OnGroupReceived onGroupReceived) {
     _firestore
         .collection('groups')
         .doc(groupID)
@@ -23,7 +24,7 @@ class GroupInteractions {
     });
   }
 
-  static joinGroup(String? groupID, OnResponse onResponse) {
+  static joinGroup(String groupID, OnResponse onResponse) {
     HttpsCallable callable = _firebaseFunctions.httpsCallable(
       'requestToJoinGroup',
     );

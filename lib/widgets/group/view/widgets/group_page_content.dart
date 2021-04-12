@@ -73,7 +73,9 @@ class GroupPageContent extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     GroupSettingsPage.route(
-                                        group: state.group));
+                                        group: state.group,
+                                        groupCubit: BlocProvider.of<GroupCubit>(
+                                            context)));
                               })
                           : null,
                     ),
