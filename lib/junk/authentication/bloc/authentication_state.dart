@@ -1,4 +1,4 @@
-part of 'authentication_bloc.dart';
+/*part of 'authentication_bloc.dart';
 
 @immutable
 abstract class AuthenticationState {}
@@ -13,3 +13,4 @@ class Authenticated extends AuthenticationState {
 
 ///State when not authenticated yet
 class Unauthenticated extends AuthenticationState {}
+*/
