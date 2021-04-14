@@ -72,21 +72,18 @@ class BugReportPage extends StatelessWidget {
                           margin: EdgeInsets.symmetric(vertical: 10),
                           child: ViDropdownButton(
                             elements: [
-                              ['Benutzeroberfläche', BugReportType.ui],
-                              ['App Logik', BugReportType.logic],
-                              [
-                                'fehlende Funktion',
-                                BugReportType.functionality
-                              ],
-                              [
-                                'Vorschlag für eine Funktion',
-                                BugReportType.request
-                              ],
-                              ['sonstige', BugReportType.other],
+                              ViDropdownItem(
+                                  BugReportType.ui, "Benutzeroberfläche"),
+                              ViDropdownItem(BugReportType.logic, "App Logik"),
+                              ViDropdownItem(BugReportType.functionality,
+                                  "fehlende Funktion"),
+                              ViDropdownItem(BugReportType.request,
+                                  "Vorschlag für eine Funktion"),
+                              ViDropdownItem(BugReportType.other, "sonstige"),
                             ],
                             hint: "Typ des Problems",
                             onChanged: (value) {
-                              state.kind = value[1];
+                              state.kind = value;
                             },
                           )),
                       TextField(

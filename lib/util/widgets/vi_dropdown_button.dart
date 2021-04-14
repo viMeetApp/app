@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
-class ViDropdownButton extends StatefulWidget {
-  List? elements;
-  String? hint;
-  Function? onChanged;
+class ViDropdownItem<T> {
+  T value;
+  String name;
+  ViDropdownItem(this.value, this.name);
+}
 
-  ViDropdownButton({this.elements, this.hint, this.onChanged});
+class ViDropdownButton<T> extends StatefulWidget {
+  final List<ViDropdownItem<T>> elements;
+  final String? hint;
+  final Function? onChanged;
+
+  ViDropdownButton({required this.elements, this.hint, this.onChanged});
 
   @override
-  _ViDropdownButtonState createState() => _ViDropdownButtonState();
+  _ViDropdownButtonState createState() => _ViDropdownButtonState<T>();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
-class _ViDropdownButtonState extends State<ViDropdownButton> {
-  String? dropdownValue;
+class _ViDropdownButtonState<T> extends State<ViDropdownButton> {
+  T? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
-      child: DropdownButton<String>(
+      child: DropdownButton<T>(
         value: dropdownValue,
         isExpanded: true,
         hint: Text("Typ des Problems"),
@@ -27,16 +33,16 @@ class _ViDropdownButtonState extends State<ViDropdownButton> {
         //icon: Icon(Icons.arrow_downward),
         iconSize: 24,
         elevation: 16,
-        onChanged: (String? newValue) {
+        onChanged: (T? newValue) {
           setState(() {
             dropdownValue = newValue;
             widget.onChanged!(newValue);
           });
         },
-        items: widget.elements!.map<DropdownMenuItem<String>>((value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
+        items: widget.elements.map<DropdownMenuItem<T>>((item) {
+          return DropdownMenuItem(
+            value: item.value,
+            child: Text(item.name),
           );
         }).toList(),
       ),
