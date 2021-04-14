@@ -74,22 +74,22 @@ class SettingsPage extends StatelessWidget {
                                     SubSettingsPage.route(
                                         title: "Account",
                                         child: AccountSettingsWidget()))),
-                            ListTile(
+                            /*ListTile(
                                 title: Text("Spache"),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () => Navigator.push(
                                     context,
                                     SubSettingsPage.route(
                                         title: "Sprache",
-                                        child: LanguageSettingsWidget()))),
-                            ListTile(
+                                        child: LanguageSettingsWidget()))),*/
+                            /*ListTile(
                                 title: Text("Barrierefreiheit"),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () => Navigator.push(
                                     context,
                                     SubSettingsPage.route(
                                         title: "Barrierefreiheit",
-                                        child: AccessibilitySettingsWidget()))),
+                                        child: AccessibilitySettingsWidget()))),*/
                           ],
                         ),
                       ),
