@@ -1,22 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart' as util;
 
 class SettingsRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
 
-  SettingsRepository({FirebaseAuth? firebaseAuth, FirebaseFirestore? firestore})
+  SettingsRepository(
+      {FirebaseAuth? firebaseAuth,
+      FirebaseFirestore? firestore,
+      AuthenticationService? authenticationService})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _firestore = firestore ?? FirebaseFirestore.instance;
 
   ///Create a new User with dynamic userId and [name]
-
-  ///Return the User who is currently authenticated
-  Stream<util.User> observeUser() {
-    return new UserRepository().observeUser();
-  }
 
   Future<bool> setUserName(String name) async {
     try {

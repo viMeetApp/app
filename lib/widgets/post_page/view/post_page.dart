@@ -138,7 +138,7 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViBit<PostPageState>(
-        state: PostPageState(_postID),
+        state: PostPageState(postId: _postID),
         onRefresh: (context, state) {
           if (state.post is Event) {
             return Scaffold(

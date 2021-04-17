@@ -1,12 +1,13 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class PostPageState extends ViState {
   PostRepository _postRepository = new PostRepository();
+  AuthenticationService _authService;
 
   bool expanded = false;
   bool favorited = false;
@@ -14,12 +15,18 @@ class PostPageState extends ViState {
   bool processing = false;
   Post post = Post.empty();
 
-  PostPageState(String postID) {
-    _postRepository.getPostStreamById(postID).listen((Post? dbpost) {
+  PostPageState(
+      {required String postId,
+      PostRepository? postRepository,
+      AuthenticationService? authenticationService})
+      : _postRepository = postRepository ?? PostRepository(),
+        _authService = authenticationService ?? AuthenticationService() {
+    _postRepository.getPostStreamById(postId).listen((Post? dbpost) {
       if (dbpost is Event) {
         processing = false;
         post = dbpost;
-        subscribed = dbpost.isMember(UserRepository().getUser()!.id);
+        subscribed =
+            dbpost.isMember(AuthenticationService().getCurrentUser().id);
         refresh();
       } else {
         //emit(BuddyState(post: post!));

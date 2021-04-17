@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/login/cubit/login_cubit.dart';
 
@@ -56,7 +56,7 @@ class LoginPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 14),
                 child: BlocProvider<LoginCubit>(
-                  create: (_) => LoginCubit(UserRepository()),
+                  create: (_) => LoginCubit(),
                   child: LoginForm(),
                 ),
               ),

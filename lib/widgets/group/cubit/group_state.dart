@@ -1,7 +1,7 @@
 part of 'group_cubit.dart';
 
 abstract class GroupState {
-  Group group;
+  final Group group;
   GroupState({required this.group});
 }
 
@@ -20,8 +20,10 @@ class NotGroupMember extends GroupState {
 
   NotGroupMember({required group, this.requesting = false})
       : super(group: group) {
-    requestedToJoin =
-        this.group.requestedToJoin!.contains(UserRepository.getUID());
+    requestedToJoin = this
+        .group
+        .requestedToJoin!
+        .contains(AuthenticationService().getCurrentUserUid());
   }
 
   NotGroupMember copyWith({bool? requesting}) {

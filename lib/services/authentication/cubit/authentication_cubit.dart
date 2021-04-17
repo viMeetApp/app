@@ -1,21 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/tools/debug_tools.dart';
 
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit() : super(Uninitilaized());
+  AuthenticationCubit({AuthenticationService? authenticationService})
+      : _authenticationService =
+            authenticationService ?? AuthenticationService(),
+        super(Uninitilaized());
 
-  final UserRepository _userRepository = UserRepository();
-
+  final AuthenticationService _authenticationService;
   void appStarted() async {
     try {
-      final _isSignedIn = await _userRepository.isSignedIn();
+      final _isSignedIn = await _authenticationService.isSignedIn();
       if (_isSignedIn) {
-        final User user = await _userRepository.getUserFromDatabase();
+        final User user = await _authenticationService.getCurrentUser();
         final UserReference userReference = new UserReference(
             name: user.name, id: user.id, picture: user.picture);
         emit(Authenticated(user: user, userReference: userReference));
@@ -29,7 +31,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void loggedIn() async {
-    final User user = await _userRepository.getUserFromDatabase();
+    final User user = await _authenticationService.getCurrentUser();
     final UserReference userReference =
         new UserReference(name: user.name, id: user.id, picture: user.picture);
     emit(Authenticated(user: user, userReference: userReference));

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/repositories/bugreport_repository.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
@@ -21,7 +20,7 @@ class BugReportPage extends StatelessWidget {
           title: Text("Fehler melden"),
         ),
         body: ViBit<BugReportPageState>(
-            state: BugReportPageState(BugReportRepository()),
+            state: BugReportPageState(),
             onChangeLogic: (state) {
               switch (state.type) {
                 case Types.submitted:
