@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:signup_app/util/presets/globalVariables.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
 part 'search_tag_state.dart';
 
@@ -14,7 +14,7 @@ class SearchTagCubit extends Cubit<SearchTagState> {
   }
 
   ///Is called from Tag when tag is pressed -> updates the Tag Array
-  void updateFilterTags(String? tag) {
+  void updateFilterTags(PostTag tag) {
     emit(state.toggleTag(tag));
   }
 }

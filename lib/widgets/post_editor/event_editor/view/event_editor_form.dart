@@ -45,7 +45,13 @@ class EventEditorForm extends StatelessWidget {
           BlocListener<TagCubit, TagState>(
             listener: (context, state) {
               // ToDo to update tags with enums
-              _eventEditorCubit.setTags([]);
+              List<PostTag> tags = [];
+              state.tagMap.forEach((key, value) {
+                {
+                  if (value == true) tags.add(key);
+                }
+              });
+              _eventEditorCubit.setTags(tags);
             },
           )
         ],

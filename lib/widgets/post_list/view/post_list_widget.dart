@@ -29,13 +29,13 @@ class PostList extends StatelessWidget {
         ],
         child: BlocListener<SearchTagCubit, SearchTagState>(
           listener: (context, state) {
-            List<String?> tagList = [];
+            List<PostTag> tagList = [];
             state.tagMap!.forEach(
               (key, value) {
                 if (value == true) tagList.add(key);
               },
             );
-            BlocProvider.of<PostListCubit>(context).updateFilter(tagList);
+            BlocProvider.of<PostListCubit>(context).updateFilter(tags: tagList);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

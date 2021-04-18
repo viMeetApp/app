@@ -66,6 +66,18 @@ class PostPagination {
           .where("geohash", isLessThanOrEqualTo: range.upper);
     }
 
+    // Filter for tags
+    if (tags.length > 0) {
+      String queryString = "";
+      tags.forEach((PostTag tag) {
+        queryString = queryString += (enumToString(tag) + ',');
+      });
+      queryString = queryString.substring(0, queryString.length - 1);
+      print(queryString);
+
+      query = query.where('tags', arrayContains: queryString);
+    }
+
     postQuery = query.limit(paginationDistance);
     requestPosts();
   }

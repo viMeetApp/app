@@ -2,7 +2,7 @@ part of 'search_tag_cubit.dart';
 
 @immutable
 class SearchTagState {
-  final Map<String?, bool>? tagMap;
+  final Map<PostTag, bool>? tagMap;
   final bool? isExpanded;
 
   SearchTagState({this.tagMap, this.isExpanded});
@@ -11,11 +11,11 @@ class SearchTagState {
   factory SearchTagState.initial() {
     return SearchTagState(
         isExpanded: false,
-        tagMap: Map<String?, bool>.fromIterable(GlobalVariables.seaarchTags,
-            key: (item) => item, value: (item) => false));
+        tagMap: Map<PostTag, bool>.fromIterable(PostTag.values.toList(),
+            key: (tag) => tag, value: (item) => false));
   }
 
-  SearchTagState toggleTag(String? tag) {
+  SearchTagState toggleTag(PostTag tag) {
     this.tagMap![tag] = !this.tagMap![tag]!;
     return SearchTagState(isExpanded: this.isExpanded, tagMap: this.tagMap);
   }

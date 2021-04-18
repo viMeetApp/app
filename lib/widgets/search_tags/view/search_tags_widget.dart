@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/widgets/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/widgets/search_tags/view/widgets/search_tag.dart';
 
@@ -29,13 +30,10 @@ class TagWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> buildTags(Map<String?, bool> tags) {
+  List<Widget> buildTags(Map<PostTag, bool> tags) {
     List<Widget> tagWidgets = [];
     tags.forEach((key, value) {
-      tagWidgets.add(Tag(
-        isActive: value,
-        tagDescription: key,
-      ));
+      tagWidgets.add(Tag(isActive: value, tag: key));
     });
     return tagWidgets;
   }
