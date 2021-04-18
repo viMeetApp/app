@@ -34,6 +34,7 @@ dependencies:
   json_annotation: ^4.0.1
   cloud_functions: ^1.0.0
   flutter_markdown: ^0.6.1
+  localstorage: ^4.0.0+1
 
   # geo services (GeoHash-Conversion)
   geoflutterfire: ^3.0.0-nullsafety.1
@@ -41,6 +42,8 @@ dependencies:
   # geolocator: ^5.3.0
   location: ^4.1.1
   url_launcher: ^6.0.2
+  equatable: ^2.0.0
+  shared_preferences: ^2.0.5
 
   #authentication_repository:
   #  path: packages/authentication_repository

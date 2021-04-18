@@ -96,7 +96,11 @@ class AuthenticationService {
       throw Exception(
           'Anaonymous SignUp failed, provided User does not contain Id');
     await _userRepository.createNewUserDoc(userCredential.user!.uid, name);
-    return;
+
+    bool isUserSignedIn = await isSignedIn();
+
+    if(!isUserSignedIn)  {throw Exception('User Signed up Anonymously but is not signed in');
+    exit(0);}
   }
 
   AuthenticationService._privateConstructor(

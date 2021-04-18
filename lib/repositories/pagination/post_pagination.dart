@@ -2,14 +2,21 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:signup_app/services/geo_service.dart';
+import 'package:signup_app/services/geo_services/classes.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 //ToDo Das Problem im Moment ist es, dass ich alte Suchen nicht gecancelt bekomme, sie laufen die ganze Zeit im Hintergrund. Es wird zwar durch einen Counter sichergestellt, dass sie keinen Einfluss haben, schöner wäre es aber wenn ich sie Stoppen könnte
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {
   final geo = Geoflutterfire();
-  PostPagination({required this.paginationDistance, this.user, this.group});
+  final GeoLocator _geoLocator;
+  PostPagination(
+      {required this.paginationDistance,
+      this.user,
+      this.group,
+      GeoLocator? geoLocator})
+      : _geoLocator = geoLocator ?? GeoLocator();
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //Counter Variable to only update current Streams
@@ -33,7 +40,7 @@ class PostPagination {
 
   ///Fuction to Call when New Query Stars
   ///For examlpe at beginning or after Filter Changes
-  void newQuery({List<String?>? tags}) async {
+  void newQuery({List<PostTag> tags = const []}) async {
     counter++;
     //Reset all Variables
     _hasMorePosts = true;
@@ -52,28 +59,14 @@ class PostPagination {
     //Then Check for User (if User provided only show Posts from User)
     else if (user != null) {
       query = colReference.where("participants", arrayContains: user!.id);
-    }
-
-    //! Filtering nach Tags muss ggf. lokal passieren wenn nach Ort gefiltert werden soll :/
-    //After that Filter for Tags
-    /*else if (tags != null && tags.length != 0) {
-      query = query != null
-          ? query.where("tags.${tags[0]}", isEqualTo: true)
-          : colReference.where("tags.${tags[0]}", isEqualTo: true);
-      for (int i = 1; i < tags.length; ++i) {
-        query = query.where("tags.${tags[i]}", isEqualTo: true);
-      }
-    }*/
-
-    else {
-      GeohashRange range = GeoService.getGeohashRange();
+    } else {
+      GeohashRange range = _geoLocator.getGeohashRange();
       query = colReference
           .where("geohash", isGreaterThanOrEqualTo: range.lower)
           .where("geohash", isLessThanOrEqualTo: range.upper);
     }
 
     postQuery = query.limit(paginationDistance);
-    //postQuery = colReference.limit(paginationDistance);
     requestPosts();
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/presets/presets.dart';
 
 import 'widgets/home/home.dart';
@@ -11,6 +12,7 @@ import 'widgets/splash/splash.dart';
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
+  await GeoLocator().initialize();
   await Firebase.initializeApp();
   runApp(App());
 }

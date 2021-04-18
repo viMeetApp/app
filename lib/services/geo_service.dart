@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'dart:math';
 
@@ -150,3 +151,4 @@ class GeoService with ChangeNotifier {
     return GeohashRange(lower: range[1], upper: range[0]);
   }
 }
+*/

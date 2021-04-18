@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart' as util;
 
 class SettingsRepository {
   final FirebaseAuth _firebaseAuth;
