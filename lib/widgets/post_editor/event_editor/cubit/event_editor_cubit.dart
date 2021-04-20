@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/services/geo_service.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 import 'package:signup_app/util/tools/debug_tools.dart';
@@ -12,13 +12,23 @@ part 'event_editor_state.dart';
 
 class EventEditorCubit extends Cubit<EventEditorState>
     implements PostEditorCubit {
+  final AuthenticationService _authService;
+
   Event? event;
   PostRepository _postRepository = new PostRepository();
-  EventEditorCubit.newEvent({Group? group})
+
+  /// Constructs Cubit when Post Editor is used to create new Event
+  EventEditorCubit.newEvent(
+      {Group? group, AuthenticationService? authenticationService})
       : this.event = null,
+        _authService = authenticationService ?? AuthenticationService(),
         super(EventEditorState.newEvent(group: group));
-  EventEditorCubit.fromGivenEvent({required Event event})
+
+  /// Constructs Cubit when EventEditor is Used to update already existing Event
+  EventEditorCubit.fromGivenEvent(
+      {required Event event, AuthenticationService? authenticationService})
       : this.event = event,
+        _authService = authenticationService ?? AuthenticationService(),
         super(EventEditorState.fromGivenEvent(event: event));
 
   void submit() async {
@@ -26,14 +36,12 @@ class EventEditorCubit extends Cubit<EventEditorState>
       emit(state.copyWith(validationState: ViFormState.loading()));
       if (event == null) {
         //Create new Event also set created At
-        final UserReference? author = UserRepository().getUserReference();
-        if (author == null)
-          return emit(state.copyWith(validationState: ViFormState.error()));
+        final UserReference author = _authService.getCurrentUserReference();
         event = new Event(
             author: author,
             title: state.title,
             createdAt: DateTime.now().millisecondsSinceEpoch,
-            geohash: await GeoService.getCurrentGeohash(),
+            geohash: await GeoLocator().getCurrentGeohash(),
             expiresAt: 0, //ToDo expires at
             type: PostType.event,
             tags: state.tags,
@@ -42,7 +50,7 @@ class EventEditorCubit extends Cubit<EventEditorState>
             eventLocation: state.eventLocation,
             eventAt: state.eventAt,
             costs: state.costs,
-            participants: [UserRepository().getUserReference()!],
+            participants: [AuthenticationService().getCurrentUserReference()],
             group: state.groupReference);
         await _postRepository.createPost(event!);
       } else {

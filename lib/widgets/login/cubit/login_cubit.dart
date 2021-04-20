@@ -1,15 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._userRepository)
-      : assert(_userRepository != null),
+  LoginCubit({AuthenticationService? authenticationService})
+      : _authenticationService =
+            authenticationService ?? AuthenticationService(),
         super(LoginState.empty());
 
-  final UserRepository _userRepository;
+  final AuthenticationService _authenticationService;
 
   ///Document gets submitted (User Loggs in)
   ///Checks if User Name Valid the Log In
@@ -17,9 +18,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginState.loading());
 
     //Check if User Name is Valid
-    if (username != null && username.length != 0) {
+    if (username.length != 0) {
       try {
-        await _userRepository.signUpAnon(username);
+        await _authenticationService.signUpAnonymously(username);
         emit(LoginState.success());
       } catch (err) {
         print("Error in submitted Event");

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
-import 'package:signup_app/repositories/user_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:collection/collection.dart';
 
