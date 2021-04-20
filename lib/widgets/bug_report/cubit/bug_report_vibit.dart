@@ -41,9 +41,7 @@ class BugReportPageState extends ViState {
         await _bugRepository.createBugReport(bugReport: report);
         this.type = Types.submitted;
       } catch (err) {
-        print("Error in submitted Event");
-        print(err.toString());
-        error = err as Exception;
+        print("Error in submitted BugReport");
         this.type = Types.error;
       }
     } else {

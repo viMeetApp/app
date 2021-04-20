@@ -1,26 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:signup_app/repositories/database_interactions.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 class BugReportRepository {
-  final FirebaseFirestore _firestore;
-  late CollectionReference _collectionReference;
+  DBInteractions _dbInteractions = DBInteractions();
 
-  BugReportRepository({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance {
-    _collectionReference = _firestore.collection('bugreports');
-  }
-
-  ///Create c chat BugReport in firebase
-  Future<void> createBugReport({required BugReport bugReport}) async {
+  /// Create c chat BugReport in firebase
+  Future<String> createBugReport({required BugReport bugReport}) async {
     try {
-      await _collectionReference
-          .add(bugReport.toMap())
-          .timeout(Duration(seconds: 5), onTimeout: () {
-        throw Exception("connection timed out");
-      });
-    } catch (err) {
-      throw err;
+      return await _dbInteractions.setDocument(
+          collection: DBInteractions.COLL_BUGREPORTS, document: bugReport);
+    } catch (e) {
+      return "";
     }
   }
 }
