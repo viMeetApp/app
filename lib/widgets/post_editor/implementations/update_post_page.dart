@@ -28,7 +28,7 @@ class UpdatePostPage extends StatelessWidget {
                 //(post is Event)?EventEditorCubit.fromGivenEvent(event: post as Event): ),
                 //ToDo auskommentierte Version vervollständigen
                 EventEditorCubit.fromGivenEvent(event: post as Event)),
-        BlocProvider<TagCubit>(create: (_) => TagCubit()),
+        BlocProvider<TagCubit>(create: (_) => TagCubit(tags: post.tags)),
       ],
       child: EventEditorForm(),
     );

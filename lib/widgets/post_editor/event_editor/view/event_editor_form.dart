@@ -312,13 +312,11 @@ class DateAndTimePicker extends StatelessWidget {
               });
             },
             icon: Icon(Icons.calendar_today),
-            label: Expanded(
-              child: Text(
-                  _dateTime != null
-                      ? Tools.readableDateFromDate(_dateTime!)
-                      : "Datum",
-                  style: AppThemeData.textFormField()),
-            ),
+            label: Text(
+                _dateTime != null
+                    ? Tools.readableDateFromDate(_dateTime!)
+                    : "Datum",
+                style: AppThemeData.textFormField()),
           ),
         ),
         Expanded(
@@ -340,13 +338,11 @@ class DateAndTimePicker extends StatelessWidget {
                   }
                 : null,
             icon: Icon(Icons.access_time),
-            label: Expanded(
-              child: Text(
-                _timeOfDay != null
-                    ? Tools.readableTimeFromTimeOfDay(_timeOfDay!)
-                    : "Startzeit",
-                style: AppThemeData.textFormField(),
-              ),
+            label: Text(
+              _timeOfDay != null
+                  ? Tools.readableTimeFromTimeOfDay(_timeOfDay!)
+                  : "Startzeit",
+              style: AppThemeData.textFormField(),
             ),
           ),
         ),
@@ -367,11 +363,9 @@ Widget _optionalField({
       //textColor: AppThemeData.colorFormField,
       onPressed: onPressed as void Function()?,
       icon: Icon(icon),
-      label: Expanded(
-        child: Text(
-          text,
-          style: AppThemeData.textFormField(color: null),
-        ),
+      label: Text(
+        text,
+        style: AppThemeData.textFormField(color: null),
       ),
     ),
   );
@@ -379,8 +373,9 @@ Widget _optionalField({
 
 Widget groupInfoField(GroupReference group) {
   return Container(
-      padding: EdgeInsets.only(left: 13, right: 10, top: 5),
-      child: Row(children: [
+    padding: EdgeInsets.only(left: 13, right: 10, top: 5),
+    child: Row(
+      children: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Icon(
@@ -389,34 +384,7 @@ Widget groupInfoField(GroupReference group) {
           ),
         ),
         Text(group.name, style: AppThemeData.textHeading4(color: Colors.white))
-      ]));
-}
-/*class EditorTextField extends StatelessWidget {
-  void Function() callback;
-  final String hintText;
-  final String content
-  EditorTextField({this.hintText= "", required String content, required this.callback}) {
-    textController.text = content;
-  }
-
-  @override
-  Widget build(BuildContext context){
-    TextFormField(
-      initialValue: ,
-      onChanged: (text) {
-        BlocProvider.of<PostEditorCubit>(context)
-            .setMandatoryField(
-                'about',
-                (text != null && text.length > 0)
-                    ? text
-                    : null);
-      },
-      minLines: 3,
-      maxLines: null,
-      decoration:
-          Presets.getTextFieldDecorationHintStyle(
-              hintText: "weitere Infos:"),
+      ],
     ),
-  }
+  );
 }
-*/
