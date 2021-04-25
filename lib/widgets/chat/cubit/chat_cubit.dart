@@ -24,17 +24,17 @@ class ChatCubit extends Cubit<Stream<List<Message>>> {
         _authService = authenticationService ?? AuthenticationService(),
         super(Stream.empty()) {
     user = _authService.getCurrentUser();
-    chatMessagePagination = chatMessagePagination ??
+    this.chatMessagePagination = chatMessagePagination ??
         new ChatMessagePagination(post: post, paginationDistance: 20);
-    emit(chatMessagePagination.messageStreamController.stream);
-    chatMessagePagination.requestMessages();
+    emit(this.chatMessagePagination.messageStreamController.stream);
+    this.chatMessagePagination.requestMessages();
   }
 
   void sendMessage(String content) {
     //Check if MessageString is valid
     if (content.length != 0) {
       Message chatMessage = Message(
-          author: user!,
+          author: user,
           type: MessageType.text,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           content: content);

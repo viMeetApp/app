@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 class ChatMessagePagination {
   final paginationDistance;
   final Post post;
 
-  ChatMessagePagination({required this.post, this.paginationDistance: 20});
+  ChatMessagePagination({required this.post, this.paginationDistance = 20});
 
   StreamController<List<Message>> messageStreamController =
       new StreamController<List<Message>>();
@@ -17,6 +16,7 @@ class ChatMessagePagination {
   DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
   List<List<Message>> _allPagedResults = [];
+
   void requestMessages() {
     //If there are no more posts return
     if (!_hasMorePosts) return;
@@ -25,7 +25,7 @@ class ChatMessagePagination {
         .collection('posts')
         .doc(post.id)
         .collection('messages')
-        .orderBy('timestamp', descending: true)
+        .orderBy('createdAt', descending: true)
         .limit(paginationDistance);
 
     //If last Document is specified, we need to start Pagination after last Document
