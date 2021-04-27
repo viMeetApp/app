@@ -99,9 +99,8 @@ class AuthenticationService {
 
     bool isUserSignedIn = await isSignedIn();
 
-    if(!isUserSignedIn)  {
-
-    exit(0);
+    if (!isUserSignedIn) {
+      exit(0);
     }
   }
 
