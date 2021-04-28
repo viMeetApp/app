@@ -70,7 +70,7 @@ class ChatWidget extends StatelessWidget {
                               Flexible(
                                   child: TextFormField(
                                 onTap: () {
-                                  onTap!();
+                                  if (onTap != null) onTap!();
                                 }, //Schließt die Karte für Details -> geht nur wenn Chat immer in diesem Context verwendet wird
                                 keyboardType: TextInputType.multiline,
                                 minLines: 1,

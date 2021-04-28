@@ -25,7 +25,7 @@ class GroupPagination {
         .map((list) => list.docs
             .where((doc) {
               Group group = Group.fromDoc(doc);
-              return getMemberIDs(group.members)
+              return !_getMemberIDs(group.members)
                   .contains(FirebaseAuth.instance.currentUser!.uid);
             })
             .map((doc) => (Group.fromDoc(doc)))
@@ -34,7 +34,7 @@ class GroupPagination {
     return groupStream;
   }
 
-  static List<String> getMemberIDs(List<GroupUserReference> members) {
+  static List<String> _getMemberIDs(List<GroupUserReference> members) {
     List<String> result = [];
     for (GroupUserReference ref in members) {
       result.add(ref.id);

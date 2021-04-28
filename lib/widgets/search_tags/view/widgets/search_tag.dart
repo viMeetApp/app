@@ -18,7 +18,7 @@ class Tag extends StatelessWidget {
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 elevation: 4,
                 backgroundColor: AppThemeData.colorPrimaryLight,
-                label: Text(enumToString(tag)!,
+                label: Text(enumToString(tag),
                     style: TextStyle(
                         fontSize: 14, color: AppThemeData.colorTextInverted)),
               )

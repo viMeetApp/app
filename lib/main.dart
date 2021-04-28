@@ -48,7 +48,6 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //! Checked Mode Flag is disabled
       debugShowCheckedModeBanner: false,
       theme: AppThemeData().materialTheme,
       navigatorKey: _navigatorKey,

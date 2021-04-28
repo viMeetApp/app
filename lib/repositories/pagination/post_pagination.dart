@@ -6,21 +6,21 @@ import 'package:signup_app/services/geo_services/classes.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
-//ToDo Das Problem im Moment ist es, dass ich alte Suchen nicht gecancelt bekomme, sie laufen die ganze Zeit im Hintergrund. Es wird zwar durch einen Counter sichergestellt, dass sie keinen Einfluss haben, schöner wäre es aber wenn ich sie Stoppen könnte
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {
   final geo = Geoflutterfire();
   final GeoLocator _geoLocator;
   PostPagination(
-      {required this.paginationDistance,
-      this.user,
+      {this.user,
       this.group,
+      this.paginationDistance = 20,
       GeoLocator? geoLocator})
       : _geoLocator = geoLocator ?? GeoLocator();
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //Counter Variable to only update current Streams
-  int counter = 0;
+  // Current Stack of all listeners -> when a new query has been started all old listeners must be closed
+  List<StreamSubscription<QuerySnapshot>> _currentFirestoreListenerStack = [];
+
   //Variables Necessary for Pagination
   StreamController<List<Post?>> postStreamController =
       new StreamController<List<Post?>>();
@@ -41,7 +41,7 @@ class PostPagination {
   ///Fuction to Call when New Query Stars
   ///For examlpe at beginning or after Filter Changes
   void newQuery({List<PostTag> tags = const []}) async {
-    counter++;
+    _removeCurrentListenerStack();
     //Reset all Variables
     _hasMorePosts = true;
     _lastDocument = null;
@@ -83,8 +83,6 @@ class PostPagination {
   }
 
   void requestPosts() {
-    int localCounter = counter;
-
     //If there are no mor posts return
     if (!_hasMorePosts) return;
     //If there is a last Document we paginate therefore gettin data after last Document
@@ -95,58 +93,67 @@ class PostPagination {
     int currentRequestIndex = _allPagedResults.length;
 
     //Callbackfunction is called every Time a Document updates itself
-    postQuery!.snapshots().listen((QuerySnapshot postsSnapshot) {
-      if (counter == localCounter) {
-        if (postsSnapshot.docs.isNotEmpty) {
-          List<Post?> posts =
-              postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
-            // document.putIfAbsent("id", () => doc.id);
-            if (snapshot.data()!['type'] == "event") {
-              return Event.fromDoc(snapshot);
-            } else if (snapshot.data()!['type'] == "buddy") {
-              return Buddy.fromDoc(snapshot);
-            }
-          }).toList();
-          posts.sort((a, b) {
-            if (a!.createdAt <= b!.createdAt)
-              return 1;
-            else
-              return -1;
-          });
-
-          //Check if page exists or is new page (hier könnte es etwas verwirrend sein, da man ja currenRequestIndex oben setzt)
-          //Die Sache ist aber, dass das hier drinnen ja eine Callaback Funktion ist. Das heißt zeug kann sich hier auch ändern
-          bool pageExists = currentRequestIndex < _allPagedResults.length;
-
-          //If the page exists update the posts for that page
-          if (pageExists) {
-            _allPagedResults[currentRequestIndex] = posts;
+    StreamSubscription<QuerySnapshot> currentSnapshotListener =
+        postQuery!.snapshots().listen((QuerySnapshot postsSnapshot) {
+      print("Post listen");
+      if (postsSnapshot.docs.isNotEmpty) {
+        List<Post?> posts =
+            postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
+          // document.putIfAbsent("id", () => doc.id);
+          if (snapshot.data()!['type'] == "event") {
+            return Event.fromDoc(snapshot);
+          } else if (snapshot.data()!['type'] == "buddy") {
+            return Buddy.fromDoc(snapshot);
           }
-          //If Page doesn't exist add New Page
-          else {
-            _allPagedResults.add(posts);
-          }
+        }).toList();
+        posts.sort((a, b) {
+          if (a!.createdAt <= b!.createdAt)
+            return 1;
+          else
+            return -1;
+        });
 
-          //Concaternate the full list to be shown
-          //Was hier passiert ist, dass die ganzen Sublisten jetzt in eine Zusammengepackt werden
-          List<Post?> allPosts = _allPagedResults.fold<List<Post?>>(
-              [], (initialValue, pageItems) => initialValue..addAll(pageItems));
+        //Check if page exists or is new page (hier könnte es etwas verwirrend sein, da man ja currenRequestIndex oben setzt)
+        //Die Sache ist aber, dass das hier drinnen ja eine Callaback Funktion ist. Das heißt zeug kann sich hier auch ändern
+        bool pageExists = currentRequestIndex < _allPagedResults.length;
 
-          //Broadcast all posts
-          postStreamController.add(allPosts);
-
-          //Save the last document from the result if it's the last page
-          //Dokument braucht man um Pagination nachher richtig zu starten
-          if (currentRequestIndex == _allPagedResults.length - 1) {
-            _lastDocument = postsSnapshot.docs.last;
-          }
-
-          //Dertermine if there are more posts to request
-          _hasMorePosts = posts.length == paginationDistance;
-        } else {
-          postStreamController.add([]);
+        //If the page exists update the posts for that page
+        if (pageExists) {
+          _allPagedResults[currentRequestIndex] = posts;
         }
+        //If Page doesn't exist add New Page
+        else {
+          _allPagedResults.add(posts);
+        }
+
+        //Concaternate the full list to be shown
+        //Was hier passiert ist, dass die ganzen Sublisten jetzt in eine Zusammengepackt werden
+        List<Post?> allPosts = _allPagedResults.fold<List<Post?>>(
+            [], (initialValue, pageItems) => initialValue..addAll(pageItems));
+
+        //Broadcast all posts
+        postStreamController.add(allPosts);
+
+        //Save the last document from the result if it's the last page
+        //Dokument braucht man um Pagination nachher richtig zu starten
+        if (currentRequestIndex == _allPagedResults.length - 1) {
+          _lastDocument = postsSnapshot.docs.last;
+        }
+
+        //Dertermine if there are more posts to request
+        _hasMorePosts = posts.length == paginationDistance;
+      } else {
+        postStreamController.add([]);
       }
     });
+    _currentFirestoreListenerStack.add(currentSnapshotListener);
+  }
+
+  void _removeCurrentListenerStack() {
+    _currentFirestoreListenerStack
+        .forEach((StreamSubscription<QuerySnapshot> listener) {
+      listener.cancel();
+    });
+    _currentFirestoreListenerStack = [];
   }
 }

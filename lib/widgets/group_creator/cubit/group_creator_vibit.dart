@@ -28,12 +28,19 @@ class GroupCreatorState extends ViState {
         return;
       }
 
+      final currentUserRef = _authService.getCurrentUserReference();
       Group newGroup = Group(
         name: title,
         about: about,
         isPrivate: false,
         //! this is not safe!
-        members: [_authService.getCurrentUser() as GroupUserReference],
+        members: [
+          GroupUserReference(
+              name: currentUserRef.name,
+              id: currentUserRef.id,
+              picture: currentUserRef.picture,
+              isAdmin: true)
+        ],
       );
 
       await GroupRepository().createGroup(newGroup);

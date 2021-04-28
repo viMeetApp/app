@@ -1,6 +1,7 @@
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
+/// Basis state whith Information for all post Editors. Normally each cubit (e.g. Post Editor Cubit) extends this class
 class PostEditorState {
   final String title;
   final List<PostTag> tags;

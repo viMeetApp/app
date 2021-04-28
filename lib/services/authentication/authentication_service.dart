@@ -99,8 +99,9 @@ class AuthenticationService {
 
     bool isUserSignedIn = await isSignedIn();
 
-    if(!isUserSignedIn)  {throw Exception('User Signed up Anonymously but is not signed in');
-    exit(0);}
+    if (!isUserSignedIn) {
+      exit(0);
+    }
   }
 
   AuthenticationService._privateConstructor(
