@@ -27,7 +27,7 @@ class _ViDropdownButtonState<T> extends State<ViDropdownButton> {
       child: DropdownButton<T>(
         value: dropdownValue,
         isExpanded: true,
-        hint: Text("Typ des Problems"),
+        hint: this.widget.hint != null ? Text(this.widget.hint!) : null,
         isDense: true,
         //value: "One",
         //icon: Icon(Icons.arrow_downward),
@@ -36,7 +36,7 @@ class _ViDropdownButtonState<T> extends State<ViDropdownButton> {
         onChanged: (T? newValue) {
           setState(() {
             dropdownValue = newValue;
-            widget.onChanged!(newValue);
+            if (widget.onChanged != null) widget.onChanged!(newValue);
           });
         },
         items: widget.elements.map<DropdownMenuItem<T>>((item) {
