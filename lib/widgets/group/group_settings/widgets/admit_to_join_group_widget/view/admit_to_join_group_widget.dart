@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/admission_to_group_controller.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 
 class AdmitToJoinGroupWidget extends StatelessWidget {
   final Group group;
-  late final AdminssionToGroupController _adminssionToGroupController;
+  late final AdminssionToGroupController _admissionToGroupController;
 
   //Returns Stream of all user who are currently requesting to Join
   AdmitToJoinGroupWidget({required this.group}) {
-    _adminssionToGroupController =
-        new AdminssionToGroupController(group: group);
+    _admissionToGroupController = new AdminssionToGroupController(group: group);
   }
   @override
   Widget build(BuildContext context) {
@@ -31,21 +31,17 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
                         leading: Icon(Icons.account_circle),
                         title: Text(user.name),
                         trailing: Wrap(children: [
-                          IconButton(
+                          ViNetworkIconButton(
+                            onPressed: () => _admissionToGroupController
+                                .acceptUser(user: user),
                             icon: Icon(Icons.check),
                             padding: EdgeInsets.only(left: 10),
-                            onPressed: () {
-                              _adminssionToGroupController.acceptUser(
-                                  user: user);
-                            },
                           ),
-                          IconButton(
+                          ViNetworkIconButton(
+                            onPressed: () => _admissionToGroupController
+                                .declineUser(user: user),
                             icon: Icon(Icons.close),
                             padding: EdgeInsets.only(left: 10),
-                            onPressed: () {
-                              _adminssionToGroupController.declineUser(
-                                  user: user);
-                            },
                           ),
                         ])),
                   );

@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_material_button.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_outlined_button.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
@@ -24,6 +26,14 @@ class PostPage extends StatelessWidget {
   }
 
   Widget getPostInfoWidget({required Event event}) {
+    List<Widget> _detailFields = [
+      if (event.maxParticipants != null && event.maxParticipants != -1)
+        EventFieldView('Max. Teilnehmende', event.maxParticipants.toString()),
+      if (event.costs != null) EventFieldView('Kosten', event.costs.toString()),
+      if (event.eventLocation != null)
+        EventFieldView('Ort', event.eventLocation!),
+    ];
+
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(top: 20),
@@ -51,21 +61,17 @@ class PostPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold))),
                     ]),
               ),
-            Divider(
-              color: AppThemeData.colorControlsDisabled,
-              thickness: 1,
-            ),
-            if (event.maxParticipants != null)
-              EventFieldView(
-                  'Max. Teilnehmende', event.maxParticipants.toString()),
-            if (event.costs != null)
-              EventFieldView('Kosten', event.costs.toString()),
-            if (event.eventLocation != null)
-              EventFieldView('Ort', event.eventLocation!),
-            Divider(
-              color: AppThemeData.colorControlsDisabled,
-              thickness: 1,
-            ),
+            if (_detailFields.length > 0) ...{
+              Divider(
+                color: AppThemeData.colorControlsDisabled,
+                thickness: 1,
+              ),
+              ..._detailFields,
+              Divider(
+                color: AppThemeData.colorControlsDisabled,
+                thickness: 1,
+              ),
+            }
           ],
         ),
       ),
@@ -107,20 +113,17 @@ class PostPage extends StatelessWidget {
                     ),
                   )
                 : state.subscribed
-                    ? OutlinedButton(
+                    ? ViNetworkOutlinedButton(
+                        onPressed: () => state.unsubscribe(),
                         child: Text(
                           "abmelden",
                           style: AppThemeData.textNormal(),
                         ),
-                        onPressed: () {
-                          state.unsubscribe();
-                        })
-                    : MaterialButton(
-                        color: AppThemeData.colorPrimary,
+                      )
+                    : ViNetworkMaterialButton(
+                        onPressed: () => state.subscribe(),
                         child: Text("anmelden"),
-                        onPressed: () {
-                          state.subscribe();
-                        }),
+                        color: AppThemeData.colorPrimary),
           ),
           Expanded(
               flex: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/members_of_group_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -32,14 +33,13 @@ class MemberTile extends StatelessWidget {
           // Only Display delete button if current User is Admin and if displayed user is not user himself
           if (currentUserIsAdmin &&
               user.id != _authService.getCurrentUserReference().id)
-            IconButton(
-                icon: Icon(Icons.close),
-                padding: EdgeInsets.only(left: 10),
-                onPressed: () {
-                  context
-                      .read<MembersOfGroupController>()
-                      .removeUserFromGroup(user);
-                }),
+            ViNetworkIconButton(
+              onPressed: () => context
+                  .read<MembersOfGroupController>()
+                  .removeUserFromGroup(user),
+              icon: Icon(Icons.close),
+              padding: EdgeInsets.only(left: 10),
+            )
         ],
       ),
     );

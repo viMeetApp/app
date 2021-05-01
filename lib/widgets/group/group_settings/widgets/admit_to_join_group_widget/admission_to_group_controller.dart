@@ -7,19 +7,21 @@ class AdminssionToGroupController {
   AdminssionToGroupController({required this.group});
 
   final FirebaseFunctions _firebaseFunctions = FirebaseFunctions.instance;
-  void acceptUser({required UserReference user}) {
+  Future<void> acceptUser({required UserReference user}) async {
     //ToDo Error Handling
     HttpsCallable callable = _firebaseFunctions.httpsCallable(
       'groups-acceptUserToGroup',
     );
-    callable.call({'groupId': group.id, 'user': user.toMap(includeID: true)});
+    await callable
+        .call({'groupId': group.id, 'user': user.toMap(includeID: true)});
   }
 
-  void declineUser({required UserReference user}) {
+  Future<void> declineUser({required UserReference user}) async {
     // toDo Error Handling
     HttpsCallable callable = _firebaseFunctions.httpsCallable(
       'groups-declineUserFromGroup',
     );
-    callable.call({'groupId': group.id, 'user': user.toMap(includeID: true)});
+    await callable
+        .call({'groupId': group.id, 'user': user.toMap(includeID: true)});
   }
 }

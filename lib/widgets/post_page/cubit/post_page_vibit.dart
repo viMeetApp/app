@@ -66,49 +66,43 @@ class PostPageState extends ViState {
   ///
   ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
   ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void subscribe() {
+  Future<void> subscribe() async {
     processing = true;
     refresh();
     HttpsCallable callable = functions.httpsCallable(
       'posts-subscribeToPost',
     );
-    callable
-        .call(
-      post.id,
-    )
-        .then((value) {
-      print("Unsubscribed Sucessfully");
+    try {
+      await callable.call(
+        post.id,
+      );
       processing = false;
-      //refresh();
-    }).onError((err, trace) {
+    } catch (err) {
       processing = false;
       refresh();
       print("There was an error subscribing" + err.toString());
-    });
+    }
   }
 
   ///Unsubscribe from Post by Calling the Cloud Function
   ///
   ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
   ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void unsubscribe() {
+  Future<void> unsubscribe() async {
     processing = true;
     refresh();
     HttpsCallable callable = functions.httpsCallable(
       'posts-unsubscribeFromPost',
     );
-    callable
-        .call(
-      post.id,
-    )
-        .then((value) {
-      print("Unsubscribed Sucessfully");
+    try {
+      await callable.call(
+        post.id,
+      );
       processing = false;
-      //refresh();
-    }).onError((err, trace) {
+    } catch (err) {
       processing = false;
       refresh();
       print("There was an error unsubscribing" + err.toString());
-    });
+    }
   }
 }
