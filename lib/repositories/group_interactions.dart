@@ -26,10 +26,10 @@ class GroupInteractions {
 
   static joinGroup(String groupID, OnResponse onResponse) {
     HttpsCallable callable = _firebaseFunctions.httpsCallable(
-      'requestToJoinGroup',
+      'groups-requestToJoinGroup',
     );
     return callable
-        .call(<String, dynamic>{'groupId': groupID})
+        .call(groupID)
         .then((value) => onResponse(true))
         .catchError((err) => onResponse(false));
   }
