@@ -70,9 +70,12 @@ class PostPageState extends ViState {
     processing = true;
     refresh();
     HttpsCallable callable = functions.httpsCallable(
-      'subscribeToPost',
+      'posts-subscribeToPost',
     );
-    callable.call(<String, dynamic>{'postId': post.id}).then((value) {
+    callable.call(<String, dynamic>{
+      'postId': post.id,
+      'user': _authService.getCurrentUserReference().toMap(includeID: true)
+    }).then((value) {
       print("Unsubscribed Sucessfully");
       processing = false;
       //refresh();
@@ -91,9 +94,12 @@ class PostPageState extends ViState {
     processing = true;
     refresh();
     HttpsCallable callable = functions.httpsCallable(
-      'unsubscribeFromPost',
+      'posts-unsubscribeFromPost',
     );
-    callable.call(<String, dynamic>{'postId': post.id}).then((value) {
+    callable.call(<String, dynamic>{
+      'postId': post.id,
+      'user': _authService.getCurrentUserReference().toMap(includeID: true)
+    }).then((value) {
       print("Unsubscribed Sucessfully");
       processing = false;
       //refresh();

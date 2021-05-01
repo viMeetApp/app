@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,10 +11,17 @@ import 'widgets/home/home.dart';
 import 'widgets/splash/splash.dart';
 
 void main() async {
+  final bool useEmulator = true;
   SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
   await GeoLocator().initialize();
   await Firebase.initializeApp();
+
+  if (useEmulator) {
+    print("Use Emulator");
+    FirebaseFunctions.instance
+        .useFunctionsEmulator(origin: 'http://localhost:5001');
+  }
   runApp(App());
 }
 
