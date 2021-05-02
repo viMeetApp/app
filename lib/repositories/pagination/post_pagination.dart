@@ -75,7 +75,7 @@ class PostPagination {
       queryString = queryString.substring(0, queryString.length - 1);
       print(queryString);
 
-      query = query.where('tags', arrayContains: queryString);
+      query = query.where('searchableTags', arrayContains: queryString);
     }
 
     postQuery = query.limit(paginationDistance);

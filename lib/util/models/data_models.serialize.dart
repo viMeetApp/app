@@ -64,8 +64,7 @@ Map<String, dynamic> _postToMap(Post instance,
   serialized.putIfNotNull('expiresAt', instance.expiresAt);
   serialized.putIfNotNull('geohash', instance.geohash);
   serialized.putIfNotNull('type', enumToString(instance.type));
-  serialized.putIfNotNull(
-      'tags', splitListOfPostTagsToAllSubArrays(instance.tags));
+  serialized.putIfNotNull('tags', postTagsToList(instance.tags));
   serialized.putIfNotNull('group', instance.group?.toMap(includeID: true));
   return _userGeneratedDocumentToMap(instance,
       serialized: serialized, includeID: includeID);
@@ -204,8 +203,7 @@ Post _postFromMap(Map<String, dynamic> map, {Post? instance}) {
   instance.createdAt = map['createdAt'] ?? throwSerialExc();
   instance.expiresAt = map['expiresAt'] ?? throwSerialExc();
   instance.geohash = map['geohash'] ?? throwSerialExc();
-  instance.tags =
-      convertSequenceOfSubArraysToPostTags(map["tags"] ?? throwSerialExc());
+  instance.tags = listToPostTags(map["tags"] ?? throwSerialExc());
   instance.type = stringToEnum(map['type'], PostType.values);
   instance.group =
       map['group'] != null ? GroupReference.fromMap(map['group']) : null;

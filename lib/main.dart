@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +24,15 @@ void main() async {
     print("Use Emulator");
     FirebaseFunctions.instance
         .useFunctionsEmulator(origin: 'http://localhost:5001');
+    // Switch host based on platform.
+    String host = defaultTargetPlatform == TargetPlatform.android
+        ? '10.0.2.2:8080'
+        : 'localhost:8080';
+    FirebaseAuth.instance.useEmulator('http://localhost:9099');
+
+    // Set the host as soon as possible.
+    FirebaseFirestore.instance.settings =
+        Settings(host: host, sslEnabled: false);
   }
   runApp(App());
 }
