@@ -18,8 +18,6 @@ class LoginPage extends StatelessWidget {
         alignment: FractionalOffset.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(30),
-          /*constraints: BoxConstraints(
-                  maxHeight: 0.6 * MediaQuery.of(context).size.height),*/
           decoration: new BoxDecoration(
               color: AppThemeData.colorPrimary,
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

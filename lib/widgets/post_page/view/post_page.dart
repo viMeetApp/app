@@ -212,21 +212,7 @@ class PostPage extends StatelessWidget {
                   if (!state.expanded)
                     ChatWidget(
                       post: state.post,
-                      /*onTap: () {
-                          state.foldIn();
-                        }*/
                     ),
-                  /*if (state.expanded)
-                    GestureDetector(
-                      onTap: () => state.toggleExpanded(),
-                      child: Container(
-                        color: Colors.amber,
-                        child: SizedBox(
-                          height: 30,
-                          width: double.infinity,
-                        ),
-                      ),
-                    ),*/
                 ],
               ),
             );

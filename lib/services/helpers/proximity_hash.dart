@@ -189,7 +189,6 @@ class GeoHasher {
   String _adjacent({required String geohash, required String direction}) {
     assert(direction.contains(new RegExp(r'[nsewNSEW]')),
         "Invalid Direction $direction not in NSEW");
-    /*assert(geohash != null, "Invalid GeoHash");*/
 
     Map<String, List> neighbor = {
       'n': [

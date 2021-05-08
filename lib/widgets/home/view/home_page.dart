@@ -26,9 +26,6 @@ class HomePage extends StatelessWidget {
       child: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
           // theming the bottom bar
-          /*SystemChrome.setSystemUIOverlayStyle(state.loggedIn
-                ? AppThemeData.uiOverlayStyle
-                : AppThemeData.uiOverlayStyleThemed);*/
 
           return Stack(
             children: [
@@ -73,13 +70,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              /*AnimatedContainer(
-                  //color: Colors.white,
-                  duration: Duration(milliseconds: 100),
-                  child: state.showGroups ? groupDropdownWidget : null,
-                ),*/
               AnimatedContainer(
-                //color: Colors.white,
                 duration: Duration(milliseconds: 100),
                 child: !state.loggedIn! ? LoginPage() : null,
               ),

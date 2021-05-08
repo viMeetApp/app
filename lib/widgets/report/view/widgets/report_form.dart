@@ -29,21 +29,6 @@ class ReportForm extends StatelessWidget {
 
           return null;
         }
-
-        //When Logged In -> Call Authetication Bloc with Logged in
-        /*if (state.wasSubmitted) {
-          Navigator.of(context).pop();
-        }*/
-
-        /*if (!state.isValid) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("Bitte fülle alles aus")));
-        }
-
-        if (state.isError) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("Fehler beim Speichern")));
-        }*/
       },
       child: BlocBuilder<ReportCubit, ViFormState>(
         buildWhen: (previous, current) => true,

@@ -10,14 +10,16 @@ class ReportSuccessPage extends StatelessWidget {
       tag: 'report_success',
       child: Center(
         child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            )),
-            color: AppThemeData.colorAccent,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          )),
+          color: AppThemeData.colorAccent,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Icon(
                   Icons.check,
                   color: AppThemeData.colorCard,
@@ -28,10 +30,10 @@ class ReportSuccessPage extends StatelessWidget {
                         color: AppThemeData.colorCard,
                         fontWeight: FontWeight.bold,
                         fontSize: 28)),
-                /*Text("Dein Bericht wurde übermittelt",
-                style: AppThemeData.textHeading4(color: AppThemeData.colorCard))*/
-              ]),
-            )),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

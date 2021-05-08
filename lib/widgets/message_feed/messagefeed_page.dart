@@ -11,15 +11,6 @@ class MessageFeed extends StatelessWidget {
       appBar: AppBar(
         title: Text("Meine Nachrichten", style: AppThemeData.textHeading2()),
         leading: null,
-        /*IconButton(
-            icon: Icon(
-              Icons.favorite,
-              //color: AppThemeData.colorTextInverted,
-            ),
-            onPressed: () => {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("TODO: Show favorites")))
-                }),*/
         actions: [
           IconButton(
             icon: Icon(

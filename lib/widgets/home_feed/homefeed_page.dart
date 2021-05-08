@@ -41,12 +41,6 @@ class HomeFeed extends StatelessWidget {
               onPressed: () {
                 Tools.showSnackbar(context, "TODO: Favoriten");
               },
-              /*() {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => GroupDropownWidget(),
-                );
-              },*/
             ),
           ),
           title: LocationWidget(),
