@@ -8,15 +8,16 @@ import 'package:signup_app/widgets/group/group_settings/view/group_settings_page
 import 'package:signup_app/widgets/group/view/widgets/group_status_button.dart';
 import 'package:signup_app/widgets/post_editor/implementations/event_editor_page.dart';
 import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable.dart';
+import 'package:signup_app/widgets/shared/network_images/avatar/implementations/network_avatar_group.dart';
 
 ///Start Page For Group from here on decission if Member or not
 class GroupPage extends StatelessWidget {
-  final Group? group;
+  final Group group;
   //Group is starter with an group because we already know the Group at this Position
   //Because of that we loose one fetch from Backend
   GroupPage({required this.group});
 
-  static Route route({required Group? group}) {
+  static Route route({required Group group}) {
     return MaterialPageRoute<void>(
       builder: (_) => GroupPage(
         group: group,
@@ -27,7 +28,7 @@ class GroupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GroupCubit>(
-      create: (_) => GroupCubit(group: group!),
+      create: (_) => GroupCubit(group: group),
       child: BlocBuilder<GroupCubit, GroupState>(
         builder: (context, state) {
           return Scaffold(
@@ -109,16 +110,12 @@ class GroupPage extends StatelessWidget {
                                 child: Hero(
                                   tag: "group_icon" + state.group.id,
                                   child: CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: AppThemeData.colorCard,
-                                    child: CircleAvatar(
-                                      backgroundColor:
-                                          AppThemeData.colorPlaceholder,
-                                      backgroundImage: AssetImage(
-                                          "assets/img/exampleImage2.jpg"),
-                                      radius: 45,
-                                    ),
-                                  ),
+                                      radius: 50,
+                                      backgroundColor: AppThemeData.colorCard,
+                                      child: NetworkAvatarGroup(
+                                        radius: 45,
+                                        imageUrl: group.picture,
+                                      )),
                                 ),
                               ),
                               Expanded(

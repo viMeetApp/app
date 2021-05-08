@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/group/view/group_page.dart';
+import 'package:signup_app/widgets/shared/network_images/avatar/implementations/network_avatar_group.dart';
 
 class GroupListWidget extends StatelessWidget {
   final Stream<List<Group>> groupStream;
@@ -32,7 +32,7 @@ class GroupListWidget extends StatelessWidget {
 }
 
 class ListElement extends StatelessWidget {
-  final Group? group;
+  final Group group;
   ListElement({required this.group});
   @override
   Widget build(BuildContext context) {
@@ -47,10 +47,9 @@ class ListElement extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Hero(
-              tag: "group_icon" + group!.id,
-              child: CircleAvatar(
-                backgroundColor: AppThemeData.colorPlaceholder,
-                backgroundImage: AssetImage("assets/img/exampleImage2.jpg"),
+              tag: "group_icon" + group.id,
+              child: NetworkAvatarGroup(
+                imageUrl: group.picture,
                 radius: 30,
               ),
             ),
@@ -58,7 +57,7 @@ class ListElement extends StatelessWidget {
               width: 30,
             ),
             Flexible(
-              child: Text(group!.name,
+              child: Text(group.name,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             )
           ],

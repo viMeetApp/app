@@ -6,6 +6,7 @@ import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_gr
 import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/members_of_group_widget.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/update_group_info_widget/update_group_info_widget.dart';
+import 'package:signup_app/widgets/shared/network_images/update_image/generic_update_image.dart';
 
 class GroupSettingsMainWidget extends StatelessWidget {
   GroupSettingsMainWidget();
@@ -46,14 +47,10 @@ class GroupSettingsMainWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(10),
                         child: Center(
-                          child: CircleAvatar(
-                            backgroundColor: AppThemeData.colorPlaceholder,
-                            backgroundImage: AssetImage(
-                                "assets/img/brand/logo_light_text_trans.png"),
-                            maxRadius: 50,
-                            minRadius: 50,
-                          ),
-                        ),
+                            child: GenericUpdateImage(
+                          imageUrl: state.group.picture,
+                          radius: 50,
+                        )),
                       ),
                     ]),
                   ),
