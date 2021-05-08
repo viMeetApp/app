@@ -6,22 +6,14 @@ import 'package:signup_app/util/widgets/network_buttons/cubit/network_button_cub
 
 class ViNetworkOutlinedButton extends StatelessWidget {
   ViNetworkOutlinedButton(
-      {required Future<void> Function() onPressed,
-      required Widget child,
-      EdgeInsetsGeometry? padding,
-      ButtonStyle? buttonStyle,
-      bool showError = false,
-      bool showSuccess = false})
-      : _onPressed = onPressed,
-        _child = child,
-        _showError = showError,
-        _showSuccess = showSuccess,
-        _buttonStyle = buttonStyle;
-  final Future Function() _onPressed;
-  final ButtonStyle? _buttonStyle;
-  final bool _showError;
-  final bool _showSuccess;
-  final Widget _child;
+      {required this.onPressed,
+      required this.child,
+      this.showError = false,
+      this.showSuccess = false});
+  final Future Function() onPressed;
+  final bool showError;
+  final bool showSuccess;
+  final Widget child;
 
   final NetworkButtonCubit _networkButtonCubit = NetworkButtonCubit();
   @override
@@ -36,19 +28,18 @@ class ViNetworkOutlinedButton extends StatelessWidget {
                   ),
                 )
               : OutlinedButton(
-                  child: _child,
-                  style: _buttonStyle,
+                  child: child,
                   onPressed: () {
                     _networkButtonCubit.isLoading();
-                    _onPressed().then(
+                    onPressed().then(
                       (value) {
-                        if (_showSuccess) {
+                        if (showSuccess) {
                           Tools.showSnackbar(context, 'Success');
                         }
                       },
                     ).catchError(
                       (_) {
-                        if (_showError) Tools.showSnackbar(context, 'Error');
+                        if (showError) Tools.showSnackbar(context, 'Error');
                       },
                     ).whenComplete(
                       () {

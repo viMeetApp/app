@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
-import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/admission_to_group_controller.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 
 class AdmitToJoinGroupWidget extends StatelessWidget {
   final Group group;
-  late final AdminssionToGroupController _admissionToGroupController;
+  late final GroupInteractions _groupInteractions;
 
   //Returns Stream of all user who are currently requesting to Join
   AdmitToJoinGroupWidget({required this.group}) {
-    _admissionToGroupController = new AdminssionToGroupController(group: group);
+    _groupInteractions = new GroupInteractions(group: group);
   }
   @override
   Widget build(BuildContext context) {
@@ -32,16 +32,14 @@ class AdmitToJoinGroupWidget extends StatelessWidget {
                         title: Text(user.name),
                         trailing: Wrap(children: [
                           ViNetworkIconButton(
-                            onPressed: () => _admissionToGroupController
-                                .acceptUser(user: user),
+                            onPressed: () =>
+                                _groupInteractions.acceptUser(user: user),
                             icon: Icon(Icons.check),
-                            padding: EdgeInsets.only(left: 10),
                           ),
                           ViNetworkIconButton(
-                            onPressed: () => _admissionToGroupController
-                                .declineUser(user: user),
+                            onPressed: () =>
+                                _groupInteractions.declineUser(user: user),
                             icon: Icon(Icons.close),
-                            padding: EdgeInsets.only(left: 10),
                           ),
                         ])),
                   );

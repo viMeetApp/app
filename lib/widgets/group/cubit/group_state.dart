@@ -15,20 +15,20 @@ class GroupMember extends GroupState {
 class NotGroupMember extends GroupState {
   late final bool
       requestedToJoin; //Whether one already requested to join the Group
-  final bool
-      requesting; //Whether the request is currently beeing sent to firebase
 
-  NotGroupMember({required group, this.requesting = false})
-      : super(group: group) {
+  NotGroupMember({required group}) : super(group: group) {
+    print(AuthenticationService().getCurrentUserReference().id);
     requestedToJoin = this
-        .group
-        .requestedToJoin!
-        .contains(AuthenticationService().getCurrentUserUid());
+            .group
+            .requestedToJoin
+            ?.contains(AuthenticationService().getCurrentUserReference()) ??
+        false;
   }
 
   NotGroupMember copyWith({bool? requesting}) {
     return NotGroupMember(
-        group: group, requesting: requesting ?? this.requesting);
+      group: group,
+    );
   }
 }
 

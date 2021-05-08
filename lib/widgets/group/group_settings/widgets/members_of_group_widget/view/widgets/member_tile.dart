@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
-import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/members_of_group_controller.dart';
+
 import 'package:provider/provider.dart';
 
 class MemberTile extends StatelessWidget {
@@ -17,6 +18,8 @@ class MemberTile extends StatelessWidget {
       AuthenticationService? authenticationService})
       : _authService = authenticationService ?? AuthenticationService();
   Widget build(BuildContext context) {
+    final GroupInteractions _groupInteactions =
+        GroupInteractions(group: context.read<Group>());
     return ListTile(
       leading: Icon(Icons.account_circle),
       title: Text(user.name),
@@ -34,11 +37,8 @@ class MemberTile extends StatelessWidget {
           if (currentUserIsAdmin &&
               user.id != _authService.getCurrentUserReference().id)
             ViNetworkIconButton(
-              onPressed: () => context
-                  .read<MembersOfGroupController>()
-                  .removeUserFromGroup(user),
+              onPressed: () => _groupInteactions.removeUserFromGroup(user),
               icon: Icon(Icons.close),
-              padding: EdgeInsets.only(left: 10),
             )
         ],
       ),

@@ -6,22 +6,31 @@ import 'package:signup_app/util/widgets/network_buttons/cubit/network_button_cub
 
 class ViNetworkMaterialButton extends StatelessWidget {
   ViNetworkMaterialButton(
-      {required Future<void> Function() onPressed,
-      required Widget child,
-      EdgeInsetsGeometry? padding,
-      Color? color,
-      bool showError = false,
-      bool showSuccess = false})
-      : _onPressed = onPressed,
-        _child = child,
-        _showError = showError,
-        _showSuccess = showSuccess,
-        _color = color;
-  final Future Function() _onPressed;
-  final Color? _color;
-  final bool _showError;
-  final bool _showSuccess;
-  final Widget _child;
+      {required this.onPressed,
+      required this.child,
+      this.color,
+      this.showSuccess = false,
+      this.showError = false,
+      this.textColor,
+      this.disabledTextColor,
+      this.disabledColor,
+      this.focusColor,
+      this.hoverColor,
+      this.highlightColor,
+      this.splashColor});
+  final Future Function() onPressed;
+  final Color? color;
+  final bool showError;
+  final bool showSuccess;
+  final Widget child;
+
+  final Color? textColor;
+  final Color? disabledTextColor;
+  final Color? disabledColor;
+  final Color? focusColor;
+  final Color? hoverColor;
+  final Color? highlightColor;
+  final Color? splashColor;
 
   final NetworkButtonCubit _networkButtonCubit = NetworkButtonCubit();
   @override
@@ -36,19 +45,19 @@ class ViNetworkMaterialButton extends StatelessWidget {
                   ),
                 )
               : MaterialButton(
-                  child: _child,
-                  color: _color,
+                  child: child,
+                  color: color,
                   onPressed: () {
                     _networkButtonCubit.isLoading();
-                    _onPressed().then(
+                    onPressed().then(
                       (value) {
-                        if (_showSuccess) {
+                        if (showSuccess) {
                           Tools.showSnackbar(context, 'Success');
                         }
                       },
                     ).catchError(
                       (_) {
-                        if (_showError) Tools.showSnackbar(context, 'Error');
+                        if (showError) Tools.showSnackbar(context, 'Error');
                       },
                     ).whenComplete(
                       () {
@@ -56,6 +65,12 @@ class ViNetworkMaterialButton extends StatelessWidget {
                       },
                     );
                   },
+                  textColor: textColor,
+                  disabledTextColor: disabledTextColor,
+                  disabledColor: disabledTextColor,
+                  focusColor: focusColor,
+                  highlightColor: highlightColor,
+                  splashColor: splashColor,
                 );
         });
   }

@@ -192,8 +192,9 @@ class AppThemeData {
       buttonTheme: ButtonThemeData(
         minWidth: 0,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.transparent)),
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(color: Colors.transparent),
+        ),
         buttonColor: colorPrimary,
         textTheme: ButtonTextTheme.primary,
       ),

@@ -14,7 +14,7 @@ import 'widgets/home/home.dart';
 import 'widgets/splash/splash.dart';
 
 void main() async {
-  final bool useEmulator = true;
+  final bool useEmulator = false;
   SystemChrome.setSystemUIOverlayStyle(AppThemeData.uiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
   await GeoLocator().initialize();

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 part 'data_models.serialize.dart';
 part 'data_models.serialize_util.dart';
@@ -12,12 +13,15 @@ abstract class DocumentSerializable {
 /// Database Object that includes an id
 ///
 /// [id] the id of the document within the databse
-class DatabaseDocument implements DocumentSerializable {
+class DatabaseDocument extends Equatable implements DocumentSerializable {
   String id;
 
   DatabaseDocument({this.id = ""});
 
   DatabaseDocument.empty() : this.id = "";
+
+  @override
+  List<Object> get props => [id];
 
   @override
   Map<String, dynamic> toMap({bool includeID = false}) =>
