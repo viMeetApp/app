@@ -7,7 +7,7 @@ import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
 import 'package:signup_app/widgets/group/view/widgets/group_status_button.dart';
 import 'package:signup_app/widgets/post_editor/implementations/event_editor_page.dart';
-import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
+import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable.dart';
 
 ///Start Page For Group from here on decission if Member or not
 class GroupPage extends StatelessWidget {
@@ -155,10 +155,7 @@ class GroupPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: (state is GroupMember)
-                      ? PostList(
-                          filterable: true,
-                          group: state.group,
-                        )
+                      ? PostListFilterableWidget(group: state.group)
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

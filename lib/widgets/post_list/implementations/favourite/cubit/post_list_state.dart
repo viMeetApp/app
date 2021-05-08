@@ -1,9 +1,10 @@
 part of 'post_list_cubit.dart';
 
-class PostListState {
-  Stream<List<Post?>>? postStream;
-  List<String>? searchTags = [];
-  PostListState({this.postStream, this.searchTags});
+class PostListState extends PostListStateInterface {
+  final List<String> searchTags;
+  PostListState(
+      {required Stream<List<Post>> postStream, this.searchTags = const []})
+      : super(postStream: postStream);
 
   //Das wäre die Stelle um die letze Konfiguration zu laden
   factory PostListState.initial() {

@@ -11,10 +11,7 @@ class PostPagination {
   final geo = Geoflutterfire();
   final GeoLocator _geoLocator;
   PostPagination(
-      {this.user,
-      this.group,
-      this.paginationDistance = 20,
-      GeoLocator? geoLocator})
+      {this.group, this.paginationDistance = 20, GeoLocator? geoLocator})
       : _geoLocator = geoLocator ?? GeoLocator();
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -22,18 +19,17 @@ class PostPagination {
   List<StreamSubscription<QuerySnapshot>> _currentFirestoreListenerStack = [];
 
   //Variables Necessary for Pagination
-  StreamController<List<Post?>> postStreamController =
-      new StreamController<List<Post?>>();
+  StreamController<List<Post>> postStreamController =
+      new StreamController<List<Post>>();
   DocumentSnapshot? _lastDocument;
   bool _hasMorePosts = true;
-  List<List<Post?>> _allPagedResults = [];
+  List<List<Post>> _allPagedResults = [];
   //How many Items get paginated every time
   final paginationDistance;
 
   //Variables Necessary for Filtering
   List<String>? tags;
   final Group? group;
-  final User? user;
 
   //Query
   Query? postQuery;
@@ -56,10 +52,8 @@ class PostPagination {
       query =
           colReference.where("group.id", isEqualTo: group!.id).where("geohash");
     }
-    //Then Check for User (if User provided only show Posts from User)
-    else if (user != null) {
-      query = colReference.where("participants", arrayContains: user!.id);
-    } else {
+    //ToDO Frage soll wenn man in gruppe ist trotzdem nach ort gefiltert werden?
+    else {
       GeohashRange range = _geoLocator.getGeohashRange();
       query = colReference
           .where("geohash", isGreaterThanOrEqualTo: range.lower)
@@ -97,17 +91,18 @@ class PostPagination {
         postQuery!.snapshots().listen((QuerySnapshot postsSnapshot) {
       print("Post listen");
       if (postsSnapshot.docs.isNotEmpty) {
-        List<Post?> posts =
-            postsSnapshot.docs.map((QueryDocumentSnapshot snapshot) {
-          // document.putIfAbsent("id", () => doc.id);
-          if (snapshot.data()!['type'] == "event") {
-            return Event.fromDoc(snapshot);
-          } else if (snapshot.data()!['type'] == "buddy") {
-            return Buddy.fromDoc(snapshot);
-          }
-        }).toList();
+        List<Post> posts = postsSnapshot.docs.map(
+          (QueryDocumentSnapshot snapshot) {
+            if (snapshot.data()!['type'] == "event") {
+              return Event.fromDoc(snapshot);
+            } else {
+              return Buddy.fromDoc(snapshot);
+            }
+          },
+        ).toList();
+
         posts.sort((a, b) {
-          if (a!.createdAt <= b!.createdAt)
+          if (a.createdAt <= b.createdAt)
             return 1;
           else
             return -1;
@@ -128,7 +123,7 @@ class PostPagination {
 
         //Concaternate the full list to be shown
         //Was hier passiert ist, dass die ganzen Sublisten jetzt in eine Zusammengepackt werden
-        List<Post?> allPosts = _allPagedResults.fold<List<Post?>>(
+        List<Post> allPosts = _allPagedResults.fold<List<Post>>(
             [], (initialValue, pageItems) => initialValue..addAll(pageItems));
 
         //Broadcast all posts

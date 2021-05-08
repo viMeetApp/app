@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fire;
-import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
+import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable.dart';
 
 class MessageFeed extends StatelessWidget {
   @override
@@ -23,11 +21,7 @@ class MessageFeed extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: PostList(
-            //ToDo fix this with User but therefore usere constructor must work
-            user: User(
-                name: 'egal', id: fire.FirebaseAuth.instance.currentUser!.uid),
-          ),
+          child: PostListFilterableWidget(),
         ),
       ),
     );
