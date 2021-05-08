@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/util/presets/presets.dart';
 
 class ViSelectableChip extends StatefulWidget {
-  Widget? label = Text("viChip");
-  String? value;
-  Function? onChanged;
-  bool isActive;
+  final Widget label;
+  final Function? onChanged;
+  final bool isActive;
 
   ViSelectableChip(
-      {this.label, this.value, this.isActive = false, this.onChanged});
+      {this.label = const Text("viChip"),
+      this.isActive = false,
+      this.onChanged});
 
   @override
-  _ViSelectableChipState createState() => _ViSelectableChipState();
+  _ViSelectableChipState createState() =>
+      _ViSelectableChipState(isActive: isActive);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _ViSelectableChipState extends State<ViSelectableChip> {
-  _ViSelectableChipState() {
-    //isActive = widget.isActive;
-  }
+  bool isActive;
+  _ViSelectableChipState({required this.isActive});
 
   Widget getChip({Widget? child, required bool isActive}) {
     return Container(
@@ -42,12 +43,14 @@ class _ViSelectableChipState extends State<ViSelectableChip> {
     return GestureDetector(
       child: getChip(child: widget.label, isActive: widget.isActive),
       onTap: () => {
-        setState(() {
-          widget.isActive = !widget.isActive;
-          if (widget.onChanged != null) {
-            widget.onChanged!(widget.isActive);
-          }
-        })
+        setState(
+          () {
+            isActive = !isActive;
+            if (widget.onChanged != null) {
+              widget.onChanged!(isActive);
+            }
+          },
+        )
       },
     );
   }
