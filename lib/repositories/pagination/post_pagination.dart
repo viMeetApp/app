@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:signup_app/services/geo_services/classes.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {
-  final geo = Geoflutterfire();
   final GeoLocator _geoLocator;
   PostPagination(
       {this.group, this.paginationDistance = 20, GeoLocator? geoLocator})

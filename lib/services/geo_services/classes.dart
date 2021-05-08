@@ -38,6 +38,50 @@ class PostalPlace extends Equatable {
     return locationData.longitude == long && locationData.latitude == lat;
   }
 
+  ///Returns geohash for current point
+  ///
+  ///Heavily influenced by GeoFlutter fire
+  String geoHash() {
+    const BASE32_CODES = '0123456789bcdefghjkmnpqrstuvwxyz';
+    const int numberOfChars = 0;
+
+    var chars = [], bits = 0, bitsTotal = 0, hashValue = 0;
+    double maxLat = 90, minLat = -90, maxLon = 180, minLon = -180, mid;
+
+    while (chars.length < numberOfChars) {
+      if (bitsTotal % 2 == 0) {
+        mid = (maxLon + minLon) / 2;
+        if (this.long > mid) {
+          hashValue = (hashValue << 1) + 1;
+          minLon = mid;
+        } else {
+          hashValue = (hashValue << 1) + 0;
+          maxLon = mid;
+        }
+      } else {
+        mid = (maxLat + minLat) / 2;
+        if (this.lat > mid) {
+          hashValue = (hashValue << 1) + 1;
+          minLat = mid;
+        } else {
+          hashValue = (hashValue << 1) + 0;
+          maxLat = mid;
+        }
+      }
+
+      bits++;
+      bitsTotal++;
+      if (bits == 5) {
+        var code = BASE32_CODES[hashValue];
+        chars.add(code);
+        bits = 0;
+        hashValue = 0;
+      }
+    }
+
+    return chars.join('');
+  }
+
   // Override to allow comparison between to instances. Two Places are equal if long and lat are equaL
   @override
   List<Object> get props => [long, lat];

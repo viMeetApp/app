@@ -1,4 +1,3 @@
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signup_app/services/geo_services/classes.dart';
@@ -144,9 +143,7 @@ class GeoLocator {
   /// Internally this function is using getCurrentLocation()
   Future<String> getCurrentGeohash() async {
     PostalPlace position = await getCurrentLocation();
-    String geohash = Geoflutterfire()
-        .point(latitude: position.lat, longitude: position.long)
-        .hash;
+    String geohash = position.geoHash();
     return geohash.substring(0, 5); // return a geohash with limited accuracy
   }
 
