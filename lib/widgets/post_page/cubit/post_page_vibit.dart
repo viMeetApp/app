@@ -1,29 +1,28 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:signup_app/repositories/post_interactions.dart';
 import 'package:signup_app/repositories/post_repository.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class PostPageState extends ViState {
-  PostRepository _postRepository = new PostRepository();
-  AuthenticationService _authService;
+  final PostRepository _postRepository;
+  final PostInteractions _postInteractions;
 
   bool expanded = false;
   bool favorited = false;
   bool subscribed = false;
-  bool processing = false;
-  Post post = Post.empty();
+  Post post;
 
   PostPageState(
-      {required String postId,
+      {required this.post,
       PostRepository? postRepository,
       AuthenticationService? authenticationService})
-      : _postRepository = postRepository ?? PostRepository(),
-        _authService = authenticationService ?? AuthenticationService() {
-    _postRepository.getPostStreamById(postId).listen((Post? dbpost) {
+      : _postInteractions = PostInteractions(post: post),
+        _postRepository = postRepository ?? PostRepository() {
+    // Subscribe for updated about this post
+    _postRepository.getPostStreamById(post.id).listen((Post? dbpost) {
       if (dbpost is Event) {
-        processing = false;
         post = dbpost;
         subscribed =
             dbpost.isMember(AuthenticationService().getCurrentUser().id);
@@ -58,51 +57,11 @@ class PostPageState extends ViState {
     if (expanded) toggleExpanded();
   }
 
-  //TODO Move this to the repository
-
-  FirebaseFunctions functions = FirebaseFunctions.instance;
-
-  ///Subscribe to Post by Calling the Cloud Function
-  ///
-  ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
-  ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  Future<void> subscribe() async {
-    processing = true;
-    refresh();
-    HttpsCallable callable = functions.httpsCallable(
-      'posts-subscribeToPost',
-    );
-    try {
-      await callable.call(
-        post.id,
-      );
-      processing = false;
-    } catch (err) {
-      processing = false;
-      refresh();
-      print("There was an error subscribing" + err.toString());
-    }
+  Future<void> subscribe() {
+    return _postInteractions.subscribe();
   }
 
-  ///Unsubscribe from Post by Calling the Cloud Function
-  ///
-  ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
-  ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  Future<void> unsubscribe() async {
-    processing = true;
-    refresh();
-    HttpsCallable callable = functions.httpsCallable(
-      'posts-unsubscribeFromPost',
-    );
-    try {
-      await callable.call(
-        post.id,
-      );
-      processing = false;
-    } catch (err) {
-      processing = false;
-      refresh();
-      print("There was an error unsubscribing" + err.toString());
-    }
+  Future<void> unsubscribe() {
+    return _postInteractions.unsubscribe();
   }
 }

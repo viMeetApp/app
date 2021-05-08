@@ -21,33 +21,33 @@ class ViNetworkOutlinedButton extends StatelessWidget {
     return BlocBuilder<NetworkButtonCubit, bool>(
         bloc: _networkButtonCubit,
         builder: (context, isUpdating) {
-          return isUpdating
-              ? Container(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                )
-              : OutlinedButton(
-                  child: child,
-                  onPressed: () {
-                    _networkButtonCubit.isLoading();
-                    onPressed().then(
-                      (value) {
-                        if (showSuccess) {
-                          Tools.showSnackbar(context, 'Success');
-                        }
-                      },
-                    ).catchError(
-                      (_) {
-                        if (showError) Tools.showSnackbar(context, 'Error');
-                      },
-                    ).whenComplete(
-                      () {
-                        _networkButtonCubit.isNotLoading();
-                      },
-                    );
+          if (isUpdating) {
+            return CircularProgressIndicator(
+              strokeWidth: 2,
+            );
+          } else {
+            return OutlinedButton(
+              child: child,
+              onPressed: () {
+                _networkButtonCubit.isLoading();
+                onPressed().then(
+                  (value) {
+                    if (showSuccess) {
+                      Tools.showSnackbar(context, 'Success');
+                    }
+                  },
+                ).catchError(
+                  (_) {
+                    if (showError) Tools.showSnackbar(context, 'Error');
+                  },
+                ).whenComplete(
+                  () {
+                    _networkButtonCubit.isNotLoading();
                   },
                 );
+              },
+            );
+          }
         });
   }
 }

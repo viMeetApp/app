@@ -12,12 +12,16 @@ import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
 import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
 
 class PostPage extends StatelessWidget {
-  final String _postID;
-  PostPage(this._postID);
+  final Post _post;
+  PostPage({required Post post}) : _post = post;
 
   static Route route({required Post post}) {
     return MaterialPageRoute<void>(builder: (_) {
-      return post is Event ? PostPage(post.id) : tempBuddyPage();
+      return post is Event
+          ? PostPage(
+              post: post,
+            )
+          : tempBuddyPage();
     });
   }
 
@@ -103,27 +107,18 @@ class PostPage extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: state.processing
-                ? Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
+            child: state.subscribed
+                ? ViNetworkOutlinedButton(
+                    onPressed: () => state.unsubscribe(),
+                    child: Text(
+                      "abmelden",
+                      style: AppThemeData.textNormal(),
                     ),
                   )
-                : state.subscribed
-                    ? ViNetworkOutlinedButton(
-                        onPressed: () => state.unsubscribe(),
-                        child: Text(
-                          "abmelden",
-                          style: AppThemeData.textNormal(),
-                        ),
-                      )
-                    : ViNetworkMaterialButton(
-                        onPressed: () => state.subscribe(),
-                        child: Text("anmelden"),
-                        color: AppThemeData.colorPrimary),
+                : ViNetworkMaterialButton(
+                    onPressed: () => state.subscribe(),
+                    child: Text("anmelden"),
+                    color: AppThemeData.colorPrimary),
           ),
           Expanded(
               flex: 1,
@@ -141,7 +136,7 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViBit<PostPageState>(
-        state: PostPageState(postId: _postID),
+        state: PostPageState(post: _post),
         onRefresh: (context, state) {
           if (state.post is Event) {
             return Scaffold(
