@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:signup_app/services/geo_service.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
 import 'package:signup_app/util/models/data_models.dart';
 
@@ -43,7 +42,7 @@ class PostRepository {
   /// Updates [post] Object in Firestore
   Future<void> updatePost(Post post) async {
     try {
-      assert(post.id != null && post.id != '',
+      assert(post.id != '',
           'When updating a Post, Object must contain a valid Id');
       await _postCollectionReference.doc(post.id).update(post.toMap());
     } catch (err) {

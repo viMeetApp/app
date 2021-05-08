@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
 
 import 'package:provider/provider.dart';
@@ -27,12 +28,12 @@ class MemberTile extends StatelessWidget {
         children: [
           if (user.isAdmin)
             IconButton(
-                icon: Icon(Icons.verified_user),
-                padding: EdgeInsets.only(left: 10),
-                onPressed: () {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("TODO: modify admins")));
-                }),
+              icon: Icon(Icons.verified_user),
+              padding: EdgeInsets.only(left: 10),
+              onPressed: () {
+                Tools.showSnackbar(context, "TODO: modify admins");
+              },
+            ),
           // Only Display delete button if current User is Admin and if displayed user is not user himself
           if (currentUserIsAdmin &&
               user.id != _authService.getCurrentUserReference().id)

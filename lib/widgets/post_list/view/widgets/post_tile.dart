@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
@@ -102,68 +101,30 @@ class PostTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         PopupMenuButton(
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: AppThemeData.colorControlsDisabled,
-                            ),
-                            padding: const EdgeInsets.only(left: 10),
-                            itemBuilder: (_) => <PopupMenuItem<String>>[
-                                  new PopupMenuItem<String>(
-                                      child: const Text('teilen'),
-                                      value: 'share'),
-                                  new PopupMenuItem<String>(
-                                      child: const Text('melden'),
-                                      value: 'report'),
-                                ],
-                            onSelected: (dynamic value) {
-                              if (value == "report") {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext cont) => ReportDialog(
-                                    id: post.id,
-                                    reportType: ReportType.post,
-                                    parentContext: context,
-                                  ),
-                                );
-                              }
-                            }) /*if (post.tags.length > 1)
-                          Padding(
-                            padding: EdgeInsets.only(right: 6),
-                            child: FlatButton(
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      TagsDialog(post.id, post.tags),
-                                );
-                              },
-                              color:
-                                  AppThemeData.colorCard, //.swatchPrimary[50],
-                              child: Icon(
-                                Icons.more_horiz,
-                                size: 15.0,
-                                color: AppThemeData.colorControls,
-                              ),
-                              padding: EdgeInsets.all(12),
-                              shape: CircleBorder(side: BorderSide.none),
-                            ),
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: AppThemeData.colorControlsDisabled,
                           ),
-                        if (post.tags.length > 0)
-                          Chip(
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            visualDensity: VisualDensity.compact,
-                            backgroundColor:
-                                AppThemeData.colorCard, //.swatchPrimary[50],
-                            label: Text(
-                              '#' + post.tags[0],
-                              style:
-                                  TextStyle(color: AppThemeData.colorControls),
-                            ),
-                          ),*/
+                          padding: const EdgeInsets.only(left: 10),
+                          itemBuilder: (_) => <PopupMenuItem<String>>[
+                            new PopupMenuItem<String>(
+                                child: const Text('teilen'), value: 'share'),
+                            new PopupMenuItem<String>(
+                                child: const Text('melden'), value: 'report'),
+                          ],
+                          onSelected: (dynamic value) {
+                            if (value == "report") {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext cont) => ReportDialog(
+                                  id: post.id,
+                                  reportType: ReportType.post,
+                                  parentContext: context,
+                                ),
+                              );
+                            }
+                          },
+                        )
                       ],
                     ),
                   ],

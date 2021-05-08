@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class AboutWidget extends StatelessWidget {
-  String legalFileName;
+  final String legalFileName;
 
   AboutWidget({required this.legalFileName});
 

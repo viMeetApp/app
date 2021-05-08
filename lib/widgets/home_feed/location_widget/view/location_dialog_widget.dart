@@ -6,7 +6,7 @@ import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_vibit.dart';
 
 class LocationDialog extends StatefulWidget {
-  LocationWidgetState state;
+  final LocationWidgetState state;
 
   LocationDialog({
     required this.state,
@@ -74,11 +74,10 @@ class _LocationDialogState extends State<LocationDialog> {
                         color: AppThemeData.colorPrimary,
                         size: 30,
                       ),
-                      onPressed: () async {
-                        PostalPlace currentPlace =
-                            await widget.state.getDeviceLocation();
-
-                        Navigator.pop(context);
+                      onPressed: () {
+                        widget.state
+                            .getDeviceLocation()
+                            .then((_) => Navigator.pop(context));
                       },
                     ),
                   ),

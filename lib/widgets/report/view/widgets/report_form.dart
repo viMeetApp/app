@@ -84,15 +84,13 @@ class ReportForm extends StatelessWidget {
                   ),
                 ),
                 !state.isSubmitting
-                    ? FlatButton(
+                    ? TextButton(
                         child: Text(
                           "melden",
                           style: TextStyle(
                             color: AppThemeData.colorCard,
                           ),
                         ),
-                        color: AppThemeData.colorPrimary,
-                        disabledColor: AppThemeData.colorControlsDisabled,
                         onPressed: state.isValid
                             ? () {
                                 BlocProvider.of<ReportCubit>(context).submitted(

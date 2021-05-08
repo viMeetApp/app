@@ -32,10 +32,10 @@ class PostPage extends StatelessWidget {
   Widget getPostInfoWidget({required Event event}) {
     List<Widget> _detailFields = [
       if (event.maxParticipants != null && event.maxParticipants != -1)
-        EventFieldView('Max. Teilnehmende', event.maxParticipants.toString()),
-      if (event.costs != null) EventFieldView('Kosten', event.costs.toString()),
+        eventFieldView('Max. Teilnehmende', event.maxParticipants.toString()),
+      if (event.costs != null) eventFieldView('Kosten', event.costs.toString()),
       if (event.eventLocation != null)
-        EventFieldView('Ort', event.eventLocation!),
+        eventFieldView('Ort', event.eventLocation!),
     ];
 
     return Expanded(
@@ -82,7 +82,7 @@ class PostPage extends StatelessWidget {
     );
   }
 
-  Widget EventFieldView(String name, String content) {
+  Widget eventFieldView(String name, String content) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(

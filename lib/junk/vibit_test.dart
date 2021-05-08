@@ -53,7 +53,7 @@ class ViBitTest extends StatelessWidget {
           return Wrap(
             direction: Axis.vertical,
             children: [
-              FlatButton(
+              TextButton(
                 child: Text(state.value.toString()),
                 onPressed: state.onClick,
               ),

@@ -8,11 +8,11 @@ import 'package:signup_app/widgets/report/cubit/report_cubit.dart';
 import 'package:signup_app/widgets/report/view/widgets/report_form.dart';
 
 class ReportDialog extends StatelessWidget {
-  List<String> reasons = [];
+  final List<String> reasons = [];
 
-  String? id;
-  ReportType reportType;
-  BuildContext parentContext;
+  final String id;
+  final ReportType reportType;
+  final BuildContext parentContext;
 
   ReportDialog(
       {required this.id,

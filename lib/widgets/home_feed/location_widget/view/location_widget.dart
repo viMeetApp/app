@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_vibit.dart';

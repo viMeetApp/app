@@ -3,7 +3,6 @@ import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire;
 import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
-import 'package:signup_app/junk/plainPostList.dart';
 
 class MessageFeed extends StatelessWidget {
   @override

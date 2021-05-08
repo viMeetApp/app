@@ -127,7 +127,6 @@ class GeoHasher {
   String encode(double longitude, double latitude, {int precision = 12}) {
     bool precisionOdd = precision % 2 == 1;
     int originalPrecision = precision + 0;
-    if (longitude == null || latitude == null) throw ArgumentError.notNull();
     if (longitude < -180.0 || longitude > 180.0)
       throw RangeError.range(longitude, -180, 180, "Longitude");
     if (latitude < -90.0 || latitude > 90.0)
@@ -161,9 +160,7 @@ class GeoHasher {
   /// Decodes a given String into a List<double> containing Longitude and
   /// Latitude in decimal degrees.
   List<double> decode(String geohash) {
-    if (geohash == null)
-      throw ArgumentError.notNull(geohash);
-    else if (geohash == "")
+    if (geohash == "")
       throw ArgumentError.value(geohash, "geohash");
     else if (!geohash
         .contains(new RegExp(r'^[0123456789bcdefghjkmnpqrstuvwxyz]+$')))
@@ -224,7 +221,7 @@ class GeoHasher {
     String parent = geohash.substring(0, geohash.length - 1);
     int t = geohash.length % 2;
 
-    if ((border[direction]?[t]).toString().contains(last) && parent != null) {
+    if ((border[direction]?[t]).toString().contains(last)) {
       parent = _adjacent(geohash: parent, direction: direction);
     }
 
@@ -235,9 +232,7 @@ class GeoHasher {
   /// Returns a Map<String, String> containing the `Direction` as the key and
   /// the value being the geohash of the neighboring geohash in that direction.
   Map<String, String> neighbors(String geohash) {
-    if (geohash == null)
-      throw ArgumentError.notNull(geohash);
-    else if (geohash == "")
+    if (geohash == "")
       throw ArgumentError.value(geohash, "geohash");
     else if (!geohash
         .contains(new RegExp(r'^[0123456789bcdefghjkmnpqrstuvwxyz]+$')))

@@ -6,11 +6,9 @@ import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
 import 'package:signup_app/widgets/settings/view/about_widget.dart';
 import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
-import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
 import 'package:signup_app/widgets/settings/view/subsettings_page.dart';
 
 import '../../../util/presets/presets.dart';
-import 'accessibility_settings_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   static ShapeBorder _cardShape =

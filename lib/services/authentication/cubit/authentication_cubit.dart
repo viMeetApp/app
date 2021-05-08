@@ -17,7 +17,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try {
       final _isSignedIn = await _authenticationService.isSignedIn();
       if (_isSignedIn) {
-        final User user = await _authenticationService.getCurrentUser();
+        final User user = _authenticationService.getCurrentUser();
         final UserReference userReference = new UserReference(
             name: user.name, id: user.id, picture: user.picture);
         emit(Authenticated(user: user, userReference: userReference));
@@ -31,7 +31,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void loggedIn() async {
-    final User user = await _authenticationService.getCurrentUser();
+    final User user = _authenticationService.getCurrentUser();
     final UserReference userReference =
         new UserReference(name: user.name, id: user.id, picture: user.picture);
     emit(Authenticated(user: user, userReference: userReference));

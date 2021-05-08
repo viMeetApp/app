@@ -41,10 +41,10 @@ class ViDialog {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (!noActions)
-                      FlatButton(
+                      TextButton(
                           onPressed: () => {Navigator.pop(context, null)},
                           child: Text("Abbrechen")),
-                    FlatButton(
+                    TextButton(
                         onPressed: noActions
                             ? () => {Navigator.pop(context, null)}
                             : onOkay as void Function()?,

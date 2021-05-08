@@ -41,8 +41,7 @@ class _ExpandableListState extends State<ExpandableList> {
   }
 
   Widget showExpandButton() {
-    return FlatButton.icon(
-      textColor: Colors.black,
+    return TextButton.icon(
       onPressed: () {
         isExpanded = true;
         setState(() {});
