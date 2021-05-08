@@ -91,7 +91,7 @@ class PostPagination {
       if (postsSnapshot.docs.isNotEmpty) {
         List<Post> posts = postsSnapshot.docs.map(
           (QueryDocumentSnapshot snapshot) {
-            if (snapshot.data()!['type'] == "event") {
+            if (snapshot.get('type') == "event") {
               return Event.fromDoc(snapshot);
             } else {
               return Buddy.fromDoc(snapshot);

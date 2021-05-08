@@ -70,7 +70,8 @@ List<dynamic>? listToJsonList<T>(
 }
 
 Map<String, dynamic> docToMap(DocumentSnapshot snapshot) {
-  Map<String, dynamic> result = snapshot.data() ?? {};
+  Map<String, dynamic> result =
+      (snapshot as DocumentSnapshot<Map<String, dynamic>>).data() ?? {};
   result.putIfNotNull("id", snapshot.id);
   return result;
 }
