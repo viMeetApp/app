@@ -3,7 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:signup_app/services/storage_service.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/tools/tools.dart';
-import 'package:signup_app/widgets/shared/network_images/update_image/generic_update_image.dart';
+import 'package:signup_app/widgets/shared/network_images/update_image/generic/cubit/update_image_cubit.dart';
+import 'package:signup_app/widgets/shared/network_images/update_image/generic/generic_update_image.dart';
 
 class UpdateGroupImage extends StatelessWidget {
   final Group group;
@@ -14,33 +15,49 @@ class UpdateGroupImage extends StatelessWidget {
 
   UpdateGroupImage({required this.group, this.radius});
 
-  Future _getImageFromCamera(BuildContext context) async {
+  Future _getImageFromCamera(
+      {required BuildContext context,
+      required UpdateImageCubit updateImageCubit}) async {
     final pickedImage = await picker.getImage(source: ImageSource.camera);
     if (pickedImage != null) {
-      _uploadImage(context: context, pickedImage: pickedImage);
+      _uploadImage(
+          context: context,
+          pickedImage: pickedImage,
+          updateImageCubit: updateImageCubit);
     }
     Navigator.of(context).pop();
   }
 
-  Future _getImageFromGallery(BuildContext context) async {
+  Future _getImageFromGallery(
+      {required BuildContext context,
+      required UpdateImageCubit updateImageCubit}) async {
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
-    Future<void>? _onFinishFuture;
     if (pickedImage != null) {
-      _onFinishFuture =
-          _uploadImage(context: context, pickedImage: pickedImage);
+      _uploadImage(
+              context: context,
+              pickedImage: pickedImage,
+              updateImageCubit: updateImageCubit)
+          .onError((error, stackTrace) => Tools.showSnackbar(
+              context, "Es gab ein Fehler beim Hochladen des Bildes"));
     }
-    Navigator.of(context).pop(_onFinishFuture);
+    Navigator.of(context).pop();
   }
 
   Future<void> _uploadImage(
-      {required BuildContext context, required PickedFile pickedImage}) async {
-    final byteStream = await pickedImage.readAsBytes();
+      {required BuildContext context,
+      required PickedFile pickedImage,
+      required UpdateImageCubit updateImageCubit}) async {
     Tools.showSnackbar(context,
         "Bild wird hochgeladen, bis die Änderungen in Kraft tretetn kann es einen Moment dauern");
-    return _storageService.uploadGroupPicture(data: byteStream, group: group);
+    updateImageCubit.setIsUpdating(true);
+    final byteStream = await pickedImage.readAsBytes();
+    await _storageService.uploadGroupPicture(data: byteStream, group: group);
+    updateImageCubit.setIsUpdating(false);
   }
 
-  Widget bottomSheet(context) {
+  Widget bottomSheet(
+      {required BuildContext context,
+      required UpdateImageCubit updateImageCubit}) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -52,7 +69,8 @@ class UpdateGroupImage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  _getImageFromGallery(context);
+                  _getImageFromGallery(
+                      context: context, updateImageCubit: updateImageCubit);
                 },
                 child: Text("Aus Galerie"),
               ),
@@ -61,7 +79,8 @@ class UpdateGroupImage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  _getImageFromCamera(context);
+                  _getImageFromCamera(
+                      context: context, updateImageCubit: updateImageCubit);
                 },
                 child: Text("Kamera"),
               ),
@@ -81,14 +100,17 @@ class UpdateGroupImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UpdateImageCubit _updateImageCubit = UpdateImageCubit();
     return GenericUpdateImage(
+      updateImageCubit: _updateImageCubit,
       imageUrl: group.picture,
       radius: radius,
       onTap: (context) {
         final result = showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return bottomSheet(context);
+            return bottomSheet(
+                context: context, updateImageCubit: _updateImageCubit);
           },
         );
         return result;

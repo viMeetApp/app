@@ -32,7 +32,7 @@ class StorageService {
           data: data, firebasePath: "group/pictures/${group.id}");
 
       // After upload also update value in group
-      _groupRepository.updateGroupFieldsViaMap(
+      await _groupRepository.updateGroupFieldsViaMap(
           groupId: group.id, fieldsToBeUpdated: {'picture': downloadUrl});
     } catch (err) {
       viLog(err, "Error uploading Group Picture");
