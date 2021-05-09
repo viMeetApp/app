@@ -33,3 +33,8 @@ class ViServiceLocationException extends ViServiceException {
 class ViPermissionLocationException extends ViPermissionException {
   ViPermissionLocationException() : super("permission denied");
 }
+
+/// An exception for handling the case that users denied the apps permission to the location API
+class ViImageUploadException extends ViServiceException {
+  ViImageUploadException() : super("Firebase Storage Upload");
+}

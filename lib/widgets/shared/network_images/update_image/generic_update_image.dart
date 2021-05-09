@@ -1,91 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/widgets/shared/network_images/avatar/generic_network_avatar.dart';
 
-class GenericUpdateImage extends StatelessWidget {
+typedef Future<void> onTapFunction(BuildContext context);
+
+class GenericUpdateImage extends StatefulWidget {
   final double radius;
   final String? imageUrl;
+  final onTapFunction onTap;
 
-  final picker = ImagePicker();
+  GenericUpdateImage({double? radius, this.imageUrl, required this.onTap})
+      : this.radius = radius ?? 50;
 
-  Future getImageFromCamera() async {
-    await picker.getImage(source: ImageSource.camera);
-  }
+  @override
+  _GenericUpdateImageState createState() => _GenericUpdateImageState();
+}
 
-  Future getImageFromGallery() async {
-    await picker.getImage(source: ImageSource.gallery);
-  }
-
-  Widget bottomSheet(context) {
-    return SafeArea(
-        child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("Bild hochladen"),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                getImageFromGallery();
-              },
-              child: Text("Aus Galerie"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                getImageFromCamera();
-              },
-              child: Text("Kamera"),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {},
-              child: Text("Aus Vorlagen wählen"),
-            ),
-          )
-        ],
-      ),
-    ));
-  }
-
-  GenericUpdateImage({this.radius = 50, this.imageUrl});
+class _GenericUpdateImageState extends State<GenericUpdateImage> {
+  bool isUpdating = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("Tap but it does not look that good");
-        showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return bottomSheet(context);
-            });
+        if (isUpdating == false) {
+          setState(() {
+            isUpdating = true;
+          });
+          widget.onTap(context).whenComplete(() => setState(() {
+                isUpdating = false;
+              }));
+        } else {
+          Tools.showSnackbar(context, "Bitte letztes update abwarten");
+        }
       },
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           GenericNetworkAvatar(
             placeHolderPath: "assets/img/app_icon.png",
-            radius: radius,
-            imageUrl: imageUrl,
+            radius: widget.radius,
+            imageUrl: widget.imageUrl,
           ),
           Positioned(
-              left: 1.5 * radius,
-              top: 0.08 * radius,
-              child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: new BoxDecoration(
-                      color: AppThemeData.colorPrimaryLight,
-                      shape: BoxShape.circle),
-                  child: Icon(
-                    Icons.edit,
-                  )))
+            left: 1.5 * widget.radius,
+            top: 0.08 * widget.radius,
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: new BoxDecoration(
+                  color: AppThemeData.colorPrimaryLight,
+                  shape: BoxShape.circle),
+              child: isUpdating
+                  ? CircularProgressIndicator(
+                      color: Colors.black,
+                    )
+                  : Icon(
+                      Icons.edit,
+                    ),
+            ),
+          )
         ],
       ),
     );

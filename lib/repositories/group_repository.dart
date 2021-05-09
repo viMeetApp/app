@@ -32,6 +32,17 @@ class GroupRepository {
     }
   }
 
+  ///Updates [group] Object in Firestore
+  Future<void> updateGroupFieldsViaMap(
+      {required String groupId,
+      required Map<String, dynamic> fieldsToBeUpdated}) async {
+    try {
+      await _groupCollectionReference.doc(groupId).update(fieldsToBeUpdated);
+    } catch (err) {
+      throw err;
+    }
+  }
+
   ///Returns a Stream (real Time Updates) of a Group specified by [groupId]
   Stream<Group> getGroupStreamById(String groupId) {
     return _groupCollectionReference
