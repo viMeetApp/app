@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/authentication/bloc/authentication_bloc.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/widgets/login/cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {
@@ -12,23 +13,15 @@ class LoginForm extends StatelessWidget {
       listener: (context, state) {
         //When Logged In -> Call Authetication Bloc with Logged in
         if (state.isLoggedIn) {
-          BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
+          BlocProvider.of<AuthenticationCubit>(context).loggedIn();
         }
         //In Error Case or name invalid Show Error Snackbar
         else if (state.isError || !state.isNameValid) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text('Authentication Failed'),
-            ));
+          Tools.showSnackbar(context, "Authentication Failed");
         }
         //Show is Loading Snackbar
         else if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(
-              content: Text('Logging in'),
-            ));
+          Tools.showSnackbar(context, "Logging in");
         }
       },
       child: BlocBuilder<LoginCubit, LoginState>(

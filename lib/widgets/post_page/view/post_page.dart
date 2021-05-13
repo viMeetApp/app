@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/util/tools.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_material_button.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_outlined_button.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';
@@ -11,12 +12,16 @@ import 'package:signup_app/widgets/post_page/cubit/post_page_vibit.dart';
 import 'package:signup_app/widgets/post_page/view/post_members_page.dart';
 
 class PostPage extends StatelessWidget {
-  final String _postID;
-  PostPage(this._postID);
+  final Post _post;
+  PostPage({required Post post}) : _post = post;
 
   static Route route({required Post post}) {
     return MaterialPageRoute<void>(builder: (_) {
-      return post is Event ? PostPage(post.id ?? "") : tempBuddyPage();
+      return post is Event
+          ? PostPage(
+              post: post,
+            )
+          : tempBuddyPage();
     });
   }
 
@@ -25,61 +30,68 @@ class PostPage extends StatelessWidget {
   }
 
   Widget getPostInfoWidget({required Event event}) {
+    List<Widget> _detailFields = [
+      if (event.maxParticipants != null && event.maxParticipants != -1)
+        eventFieldView('Max. Teilnehmende', event.maxParticipants.toString()),
+      if (event.costs != null) eventFieldView('Kosten', event.costs.toString()),
+      if (event.eventLocation != null)
+        eventFieldView('Ort', event.eventLocation!),
+    ];
+
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(top: 20),
         child: ListView(
           shrinkWrap: true,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: Text(event.about ?? ""),
-            ),
-            Container(
-              padding: const EdgeInsets.only(bottom: 15.0, top: 10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                        child: Text(Tools.dateFromEpoch(event.eventDate ?? 0),
-                            style: AppThemeData.textNormal(
-                                fontWeight: FontWeight.bold))),
-                    Expanded(
-                        child: Text(Tools.timeFromEpoch(event.eventDate ?? 0),
-                            style: AppThemeData.textNormal(
-                                fontWeight: FontWeight.bold))),
-                  ]),
-            ),
-            if (event.details.length > 0)
+            if (event.about != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Text(event.about!),
+              ),
+            if (event.eventAt != null)
+              Container(
+                padding: const EdgeInsets.only(bottom: 15.0, top: 10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                          child: Text(Tools.dateFromEpoch(event.eventAt!),
+                              style: AppThemeData.textNormal(
+                                  fontWeight: FontWeight.bold))),
+                      Expanded(
+                          child: Text(Tools.timeFromEpoch(event.eventAt!),
+                              style: AppThemeData.textNormal(
+                                  fontWeight: FontWeight.bold))),
+                    ]),
+              ),
+            if (_detailFields.length > 0) ...{
               Divider(
                 color: AppThemeData.colorControlsDisabled,
                 thickness: 1,
               ),
-            for (PostDetail? detail in event.details)
-              if (detail != null) getPostDetailView(detail),
-            if (event.details.length > 0)
+              ..._detailFields,
               Divider(
                 color: AppThemeData.colorControlsDisabled,
                 thickness: 1,
               ),
+            }
           ],
         ),
       ),
     );
   }
 
-  Widget getPostDetailView(PostDetail detail) {
+  Widget eventFieldView(String name, String content) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-              child:
-                  Text(PostRepository.titleFromPostDetailID(detail.id) + ":")),
+          Expanded(child: Text(name + ":")),
           Expanded(
               child: Text(
-            detail.value,
+            content,
             style: AppThemeData.textNormal(fontWeight: FontWeight.bold),
           ))
         ],
@@ -95,37 +107,25 @@ class PostPage extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: state.processing
-                ? Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
+            child: state.subscribed
+                ? ViNetworkOutlinedButton(
+                    onPressed: () => state.unsubscribe(),
+                    child: Text(
+                      "abmelden",
+                      style: AppThemeData.textNormal(),
                     ),
                   )
-                : state.subscribed
-                    ? OutlinedButton(
-                        child: Text(
-                          "abmelden",
-                          style: AppThemeData.textNormal(),
-                        ),
-                        onPressed: () {
-                          state.unsubscribe();
-                        })
-                    : MaterialButton(
-                        color: AppThemeData.colorPrimary,
-                        child: Text("anmelden"),
-                        onPressed: () {
-                          state.subscribe();
-                        }),
+                : ViNetworkMaterialButton(
+                    onPressed: () => state.subscribe(),
+                    child: Text("anmelden"),
+                    color: AppThemeData.colorPrimary),
           ),
           Expanded(
               flex: 1,
               child: Center(
-                  child: Text("${(state.post as Event).participants!.length}" +
-                      (((state.post as Event).maxPeople ?? 0) > 0
-                          ? "/${(state.post as Event).maxPeople}"
+                  child: Text("${(state.post as Event).participants?.length}" +
+                      (((state.post as Event).maxParticipants ?? 0) > 0
+                          ? "/${(state.post as Event).maxParticipants}"
                           : "") +
                       " Teilnehmende")))
         ],
@@ -136,7 +136,7 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViBit<PostPageState>(
-        state: PostPageState(_postID),
+        state: PostPageState(post: _post),
         onRefresh: (context, state) {
           if (state.post is Event) {
             return Scaffold(
@@ -212,21 +212,7 @@ class PostPage extends StatelessWidget {
                   if (!state.expanded)
                     ChatWidget(
                       post: state.post,
-                      /*onTap: () {
-                          state.foldIn();
-                        }*/
                     ),
-                  /*if (state.expanded)
-                    GestureDetector(
-                      onTap: () => state.toggleExpanded(),
-                      child: Container(
-                        color: Colors.amber,
-                        child: SizedBox(
-                          height: 30,
-                          width: double.infinity,
-                        ),
-                      ),
-                    ),*/
                 ],
               ),
             );

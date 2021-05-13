@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/util/widgets/vi_selectable_chip.dart';
 import 'package:signup_app/widgets/report/cubit/report_cubit.dart';
-import 'package:signup_app/widgets/report/view/widgets/report_success_dialog.dart';
 
 class ReportForm extends StatelessWidget {
-  BuildContext parentContext;
-  String? id;
-  String reportType = Report.TYPE_POST;
-  List<String> reasons = [];
+  final BuildContext parentContext;
+  final String? id;
+  final ReportType reportType;
+  final List<ReportReason> reasons = [];
 
   ReportForm(
       {required this.id,
@@ -25,26 +25,10 @@ class ReportForm extends StatelessWidget {
       listener: (context, state) {
         if (state.wasSubmitted) {
           Navigator.of(context).popUntil((route) => route.isFirst);
-          Scaffold.of(parentContext)
-              .showSnackBar(SnackBar(content: Text("Danke!")));
+          Tools.showSnackbar(context, "Danke");
 
           return null;
         }
-
-        //When Logged In -> Call Authetication Bloc with Logged in
-        /*if (state.wasSubmitted) {
-          Navigator.of(context).pop();
-        }*/
-
-        /*if (!state.isValid) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("Bitte fülle alles aus")));
-        }
-
-        if (state.isError) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("Fehler beim Speichern")));
-        }*/
       },
       child: BlocBuilder<ReportCubit, ViFormState>(
         buildWhen: (previous, current) => true,
@@ -65,18 +49,17 @@ class ReportForm extends StatelessWidget {
                     spacing: 14,
                     runSpacing: 14,
                     children: List<Widget>.generate(
-                        Report.REPORT_REASONS
+                        ReportType.values
                             .length, // place the length of the array here
                         (int index) {
                       return ViSelectableChip(
-                        isActive:
-                            reasons.contains(Report.REPORT_REASONS[index].id),
-                        label: Text(Report.REPORT_REASONS[index].name),
+                        isActive: reasons.contains(ReportReason.values[index]),
+                        label: Text(ReportReason.values[index].toString()),
                         onChanged: (selected) {
                           if (selected) {
-                            reasons.add(Report.REPORT_REASONS[index].id);
+                            reasons.add(ReportReason.values[index]);
                           } else {
-                            reasons.remove(Report.REPORT_REASONS[index].id);
+                            reasons.remove(ReportReason.values[index]);
                           }
                           BlocProvider.of<ReportCubit>(context)
                               .updateValid(reasons.length == 0);
@@ -86,19 +69,20 @@ class ReportForm extends StatelessWidget {
                   ),
                 ),
                 !state.isSubmitting
-                    ? FlatButton(
+                    ? TextButton(
                         child: Text(
                           "melden",
                           style: TextStyle(
                             color: AppThemeData.colorCard,
                           ),
                         ),
-                        color: AppThemeData.colorPrimary,
-                        disabledColor: AppThemeData.colorControlsDisabled,
                         onPressed: state.isValid
                             ? () {
                                 BlocProvider.of<ReportCubit>(context).submitted(
-                                    id: id, type: reportType, reasons: reasons);
+                                    documentReference: "ToDo",
+                                    type: reportType,
+                                    reasons: reasons,
+                                    context: context);
                               }
                             : null,
                       )

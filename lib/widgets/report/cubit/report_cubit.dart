@@ -1,28 +1,36 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/report_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
 class ReportCubit extends Cubit<ViFormState> {
-  ReportCubit(this._reportRepository)
-      : assert(_reportRepository != null),
-        super(ViFormState.invalid());
+  ReportCubit(this._reportRepository) : super(ViFormState.invalid());
 
   final ReportRepository _reportRepository;
 
   void submitted(
-      {String? id, String type = Report.TYPE_POST, List<String>? reasons}) async {
+      {required String documentReference,
+      required ReportType type,
+      required List<ReportReason> reasons,
+      required BuildContext context}) async {
     emit(ViFormState.loading());
 
-    if (id != null && type != null && reasons != null) {
+    if (reasons.length == 0) {
       try {
-        Report report = new Report();
-        report.objectid = id;
-        report.type = type;
-        report.reasons = reasons;
-        report.author = await UserRepository().getUser();
-        report.timestamp = DateTime.now().millisecondsSinceEpoch;
+        final author = (BlocProvider.of<AuthenticationCubit>(context).state
+                as Authenticated)
+            .userReference;
+        Report report = new Report(
+            author: author,
+            reasons: reasons,
+            reportedAt: DateTime.now().millisecondsSinceEpoch,
+            type: type,
+            state: ReportState.open,
+            objectReference: '' //ToDo Real Object reference
+            );
 
         await _reportRepository.createReport(report: report);
         emit(ViFormState.success());

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/repositories/report_repository.dart';
 import 'package:signup_app/widgets/report/cubit/report_cubit.dart';
 import 'package:signup_app/widgets/report/view/widgets/report_form.dart';
 
 class ReportDialog extends StatelessWidget {
-  List<String> reasons = [];
+  final List<String> reasons = [];
 
-  String? id;
-  String reportType;
-  BuildContext parentContext;
+  final String id;
+  final ReportType reportType;
+  final BuildContext parentContext;
 
   ReportDialog(
       {required this.id,

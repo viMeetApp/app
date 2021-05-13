@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
 
 class Tag extends StatelessWidget {
-  final String? tagDescription;
+  final PostTag tag;
   final bool isActive;
-  Tag({required this.tagDescription, required this.isActive});
+  Tag({required this.tag, required this.isActive});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +23,7 @@ class Tag extends StatelessWidget {
               backgroundColor: isActive
                   ? AppThemeData.colorCard
                   : AppThemeData.colorPrimaryLighter,
-              label: Text(tagDescription!,
+              label: Text(enumToString(tag),
                   style: TextStyle(
                       fontSize: 14,
                       color: isActive
@@ -31,7 +32,7 @@ class Tag extends StatelessWidget {
             )),
       ),
       onTap: () {
-        BlocProvider.of<TagCubit>(context).updateTags(tagDescription);
+        BlocProvider.of<TagCubit>(context).updateTags(tag);
       },
     );
   }

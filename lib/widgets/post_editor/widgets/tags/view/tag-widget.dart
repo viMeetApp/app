@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/view/tag.dart';
 
@@ -18,7 +19,7 @@ class TagWidget extends StatelessWidget {
   }
 }
 
-List<Widget> buildTags(Map<String?, bool> tags) {
+List<Widget> buildTags(Map<PostTag, bool> tags) {
   List<Widget> tagWidgets = [
     SizedBox(
       width: 10,
@@ -27,7 +28,7 @@ List<Widget> buildTags(Map<String?, bool> tags) {
   tags.forEach((key, value) {
     tagWidgets.add(Tag(
       isActive: value,
-      tagDescription: key,
+      tag: key,
     ));
   });
   return tagWidgets;

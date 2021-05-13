@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets.dart';
-import 'package:signup_app/util/tools.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/util/widgets/vi_dialog.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
 import 'package:signup_app/widgets/settings/view/about_widget.dart';
 import 'package:signup_app/widgets/settings/view/account_settings_widget.dart';
-import 'package:signup_app/widgets/settings/view/language_settings_widget%20copy.dart';
 import 'package:signup_app/widgets/settings/view/subsettings_page.dart';
 
-import '../../../util/presets.dart';
-import 'accessibility_settings_widget.dart';
+import '../../../util/presets/presets.dart';
 
 class SettingsPage extends StatelessWidget {
   static ShapeBorder _cardShape =
@@ -51,7 +49,7 @@ class SettingsPage extends StatelessWidget {
                             },
                             title: Text(
                               state.user != null
-                                  ? state.user!.name!
+                                  ? state.user!.name
                                   : "unbekannter Nutzer",
                               style: AppThemeData.textHeading3(
                                   color: Colors.white),
@@ -74,22 +72,22 @@ class SettingsPage extends StatelessWidget {
                                     SubSettingsPage.route(
                                         title: "Account",
                                         child: AccountSettingsWidget()))),
-                            ListTile(
+                            /*ListTile(
                                 title: Text("Spache"),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () => Navigator.push(
                                     context,
                                     SubSettingsPage.route(
                                         title: "Sprache",
-                                        child: LanguageSettingsWidget()))),
-                            ListTile(
+                                        child: LanguageSettingsWidget()))),*/
+                            /*ListTile(
                                 title: Text("Barrierefreiheit"),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () => Navigator.push(
                                     context,
                                     SubSettingsPage.route(
                                         title: "Barrierefreiheit",
-                                        child: AccessibilitySettingsWidget()))),
+                                        child: AccessibilitySettingsWidget()))),*/
                           ],
                         ),
                       ),

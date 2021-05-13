@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 class MessageTile extends StatelessWidget {
   final Message? message;
@@ -10,7 +10,7 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    if (message!.author!.id == FirebaseAuth.instance.currentUser!.uid) {
+    if (message!.author.id == FirebaseAuth.instance.currentUser!.uid) {
       return Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Row(
@@ -33,14 +33,14 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message!.author!.name ?? "[UNBEKANNT]",
+                      message!.author.name,
                       style: TextStyle(
                           color: AppThemeData.colorTextRegular,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    message!.content ?? "[FEHLER IN NACHRICHT]",
+                    message!.content,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1000, //Change Later
                   ),
@@ -71,14 +71,14 @@ class MessageTile extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
-                      message!.author!.name!,
+                      message!.author.name,
                       style: TextStyle(
                           color: AppThemeData.colorControls,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    message!.content!,
+                    message!.content,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1000, //Change Later
                   ),

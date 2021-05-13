@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:signup_app/services/geo_service.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
+import 'package:signup_app/util/models/data_models.dart';
 
 enum PostError {
   LocationDisabled,
@@ -14,10 +14,12 @@ enum PostError {
 ///Handles Communication between Flutter and Firestore
 class PostRepository {
   final FirebaseFirestore _firestore;
+  final GeoLocator _geoLocator;
   late CollectionReference _postCollectionReference;
 
-  PostRepository({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance {
+  PostRepository({FirebaseFirestore? firestore, GeoLocator? geoLocator})
+      : _firestore = firestore ?? FirebaseFirestore.instance,
+        _geoLocator = geoLocator ?? GeoLocator() {
     _postCollectionReference = _firestore.collection('posts');
   }
 
@@ -40,9 +42,9 @@ class PostRepository {
   /// Updates [post] Object in Firestore
   Future<void> updatePost(Post post) async {
     try {
-      assert(post.id != null && post.id != '',
+      assert(post.id != '',
           'When updating a Post, Object must contain a valid Id');
-      await _postCollectionReference.doc(post.id).update(post.toDoc()!);
+      await _postCollectionReference.doc(post.id).update(post.toMap());
     } catch (err) {
       //return err as Exception;
     }
@@ -51,8 +53,8 @@ class PostRepository {
   /// Creates a [post] Object in Firestore
   Future<void> createPost(Post post) async {
     try {
-      post.geohash = await GeoService.getCurrentGeohash();
-      await _postCollectionReference.add(post.toDoc()!);
+      post.geohash = await _geoLocator.getCurrentGeohash();
+      await _postCollectionReference.add(post.toMap());
     } catch (err) {
       log("post: " + err.toString());
       return Future.error(err);

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/presets.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fire;
-import 'package:signup_app/widgets/post_list/view/post_list_widget.dart';
-import 'package:signup_app/junk/plainPostList.dart';
+import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable.dart';
 
 class MessageFeed extends StatelessWidget {
   @override
@@ -12,15 +9,6 @@ class MessageFeed extends StatelessWidget {
       appBar: AppBar(
         title: Text("Meine Nachrichten", style: AppThemeData.textHeading2()),
         leading: null,
-        /*IconButton(
-            icon: Icon(
-              Icons.favorite,
-              //color: AppThemeData.colorTextInverted,
-            ),
-            onPressed: () => {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("TODO: Show favorites")))
-                }),*/
         actions: [
           IconButton(
             icon: Icon(
@@ -33,11 +21,7 @@ class MessageFeed extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: PostList(
-            //ToDo fix this with User but therefore usere constructor must work
-            user: User(
-                name: 'egal', id: fire.FirebaseAuth.instance.currentUser!.uid),
-          ),
+          child: PostListFilterableWidget(),
         ),
       ),
     );

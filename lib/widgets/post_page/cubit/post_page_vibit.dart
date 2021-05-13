@@ -1,27 +1,31 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:signup_app/repositories/post_interactions.dart';
 import 'package:signup_app/repositories/post_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class PostPageState extends ViState {
-  PostRepository _postRepository = new PostRepository();
+  final PostRepository _postRepository;
+  final PostInteractions _postInteractions;
 
   bool expanded = false;
   bool favorited = false;
   bool subscribed = false;
-  bool processing = false;
-  Post post = Post();
+  Post post;
 
-  PostPageState(String postID) {
-    _postRepository.getPostStreamById(postID).listen((Post? dbpost) {
+  PostPageState(
+      {required this.post,
+      PostRepository? postRepository,
+      AuthenticationService? authenticationService})
+      : _postInteractions = PostInteractions(post: post),
+        _postRepository = postRepository ?? PostRepository() {
+    // Subscribe for updated about this post
+    _postRepository.getPostStreamById(post.id).listen((Post? dbpost) {
       if (dbpost is Event) {
-        processing = false;
         post = dbpost;
         subscribed =
-            (dbpost.participants?.contains(UserRepository().getUser()?.id) ??
-                false);
+            dbpost.isMember(AuthenticationService().getCurrentUser().id);
         refresh();
       } else {
         //emit(BuddyState(post: post!));
@@ -30,12 +34,12 @@ class PostPageState extends ViState {
   }
 
   bool postIsExpired() {
-    return post.expireDate < DateTime.now().millisecondsSinceEpoch + 86400000;
+    return post.expiresAt < DateTime.now().millisecondsSinceEpoch;
   }
 
   /// returns whether the current user is the author of the post
   bool postIsOwned() {
-    return post.author?.id == FirebaseAuth.instance.currentUser!.uid;
+    return post.author.id == FirebaseAuth.instance.currentUser!.uid;
   }
 
   void toggleFavorite() {
@@ -53,49 +57,11 @@ class PostPageState extends ViState {
     if (expanded) toggleExpanded();
   }
 
-  //TODO Move this to the repository
-
-  FirebaseFunctions functions = FirebaseFunctions.instance;
-
-  ///Subscribe to Post by Calling the Cloud Function
-  ///
-  ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
-  ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void subscribe() {
-    processing = true;
-    refresh();
-    HttpsCallable callable = functions.httpsCallable(
-      'subscribeToPost',
-    );
-    callable.call(<String, dynamic>{'postId': post.id}).then((value) {
-      print("Unsubscribed Sucessfully");
-      processing = false;
-      //refresh();
-    }).onError((err, trace) {
-      processing = false;
-      refresh();
-      print("There was an error subscribing" + err.toString());
-    });
+  Future<void> subscribe() {
+    return _postInteractions.subscribe();
   }
 
-  ///Unsubscribe from Post by Calling the Cloud Function
-  ///
-  ///Ablauf: Cloud Function wird gecallt checkt ob man sich anmelden kann, Wenn ja verändert es den Eintrag in der Datenbank
-  ///Anschließend sollte Post von selbst geupdated werden wegen snapshot
-  void unsubscribe() {
-    processing = true;
-    refresh();
-    HttpsCallable callable = functions.httpsCallable(
-      'unsubscribeFromPost',
-    );
-    callable.call(<String, dynamic>{'postId': post.id}).then((value) {
-      print("Unsubscribed Sucessfully");
-      processing = false;
-      //refresh();
-    }).onError((err, trace) {
-      processing = false;
-      refresh();
-      print("There was an error unsubscribing" + err.toString());
-    });
+  Future<void> unsubscribe() {
+    return _postInteractions.unsubscribe();
   }
 }

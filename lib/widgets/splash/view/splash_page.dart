@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 class SplashPage extends StatelessWidget {
   static Route route() {

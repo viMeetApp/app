@@ -1,15 +1,11 @@
 part of 'group_cubit.dart';
 
 abstract class GroupState {
-  Group? group;
+  final Group group;
   GroupState({required this.group});
 }
 
 ///State while Loading everything
-class GroupUninitialized extends GroupState {
-  GroupUninitialized() : super(group: null);
-}
-
 ///When you are just a User No Rights to Change Group Delete, Admit Members etc.
 class GroupMember extends GroupState {
   GroupMember({required group}) : super(group: group);
@@ -17,19 +13,23 @@ class GroupMember extends GroupState {
 
 ///Not Part of Group one can only ask to join
 class NotGroupMember extends GroupState {
-  NotGroupMember({required group, this.requesting = false})
-      : super(group: group) {
-    requestedToJoin =
-        this.group!.requestedToJoin!.contains(UserRepository.getUID());
+  late final bool
+      requestedToJoin; //Whether one already requested to join the Group
+
+  NotGroupMember({required group}) : super(group: group) {
+    print(AuthenticationService().getCurrentUserReference().id);
+    requestedToJoin = this
+            .group
+            .requestedToJoin
+            ?.contains(AuthenticationService().getCurrentUserReference()) ??
+        false;
   }
 
   NotGroupMember copyWith({bool? requesting}) {
     return NotGroupMember(
-        group: group, requesting: requesting ?? this.requesting);
+      group: group,
+    );
   }
-
-  late bool requestedToJoin; //Whether one already requested to join the Group
-  bool requesting; //Whether the request is currently beeing sent to firebase
 }
 
 class GroupAdmin extends GroupMember {

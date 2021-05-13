@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/widgets/group/group_settings/cubit/group_settings_cubit.dart';
+import 'package:signup_app/repositories/group_interactions.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
+
+import 'package:provider/provider.dart';
 
 class MemberTile extends StatelessWidget {
-  final User user;
-  final bool? userHasAdminRights;
+  final AuthenticationService _authService;
 
-  MemberTile({required this.user, this.userHasAdminRights});
+  final GroupUserReference user;
+  final bool currentUserIsAdmin;
+
+  MemberTile(
+      {required this.user,
+      required this.currentUserIsAdmin,
+      AuthenticationService? authenticationService})
+      : _authService = authenticationService ?? AuthenticationService();
   Widget build(BuildContext context) {
-    final isAdmin = BlocProvider.of<GroupSettingsCubit>(context)
-        .state
-        .group
-        .admins!
-        .contains(user.id);
+    final GroupInteractions _groupInteactions =
+        GroupInteractions(group: context.read<Group>());
     return ListTile(
       leading: Icon(Icons.account_circle),
-      title: Text(user.name!),
+      title: Text(user.name),
       trailing: Wrap(
         children: [
-          if (isAdmin)
+          if (user.isAdmin)
             IconButton(
-                icon: Icon(Icons.verified_user),
-                padding: EdgeInsets.only(left: 10),
-                onPressed: () {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("TODO: modify admins")));
-                }),
-          if (userHasAdminRights!)
-            IconButton(
-                icon: Icon(Icons.close),
-                padding: EdgeInsets.only(left: 10),
-                onPressed: () {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("TODO: remove user")));
-                }),
+              icon: Icon(Icons.verified_user),
+              padding: EdgeInsets.only(left: 10),
+              onPressed: () {
+                Tools.showSnackbar(context, "TODO: modify admins");
+              },
+            ),
+          // Only Display delete button if current User is Admin and if displayed user is not user himself
+          if (currentUserIsAdmin &&
+              user.id != _authService.getCurrentUserReference().id)
+            ViNetworkIconButton(
+              onPressed: () => _groupInteactions.removeUserFromGroup(user),
+              icon: Icon(Icons.close),
+            )
         ],
       ),
     );

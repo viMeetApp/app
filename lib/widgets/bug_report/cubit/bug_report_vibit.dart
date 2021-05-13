@@ -1,19 +1,25 @@
 import 'package:package_info/package_info.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 enum Types { active, processing, submitted, invalid, error }
 
-class BugReportState extends ViState {
+class BugReportPageState extends ViState {
   final BugReportRepository _bugRepository;
+  final AuthenticationService _authService;
   Exception? error;
   String? title;
-  String? kind;
+  BugReportType? kind;
   String? message;
 
-  BugReportState(this._bugRepository) : super(type: Types.active);
+  BugReportPageState(
+      {BugReportRepository? bugRepository,
+      AuthenticationService? authenticationService})
+      : _bugRepository = bugRepository ?? BugReportRepository(),
+        _authService = authenticationService ?? AuthenticationService(),
+        super(type: Types.active);
 
   ///Document gets submitted (User Loggs in)
   ///Checks if User Name Valid the Log In
@@ -25,20 +31,20 @@ class BugReportState extends ViState {
       try {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-        BugReport report = new BugReport();
-        report.title = title;
-        report.type = kind;
-        report.message = message;
-        report.author = await UserRepository().getUser();
-        report.version = packageInfo.version;
-        report.timestamp = DateTime.now().millisecondsSinceEpoch;
+        User user = _authService.getCurrentUser();
+
+        BugReport report = new BugReport(
+            title: title!,
+            type: kind!,
+            message: message!,
+            author: user,
+            version: packageInfo.version,
+            reportedAt: DateTime.now().millisecondsSinceEpoch);
 
         await _bugRepository.createBugReport(bugReport: report);
         this.type = Types.submitted;
       } catch (err) {
-        print("Error in submitted Event");
-        print(err.toString());
-        error = err as Exception;
+        print("Error in submitted BugReport");
         this.type = Types.error;
       }
     } else {

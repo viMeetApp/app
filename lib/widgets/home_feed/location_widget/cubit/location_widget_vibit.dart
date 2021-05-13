@@ -1,33 +1,49 @@
-import 'package:signup_app/util/errors.dart';
-import 'package:signup_app/services/geo_service.dart';
+import 'package:signup_app/services/geo_services/classes.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
+import 'package:signup_app/services/geo_services/postal_place_repository.dart';
+import 'package:signup_app/util/presets/errors.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class LocationWidgetState extends ViState {
+  final GeoLocator _geoLocator;
+
   List<PostalPlace>? places;
   static PostalPlace? currentPlace;
   ViException? exception;
 
-  LocationWidgetState({PostalPlace? currentPlace}) {
+  LocationWidgetState({PostalPlace? currentPlace, GeoLocator? geoLocator})
+      : _geoLocator = geoLocator ?? GeoLocator() {
     if (currentPlace != null) {
       LocationWidgetState.currentPlace = currentPlace;
     }
 
     if (LocationWidgetState.currentPlace == null) {
-      GeoService.getCurrentPlace().then((value) => setCurrentPlace(value));
+      _geoLocator.getCurrentLocation().then((place) => _setCurrentPlace(place));
     }
 
     // load the list of postal places
-    GeoService.getPostalPlaces().then((value) {
+    PostalPlaceRepository()
+        .getAllPostalPlacesCurrentlyAvailabeInSystem()
+        .then((value) {
       places = value;
       refresh();
     });
   }
 
-  void setCurrentPlace(PostalPlace? place) {
-    if (place != null) {
-      GeoService.currentPlace = place;
-      currentPlace = place;
-      refresh();
-    }
+  Future<PostalPlace> getDeviceLocation() async {
+    PostalPlace currentPlace =
+        await _geoLocator.changeToDeviceLocationAndGetLocation();
+    _setCurrentPlace(currentPlace);
+    return currentPlace;
+  }
+
+  void manuallySetCurrentPlace(PostalPlace place) {
+    _geoLocator.manuallySetLocation(place);
+    _setCurrentPlace(place);
+  }
+
+  void _setCurrentPlace(PostalPlace place) {
+    currentPlace = place;
+    refresh();
   }
 }

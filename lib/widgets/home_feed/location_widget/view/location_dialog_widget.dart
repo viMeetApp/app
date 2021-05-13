@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/services/geo_service.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/services/geo_services/classes.dart';
+import 'package:signup_app/services/geo_services/geo_locator.dart';
+import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_vibit.dart';
 
 class LocationDialog extends StatefulWidget {
-  LocationWidgetState state;
+  final LocationWidgetState state;
 
-  LocationDialog({required this.state});
+  LocationDialog({
+    required this.state,
+  });
 
   @override
   _LocationDialogState createState() => _LocationDialogState();
 }
 
 class _LocationDialogState extends State<LocationDialog> {
+  final GeoLocator _geoLocator = new GeoLocator();
   TextEditingController searchController = TextEditingController();
-  _LocationDialogState() {
-    //searchController.text = widget.state.currentPlace?.name ?? "";
-  }
 
-  void autofillCurrentPlace() async {
-    String name = (await GeoService.getCurrentPlace()).name ?? "";
+  void getCurrentDeviceLocation() async {
+    String name =
+        (await _geoLocator.changeToDeviceLocationAndGetLocation()).name;
     searchController.text = name;
     setState(() {});
   }
@@ -29,7 +31,7 @@ class _LocationDialogState extends State<LocationDialog> {
   Widget build(BuildContext context) {
     List<PostalPlace> filteredPlaces = widget.state.places!
         .where((element) =>
-            element.name!
+            element.name
                 .toLowerCase()
                 .startsWith(searchController.text.toLowerCase()) ||
             element.plz!
@@ -73,7 +75,9 @@ class _LocationDialogState extends State<LocationDialog> {
                         size: 30,
                       ),
                       onPressed: () {
-                        autofillCurrentPlace();
+                        widget.state
+                            .getDeviceLocation()
+                            .then((_) => Navigator.pop(context));
                       },
                     ),
                   ),
@@ -108,7 +112,7 @@ class _LocationDialogState extends State<LocationDialog> {
                                       ),
                                       Expanded(
                                         child: Text(
-                                          filteredPlaces[index].name!,
+                                          filteredPlaces[index].name,
                                           //overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -116,12 +120,13 @@ class _LocationDialogState extends State<LocationDialog> {
                                   ),
                                   onTap: () {
                                     Navigator.pop(context);
-                                    widget.state
-                                        .setCurrentPlace(filteredPlaces[index]);
+                                    widget.state.manuallySetCurrentPlace(
+                                        filteredPlaces[index]);
                                   },
                                 ),
                               );
-                            }),
+                            },
+                          ),
                   ),
                 )
               ],

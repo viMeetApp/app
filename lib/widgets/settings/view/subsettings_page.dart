@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:signup_app/util/presets.dart';
+import 'package:signup_app/util/presets/presets.dart';
 
 class SubSettingsPage extends StatelessWidget {
-  String? title = "Einstellungen";
-  Widget? child;
+  final String title;
+  final Widget child;
 
   static Route route({required String title, required Widget child}) {
     return MaterialPageRoute<void>(
         builder: (_) => SubSettingsPage(title: title, child: child));
   }
 
-  SubSettingsPage({this.title, this.child});
+  SubSettingsPage({this.title = "Einstellungen", required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class SubSettingsPage extends StatelessWidget {
           iconTheme: IconThemeData(color: AppThemeData.colorControls),
           backgroundColor: Colors.transparent,
           title: Text(
-            title!,
+            title,
             style: TextStyle(color: AppThemeData.colorTextRegular),
           ),
         ),

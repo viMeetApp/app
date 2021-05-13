@@ -1,47 +1,46 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
-import 'package:signup_app/repositories/user_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/repositories/group_repository.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:collection/collection.dart';
 
 part 'group_state.dart';
 
 class GroupCubit extends Cubit<GroupState> {
-  final userId = FirebaseAuth.instance.currentUser!.uid;
-  GroupCubit({required Group group}) : super(GroupUninitialized()) {
-    _checkAndEmitGroupState(group);
-    //Im ersten Schritt wird Bloc mit einer geladenen Gruppe versorgt,
-    //um aber dynamisches zu behalten wird gleichzeitig verbindung zu Firestore aufgebaut
-    //um ab da dynamische Gruppe zu haben.
+  final GroupRepository _groupRepository = GroupRepository();
+  final AuthenticationService _authenticationService = AuthenticationService();
+  final GroupInteractions _groupInteractions;
 
-    GroupInteractions.getGroupInfo(group.id, (group) {
-      _checkAndEmitGroupState(group);
+  GroupCubit({required Group group})
+      : this._groupInteractions = GroupInteractions(group: group),
+        super(_getCurrentGroupState(
+            group, FirebaseAuth.instance.currentUser!.uid)) {
+    //Subscribe to Group to keep information up to date
+    _groupRepository.getGroupStreamById(group.id).listen((group) {
+      emit(_getCurrentGroupState(
+          group, _authenticationService.getCurrentUserUid()));
     });
   }
 
-  void withdrawJoinRequest() {
-    /*emit((state as NotGroupMember).copyWith(requesting: true));*/
-    //TODO: Implement a way to withdraw a join request
+  Future<void> requestToJoinGroup() {
+    return _groupInteractions.joinGroup();
   }
 
-  void requestToJoinGroup() {
-    emit((state as NotGroupMember).copyWith(requesting: true));
-    GroupInteractions.joinGroup(state.group!.id, (success) {
-      print(success
-          ? "Subscribed Sucessfully"
-          : "There was an error subscribing");
-    });
+  Future<void> leaveGroup() {
+    return _groupInteractions.leaveGroup();
   }
 
-  void _checkAndEmitGroupState(Group group) {
-    if (group.admins!.contains(userId)) {
-      emit(GroupAdmin(group: group));
-    } else if (group.users!.contains(userId)) {
-      emit(GroupMember(group: group));
-    } else {
-      emit(NotGroupMember(group: group));
+  static GroupState _getCurrentGroupState(Group group, String userId) {
+    final GroupUserReference? ownRef =
+        group.members.firstWhereOrNull((member) => member.id == userId);
+    if (ownRef != null) {
+      return (ownRef.isAdmin
+          ? GroupAdmin(group: group)
+          : GroupMember(group: group));
     }
+    return (NotGroupMember(group: group));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/util/data_models.dart';
-import 'package:signup_app/util/entwicklungs_tools.dart';
+import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/util/tools/entwicklungs_tools.dart';
 
 class PostMembersPage extends StatelessWidget {
   final Event event;
@@ -43,8 +43,8 @@ class PostMembersPage extends StatelessWidget {
           children: [
             EntwicklungsTools.getTODOWidget(
                 "komplette Nutzer laden.\nggf. Nutzernamen mit Post in Datenbank speichern"),
-            for (String member in event.participants ?? [])
-              getMemberTile(member)
+            for (UserReference member in event.participants ?? [])
+              getMemberTile(member.name) //ToDo Change to whole member
           ],
         ),
       ),

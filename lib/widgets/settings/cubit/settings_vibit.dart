@@ -1,21 +1,27 @@
 import 'package:signup_app/repositories/settings_repository.dart';
-import 'package:signup_app/util/data_models.dart';
+import 'package:signup_app/services/authentication/authentication_service.dart';
+import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class SettingsState extends ViState {
   // dependencies
-  final SettingsRepository _repository = SettingsRepository();
+  final SettingsRepository _repository;
+  final AuthenticationService _authService;
 
-  // values
-  User? user;
-
-  SettingsState() {
-    _repository.observeUser().listen((user) {
-      print("SETTING REFRESH:" + user.toMap().toString());
+  SettingsState(
+      {SettingsRepository? settingsRepository,
+      AuthenticationService? authenticationService})
+      : _repository = settingsRepository ?? SettingsRepository(),
+        _authService = authenticationService ?? AuthenticationService() {
+    _authService.getCurrentUserStream().listen((user) {
       this.user = user;
       refresh();
     });
+    _authService.updateAfterNewListenerSubscibed();
   }
+
+  // values
+  User? user;
 
   void setName(String newName) {
     //Check if MessageString is valid
