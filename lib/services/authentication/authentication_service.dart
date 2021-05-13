@@ -64,7 +64,7 @@ class AuthenticationService {
   Future<bool> isSignedIn() async {
     String? currentUserId = _firebaseAuth.currentUser?.uid;
 
-    if (currentUserId == null) return false;
+    if (currentUserId == null) {return false;}
 
     try {
       models.User? firestoreUser =

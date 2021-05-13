@@ -1,0 +1,32 @@
+{
+ 
+    "postLocation": "Treffpunkt",
+    "postDate": "Datum",
+    "postTime": "Startzeit",
+
+   "postEditorPageTitle": "Neuen Post erstellen",
+   "postEditorTitle": "Titel",
+   "postEditorMoreInfo": "weitere Infos:",
+   "postEditorOptionalInformation": "optionale Angaben:",
+   "postEditorUnlimitedParticipants": "Teilnehmende unbegrenzt",
+   "postEditorMaxParticipants": "maximal {maxParticipants} Teilnehmende",
+   "postEditorMaxParticipantsDialaogTitle": "Maximale Teilnehmer*innenzahl",
+   "postEditorNoCosts": "keine Kosten festgelegt",
+   "postEditorCostsDialogTitle": "Kosten pro Person",
+
+   "groupFeedPageTitle": "Meine Gruppen",
+   "groupFeedFindNewGroups": "Finde neue Gruppen",
+
+   "groupCreatorPageTitle": "Neue Gruppe erstellen",
+   "groupCreatorPageName": "Name",
+   "groupCreatorPageDescription": "Beschreibe deine Gruppe",
+
+   
+    "postTag": "{tag, select, culture {Kultur} sport {Sport} sign {Gebärden} outdoor {Outdoor} indoor {Indoor} men {Männer} women {Frauen} queer {Queer} food {Essen} online {Online} other {undefinierter Fehler}}",
+    "@postTag": {
+        "description": "Tag to describe an post",
+        "placeholders": {
+            "tag": {}
+        }
+    }
+}

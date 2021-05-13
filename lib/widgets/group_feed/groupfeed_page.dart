@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/repositories/pagination/group_pagination.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/find_new_group/find_new_group.dart';
@@ -12,7 +13,7 @@ class GroupFeed extends StatelessWidget {
       //ToDo Sytle appropriately
       floatingActionButton: FloatingActionButton.extended(
         label: Text(
-          'Finde neue Gruppen',
+          ViLocalizations.of(context).groupFeedFindNewGroups,
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
@@ -26,7 +27,8 @@ class GroupFeed extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
-        title: Text("Meine Gruppen", style: AppThemeData.textHeading2()),
+        title: Text(ViLocalizations.of(context).groupFeedPageTitle,
+            style: AppThemeData.textHeading2()),
         actions: [
           Builder(
             builder: (context) => IconButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/util/models/data_models.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
@@ -24,7 +25,7 @@ class EventEditorForm extends StatelessWidget {
         iconTheme: IconThemeData(color: AppThemeData.colorCard),
         backgroundColor: AppThemeData.colorPrimaryLight,
         title: Text(
-          "Neuen Post erstellen",
+          ViLocalizations.of(context).postEditorPageTitle,
           style: TextStyle(color: AppThemeData.colorTextInverted),
         ),
       ),
@@ -94,7 +95,8 @@ class EventEditorForm extends StatelessWidget {
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     //labelText: 'Password',
-                                    hintText: "Titel"),
+                                    hintText: ViLocalizations.of(context)
+                                        .postEditorTitle),
                                 initialValue: state.title,
                                 onChanged: (text) {
                                   _eventEditorCubit.setTitle(text);
@@ -146,7 +148,9 @@ class EventEditorForm extends StatelessWidget {
                                     maxLines: null,
                                     decoration:
                                         Presets.getTextFieldDecorationHintStyle(
-                                            hintText: "weitere Infos:"),
+                                            hintText:
+                                                ViLocalizations.of(context)
+                                                    .postEditorMoreInfo),
                                   ),
                                   SizedBox(
                                     height: 80,
@@ -160,7 +164,9 @@ class EventEditorForm extends StatelessWidget {
                                     },
                                     decoration: Presets
                                         .getTextFieldDecorationLabelStyle(
-                                            labelText: "Treffpunkt"),
+                                            labelText:
+                                                ViLocalizations.of(context)
+                                                    .postLocation),
                                   ),
 
                                   //-----------------------------------------
@@ -175,21 +181,25 @@ class EventEditorForm extends StatelessWidget {
                                             AppThemeData.varCardRadius),
                                         child: ExpansionTile(
                                           backgroundColor: Colors.white,
-                                          title: Text("optionale Angaben"),
+                                          title: Text(ViLocalizations.of(
+                                                  context)
+                                              .postEditorOptionalInformation),
                                           children: [
                                             _optionalField(
                                               context: context,
                                               icon: Icons.group,
                                               text: state.maxParticipants < 0
-                                                  ? "Teilnehmende unbegrenzt"
-                                                  : "maximal " +
-                                                      state.maxParticipants
-                                                          .toString() +
-                                                      " Teilnehmende",
+                                                  ? ViLocalizations.of(context)
+                                                      .postEditorUnlimitedParticipants
+                                                  : ViLocalizations.of(context)
+                                                      .postEditorMaxParticipants(
+                                                          state
+                                                              .maxParticipants),
                                               onPressed: () => {
                                                 ViDialog.showTextInputDialog(
-                                                    title:
-                                                        "Maximale Teilnehmer*innen-zahl",
+                                                    title: ViLocalizations.of(
+                                                            context)
+                                                        .postEditorMaxParticipantsDialaogTitle,
                                                     context: context,
                                                     keyboardType: TextInputType.number,
                                                     formatters: [
@@ -213,16 +223,16 @@ class EventEditorForm extends StatelessWidget {
                                               context: context,
                                               icon: Icons.euro_symbol,
                                               text: state.costs != null
-                                                  ? state.costs.toString()
-                                                  : "keine Kosten festgelegt",
+                                                  ? state.costs!
+                                                  : ViLocalizations.of(context)
+                                                      .postEditorNoCosts,
                                               onPressed: () {
-                                                ViDialog
-                                                    .showTextInputDialog(
-                                                        title:
-                                                            "Kosten pro Person",
-                                                        context: context,
-                                                        formatters: []).then(
-                                                    (value) {
+                                                ViDialog.showTextInputDialog(
+                                                    title: ViLocalizations.of(
+                                                            context)
+                                                        .postEditorCostsDialogTitle,
+                                                    context: context,
+                                                    formatters: []).then((value) {
                                                   _eventEditorCubit.setCosts(
                                                       (value != null &&
                                                               value.length > 0)
@@ -315,7 +325,7 @@ class DateAndTimePicker extends StatelessWidget {
             label: Text(
                 _dateTime != null
                     ? Tools.readableDateFromDate(_dateTime!)
-                    : "Datum",
+                    : ViLocalizations.of(context).postDate,
                 style: AppThemeData.textFormField()),
           ),
         ),
@@ -341,7 +351,7 @@ class DateAndTimePicker extends StatelessWidget {
             label: Text(
               _timeOfDay != null
                   ? Tools.readableTimeFromTimeOfDay(_timeOfDay!)
-                  : "Startzeit",
+                  : ViLocalizations.of(context).postTime,
               style: AppThemeData.textFormField(),
             ),
           ),
@@ -357,14 +367,16 @@ Widget _optionalField({
   required String text,
   IconData? icon,
 }) {
-  return Padding(
+  return Container(
+    width: double.infinity,
     padding: const EdgeInsets.only(top: 6, bottom: 6),
     child: TextButton.icon(
-      //textColor: AppThemeData.colorFormField,
+      style: ButtonStyle(alignment: Alignment.centerLeft),
       onPressed: onPressed as void Function()?,
       icon: Icon(icon),
       label: Text(
         text,
+        textAlign: TextAlign.start,
         style: AppThemeData.textFormField(color: null),
       ),
     ),

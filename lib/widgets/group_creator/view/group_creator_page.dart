@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/util/tools/tools.dart';
 import 'package:signup_app/vibit/vibit.dart';
@@ -24,7 +25,8 @@ class GroupCreatorPage extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 iconTheme: IconThemeData(color: AppThemeData.colorTextInverted),
-                title: Text("neue Gruppe erstellen",
+                title: Text(
+                    ViLocalizations.of(context).groupCreatorPageDescription,
                     style: AppThemeData.textHeading2(
                         color: AppThemeData.colorTextInverted)),
                 backgroundColor: AppThemeData.colorPrimary,
@@ -82,7 +84,8 @@ class GroupCreatorPage extends StatelessWidget {
                                       decoration: InputDecoration(
                                           border: InputBorder.none,
                                           //labelText: 'Password',
-                                          hintText: "Name"),
+                                          hintText: ViLocalizations.of(context)
+                                              .groupCreatorPageName),
                                     ))),
                             Container(
                               decoration: BoxDecoration(
@@ -108,7 +111,8 @@ class GroupCreatorPage extends StatelessWidget {
                                   enabled: state.type != Types.processing,
                                   decoration: InputDecoration(
                                       //border: InputBorder.none, //OutlineInputBorder(),
-                                      labelText: "Beschreibe deine Gruppe",
+                                      labelText: ViLocalizations.of(context)
+                                          .groupCreatorPageDescription,
                                       alignLabelWithHint: true),
                                   minLines: 2,
                                   maxLines: 4,
