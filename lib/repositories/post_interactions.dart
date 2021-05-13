@@ -1,5 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 class PostInteractions {
   final Post _post;

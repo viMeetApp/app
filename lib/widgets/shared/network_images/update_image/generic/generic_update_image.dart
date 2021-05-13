@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/presets/presets.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/shared/network_images/avatar/generic_network_avatar.dart';
 import 'package:signup_app/widgets/shared/network_images/update_image/generic/cubit/update_image_cubit.dart';
 

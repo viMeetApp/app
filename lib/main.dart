@@ -9,9 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
-import 'package:signup_app/util/presets/presets.dart';
-
-import 'common.dart';
+import 'package:signup_app/common.dart';
 import 'widgets/home/home.dart';
 import 'widgets/splash/splash.dart';
 

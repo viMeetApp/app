@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:signup_app/repositories/user_repository.dart';
 import 'package:signup_app/util/models/data_models.dart' as models;
-import 'package:signup_app/util/tools/debug_tools.dart';
+import 'package:signup_app/common.dart';
 
 ///Service for handling all Authetication
 ///
@@ -64,7 +64,9 @@ class AuthenticationService {
   Future<bool> isSignedIn() async {
     String? currentUserId = _firebaseAuth.currentUser?.uid;
 
-    if (currentUserId == null) {return false;}
+    if (currentUserId == null) {
+      return false;
+    }
 
     try {
       models.User? firestoreUser =

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/common.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
 import 'package:signup_app/widgets/post_editor/widgets/tags/cubit/tag_cubit.dart';
 
 class Tag extends StatelessWidget {

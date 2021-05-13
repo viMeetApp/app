@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 
 class GenericNetworkAvatar extends StatelessWidget {
   final String? imageUrl;

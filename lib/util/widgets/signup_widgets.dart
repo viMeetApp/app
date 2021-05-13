@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 
 class SignUpWidgets {
   static Widget postDetailsFieldWidget({String name = "", String value = ""}) {

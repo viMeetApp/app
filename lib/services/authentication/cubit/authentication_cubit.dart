@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/tools/debug_tools.dart';
+import 'package:signup_app/common.dart';
 
 part 'authentication_state.dart';
 

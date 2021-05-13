@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/group/view/group_page.dart';
 import 'package:signup_app/widgets/shared/network_images/avatar/implementations/network_avatar_group.dart';
 

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/util/widgets/network_buttons/vi_network_material_button.dart';
-import 'package:signup_app/util/widgets/network_buttons/vi_network_outlined_button.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/chat/chat.dart';
 import 'package:signup_app/widgets/post_editor/implementations/update_post_page.dart';

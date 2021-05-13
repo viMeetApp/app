@@ -1,7 +1,7 @@
 import 'package:package_info/package_info.dart';
 import 'package:signup_app/repositories/bugreport_repository.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 enum Types { active, processing, submitted, invalid, error }

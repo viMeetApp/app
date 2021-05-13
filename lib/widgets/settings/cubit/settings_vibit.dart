@@ -1,6 +1,6 @@
 import 'package:signup_app/repositories/settings_repository.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/vibit/vibit.dart';
 
 class SettingsState extends ViState {

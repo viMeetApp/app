@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/group_repository.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/widgets/vi_dialog.dart';
+import 'package:signup_app/common.dart';
 
 class UpdateGroupInfoWidget extends StatelessWidget {
   final Group group;

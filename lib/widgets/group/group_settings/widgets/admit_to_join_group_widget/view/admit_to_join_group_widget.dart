@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 
 class AdmitToJoinGroupWidget extends StatelessWidget {

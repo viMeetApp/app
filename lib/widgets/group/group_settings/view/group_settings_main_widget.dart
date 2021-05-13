@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/admit_to_join_group_widget/view/admit_to_join_group_widget.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/group_settings_group.dart';
 import 'package:signup_app/widgets/group/group_settings/widgets/members_of_group_widget/view/members_of_group_widget.dart';

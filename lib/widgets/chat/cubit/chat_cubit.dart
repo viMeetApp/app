@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:signup_app/repositories/chat_message_repository.dart';
 import 'package:signup_app/repositories/pagination/chat_message_pagination.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 class ChatCubit extends Cubit<Stream<List<Message>>> {
   final Post post;

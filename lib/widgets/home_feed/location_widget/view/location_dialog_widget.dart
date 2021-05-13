@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signup_app/services/geo_services/classes.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/home_feed/location_widget/cubit/location_widget_vibit.dart';
 
 class LocationDialog extends StatefulWidget {

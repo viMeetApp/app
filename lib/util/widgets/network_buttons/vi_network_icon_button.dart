@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/util/widgets/network_buttons/cubit/network_button_cubit.dart';
 
 class ViNetworkIconButton extends StatelessWidget {
