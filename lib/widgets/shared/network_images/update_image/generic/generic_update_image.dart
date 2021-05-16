@@ -51,8 +51,8 @@ class GenericUpdateImage extends StatelessWidget {
                       shape: BoxShape.circle),
                   child: state.isUpdating
                       ? CircularProgressIndicator(
-                          color: Colors.black,
-                        )
+                          //color: Colors.black,
+                          )
                       : Icon(
                           Icons.edit,
                         ),

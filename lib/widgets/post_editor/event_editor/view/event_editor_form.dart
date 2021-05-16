@@ -177,60 +177,75 @@ class EventEditorForm extends StatelessWidget {
                                           backgroundColor: Colors.white,
                                           title: Text("optionale Angaben"),
                                           children: [
-                                            _optionalField(
-                                              context: context,
-                                              icon: Icons.group,
-                                              text: state.maxParticipants < 0
-                                                  ? "Teilnehmende unbegrenzt"
-                                                  : "maximal " +
-                                                      state.maxParticipants
-                                                          .toString() +
-                                                      " Teilnehmende",
-                                              onPressed: () => {
-                                                ViDialog.showTextInputDialog(
-                                                    title:
-                                                        "Maximale Teilnehmer*innen-zahl",
-                                                    context: context,
-                                                    keyboardType: TextInputType.number,
-                                                    formatters: [
-                                                      FilteringTextInputFormatter
-                                                          .digitsOnly
-                                                    ]).then(
-                                                  (value) {
-                                                    _eventEditorCubit
-                                                        .setMaxParticipants(
-                                                            (value != null &&
-                                                                    value.length >
-                                                                        0)
-                                                                ? int.parse(
-                                                                    value)
-                                                                : -1);
-                                                  },
-                                                )
-                                              },
-                                            ),
-                                            _optionalField(
-                                              context: context,
-                                              icon: Icons.euro_symbol,
-                                              text: state.costs != null
-                                                  ? state.costs.toString()
-                                                  : "keine Kosten festgelegt",
-                                              onPressed: () {
-                                                ViDialog
-                                                    .showTextInputDialog(
-                                                        title:
-                                                            "Kosten pro Person",
-                                                        context: context,
-                                                        formatters: []).then(
-                                                    (value) {
-                                                  _eventEditorCubit.setCosts(
-                                                      (value != null &&
-                                                              value.length > 0)
-                                                          ? value
-                                                          : null);
-                                                });
-                                              },
-                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                                    _optionalField(
+                                                      context: context,
+                                                      icon: Icons.group,
+                                                      text: state.maxParticipants <
+                                                              0
+                                                          ? "Teilnehmende unbegrenzt"
+                                                          : "maximal " +
+                                                              state
+                                                                  .maxParticipants
+                                                                  .toString() +
+                                                              " Teilnehmende",
+                                                      onPressed: () => {
+                                                        ViDialog.showTextInputDialog(
+                                                            title:
+                                                                "Maximale Teilnehmer*innen-zahl",
+                                                            context: context,
+                                                            keyboardType: TextInputType.number,
+                                                            formatters: [
+                                                              FilteringTextInputFormatter
+                                                                  .digitsOnly
+                                                            ]).then(
+                                                          (value) {
+                                                            _eventEditorCubit
+                                                                .setMaxParticipants((value !=
+                                                                            null &&
+                                                                        value.length >
+                                                                            0)
+                                                                    ? int.parse(
+                                                                        value)
+                                                                    : -1);
+                                                          },
+                                                        )
+                                                      },
+                                                    ),
+                                                    _optionalField(
+                                                      context: context,
+                                                      icon: Icons.euro_symbol,
+                                                      text: state.costs != null
+                                                          ? state.costs
+                                                              .toString()
+                                                          : "keine Kosten festgelegt",
+                                                      onPressed: () {
+                                                        ViDialog.showTextInputDialog(
+                                                                title:
+                                                                    "Kosten pro Person",
+                                                                context: context,
+                                                                formatters: [])
+                                                            .then((value) {
+                                                          _eventEditorCubit
+                                                              .setCosts((value !=
+                                                                          null &&
+                                                                      value.length >
+                                                                          0)
+                                                                  ? value
+                                                                  : null);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ]),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -362,10 +377,19 @@ Widget _optionalField({
     child: TextButton.icon(
       //textColor: AppThemeData.colorFormField,
       onPressed: onPressed as void Function()?,
-      icon: Icon(icon),
-      label: Text(
-        text,
-        style: AppThemeData.textFormField(color: null),
+      icon: Icon(
+        icon,
+        color: AppThemeData.colorControls,
+      ),
+      label: Expanded(
+        child: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
+            text,
+            style:
+                AppThemeData.textFormField(color: AppThemeData.colorControls),
+          ),
+        ),
       ),
     ),
   );

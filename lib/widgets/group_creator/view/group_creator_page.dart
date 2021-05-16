@@ -17,7 +17,7 @@ class GroupCreatorPage extends StatelessWidget {
         onBuild: (context, state) {
           //Tools.showSnackbar(context, "wird veröffentlicht");
           return Scaffold(
-              backgroundColor: AppThemeData.colorPrimary,
+              backgroundColor: AppThemeData.colorPrimaryLight,
               appBar: AppBar(
                 leading: IconButton(
                   icon: Icon(Icons.close),
@@ -27,7 +27,7 @@ class GroupCreatorPage extends StatelessWidget {
                 title: Text("neue Gruppe erstellen",
                     style: AppThemeData.textHeading2(
                         color: AppThemeData.colorTextInverted)),
-                backgroundColor: AppThemeData.colorPrimary,
+                backgroundColor: AppThemeData.colorPrimaryLight,
               ),
               body: Container(
                 color: AppThemeData.colorCard,
@@ -64,7 +64,7 @@ class GroupCreatorPage extends StatelessWidget {
                             Theme(
                                 data: ThemeData.dark(),
                                 child: Container(
-                                    color: AppThemeData.colorPrimary,
+                                    color: AppThemeData.colorPrimaryLight,
                                     padding: EdgeInsets.only(
                                         left: AppThemeData.varPaddingNormal * 2,
                                         right:
@@ -86,7 +86,7 @@ class GroupCreatorPage extends StatelessWidget {
                                     ))),
                             Container(
                               decoration: BoxDecoration(
-                                color: AppThemeData.colorPrimary,
+                                color: AppThemeData.colorPrimaryLight,
                                 //border: Border.
                               ),
                               //color: AppThemeData.colorPrimary,
