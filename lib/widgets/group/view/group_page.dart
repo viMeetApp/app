@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 import 'package:signup_app/widgets/group/group_settings/view/group_settings_page.dart';
 import 'package:signup_app/widgets/group/view/widgets/group_status_button.dart';

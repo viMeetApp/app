@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:signup_app/services/geo_services/classes.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 ///Class used for Pagination of Posts and Filtering all other post Network Calls are made Via PostRepository
 class PostPagination {

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 
 class SuccessPage extends StatelessWidget {
   final String? message;

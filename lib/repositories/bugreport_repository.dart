@@ -1,5 +1,5 @@
 import 'package:signup_app/repositories/database_interactions.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 class BugReportRepository {
   DBInteractions _dbInteractions = DBInteractions();

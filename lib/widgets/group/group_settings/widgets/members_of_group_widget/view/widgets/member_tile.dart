@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/repositories/group_interactions.dart';
 import 'package:signup_app/services/authentication/authentication_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/tools/tools.dart';
-import 'package:signup_app/util/widgets/network_buttons/vi_network_icon_button.dart';
+import 'package:signup_app/common.dart';
 
 import 'package:provider/provider.dart';
 

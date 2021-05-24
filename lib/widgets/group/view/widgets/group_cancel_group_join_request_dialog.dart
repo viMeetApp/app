@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 
 class CancelGroupJoinRequestDialog extends StatelessWidget {
   @override

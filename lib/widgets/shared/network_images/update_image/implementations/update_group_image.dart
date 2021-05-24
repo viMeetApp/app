@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signup_app/services/storage_service.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/tools/tools.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/shared/network_images/update_image/generic/cubit/update_image_cubit.dart';
 import 'package:signup_app/widgets/shared/network_images/update_image/generic/generic_update_image.dart';
 

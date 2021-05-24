@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/repositories/report_repository.dart';
 import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/util/states/vi_form_state.dart';
 
 class ReportCubit extends Cubit<ViFormState> {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/widgets/network_buttons/vi_network_elevated_button.dart';
-import 'package:signup_app/util/widgets/network_buttons/vi_network_outlined_button.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/group/cubit/group_cubit.dart';
 
 import 'group_cancel_group_join_request_dialog.dart';

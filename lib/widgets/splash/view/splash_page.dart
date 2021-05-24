@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 
 class SplashPage extends StatelessWidget {
   static Route route() {

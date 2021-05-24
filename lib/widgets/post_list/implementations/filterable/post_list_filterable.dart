@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/post_list/generic/widgets/post_list_part.dart';
 import 'package:signup_app/widgets/post_list/implementations/filterable/cubit/post_list_cubit.dart';
 import 'package:signup_app/widgets/search_tags/cubit/search_tag_cubit.dart';

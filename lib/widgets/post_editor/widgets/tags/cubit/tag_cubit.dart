@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 part 'tag_state.dart';
 

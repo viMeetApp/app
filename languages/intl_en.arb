@@ -1,0 +1,25 @@
+{
+    "postLocation": "Location",
+    "postDate": "Date",
+    "postTime": "Start Time",
+
+   "postEditorPageTitle": "Create new Post",
+   "postEditorTitle": "Title",
+   "postEditorMoreInfo": "more information:",
+   "postEditorOptionalInformation": "optional information:",
+   "postEditorUnlimitedParticipants": "unlimited participants",
+   "postEditorMaxParticipants": "maximum {maxParticipants} participants",
+   "postEditorMaxParticipantsDialaogTitle": "max participants",
+   "postEditorNoCosts": "no costs",
+   "postEditorCostsDialogTitle": "costs per person",
+
+   "groupFeedPageTitle": "My Groups",
+   "groupFeedFindNewGroups": "Find new Groups",
+
+   "groupCreatorPageTitle": "Create new Group",
+   "groupCreatorPageName": "Name",
+   "groupCreatorPageDescription": "Describe your Group",
+
+
+    "postTag": "{tag, select, culture {culture} sport {sport} sign {sign} outdoor {outdoor} indoor {indoor} men {men} women {women} queer {queer} food {food} online {online} other {undefined error}}"
+}

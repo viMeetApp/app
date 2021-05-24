@@ -1,4 +1,4 @@
-import 'package:signup_app/util/models/data_models.dart';
+import 'package:signup_app/common.dart';
 
 abstract class PostListStateInterface {
   final Stream<List<Post>> postStream;

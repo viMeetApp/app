@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:signup_app/util/widgets/success_page.dart';
+import 'package:signup_app/common.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Tools {

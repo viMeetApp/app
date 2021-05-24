@@ -6,10 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:signup_app/services/authentication/cubit/authentication_cubit.dart';
 import 'package:signup_app/services/geo_services/geo_locator.dart';
-import 'package:signup_app/util/presets/presets.dart';
-
+import 'package:signup_app/common.dart';
 import 'widgets/home/home.dart';
 import 'widgets/splash/splash.dart';
 
@@ -70,6 +70,13 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppThemeData().materialTheme,
+      localizationsDelegates: [
+        ViLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: ViLocalizations.delegate.supportedLocales,
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationCubit, AuthenticationState>(

@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:signup_app/services/geo_services/classes.dart';
 import 'package:signup_app/services/geo_services/postal_place_repository.dart';
 import 'package:signup_app/services/helpers/proximity_hash.dart';
-import 'package:signup_app/util/presets/errors.dart';
+import 'package:signup_app/common.dart';
 
 /// Class to handle all Location Handling is instantiated as a Singelton
 class GeoLocator {

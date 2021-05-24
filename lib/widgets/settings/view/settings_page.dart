@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/util/presets/presets.dart';
-import 'package:signup_app/util/tools/tools.dart';
-import 'package:signup_app/util/widgets/vi_dialog.dart';
+import 'package:signup_app/common.dart';
 import 'package:signup_app/vibit/vibit.dart';
 import 'package:signup_app/widgets/settings/cubit/settings_vibit.dart';
 import 'package:signup_app/widgets/settings/view/about_widget.dart';

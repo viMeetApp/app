@@ -43,7 +43,7 @@ class PostalPlace extends Equatable {
   ///Heavily influenced by GeoFlutter fire
   String geoHash() {
     const BASE32_CODES = '0123456789bcdefghjkmnpqrstuvwxyz';
-    const int numberOfChars = 0;
+    const int numberOfChars = 9;
 
     var chars = [], bits = 0, bitsTotal = 0, hashValue = 0;
     double maxLat = 90, minLat = -90, maxLon = 180, minLon = -180, mid;

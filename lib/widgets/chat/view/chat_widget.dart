@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/widgets/chat/view/message_tile.dart';
-import 'package:signup_app/util/models/data_models.dart';
-import 'package:signup_app/util/presets/presets.dart';
-import 'package:signup_app/util/widgets/creation_aware_widget.dart';
+import 'package:signup_app/common.dart';
 
 import '../chat.dart';
 
