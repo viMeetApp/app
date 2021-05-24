@@ -25,6 +25,14 @@ class GroupInteractions {
     return callable.call(_group.id);
   }
 
+  Future<void> abortJoinRequest() {
+    HttpsCallable callable = _firebaseFunctions.httpsCallable(
+      'groups-abortJoinRequest',
+    );
+
+    return callable.call(_group.id);
+  }
+
   Future<void> promoteUserToAdmin(GroupUserReference userReference) {
     HttpsCallable callable = _firebaseFunctions.httpsCallable(
       'groups-promoteUserToAdmin',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:signup_app/common.dart';
 
 class CancelGroupJoinRequestDialog extends StatelessWidget {
   @override
@@ -11,12 +10,12 @@ class CancelGroupJoinRequestDialog extends StatelessWidget {
           Text("Möchtest du deine Beitritts-Anfrage wirklich zurückziehen?"),
       actions: [
         TextButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            onPressed: () =>
+                Navigator.of(context, rootNavigator: true).pop(false),
             child: Text("nein")),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-            Tools.showSnackbar(context, "ToDo implemete withdraw");
+            Navigator.of(context, rootNavigator: true).pop(true);
           },
           child: Text("ja"),
         )

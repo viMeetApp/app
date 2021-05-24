@@ -17,30 +17,44 @@ class GroupCubit extends Cubit<GroupState> {
   GroupCubit({required Group group})
       : this._groupInteractions = GroupInteractions(group: group),
         super(_getCurrentGroupState(
-            group, FirebaseAuth.instance.currentUser!.uid)) {
+            group: group, userId: FirebaseAuth.instance.currentUser!.uid)) {
     //Subscribe to Group to keep information up to date
     _groupRepository.getGroupStreamById(group.id).listen((group) {
       emit(_getCurrentGroupState(
-          group, _authenticationService.getCurrentUserUid()));
+          group: group, userId: _authenticationService.getCurrentUserUid()));
     });
   }
 
-  Future<void> requestToJoinGroup() {
-    return _groupInteractions.joinGroup();
+  void requestToJoinGroup() {
+    emit(state.setIsUpdating(true));
+    _groupInteractions.joinGroup().then(
+          (_) => emit(state.setIsUpdating(false)),
+        );
   }
 
-  Future<void> leaveGroup() {
-    return _groupInteractions.leaveGroup();
+  void leaveGroup() {
+    emit(state.setIsUpdating(true));
+    _groupInteractions.leaveGroup().then(
+          (_) => emit(state.setIsUpdating(false)),
+        );
   }
 
-  static GroupState _getCurrentGroupState(Group group, String userId) {
+  void abortJoinRequest() {
+    emit(state.setIsUpdating(true));
+    _groupInteractions.abortJoinRequest().then(
+          (_) => emit(state.setIsUpdating(false)),
+        );
+  }
+
+  static GroupState _getCurrentGroupState(
+      {required Group group, required String userId, bool? isUpdating}) {
     final GroupUserReference? ownRef =
         group.members.firstWhereOrNull((member) => member.id == userId);
     if (ownRef != null) {
       return (ownRef.isAdmin
-          ? GroupAdmin(group: group)
-          : GroupMember(group: group));
+          ? GroupAdmin(group: group, isUpdating: isUpdating)
+          : GroupMember(group: group, isUpdating: isUpdating));
     }
-    return (NotGroupMember(group: group));
+    return (NotGroupMember(group: group, isUpdating: isUpdating));
   }
 }
