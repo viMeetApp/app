@@ -369,11 +369,19 @@ Widget _optionalField({
     child: TextButton.icon(
       style: ButtonStyle(alignment: Alignment.centerLeft),
       onPressed: onPressed as void Function()?,
-      icon: Icon(icon),
-      label: Text(
-        text,
-        textAlign: TextAlign.start,
-        style: AppThemeData.textFormField(color: null),
+      icon: Icon(
+        icon,
+        color: AppThemeData.colorControls,
+      ),
+      label: Expanded(
+        child: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
+            text,
+            style:
+                AppThemeData.textFormField(color: AppThemeData.colorControls),
+          ),
+        ),
       ),
     ),
   );

@@ -99,7 +99,7 @@ class AppThemeData {
   static const Color colorPrimaryLight = Color(0xffff7777);
   static const Color colorPrimaryLighter = Color(0xffffa4a4);
   static const Color colorAccent = Color(0xff4ecdca);
-  static const Color colorControls = Color(0xff383838);
+  static const Color colorControls = Color(0xff434343);
   static const Color colorControlsDisabled = Color(0xffc1c1c1);
   static const Color colorFormField = Color(0xff505050);
   static const Color colorPlaceholder = Color(0xff606060);
