@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/post_list/generic/widgets/post_list_part.dart';
-import 'package:signup_app/widgets/post_list/implementations/filterable/cubit/post_list_cubit.dart';
+import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable_controller.dart';
 import 'package:signup_app/widgets/search_tags/cubit/search_tag_cubit.dart';
 import 'package:signup_app/widgets/search_tags/view/search_tags_widget.dart';
 
 class PostListFilterableWidget extends StatelessWidget {
   final Group? group;
   PostListFilterableWidget({this.group});
+
   @override
   Widget build(BuildContext context) {
+    final postListController = PostListFilterableController(group: group);
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<PostListFilterableCubit>(
-            create: (context) => PostListFilterableCubit(group: group),
-          ),
           BlocProvider<SearchTagCubit>(
             create: (context) => SearchTagCubit(),
           )
@@ -30,8 +29,7 @@ class PostListFilterableWidget extends StatelessWidget {
                 if (value == true) tagList.add(key);
               },
             );
-            BlocProvider.of<PostListFilterableCubit>(context)
-                .updateFilter(tags: tagList);
+            postListController.updateFilter(tags: tagList);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -42,11 +40,14 @@ class PostListFilterableWidget extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        color: AppThemeData.colorCard,
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                      color: AppThemeData.colorCard,
+                      border: Border.all(
+                        color: Colors.transparent,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
                     child: Row(
                       children: [
                         Expanded(
@@ -80,7 +81,8 @@ class PostListFilterableWidget extends StatelessWidget {
               //SizedBox(height: filterable ? 20 : 0),
               PostListPart(
                 paddedTop: true,
-                highlight: (group == null),
+                postListController: postListController,
+                viewIsWithinGroupPage: group != null,
               ),
             ],
           ),

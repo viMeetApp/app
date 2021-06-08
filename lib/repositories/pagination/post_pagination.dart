@@ -9,7 +9,10 @@ import 'package:signup_app/common.dart';
 class PostPagination {
   final GeoLocator _geoLocator;
   PostPagination(
-      {this.group, this.paginationDistance = 20, GeoLocator? geoLocator})
+      {this.group,
+      this.paginationDistance = 20,
+      GeoLocator? geoLocator,
+      this.user})
       : _geoLocator = geoLocator ?? GeoLocator();
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -28,6 +31,7 @@ class PostPagination {
   //Variables Necessary for Filtering
   List<String>? tags;
   final Group? group;
+  final UserReference? user;
 
   //Query
   Query? postQuery;
@@ -47,8 +51,10 @@ class PostPagination {
     Query query;
     //First Check for Group (if Group Provided only Show Posts from Group)
     if (group != null) {
-      query =
-          colReference.where("group.id", isEqualTo: group!.id).where("geohash");
+      query = colReference.where("group.id", isEqualTo: group!.id);
+    } else if (user != null) {
+      query = colReference.where("participants",
+          arrayContains: user!.toMap(includeID: true));
     }
     //ToDO Frage soll wenn man in gruppe ist trotzdem nach ort gefiltert werden?
     else {

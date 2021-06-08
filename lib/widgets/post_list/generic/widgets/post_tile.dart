@@ -5,9 +5,9 @@ import 'package:signup_app/widgets/report/view/report_dialog.dart';
 
 class PostTile extends StatelessWidget {
   final Post post;
-  final bool highlight;
+  final bool canHighlight;
 
-  PostTile({required this.post, this.highlight = false});
+  PostTile({required this.post, required this.canHighlight});
 
   Widget getEventDateText(Event event) {
     if (event.eventAt != null) {
@@ -45,10 +45,10 @@ class PostTile extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 3,
-                    color: (post.group != null && highlight)
+                    color: (post.group != null && canHighlight)
                         ? AppThemeData.swatchAccent[300]!
                         : Colors.transparent),
-                color: (post.group != null && highlight)
+                color: (post.group != null && canHighlight)
                     ? AppThemeData.swatchAccent[100]
                     : AppThemeData.colorCard,
                 //AppThemeData.colorCard,

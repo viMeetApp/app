@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signup_app/common.dart';
 import 'package:signup_app/widgets/post_list/implementations/filterable/post_list_filterable.dart';
+import 'package:signup_app/widgets/post_list/implementations/my_posts/post_list_my_posts.dart';
 
 class MessageFeed extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class MessageFeed extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: PostListFilterableWidget(),
+          child: PostListMyPostsWidget(),
         ),
       ),
     );
