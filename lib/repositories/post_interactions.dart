@@ -6,7 +6,8 @@ class PostInteractions {
 
   PostInteractions({required Post post}) : this._post = post;
 
-  FirebaseFunctions _functions = FirebaseFunctions.instance;
+  FirebaseFunctions _functions =
+      FirebaseFunctions.instanceFor(region: 'europe-west3');
 
   ///Subscribe to Post by Calling the Cloud Function
   Future<void> subscribe() {

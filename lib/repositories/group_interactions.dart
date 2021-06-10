@@ -6,7 +6,8 @@ class GroupInteractions {
   final FirebaseFunctions _firebaseFunctions;
   GroupInteractions(
       {FirebaseFunctions? firebaseFunctions, required Group group})
-      : _firebaseFunctions = firebaseFunctions ?? FirebaseFunctions.instance,
+      : _firebaseFunctions = firebaseFunctions ??
+            FirebaseFunctions.instanceFor(region: 'europe-west3'),
         _group = group;
 
   Future<void> joinGroup() {
