@@ -61,7 +61,8 @@ class PostPagination {
       GeohashRange range = _geoLocator.getGeohashRange();
       query = colReference
           .where("geohash", isGreaterThanOrEqualTo: range.lower)
-          .where("geohash", isLessThanOrEqualTo: range.upper);
+          .where("geohash", isLessThanOrEqualTo: range.upper)
+          .orderBy("geohash"); //ToDo dirty fix probably not solvable
     }
 
     // Filter for tags
@@ -76,7 +77,8 @@ class PostPagination {
       query = query.where('searchableTags', arrayContains: queryString);
     }
 
-    postQuery = query.limit(paginationDistance);
+    postQuery =
+        query.orderBy("createdAt", descending: true).limit(paginationDistance);
     requestPosts();
   }
 
